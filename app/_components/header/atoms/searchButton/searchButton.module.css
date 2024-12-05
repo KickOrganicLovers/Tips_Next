@@ -1,0 +1,9 @@
+.AiOutlineSearch {
+    width: auto;
+    height: 3vh;
+    color: black;
+}
+
+.active {
+    color: deepskyblue;
+}

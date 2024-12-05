@@ -1,0 +1,93 @@
+.div_0 {
+    width: 100%;
+    height: 8vh;
+    background-image: url('./../../../../../public/images/AccountBanner.png');
+    background-size: 100% 100%;
+    background-color: #222222;
+    box-sizing: border-box;
+}
+
+.div_1 {
+    position: relative;
+    width: 100%;
+    height: 5vh;
+}
+
+.div_2 {
+    width: 100%;
+    height: 3vh;
+}
+
+.div_3 {
+    width: 5vh;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.div_4 {
+    width: auto;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 5.5vh;
+    color: white;
+    white-space: nowrap;
+}
+
+.div_5 {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.img_0 {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.p_0 {
+    height: 100%;
+    width: auto;
+    position: absolute;
+    top: 0;
+    left: 3vh;
+    line-height: 2.5vh;
+    font-size: 1.5vh;
+    color: white;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+}
+
+.p_1 {
+    height: 100%;
+    width: auto;
+    line-height: 5vh;
+    font-size: 2vh;
+    padding: 0;
+    margin: 0;
+    color: white;
+    font-weight: bolder;
+    transition: color 0.2s ease-in-out;
+    &:hover{
+        color: deepskyblue;
+    }
+}
+
+.AiOutlinePlusCircle{
+    height: 75%;
+    width: auto;
+    position: absolute;
+    top: 0.3vh;
+    left: 0.4vh;
+    color: lightgray;
+    font-size: 1.5vh;
+    transition: color 0.2s ease-in-out;
+
+    &:hover {
+        color: deepskyblue;
+    }
+}

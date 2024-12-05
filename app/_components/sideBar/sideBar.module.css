@@ -1,0 +1,47 @@
+.div_0 {
+    width: 20vw;
+    height: 92vh;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background-color: white;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    @media screen and (max-width: 1024px) {
+        min-width: 0px;
+        width: 0px;
+        transition: width 0.5s;
+        z-index: 50;
+    }
+}
+
+.div_0.active {
+    @media screen and (max-width: 1024px) {
+        width: 40vw;
+    }
+}
+
+.div_1 {
+    width: 100%;
+    height: 4vh;
+    line-height: 4vh;
+    font-size: 1.5vh;
+    box-sizing: border-box;
+    padding-left: 1vw;
+    color: #4a4a4a;
+    font-weight: 750;
+    background-color: white;
+    border-bottom: solid gray 0.2vh;
+    white-space: nowrap
+}
+
+.ul{
+    padding: 0;
+    margin: 0;
+}
+
+.li{
+    list-style: none;
+    background-color: #2d2d2d;
+}

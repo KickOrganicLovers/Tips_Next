@@ -1,0 +1,21 @@
+@import "normalize.css";
+
+body {
+    margin: 0;
+    font-family: "Noto Sans JP", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    ::placeholder{
+        color: lightgray;
+    }
+}
+
+::-webkit-scrollbar {
+    opacity: 1;
+    width: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: darkgray;
+}

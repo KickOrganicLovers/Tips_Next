@@ -1,0 +1,58 @@
+.div0{
+
+}
+
+
+.div1{
+    background-color: white;
+    height: 4vh;
+    &:hover{
+        background-color: #f3f3f3;
+    }
+}
+
+.div1.active{
+    background-color: #f3f3f3;
+}
+
+.ul{
+    height: 0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    transition: height 0.5s ease-out;
+    overflow: hidden;
+}
+
+.li {
+    height: 4vh;
+    list-style: none;
+    background-color: #f3f3f3;
+
+    &:hover {
+        background-color: #ececec;
+    }
+}
+
+.p_0 {
+    padding: 0 0 0 1vw;
+    margin: 0;
+    height: 100%;
+    line-height: 4vh;
+    font-size: 1.5vh;
+    font-weight: 600;
+    color: #222222;
+    white-space: nowrap
+}
+
+.p_1 {
+    padding: 0 0 0 1.25vw;
+    margin: 0;
+    height: 100%;
+    line-height: 4vh;
+    font-size: 1.5vh;
+    font-weight: 500;
+    color: #222222;
+    white-space: nowrap
+}

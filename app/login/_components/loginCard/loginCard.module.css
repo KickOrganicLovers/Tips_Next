@@ -1,0 +1,114 @@
+.div_0 {
+    width: 50vh;
+    height: 60vh;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    background-color: white;
+    @media screen and (max-width: 512px) {
+        width: 90vw;
+        height: 55vh;
+        min-height: 100vw;
+    }
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 0.98;
+    }
+}
+
+.div_0.mounted{
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+.div_1 {
+    position: absolute;
+    bottom: 8vh;
+    left: 0;
+    right: 0;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    min-height: 25vh;
+    gap: 4vh
+}
+
+
+.img {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 8vh;
+    margin: auto;
+    height: 10vh;
+    width: auto;
+    border-radius: 20%;
+}
+
+.h1 {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 20vh;
+    margin: auto;
+    text-align: center;
+    font-size: 3vh;
+
+}
+
+.input {
+    height: 5vh;
+    width: 80%;
+    padding: 0 0 0 1vw;
+    font-size: 2vh;
+    border-radius: 10vh;
+    box-sizing: border-box;
+    background-color: #ececec;
+    color: #222222;
+    border: none;
+    @media screen and (max-width: 1024px) {
+        padding: 0 0 0 3vw;
+    }
+    @media screen and (max-width: 512px){
+        padding: 0 0 0 4vw;
+    }
+    &:focus{
+        outline: 3px solid #222222;
+    } ;
+}
+
+.input::placeholder{
+    color: #222222;
+}
+
+@keyframes  changeColor{
+    to {
+        color: white;
+        background-color: #222222;
+    }
+}
+
+.button {
+    width: 20%;
+    height: 4vh;
+    padding: 0;
+    border: none;
+    box-sizing: border-box;
+    border-radius: 2vw;
+    background-color: #ececec;
+    color: #222222;
+    font-size: 1.5vh;
+    &:hover{
+        animation: changeColor 0.2s ease-in-out forwards;
+    }
+}
+

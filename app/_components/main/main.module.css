@@ -1,0 +1,29 @@
+.mainContent {
+    height: 92vh;
+    width: 80vw;
+    background-color: #ececec;
+    @media screen and (max-width: 1024px) {
+        width: 100%;
+    }
+}
+
+.fadeLayer {
+    display: none;
+    @media screen and (max-width: 1024px) {
+        width: 100vw;
+        height: 92vh;
+        background-color: black;
+        opacity: 0.2;
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        z-index: 25;
+        display: none;
+    }
+}
+
+.fadeLayer.active{
+    @media screen and (max-width: 1024px) {
+        display: block;
+    }
+}
