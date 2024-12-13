@@ -1,0 +1,11 @@
+.tiptap p {
+    color: red;
+}
+
+.tiptap.ProseMirror{
+    resize: none;
+    height: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+    overflow-y: scroll;
+}

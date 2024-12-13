@@ -3,7 +3,7 @@ import {AppDispatch, RootState} from "@/redux/store";
 import {AiOutlinePlusCircle} from "react-icons/ai";
 import styles from './accountBanner.module.css'
 import {useRouter} from "next/navigation";
-import {disable} from "@/redux/sideBarStatusSlice";
+import {disable} from "@/redux/slices/sideBarStatusSlice";
 
 export default function AccountBanner() {
     const LoginStatus = useSelector<RootState, RootState['LoginStatus']>((state) => state.LoginStatus)

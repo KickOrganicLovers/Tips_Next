@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "@/redux/store";
-import sideBarStatusSlice, {toggle} from "@/redux/sideBarStatusSlice";
+import sideBarStatusSlice, {toggle} from "@/redux/slices/sideBarStatusSlice";
 import {AiOutlineMenu} from "react-icons/ai";
 import styles from './categoryButton.module.css'
 

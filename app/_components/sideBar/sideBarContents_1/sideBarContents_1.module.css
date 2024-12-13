@@ -1,0 +1,7 @@
+.button_0{
+    background-color: blue;
+}
+
+.button_0.active{
+    background-color: red;
+}

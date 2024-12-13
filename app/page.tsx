@@ -4,7 +4,7 @@ import styles from './app.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {AppDispatch, RootState} from "@/redux/store";
-import {applyWhereIam} from "@/redux/whereIamSlice";
+import {applyWhereIam} from "@/redux/slices/whereIamSlice";
 import {ArticleScheme} from "@/typs";
 import ArticleContainer from "@/app/_components/articleContainer/articleContainer";
 
