@@ -1,5 +1,5 @@
 import {Editor} from "@tiptap/core";
-import ButtonBold from "@/app/createArticle/_components/editingToolBar/atoms/buttonBold/buttonBold";
+import ButtonBold from "@/app/createArticle/_components/editorToolBar/atoms/buttonBold/buttonBold";
 import styles from './editorToolBar.module.css'
 
 interface props {

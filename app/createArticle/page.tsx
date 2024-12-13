@@ -6,7 +6,7 @@ import {StarterKit} from "@tiptap/starter-kit";
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "@/redux/store";
-import EditorToolBar from "@/app/createArticle/_components/editingToolBar/editorToolBar";
+import EditorToolBar from "@/app/createArticle/_components/editorToolBar/editorToolBar";
 import {bold_onClick, bold_setIsActive} from "@/redux/slices/articleEditorStatusSlice";
 
 export default function Page() {

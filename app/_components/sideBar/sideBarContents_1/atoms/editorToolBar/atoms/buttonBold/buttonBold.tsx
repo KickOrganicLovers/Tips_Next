@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "@/redux/store";
-import styles from "@/app/createArticle/_components/editingToolBar/atoms/buttonBold/buttonBold.module.css";
+import styles from "@/app/createArticle/_components/editorToolBar/atoms/buttonBold/buttonBold.module.css";
 import {bold_onClick} from "@/redux/slices/articleEditorStatusSlice";
 
 export default function ButtonBold() {
