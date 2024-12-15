@@ -82,7 +82,7 @@
         padding: 0 0 0 4vw;
     }
     &:focus{
-        outline: 3px solid #222222;
+        outline: 2px solid rgba(180, 247, 255, 0.8)
     } ;
 }
 

@@ -1,0 +1,28 @@
+@keyframes rotate-background {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+
+.button {
+    background-color: white;
+    width: 4vw;
+    height: 4vw;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.button.active{
+    background: linear-gradient(90deg, rgb(122, 231, 243), rgb(255, 148, 232));
+    background-size: 200% 200%;
+    animation: rotate-background 5s linear infinite;
+}
+
+

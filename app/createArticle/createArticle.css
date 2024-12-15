@@ -1,11 +1,16 @@
 .tiptap p {
-    color: red;
 }
 
 .tiptap.ProseMirror{
-    resize: none;
-    height: 100%;
-    padding: 1rem;
+    width: 60vw;
+    min-height: 75vh;
+    padding: 2rem;
     box-sizing: border-box;
-    overflow-y: scroll;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    background-color: white;
+    border-radius: 5vh;
+    &:focus{
+        outline: 2px solid rgba(180, 247, 255, 0.8)
+    } ;
 }
