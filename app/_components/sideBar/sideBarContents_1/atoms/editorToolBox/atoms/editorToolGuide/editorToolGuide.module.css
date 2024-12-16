@@ -14,11 +14,8 @@
     0% {
         opacity: 0;
     }
-    50%{
+    100%{
         opacity: 1;
-    }
-    100% {
-        opacity: 0;
     }
 }
 
@@ -41,7 +38,7 @@
     z-index: 1;
     background: none; /* 初期状態の背景色をなしに設定 */
     transition: background 1s ease-in-out; /* トランジションを指定 */
-    animation: transitionOpacity 4s forwards;
+    animation: transitionOpacity 2s forwards;
 }
 
 .p_0.active {
