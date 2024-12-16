@@ -6,7 +6,8 @@ import EditorToolGuide
 export default function EditorToolBox() {
     return (
         <div className={styles.div_0}>
-            {/*<EditorToolGuide/>*/}
+            <EditorToolGuide/>
+            <div className={styles.div_1}></div>
             <EditorToolButton extension={'bold'} index={1}/>
             <EditorToolButton extension={'underline'} index={2}/>
             <EditorToolButton extension={'italic'} index={3}/>

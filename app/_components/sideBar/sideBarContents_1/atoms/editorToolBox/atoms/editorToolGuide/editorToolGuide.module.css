@@ -1,13 +1,54 @@
+@keyframes rotate-background {
+    0% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 50% 0%;
+    }
+    100% {
+        background-position: 100% 0%
+    }
+}
+
+@keyframes transitionOpacity {
+    0% {
+        opacity: 0;
+    }
+    50%{
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
 .p_0 {
-    padding: 0;
+    text-align: center;
+    padding: 2rem;
     margin: 0;
-    font-size: 1rem;
+    font-size: 1.3rem;
     position: absolute;
     text-wrap: inherit;
-    color: white;
+    color: #cdcdcd;
     width: 50%;
     height: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 50%;
+    box-sizing: border-box;
+    outline: 2px solid #a5a5a5;
+    z-index: 1;
+    background: none; /* 初期状態の背景色をなしに設定 */
+    transition: background 1s ease-in-out; /* トランジションを指定 */
+    animation: transitionOpacity 4s forwards;
+}
+
+.p_0.active {
+    background: linear-gradient(to right, #dfdfdf 0%, #cdcdcd 50%, #71c9ff 80%, #fb88ff 100%);
+    background: -webkit-linear-gradient(to right, #dfdfdf 0%, #cdcdcd 0%, #71c9ff 80%, #fb88ff 100%);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rotate-background 0.5s ease-out forwards;
 }

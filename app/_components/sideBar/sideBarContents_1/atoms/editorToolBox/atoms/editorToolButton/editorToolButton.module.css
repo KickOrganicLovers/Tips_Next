@@ -12,7 +12,9 @@
 
 
 .button {
-    background-color: white;
+    background-color: #ffffff;
+    opacity: 0.5;
+    transition: opacity 0.4s;
     width: 3vw;
     height: 3vw;
     border-radius: 50%;
@@ -21,6 +23,7 @@
 
 .button.active{
     background: linear-gradient(90deg, rgb(122, 231, 243), rgb(255, 148, 232));
+    opacity: 1;
     background-size: 200% 200%;
     animation: rotate-background 5s linear infinite;
 }
