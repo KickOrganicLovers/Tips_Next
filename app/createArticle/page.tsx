@@ -7,8 +7,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "@/redux/store";
 import {
     bold_onClick,
-    bold_setIsActive, code_setIsActive, heading_1_setIsActive, heading_2_setIsActive, highlight_setIsActive,
-    italic_setIsActive, strike_setIsActive,
+    bold_setIsActive, bulletList_setIsActive,
+    codeBlock_setIsActive,
+    heading_1_setIsActive,
+    heading_2_setIsActive,
+    highlight_setIsActive,
+    italic_setIsActive, orderedList_setIsActive,
+    strike_setIsActive, textAlign_center_setIsActive, textAlign_left_setIsActive, textAlign_right_setIsActive,
     underline_setIsActive
 } from "@/redux/slices/articleEditorStatusSlice";
 import TitleInputField from "@/app/createArticle/_components/titleInputField/titleInputField";
@@ -24,12 +29,17 @@ import {Highlight} from "@tiptap/extension-highlight";
 import {Strike} from "@tiptap/extension-strike";
 import {Link} from "@tiptap/extension-link";
 import {Heading} from "@tiptap/extension-heading";
+import {CodeBlock} from "@tiptap/extension-code-block";
+import {ListItem} from "@tiptap/extension-list-item";
+import {TextAlign} from "@tiptap/extension-text-align";
+import {BulletList} from "@tiptap/extension-bullet-list";
+import {OrderedList} from "@tiptap/extension-ordered-list";
 
 export default function Page() {
     const dispatch = useDispatch<AppDispatch>();
     const ArticleEditorStatus = useSelector<RootState, RootState['ArticleEditorStatus']>((state) => state.ArticleEditorStatus)
     const editor = useEditor({
-        extensions: [Document, Paragraph, Text, Bold, Underline, Strike, Italic, Code, Highlight, Link, Heading],
+        extensions: [Document, Paragraph, Text, Bold, Underline, Strike, Italic, Code, Highlight, Link, Heading, CodeBlock, ListItem, TextAlign.configure({types: ['heading', 'paragraph'],}), BulletList, OrderedList],
         content: 'hello world'
     });
 
@@ -69,9 +79,34 @@ export default function Page() {
     }, [ArticleEditorStatus.highlight.variable])
 
     useEffect(() => {
-        editor?.chain().focus().toggleCode().run()
-        console.log(ArticleEditorStatus.code.variable)
-    }, [ArticleEditorStatus.code.variable])
+        editor?.chain().focus().toggleCodeBlock().run()
+        console.log(ArticleEditorStatus.codeBlock.variable)
+    }, [ArticleEditorStatus.codeBlock.variable])
+
+    useEffect(() => {
+        editor?.chain().focus().toggleBulletList().run()
+        console.log(ArticleEditorStatus.bulletList.variable)
+    }, [ArticleEditorStatus.bulletList.variable])
+
+    useEffect(() => {
+        editor?.chain().focus().toggleOrderedList().run()
+        console.log(ArticleEditorStatus.orderedList.variable)
+    }, [ArticleEditorStatus.orderedList.variable])
+
+    useEffect(() => {
+        editor?.chain().focus().setTextAlign('left').run()
+        console.log(ArticleEditorStatus.textAlign_left.variable)
+    }, [ArticleEditorStatus.textAlign_left.variable])
+
+    useEffect(() => {
+        editor?.chain().focus().setTextAlign('center').run()
+        console.log(ArticleEditorStatus.textAlign_center.variable)
+    }, [ArticleEditorStatus.textAlign_center.variable])
+
+    useEffect(() => {
+        editor?.chain().focus().setTextAlign('right').run()
+        console.log(ArticleEditorStatus.textAlign_right.variable)
+    }, [ArticleEditorStatus.textAlign_right.variable])
 
 
     useEffect(() => {
@@ -103,8 +138,30 @@ export default function Page() {
     }, [editor?.isActive('highlight')])
 
     useEffect(() => {
-        dispatch(code_setIsActive(editor?.isActive('code')))
-    }, [editor?.isActive('code')])
+        dispatch(codeBlock_setIsActive(editor?.isActive('codeBlock')))
+    }, [editor?.isActive('codeBlock')])
+
+    useEffect(() => {
+        dispatch(bulletList_setIsActive(editor?.isActive('bulletList')))
+    }, [editor?.isActive('bulletList')])
+
+    useEffect(() => {
+        dispatch(orderedList_setIsActive(editor?.isActive('orderedList')))
+    }, [editor?.isActive('orderedList')])
+
+
+    useEffect(() => {
+        dispatch(textAlign_left_setIsActive(editor?.isActive({textAlign: 'left'})))
+    }, [editor?.isActive({textAlign: 'left'})])
+
+    useEffect(() => {
+        dispatch(textAlign_center_setIsActive(editor?.isActive({textAlign: 'center'})))
+    }, [editor?.isActive({textAlign: 'center'})])
+
+    useEffect(() => {
+        dispatch(textAlign_right_setIsActive(editor?.isActive({textAlign: 'right'})))
+    }, [editor?.isActive({textAlign: 'right'})])
+
 
     return (
         <div className={styles.div_0}>

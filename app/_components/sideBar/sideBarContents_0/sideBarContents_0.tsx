@@ -8,7 +8,6 @@ import {usePathname} from "next/navigation";
 export default function SideBarContents_0(){
 
 
-
     return (
         <div>
             <AccountBanner/>

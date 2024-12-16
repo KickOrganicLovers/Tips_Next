@@ -2,12 +2,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "@/redux/store";
 import styles from './editorToolButton.module.css'
 import {
-    bold_onClick, code_onClick,
+    bold_onClick, bulletList_onClick, codeBlock_onClick,
     heading_1_onClick,
     heading_2_onClick,
     highlight_onClick,
-    italic_onClick,
-    strike_onClick,
+    italic_onClick, orderedList_onClick,
+    strike_onClick, textAlign_center_onClick, textAlign_left_onClick, textAlign_right_onClick,
     underline_onClick
 } from "@/redux/slices/articleEditorStatusSlice";
 import Image from "next/image";
@@ -27,8 +27,8 @@ export default function EditorToolButton(props: props) {
     const dispatch = useDispatch<AppDispatch>();
 
     const style = {
-        top: `${8 - 7 * Math.sin(2 / 8 * props.index * Math.PI)}vw`,
-        left: `${8 + 7 * Math.cos(2 / 8 * props.index * Math.PI )}vw`,
+        top: `${8.5 - 7 * Math.sin(2 / 13 * props.index * Math.PI)}vw`,
+        left: `${8.5 + 7 * Math.cos(2 / 13 * props.index * Math.PI )}vw`,
     }
 
 
@@ -62,8 +62,28 @@ export default function EditorToolButton(props: props) {
                 dispatch(highlight_onClick())
                 break
             }
-            case 'code': {
-                dispatch(code_onClick())
+            case 'codeBlock': {
+                dispatch(codeBlock_onClick())
+                break
+            }
+            case 'bulletList': {
+                dispatch(bulletList_onClick())
+                break
+            }
+            case 'orderedList': {
+                dispatch(orderedList_onClick())
+                break
+            }
+            case 'textAlign_left': {
+                dispatch(textAlign_left_onClick())
+                break
+            }
+            case 'textAlign_center': {
+                dispatch(textAlign_center_onClick())
+                break
+            }
+            case 'textAlign_right': {
+                dispatch(textAlign_right_onClick())
                 break
             }
         }

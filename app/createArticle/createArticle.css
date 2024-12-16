@@ -14,3 +14,8 @@
         outline: 2px solid rgba(180, 247, 255, 0.8)
     } ;
 }
+
+.tiptap h2 {
+    padding-bottom: 1rem;
+    border-bottom: solid 2px darkgray;
+}
