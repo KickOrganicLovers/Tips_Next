@@ -21,11 +21,11 @@
 
 .p_0 {
     text-align: center;
-    padding: 2rem;
+    padding: 2vh;
     margin: 0;
-    font-size: 1.3rem;
+    font-size: 2vh;
     position: absolute;
-    text-wrap: inherit;
+    text-wrap: wrap;
     color: #cdcdcd;
     width: 50%;
     height: 50%;

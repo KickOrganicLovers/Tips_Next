@@ -9,3 +9,7 @@
         outline: 2px solid rgba(180, 247, 255, 0.8);
     } ;
 }
+
+.input_0::placeholder{
+    color: #adb5bd;
+}

@@ -1,7 +1,7 @@
-.button_0{
-    background-color: blue;
+.div_0 {
+    width: 100%;
+    height: 1vh;
+    background: linear-gradient(to right, #71c9ff 0%, #fb88ff 100%);
+    background: -webkit-linear-gradient(to right, #71c9ff 0%, #fb88ff 100%);;
 }
 
-.button_0.active{
-    background-color: red;
-}

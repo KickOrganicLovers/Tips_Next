@@ -34,13 +34,14 @@ import {ListItem} from "@tiptap/extension-list-item";
 import {TextAlign} from "@tiptap/extension-text-align";
 import {BulletList} from "@tiptap/extension-bullet-list";
 import {OrderedList} from "@tiptap/extension-ordered-list";
+import {Placeholder} from "@tiptap/extension-placeholder";
 
 export default function Page() {
     const dispatch = useDispatch<AppDispatch>();
     const ArticleEditorStatus = useSelector<RootState, RootState['ArticleEditorStatus']>((state) => state.ArticleEditorStatus)
     const editor = useEditor({
-        extensions: [Document, Paragraph, Text, Bold, Underline, Strike, Italic, Code, Highlight, Link, Heading, CodeBlock, ListItem, TextAlign.configure({types: ['heading', 'paragraph'],}), BulletList, OrderedList],
-        content: 'hello world'
+        extensions: [Document, Paragraph, Placeholder.configure({placeholder: '記事本文を入力...'}), Text, Bold, Underline, Strike, Italic, Code, Highlight, Link, Heading, CodeBlock, ListItem, TextAlign.configure({types: ['heading', 'paragraph'],}), BulletList, OrderedList],
+        content: ''
     });
 
     useEffect(() => {
@@ -166,7 +167,7 @@ export default function Page() {
     return (
         <div className={styles.div_0}>
             <TitleInputField/>
-            <EditorContent editor={editor}/>
+            <EditorContent editor={editor} placeholder={'記事本文を入力...'}/>
         </div>
     )
 
