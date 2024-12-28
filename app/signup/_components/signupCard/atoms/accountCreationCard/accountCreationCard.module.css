@@ -1,0 +1,62 @@
+.div_0 {
+    position: absolute;
+    width: 50vh;
+    height: 100%;
+    left: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.p_0 {
+    margin: 0;
+    padding: 0 4vh 0 4vh;
+}
+
+.input_0 {
+    height: 5vh;
+    width: 80%;
+    padding: 0 0 0 1vw;
+    font-size: 2vh;
+    border-radius: 10vh;
+    box-sizing: border-box;
+    background-color: #ececec;
+    color: #222222;
+    border: none;
+    @media screen and (max-width: 1024px) {
+        padding: 0 0 0 3vw;
+    }
+    @media screen and (max-width: 512px) {
+        padding: 0 0 0 4vw;
+    }
+
+    &:focus {
+        outline: 2px solid rgba(180, 247, 255, 0.8)
+    }
+}
+
+@keyframes changeColor {
+    to {
+        color: white;
+        background-color: #222222;
+    }
+}
+
+.button_0 {
+    width: 20%;
+    height: 4vh;
+    padding: 0;
+    margin: 3vh 0 0 0;
+    border: none;
+    box-sizing: border-box;
+    border-radius: 2vw;
+    background-color: #ececec;
+    color: #222222;
+    font-size: 1.5vh;
+
+    &:hover {
+        animation: changeColor 0.2s ease-in-out forwards;
+    }
+}

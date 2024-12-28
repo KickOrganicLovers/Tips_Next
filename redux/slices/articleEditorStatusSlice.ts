@@ -34,11 +34,11 @@ const initialState: {
         isActive: boolean
         variable: boolean
     }
-    bulletList :{
+    bulletList: {
         isActive: boolean
         variable: boolean
     }
-    orderedList : {
+    orderedList: {
         isActive: boolean
         variable: boolean
     },
@@ -46,11 +46,11 @@ const initialState: {
         isActive: boolean
         variable: boolean
     }
-    textAlign_center :{
+    textAlign_center: {
         isActive: boolean
         variable: boolean
     }
-    textAlign_right : {
+    textAlign_right: {
         isActive: boolean
         variable: boolean
     },
@@ -104,7 +104,7 @@ const initialState: {
         isActive: false,
         variable: false
     },
-    textAlign_right : {
+    textAlign_right: {
         isActive: false,
         variable: false
     }
@@ -196,7 +196,34 @@ const ArticleEditorStatusSlice = createSlice({
     }
 })
 
-export const {bold_setIsActive, bold_onClick, underline_setIsActive, underline_onClick, italic_setIsActive, italic_onClick, strike_setIsActive, strike_onClick, heading_1_setIsActive, heading_1_onClick, heading_2_setIsActive, heading_2_onClick, highlight_setIsActive, highlight_onClick, codeBlock_setIsActive, codeBlock_onClick, bulletList_setIsActive, bulletList_onClick, orderedList_setIsActive, orderedList_onClick, textAlign_left_setIsActive, textAlign_left_onClick, textAlign_center_setIsActive, textAlign_center_onClick, textAlign_right_setIsActive, textAlign_right_onClick} = ArticleEditorStatusSlice.actions
+export const {
+    bold_setIsActive,
+    bold_onClick,
+    underline_setIsActive,
+    underline_onClick,
+    italic_setIsActive,
+    italic_onClick,
+    strike_setIsActive,
+    strike_onClick,
+    heading_1_setIsActive,
+    heading_1_onClick,
+    heading_2_setIsActive,
+    heading_2_onClick,
+    highlight_setIsActive,
+    highlight_onClick,
+    codeBlock_setIsActive,
+    codeBlock_onClick,
+    bulletList_setIsActive,
+    bulletList_onClick,
+    orderedList_setIsActive,
+    orderedList_onClick,
+    textAlign_left_setIsActive,
+    textAlign_left_onClick,
+    textAlign_center_setIsActive,
+    textAlign_center_onClick,
+    textAlign_right_setIsActive,
+    textAlign_right_onClick
+} = ArticleEditorStatusSlice.actions
 
 export const ArticleEditorStatusReducer = ArticleEditorStatusSlice.reducer
 

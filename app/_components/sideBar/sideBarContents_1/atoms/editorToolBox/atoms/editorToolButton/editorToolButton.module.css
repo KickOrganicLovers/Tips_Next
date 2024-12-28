@@ -21,7 +21,7 @@
     position: absolute;
 }
 
-.button.active{
+.button.active {
     background: linear-gradient(90deg, rgb(122, 231, 243), rgb(255, 148, 232));
     opacity: 1;
     background-size: 200% 200%;

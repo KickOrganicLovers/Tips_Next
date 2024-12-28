@@ -1,21 +1,22 @@
-.div0{
+.div0 {
 
 }
 
 
-.div1{
+.div1 {
     background-color: white;
     height: 4vh;
-    &:hover{
+
+    &:hover {
         background-color: #f3f3f3;
     }
 }
 
-.div1.active{
+.div1.active {
     background-color: #f3f3f3;
 }
 
-.ul{
+.ul {
     height: 0;
     margin: 0;
     padding: 0;

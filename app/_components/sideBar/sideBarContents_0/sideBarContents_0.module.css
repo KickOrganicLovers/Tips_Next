@@ -13,12 +13,12 @@
     white-space: nowrap
 }
 
-.ul{
+.ul {
     padding: 0;
     margin: 0;
 }
 
-.li{
+.li {
     list-style: none;
     background-color: #2d2d2d;
 }

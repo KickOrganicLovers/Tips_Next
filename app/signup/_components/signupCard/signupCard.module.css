@@ -1,0 +1,72 @@
+.div_0 {
+    width: 50vh;
+    height: 60vh;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    background-color: white;
+    overflow: hidden;
+    @media screen and (max-width: 512px) {
+        width: 90vw;
+        height: 55vh;
+        min-height: 100vw;
+    }
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 0.98;
+    }
+}
+
+.div_0.mounted {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+.img {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 8vh;
+    margin: auto;
+    height: 10vh;
+    width: auto;
+    border-radius: 20%;
+}
+
+.h1 {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 20vh;
+    margin: auto;
+    text-align: center;
+    font-size: 3vh;
+}
+
+.div_1 {
+    width: 300%;
+    height: 55%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: left 0.5s ease-in-out;
+}
+
+.div_1.verifying_step1 {
+    left: 0;
+}
+
+.div_1.verifying_step2{
+    left: -50vh;
+}
+
+.div_1.accountCreation{
+    left: -100vh;
+}
+
+

@@ -1,0 +1,47 @@
+.div_0 {
+    position: absolute;
+    width: 50vh;
+    height: 100%;
+    left: 50vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 2vh;
+
+}
+
+.p_0 {
+    margin: 0;
+    padding: 0 4vh 0 4vh;
+}
+
+
+@keyframes changeColor {
+    to {
+        color: white;
+        background-color: #222222;
+    }
+}
+
+.button_0 {
+    width: 20%;
+    height: 4vh;
+    padding: 0;
+    margin: 4vh 0 0 0;
+    border: none;
+    box-sizing: border-box;
+    border-radius: 2vw;
+    background-color: #ececec;
+    color: #222222;
+    font-size: 1.5vh;
+
+    &:hover {
+        animation: changeColor 0.2s ease-in-out forwards;
+    }
+}
+
+.mark_0 {
+    background: none;
+    color: dodgerblue;
+}

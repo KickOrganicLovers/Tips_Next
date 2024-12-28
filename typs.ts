@@ -3,13 +3,13 @@ import {Document} from "mongodb";
 
 export interface LoginStatusScheme {
     isLoggedIn: boolean
-    errorMessage: string
+    error: string
     userStatus: UserStatusScheme
 }
 
 export interface UserStatusScheme {
-    userNumber: number
-    userName: string
+    id: number
+    username: string
     profileImageUrl: string
     introduction: string
 }
@@ -19,7 +19,7 @@ export interface CategoryScheme {
     details: string[]
 }
 
-export interface ArticleScheme extends Document{
+export interface ArticleScheme extends Document {
     title: string
     thumbnailImgUrl: string
     sentence: string

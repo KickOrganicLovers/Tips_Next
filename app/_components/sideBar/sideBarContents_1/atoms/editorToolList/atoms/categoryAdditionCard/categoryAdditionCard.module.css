@@ -6,7 +6,8 @@
     margin: 0;
     display: flex;
     align-items: flex-start;
-    &:hover{
+
+    &:hover {
         background-color: #f3f3f3;
         transition: 0.2s;
     }

@@ -16,10 +16,9 @@ export default function Page() {
     const router = useRouter()
 
     useEffect(() => {
-        if(LoginStatus.isLoggedIn){
+        if (LoginStatus.isLoggedIn) {
             router.push('/')
-        }
-        else {
+        } else {
             dispatch(applyWhereIam('login'))
         }
     })

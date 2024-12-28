@@ -1,7 +1,8 @@
 import styles from './editorToolBox.module.css'
-import EditorToolButton from "@/app/_components/sideBar/sideBarContents_1/atoms/editorToolBox/atoms/editorToolButton/editorToolButton";
+import EditorToolButton
+    from "@/app/_components/sideBar/sideBarContents_1/atoms/editorToolBox/atoms/editorToolButton/editorToolButton";
 import EditorToolGuide
-        from "@/app/_components/sideBar/sideBarContents_1/atoms/editorToolBox/atoms/editorToolGuide/editorToolGuide";
+    from "@/app/_components/sideBar/sideBarContents_1/atoms/editorToolBox/atoms/editorToolGuide/editorToolGuide";
 
 export default function EditorToolBox() {
     return (

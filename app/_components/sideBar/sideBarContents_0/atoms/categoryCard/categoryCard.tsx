@@ -3,10 +3,10 @@ import {CategoryScheme} from "@/typs";
 import {useSelector} from "react-redux";
 import styles from './categoryCard.module.css'
 
-export default function CategoryCard(props : CategoryScheme){
+export default function CategoryCard(props: CategoryScheme) {
     const [isActive, setIsActive] = useState(false)
-    const className = isActive? `${styles['div1']} ${styles['active']}` : styles['div1']
-    const dynamicHeight = isActive? `${props.details.length * 4}vh` : '0'
+    const className = isActive ? `${styles['div1']} ${styles['active']}` : styles['div1']
+    const dynamicHeight = isActive ? `${props.details.length * 4}vh` : '0'
 
     const clickEventHandler = () => {
         setIsActive(!isActive)
@@ -15,7 +15,7 @@ export default function CategoryCard(props : CategoryScheme){
     const addList = (arg0: string[]) => {
         const Items = []
         for (const str of arg0) {
-            Items.push(<li className={styles.li}><p className={styles.p_1}>{str}</p></li>)
+            Items.push(<li className={styles.li} key={str}><p className={styles.p_1}>{str}</p></li>)
         }
         return Items
     }

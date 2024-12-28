@@ -11,36 +11,41 @@ export default function AccountBanner() {
     const router = useRouter()
 
 
-
     const clickEventHandler_navigateToLogin = () => {
         router.push('/login')
         dispatch(disable())
     }
 
+    const clickEventHandler_navigateToSignup = () => {
+        router.push('/signup')
+        dispatch(disable())
+    }
 
-    return(
+
+
+    return (
         <div className={styles.div_0}>
             <div className={styles.div_1}>
                 <div className={styles.div_3}>
                     <img className={styles.img_0} src={LoginStatus.userStatus.profileImageUrl}/>
                 </div>
                 <div className={styles.div_4}>
-                    {(() => LoginStatus.isLoggedIn? (
-                        <p className={styles.p_1}>{LoginStatus.userStatus.userName}</p>
+                    {(() => LoginStatus.isLoggedIn ? (
+                        <p className={styles.p_1}>{LoginStatus.userStatus.username}</p>
                     ) : (
                         <p className={styles.p_1} onClick={clickEventHandler_navigateToLogin}>ログイン</p>
                     ))()}
                 </div>
             </div>
             <div className={styles.div_2}>
-                {(() => LoginStatus.isLoggedIn? (
+                {(() => LoginStatus.isLoggedIn ? (
                     <div className={styles.div_5}>
                         <AiOutlinePlusCircle className={styles.AiOutlinePlusCircle}/>
                         <p className={styles.p_0}>記事を作成</p>
                     </div>
-                ): (
+                ) : (
                     <div className={styles.div_5}>
-                        <AiOutlinePlusCircle className={styles.AiOutlinePlusCircle}/>
+                        <AiOutlinePlusCircle className={styles.AiOutlinePlusCircle} onClick={clickEventHandler_navigateToSignup}/>
                         <p className={styles.p_0}>アカウントを作成</p>
                     </div>
                 ))()}

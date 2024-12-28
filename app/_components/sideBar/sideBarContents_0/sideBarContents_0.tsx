@@ -5,7 +5,7 @@ import AccountBanner from "@/app/_components/sideBar/sideBarContents_0/atoms/acc
 import CategoryCard from "@/app/_components/sideBar/sideBarContents_0/atoms/categoryCard/categoryCard";
 import {usePathname} from "next/navigation";
 
-export default function SideBarContents_0(){
+export default function SideBarContents_0() {
 
 
     return (
@@ -13,10 +13,10 @@ export default function SideBarContents_0(){
             <AccountBanner/>
             <div className={styles.div_0}>カテゴリーで探す</div>
             <ul className={styles.ul}>
-                <li className={styles.li}>
+                <li className={styles.li} key={'test0'}>
                     <CategoryCard cardName={'test0'} details={['apple', 'orange', 'grape']}/>
                 </li>
-                <li className={styles.li}>
+                <li className={styles.li} key={'test1'}>
                     <CategoryCard cardName={'test1'} details={['kajimoto', 'takamatsu', 'nishimura']}/>
                 </li>
             </ul>

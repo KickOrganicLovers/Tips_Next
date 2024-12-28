@@ -7,7 +7,7 @@ import styles from './categoryButton.module.css'
 export default function CategoryButton() {
     const SideBarStatus = useSelector<RootState, RootState['SideBarStatus']>((state) => state.SideBarStatus)
     const dispatch = useDispatch<AppDispatch>()
-    const className = SideBarStatus.isActive? `${styles['AiOutlineMenu']} ${styles['active']}` : `${styles['AiOutlineMenu']}`
+    const className = SideBarStatus.isActive ? `${styles['AiOutlineMenu']} ${styles['active']}` : `${styles['AiOutlineMenu']}`
 
     const clickEventHandler = () => {
         dispatch(toggle())

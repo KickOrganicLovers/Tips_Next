@@ -1,7 +1,7 @@
 .tiptap p {
 }
 
-.tiptap.ProseMirror{
+.tiptap.ProseMirror {
     width: 60vw;
     min-height: 75vh;
     padding: 2rem;
@@ -10,9 +10,11 @@
     word-wrap: break-word;
     background-color: white;
     border-radius: 5vh;
-    &:focus{
+
+    &:focus {
         outline: 2px solid rgba(180, 247, 255, 0.8)
-    } ;
+    }
+;
 }
 
 .tiptap p.is-editor-empty:first-child::before {

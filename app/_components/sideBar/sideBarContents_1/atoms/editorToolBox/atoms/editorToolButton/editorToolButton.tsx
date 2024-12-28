@@ -21,14 +21,14 @@ interface props {
 export default function EditorToolButton(props: props) {
     const ArticleEditorStatus = useSelector<RootState, RootState['ArticleEditorStatus']>((state) => state.ArticleEditorStatus)
     const extensionStatus = ArticleEditorStatus[props.extension as keyof typeof ArticleEditorStatus]
-    const className = extensionStatus.isActive? `${styles['button']} ${styles['active']}` : `${styles['button']}`
+    const className = extensionStatus.isActive ? `${styles['button']} ${styles['active']}` : `${styles['button']}`
     const imageSrc = `/images/toolBoxIcons/${props.extension}.svg`
 
     const dispatch = useDispatch<AppDispatch>();
 
     const style = {
         top: `${8.5 - 7 * Math.sin(2 / 13 * props.index * Math.PI)}vw`,
-        left: `${8.5 + 7 * Math.cos(2 / 13 * props.index * Math.PI )}vw`,
+        left: `${8.5 + 7 * Math.cos(2 / 13 * props.index * Math.PI)}vw`,
     }
 
 
@@ -90,6 +90,7 @@ export default function EditorToolButton(props: props) {
     }
 
     return (
-        <Image src= {imageSrc} alt= {props.extension} onClick={clickEventHandler} className={className} width={0} height={0} style={style}/>
+        <Image src={imageSrc} alt={props.extension} onClick={clickEventHandler} className={className} width={0}
+               height={0} style={style}/>
     )
 }

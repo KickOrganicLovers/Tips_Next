@@ -17,21 +17,21 @@ const noto_sans_jp = Noto_Sans_JP({
 })
 
 
-export default function RootLayout({children}: {children: ReactNode}) {
+export default function RootLayout({children}: { children: ReactNode }) {
 
     const pathName = usePathname()
 
-    return(
+    return (
         <html lang='ja' className={noto_sans_jp.className}>
         <head>
             <title>Tips</title>
         </head>
         <body className={styles.body}>
-            <Provider store={store}>
-                <Header/>
-                <SideBar/>
-                <Main children={children}/>
-            </Provider>
+        <Provider store={store}>
+            <Header/>
+            <SideBar/>
+            <Main children={children}/>
+        </Provider>
         </body>
         </html>
     )
