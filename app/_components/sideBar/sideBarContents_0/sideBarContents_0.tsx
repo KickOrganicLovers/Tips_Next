@@ -9,9 +9,9 @@ export default function SideBarContents_0() {
 
 
     return (
-        <div>
+        <div className={styles.div_0}>
             <AccountBanner/>
-            <div className={styles.div_0}>カテゴリーで探す</div>
+            <div className={styles.div_1}>カテゴリーで探す</div>
             <ul className={styles.ul}>
                 <li className={styles.li} key={'test0'}>
                     <CategoryCard cardName={'test0'} details={['apple', 'orange', 'grape']}/>

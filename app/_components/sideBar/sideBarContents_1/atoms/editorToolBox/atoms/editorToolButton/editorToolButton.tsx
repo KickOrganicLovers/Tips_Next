@@ -11,7 +11,7 @@ import {
     underline_onClick
 } from "@/redux/slices/articleEditorStatusSlice";
 import Image from "next/image";
-import {useCallback} from "react";
+import {useCallback, useEffect, useState} from "react";
 
 interface props {
     extension: string;
@@ -19,6 +19,9 @@ interface props {
 }
 
 export default function EditorToolButton(props: props) {
+
+    const [screenWidth , setScreenWidth] = useState<number>(0)
+
     const ArticleEditorStatus = useSelector<RootState, RootState['ArticleEditorStatus']>((state) => state.ArticleEditorStatus)
     const extensionStatus = ArticleEditorStatus[props.extension as keyof typeof ArticleEditorStatus]
     const className = extensionStatus.isActive ? `${styles['button']} ${styles['active']}` : `${styles['button']}`
@@ -26,10 +29,24 @@ export default function EditorToolButton(props: props) {
 
     const dispatch = useDispatch<AppDispatch>();
 
-    const style = {
-        top: `${8.5 - 7 * Math.sin(2 / 13 * props.index * Math.PI)}vw`,
-        left: `${8.5 + 7 * Math.cos(2 / 13 * props.index * Math.PI)}vw`,
-    }
+    const style = (() => {
+        if(screenWidth < 512) {
+            return {
+                top: `${25 - 22.5 * Math.sin(2 / 13 * props.index * Math.PI)}vw`,
+                left: `${25 + 22.5 * Math.cos(2 / 13 * props.index * Math.PI)}vw`,
+            }
+        }else if(screenWidth < 1024) {
+            return {
+                top: `${16.5 - 15 * Math.sin(2 / 13 * props.index * Math.PI)}vw`,
+                left: `${16.5 + 15 * Math.cos(2 / 13 * props.index * Math.PI)}vw`,
+            }
+        }else {
+            return {
+                top: `${8.5 - 7 * Math.sin(2 / 13 * props.index * Math.PI)}vw`,
+                left: `${8.5 + 7 * Math.cos(2 / 13 * props.index * Math.PI)}vw`,
+            }
+        }
+    })()
 
 
     const clickEventHandler = () => {
@@ -88,6 +105,20 @@ export default function EditorToolButton(props: props) {
             }
         }
     }
+
+    const handleResize = () => {
+        setScreenWidth(window.innerWidth)
+    }
+
+    useEffect(() => {
+        console.log(window.innerWidth)
+        window.addEventListener('resize', handleResize);
+
+        // クリーンアップ関数でイベントリスナーを削除
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     return (
         <Image src={imageSrc} alt={props.extension} onClick={clickEventHandler} className={className} width={0}

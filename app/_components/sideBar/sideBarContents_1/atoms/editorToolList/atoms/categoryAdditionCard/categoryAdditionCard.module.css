@@ -18,10 +18,11 @@
     padding: 1.75vh;
     box-sizing: border-box;
     height: 6vh;
-    font-size: 2vh;
+    text-wrap: nowrap;
 }
 
-.FaTag {
+
+.MdCategory {
     width: 6vh;
     height: 6vh;
     padding: 1.25vh;

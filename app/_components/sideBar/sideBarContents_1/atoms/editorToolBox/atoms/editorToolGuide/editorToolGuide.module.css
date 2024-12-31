@@ -21,9 +21,9 @@
 
 .p_0 {
     text-align: center;
-    padding: 2vh;
+    padding: 1.1vw;
     margin: 0;
-    font-size: 2vh;
+    font-size: 1.1vw;
     position: absolute;
     text-wrap: wrap;
     color: #cdcdcd;
@@ -39,6 +39,14 @@
     background: none; /* 初期状態の背景色をなしに設定 */
     transition: background 1s ease-in-out; /* トランジションを指定 */
     animation: transitionOpacity 2s forwards;
+    @media screen and (max-width: 1024px) {
+        font-size: 2.5vw;
+        padding: 2.5vw;
+    }
+    @media screen and (max-width: 512px) {
+        font-size: 3.5vw;
+        padding: 3.5vw;
+    }
 }
 
 .p_0.active {

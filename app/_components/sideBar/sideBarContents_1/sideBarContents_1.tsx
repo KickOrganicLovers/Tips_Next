@@ -5,9 +5,9 @@ import EditorToolList from "@/app/_components/sideBar/sideBarContents_1/atoms/ed
 export default function SideBarContents_1() {
 
     return (
-        <div>
+        <div className={styles.div_0}>
             <EditorToolBox/>
-            <div className={styles.div_0}></div>
+            <div className={styles.div_1}></div>
             <EditorToolList/>
         </div>
     )

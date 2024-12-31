@@ -35,6 +35,7 @@ import {TextAlign} from "@tiptap/extension-text-align";
 import {BulletList} from "@tiptap/extension-bullet-list";
 import {OrderedList} from "@tiptap/extension-ordered-list";
 import {Placeholder} from "@tiptap/extension-placeholder";
+import {applyWhereIam} from "@/redux/slices/whereIamSlice";
 
 export default function Page() {
     const dispatch = useDispatch<AppDispatch>();
@@ -163,6 +164,10 @@ export default function Page() {
         dispatch(textAlign_right_setIsActive(editor?.isActive({textAlign: 'right'})))
     }, [editor?.isActive({textAlign: 'right'})])
 
+
+    useEffect(() => {
+        dispatch(applyWhereIam('createArticle'))
+    }, [])
 
     return (
         <div className={styles.div_0}>
