@@ -111,6 +111,7 @@ export default function EditorToolButton(props: props) {
     }
 
     useEffect(() => {
+        handleResize()
         console.log(window.innerWidth)
         window.addEventListener('resize', handleResize);
 

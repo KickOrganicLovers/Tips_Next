@@ -15,7 +15,8 @@ export async function POST(req: NextRequest) {
             data:{
                 name: username,
                 email: email,
-                password: bcrypt.hashSync(password, Number(process.env.BCRYPT_SALT_ROUNDS))
+                password: bcrypt.hashSync(password, Number(process.env.BCRYPT_SALT_ROUNDS)),
+                profileImageUrl: 'https://tipsimgcontainer.s3.ap-northeast-1.amazonaws.com/initial-profile.jpeg'
             }
         })
         return NextResponse.json({isCreated: true, error: null}, {status: 200})

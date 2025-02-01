@@ -1,5 +1,4 @@
 import {NextRequest, NextResponse} from "next/server";
-import {read} from "@/mongo/mongoController";
 import {ArticleScheme} from "@/typs";
 
 export async function GET(req: NextRequest) {

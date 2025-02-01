@@ -1,0 +1,199 @@
+.div_0 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.div_1 {
+    width: 30%;
+    height: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4vh;
+}
+
+.div_2 {
+    width: 70%;
+    height: 100%;
+    background-color: #ececec;
+}
+
+.div_3 {
+    position: relative;
+    width: 40%;
+    aspect-ratio: 1;
+}
+
+.div_4 {
+    width: 60%;
+    aspect-ratio: 6/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.div_5 {
+    width: 60%;
+    height: auto;
+}
+
+.div_6 {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.div_7 {
+    text-align: center;
+    font-size: 1vw;
+    box-sizing: border-box;
+    padding: 0 2vw 0 2vw;
+}
+
+.div_8 {
+    width: 60%;
+    aspect-ratio: 5/1;
+    background-color: white;
+    border-radius: 10vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5vw;
+    margin-top: 4vh;
+    color: black;
+    padding: 0 0.5vw 0 0.5vw;
+    box-sizing: border-box;
+    &:hover {
+        background-color: #222222;
+        color: white;
+        transition: 0.25s;
+    }
+}
+
+.div_9 {
+    width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1vw;
+}
+
+.img_0 {
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+}
+
+.h1_0 {
+    margin: 0;
+    padding: 0;
+    font-size: 1.5vw;
+    height: 5vh;
+    width: 100%;
+    text-align: center;
+}
+
+.AiOutlineEdit {
+    box-sizing: border-box;
+    padding: 1vh;
+    height: 100%;
+    width: auto;
+}
+
+.FiPlus {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 25%;
+    height: 25%;
+    background-color: white;
+    border-radius: 100%;
+    color: darkgray;
+    border: solid darkgray 0.25vw;
+    &:hover {
+        color: black;
+        transition: 0.25s;
+    }
+}
+
+.AiOutlineCheck {
+    height: 100%;
+    aspect-ratio: 1;
+    font-size: 2vw;
+    color: darkgray;
+    &:hover {
+        color: cyan;
+        transition: 0.25s;
+    }
+}
+
+.AiOutlineClose {
+    height: 100%;
+    aspect-ratio: 1;
+    font-size: 2vw;
+    color: darkgray;
+    &:hover {
+        color: hotpink;
+        transition: 0.25s;
+    }
+}
+
+
+.p_0 {
+
+    padding: 0;
+    margin: 0;
+    font-size: 1vw;
+    text-wrap: nowrap;
+}
+
+.input_0 {
+    margin: 0;
+    text-align: center;
+    width: 100%;
+    aspect-ratio: 6/1;
+    color: darkgray;
+    font-size: 1.5vw;
+    box-sizing: border-box;
+    border-bottom: 2px solid darkgray;
+
+    &:focus {
+        border-bottom: 2px solid black;
+        transition: 0.2s;
+        outline: none;
+        color: black;
+    }
+}
+
+.input_1 {
+    display: none;
+}
+
+.textarea_0 {
+    margin: 0;
+    padding: 12px 8px 12px 8px;
+    text-align: center;
+    width: 100%;
+    font-size: 1vw;
+    aspect-ratio: 3/2;
+    color: darkgray;
+    background-color: white;
+    box-sizing: border-box;
+    border-width: 2px 0 2px 0;
+    resize: none;
+    border-color: darkgray;
+    overflow-y: scroll;
+
+    &:focus {
+        transition: 0.2s;
+        outline: none;
+        border-color: black;
+        color: black;
+    }
+}
