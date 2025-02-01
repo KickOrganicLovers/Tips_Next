@@ -197,3 +197,13 @@
         color: black;
     }
 }
+
+.FadeLayer {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: black;
+    opacity: 0.3;
+}

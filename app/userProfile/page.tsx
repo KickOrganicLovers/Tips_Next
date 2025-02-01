@@ -1,7 +1,7 @@
 'use client'
 
 import styles from './userProfile.module.css'
-import {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {applyWhereIam} from "@/redux/slices/whereIamSlice";
 import {RootState} from "@/redux/store";
@@ -80,7 +80,8 @@ export default function Page() {
             <div className={styles.div_2}>
 
             </div>
-            {(() => isCropperOpen? <ImageEditingCard loadedImage={loadedImage}/> : null)()}
+            {(() => isCropperOpen? <ImageEditingCard loadedImage={loadedImage} setIsCropperOpen={setIsCropperOpen} userStatus={LoginStatus.userStatus} setProfileImageUrl={setProfileImageUrl}/> : null)()}
+            {(() => isCropperOpen? <div className={styles.FadeLayer}></div> : null)()}
             <input type={'file'} accept={'image/*'} className={styles.input_1} onChange={onFileChange} ref={inputImageRef}/>
         </div>
     )

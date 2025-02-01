@@ -10,6 +10,7 @@ import './globals.css'
 import {Noto_Sans_JP} from "next/font/google"
 import {usePathname} from "next/navigation";
 import SideBar from "@/app/_components/sideBar/sideBar";
+import 'dotenv/config'
 
 const noto_sans_jp = Noto_Sans_JP({
     subsets: ['latin'],
