@@ -1,8 +1,8 @@
 -- CreateTable
 CREATE TABLE "User"
 (
-    "id"    SERIAL NOT NULL,
-    "email" TEXT   NOT NULL,
+    "id"    SERIAL NOT undefined,
+    "email" TEXT   NOT undefined,
     "name"  TEXT,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")

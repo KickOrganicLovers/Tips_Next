@@ -6,8 +6,8 @@ export async function POST(req: NextRequest) {
     console.log('this is from step 2')
     const prisma = new PrismaClient()
     const body = await req.json()
-    const email = body !== null && body.email !== null && typeof body.email === 'string' ? body.email as string : ''
-    const token = body !== null && body.token !== null && typeof body.token === 'string' ? body.token as string : ''
+    const email = body !== undefined && body.email !== undefined && typeof body.email === 'string' ? body.email as string : ''
+    const token = body !== undefined && body.token !== undefined && typeof body.token === 'string' ? body.token as string : ''
     // const email = body.email
     // const token = body.token
 
@@ -19,10 +19,10 @@ export async function POST(req: NextRequest) {
                 email: email
             }
         })
-        if(data !== null){
+        if(data !== undefined){
             if(bcrypt.compareSync(token, data.hashedToken)){
                 if(data.expiration > new Date()){
-                    return NextResponse.json({isVerified: true, error: null}, {status: 200})
+                    return NextResponse.json({isVerified: true, error: undefined}, {status: 200})
                 }else {
                     return NextResponse.json({isVerified: false, error: 'this token is expired'}, {status: 403})
                 }

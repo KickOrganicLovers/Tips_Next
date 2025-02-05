@@ -6,4 +6,4 @@
 */
 -- AlterTable
 ALTER TABLE "User"
-    ADD COLUMN "password" TEXT NOT NULL;
+    ADD COLUMN "password" TEXT NOT undefined;

@@ -16,32 +16,6 @@ export default function SignupCard() {
     const className_div0 = isMounted ? `${styles['div_0']} ${styles['mounted']}` : styles['div_0'];
     const className_div1 = `${styles['div_1']} ${styles[verificationCardStatus]}`
 
-    const verifyEmail = async () => {
-        const url = '/api/verifyEmail/step1'
-        const params = {
-            method: 'POST',
-            headers: {'Content-type': 'application/json'},
-            body: JSON.stringify({email: email})
-        }
-        try {
-            const res = await fetch(url, params)
-            const data = await res.json()
-            console.log(data)
-            return data
-        } catch (err) {
-            throw err
-        }
-    }
-
-    const clickEventHandler_verifyEmail = () => {
-        verifyEmail().then(data => {
-            if (data.isVerified) {
-                setVerificationCardStatus('page2')
-            }else {
-                console.log(data.error)
-            }
-        })
-    }
 
     useEffect(() => {
         setIsMounted(true);

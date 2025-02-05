@@ -32,7 +32,7 @@ export default function VerificationCard_Step1(props: props) {
             }else {
                 console.log(data.error)
             }
-        })
+        }).catch(err => console.log(err))
     }
 
     return (

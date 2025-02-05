@@ -1,18 +1,25 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {LoginStatusScheme, UserStatusScheme} from "@/typs";
+import {LoginStatusScheme, UserProfileScheme} from "@/typs";
+
+
+const initialState: {
+    isLoggedIn: boolean,
+    error: string,
+    userProfile: UserProfileScheme
+} = {
+    isLoggedIn: false,
+    error: '',
+    userProfile: {
+        userId: 0,
+        username: '',
+        profileImageUrl: 'https://tipsimgcontainer.s3.ap-northeast-1.amazonaws.com/notLoggedIn-profile.jpeg',
+        introduction: ''
+    }
+}
 
 const LoginStatusSlice = createSlice({
     name: 'LoginStatus',
-    initialState: {
-        isLoggedIn: false,
-        error: '',
-        userStatus: {
-            id: 0,
-            username: '',
-            profileImageUrl: 'https://tipsimgcontainer.s3.ap-northeast-1.amazonaws.com/notLoggedIn-profile.jpeg',
-            introduction: ''
-        }
-    },
+    initialState: initialState,
     reducers: {
         setIsLoggedIn: (state, action: PayloadAction<boolean>) => {
             state.isLoggedIn = action.payload
@@ -20,18 +27,18 @@ const LoginStatusSlice = createSlice({
         setError: (state, action: PayloadAction<string>) => {
             state.error = action.payload
         },
-        setUserStatus: (state, action: PayloadAction<UserStatusScheme>) => {
-            state.userStatus = action.payload
+        setUserProfile: (state, action: PayloadAction<UserProfileScheme>) => {
+            state.userProfile = action.payload
         },
         setLoginStatus: (state, action: PayloadAction<LoginStatusScheme>) => {
             state.isLoggedIn = action.payload.isLoggedIn
             state.error = action.payload.error
-            state.userStatus = action.payload.userStatus
+            state.userProfile = action.payload.userProfile
         }
     }
 })
 
-export const {setIsLoggedIn, setError, setUserStatus, setLoginStatus} = LoginStatusSlice.actions
+export const {setIsLoggedIn, setError, setUserProfile, setLoginStatus} = LoginStatusSlice.actions
 
 export const LoginStatusReducer = LoginStatusSlice.reducer
 

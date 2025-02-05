@@ -16,7 +16,7 @@ export default function AccountCreationCard(props: props) {
 
     const clickEventHandler = () => {
         createAccount().then((data) => {
-            if(data !== null){
+            if(data !== undefined){
                 if(data.isCreated){
                     router.push('/login')
                 }else {

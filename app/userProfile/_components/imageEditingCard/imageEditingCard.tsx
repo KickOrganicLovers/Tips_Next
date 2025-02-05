@@ -2,17 +2,17 @@ import React, {Dispatch, SetStateAction, useCallback, useEffect, useState} from 
 import Cropper, {Area, CropperProps, Point} from "react-easy-crop";
 import styles from './imageEditingCard.module.css'
 import {AiOutlineCheck, AiOutlineClose} from "react-icons/ai";
-import {UserStatusScheme} from "@/typs";
+import {UserProfileScheme} from "@/typs";
 
 interface props {
     loadedImage: string
     setIsCropperOpen: Dispatch<SetStateAction<boolean>>
-    setProfileImageUrl: Dispatch<SetStateAction<string>>
-    userStatus: UserStatusScheme
+    setProfileImageAsBase64: Dispatch<SetStateAction<string>>
+    userProfile: UserProfileScheme
 }
 
 export default function ImageEditingCard(props: props) {
-    const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null)
+    const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | undefined>(undefined)
     const [cropperProps, setCropperProps] = useState<CropperProps>(
         {
             image: '',
@@ -83,14 +83,14 @@ export default function ImageEditingCard(props: props) {
     const getCroppedImage = async (imageSrc: string, pixelCrop: Area, rotation = 0, flip = {
         horizontal: false,
         verticalL: false
-    }): Promise<string | null> => {
+    }): Promise<string | undefined> => {
         const image = await createImage(imageSrc)
         const canvas = document.createElement('canvas')
         const ctx = canvas.getContext('2d')
         //canvasおよびcanvascontextの挙動がわからない。
 
         if (!ctx) {
-            return null
+            return undefined
         }
 
         const rotRad = getRadianAngle(rotation)
@@ -115,7 +115,7 @@ export default function ImageEditingCard(props: props) {
         const croppedCtx = croppedCanvas.getContext('2d')
 
         if (!croppedCtx) {
-            return null
+            return undefined
         }
 
         // Set the size of the cropped canvas
@@ -152,40 +152,29 @@ export default function ImageEditingCard(props: props) {
         setCroppedAreaPixels(croppedAreaPixels)
     }, [])
 
-    const postImgToServer = async (image: string, email: string) => {
-        const url = 'api/editUserProfile/postUserProfileImage'
-        const params = {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                img: image,
-                id: 10,
-            })
-        }
-
-        return await fetch(url, params)
-    }
 
     const onCropCompleted = () => {
         if (cropperProps.image && croppedAreaPixels) {
             getCroppedImage(cropperProps.image, croppedAreaPixels, cropperProps.rotation).then((imgAsBase64) => {
                 if (imgAsBase64) {
                     console.log(imgAsBase64)
-                    postImgToServer(imgAsBase64, '').then((res) => {
-                        res.json().then((json) => {
-                            if(!json.error){
-                                console.log(json.profileImageUrl)
-                                props.setProfileImageUrl(json.profileImageUrl)
-                                props.setIsCropperOpen(false)
-                            }else{
-                                console.log(json.error)
-                            }
-                        }).catch((e) => {
-                            throw e
-                        })
-                    }).catch((e) => {
-                        throw e
-                    })
+                    props.setProfileImageAsBase64(imgAsBase64)
+                    props.setIsCropperOpen(false)
+                    // postImgToServer(imgAsBase64, '').then((res) => {
+                    //     res.json().then((json) => {
+                    //         if(!json.error){
+                    //             console.log(json.profileImageUrl)
+                    //             props.setProfileImageUrl(json.profileImageUrl)
+                    //             props.setIsCropperOpen(false)
+                    //         }else{
+                    //             console.log(json.error)
+                    //         }
+                    //     }).catch((e) => {
+                    //         throw e
+                    //     })
+                    // }).catch((e) => {
+                    //     throw e
+                    // })
                 } else {
                     console.log('Failed')
                 }

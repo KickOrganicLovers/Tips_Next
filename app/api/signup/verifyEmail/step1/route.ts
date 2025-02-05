@@ -10,14 +10,14 @@ export async function POST(req: NextRequest) {
     const prisma = new PrismaClient()
     const resend = new Resend(process.env.RESEND_API_KEY)
     const body = await req.json()
-    const email = body !== null && body.email !== null && typeof body.email === 'string' ? body.email as string : ''
+    const email = body !== undefined && body.email !== undefined && typeof body.email === 'string' ? body.email as string : ''
     const user = await prisma.user.findUnique({
         where: {
             email: email
         }
     })
 
-    if(user === null){
+    if(user === undefined){
         const token = crypto.randomInt(100000, 999999).toString()
         console.log(typeof Number(process.env["BCRYPT_SALT_ROUNDS"]))
         const data = {
@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
                     subject: 'Hello World',
                     react: VerificationEmailTemplate({email: email, token: token})
                 })
-                return NextResponse.json({isVerified: true, error: null}, {status: 200})
+                return NextResponse.json({isVerified: true, error: undefined}, {status: 200})
             }catch(err){
                 return NextResponse.json({isVerified: false, error: err}, {status: 403})
             }
@@ -42,7 +42,8 @@ export async function POST(req: NextRequest) {
         }catch(err){
             return NextResponse.json({isVerified: false, error: err}, {status: 403})
         }
+    }else {
+        return NextResponse.json({isVerified: false, error: 'user already exists'}, {status: 403})
     }
 
-    console.log(email)
 }

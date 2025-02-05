@@ -37,11 +37,11 @@ export default function AccountBanner() {
         <div className={styles.div_0}>
             <div className={styles.div_1}>
                 <div className={styles.div_3}>
-                    <img className={styles.img_0} src={LoginStatus.userStatus.profileImageUrl} alt='profileimage'/>
+                    <img className={styles.img_0} src={LoginStatus.userProfile.profileImageUrl} alt='profileimage'/>
                 </div>
                 <div className={styles.div_4}>
                     {(() => LoginStatus.isLoggedIn ? (
-                        <p className={styles.p_1} onClick={clickEventHandler_navigateToUserProfile}>{LoginStatus.userStatus.username}</p>
+                        <p className={styles.p_1} onClick={clickEventHandler_navigateToUserProfile}>{LoginStatus.userProfile.username}</p>
                     ) : (
                         <p className={styles.p_1} onClick={clickEventHandler_navigateToLogin}>ログイン</p>
                     ))()}

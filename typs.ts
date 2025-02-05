@@ -4,11 +4,11 @@ import {Document} from "mongodb";
 export interface LoginStatusScheme {
     isLoggedIn: boolean
     error: string
-    userStatus: UserStatusScheme
+    userProfile: UserProfileScheme
 }
 
-export interface UserStatusScheme {
-    id: number
+export interface UserProfileScheme {
+    userId: number
     username: string
     profileImageUrl: string
     introduction: string

@@ -5,6 +5,6 @@
 
 */
 -- AlterTable
-ALTER TABLE "EmailOnVerifying" ADD COLUMN     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ALTER TABLE "EmailOnVerifying" ADD COLUMN     "createdAt" TIMESTAMP(3) NOT undefined DEFAULT CURRENT_TIMESTAMP,
 DROP COLUMN "expiration",
-ADD COLUMN     "expiration" TIMESTAMP(3) NOT NULL;
+ADD COLUMN     "expiration" TIMESTAMP(3) NOT undefined;

@@ -48,6 +48,7 @@ export default function LoginCard() {
 
     useEffect(() => {
         if(LoginStatus.isLoggedIn){
+            console.log(LoginStatus)
             router.push('/')
         }else {
             setIsMounted(true);
@@ -68,7 +69,7 @@ export default function LoginCard() {
                        onChange={(e) => {
                            setPassword(e.target.value)
                        }}/>
-                {(() => {return LoginStatus.error !== '' ? <p>{LoginStatus.error}</p> : null})()}
+                {(() => {return LoginStatus.error !== '' ? <p>{LoginStatus.error}</p> : undefined})()}
                 <button className={styles.button} onClick={clickEventHandler}>ログイン</button>
             </div>
         </div>
