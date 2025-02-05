@@ -1,0 +1,30 @@
+.li_0 {
+    width: 100%;
+    height: 6vh;
+    list-style: none;
+    padding: 0 0 0 1vw;
+    margin: 0;
+    display: flex;
+    align-items: flex-start;
+
+    &:hover {
+        background-color: #f3f3f3;
+        transition: 0.2s;
+    }
+}
+
+.p_0 {
+    margin: 0;
+    padding: 1.75vh;
+    box-sizing: border-box;
+    height: 6vh;
+    font-size: 2vh;
+    text-wrap: nowrap;
+}
+
+.FaImage {
+    width: 6vh;
+    height: 6vh;
+    padding: 1.25vh;
+    box-sizing: border-box;
+}

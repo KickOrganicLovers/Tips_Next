@@ -47,9 +47,9 @@
     list-style: none;
 }
 
-.li_category{
+.li_category {
     display: none;
-    @media screen and (max-width: 1024px){
+    @media screen and (max-width: 1024px) {
         display: list-item;
     }
 }

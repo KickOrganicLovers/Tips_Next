@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "@/redux/store";
 import {useRouter} from "next/navigation";
-import {applyWhereIam} from "@/redux/whereIamSlice";
+import {applyWhereIam} from "@/redux/slices/whereIamSlice";
 import styles from './login.module.css'
 import LoginCard from "@/app/login/_components/loginCard/loginCard";
 
@@ -16,10 +16,9 @@ export default function Page() {
     const router = useRouter()
 
     useEffect(() => {
-        if(LoginStatus.isLoggedIn){
+        if (LoginStatus.isLoggedIn) {
             router.push('/')
-        }
-        else {
+        } else {
             dispatch(applyWhereIam('login'))
         }
     })

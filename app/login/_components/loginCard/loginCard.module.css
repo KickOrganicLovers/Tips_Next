@@ -21,7 +21,7 @@
     }
 }
 
-.div_0.mounted{
+.div_0.mounted {
     opacity: 0;
     animation: fadeIn 0.5s ease-in-out forwards;
 }
@@ -78,19 +78,21 @@
     @media screen and (max-width: 1024px) {
         padding: 0 0 0 3vw;
     }
-    @media screen and (max-width: 512px){
+    @media screen and (max-width: 512px) {
         padding: 0 0 0 4vw;
     }
-    &:focus{
-        outline: 3px solid #222222;
-    } ;
+
+    &:focus {
+        outline: 2px solid rgba(180, 247, 255, 0.8)
+    }
+;
 }
 
-.input::placeholder{
+.input::placeholder {
     color: #222222;
 }
 
-@keyframes  changeColor{
+@keyframes changeColor {
     to {
         color: white;
         background-color: #222222;
@@ -107,7 +109,8 @@
     background-color: #ececec;
     color: #222222;
     font-size: 1.5vh;
-    &:hover{
+
+    &:hover {
         animation: changeColor 0.2s ease-in-out forwards;
     }
 }

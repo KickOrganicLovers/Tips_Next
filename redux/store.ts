@@ -1,14 +1,15 @@
-
 import {configureStore} from "@reduxjs/toolkit";
-import {WhereIamReducer} from "@/redux/whereIamSlice";
-import {LoginStatusReducer} from "@/redux/loginStatusSlice";
-import {SideBarStatusReducer} from "@/redux/sideBarStatusSlice";
+import {WhereIamReducer} from "@/redux/slices/whereIamSlice";
+import {LoginStatusReducer} from "@/redux/slices/loginStatusSlice";
+import {SideBarStatusReducer} from "@/redux/slices/sideBarStatusSlice";
+import {ArticleEditorStatusReducer} from "@/redux/slices/articleEditorStatusSlice";
 
 const store = configureStore({
     reducer: {
         WhereIam: WhereIamReducer,
         LoginStatus: LoginStatusReducer,
-        SideBarStatus: SideBarStatusReducer
+        SideBarStatus: SideBarStatusReducer,
+        ArticleEditorStatus: ArticleEditorStatusReducer
     }
 })
 

@@ -1,0 +1,31 @@
+.tiptap p {
+}
+
+.tiptap.ProseMirror {
+    width: 60vw;
+    min-height: 75vh;
+    padding: 2rem;
+    box-sizing: border-box;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    background-color: white;
+    border-radius: 5vh;
+
+    &:focus {
+        outline: 2px solid rgba(180, 247, 255, 0.8)
+    }
+;
+}
+
+.tiptap p.is-editor-empty:first-child::before {
+    color: #adb5bd;
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+}
+
+.tiptap h2 {
+    padding-bottom: 1rem;
+    border-bottom: solid 2px darkgray;
+}

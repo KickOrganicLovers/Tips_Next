@@ -6,8 +6,18 @@ body {
     font-optical-sizing: auto;
     font-weight: 500;
     font-style: normal;
-    ::placeholder{
+
+    ::placeholder {
         color: lightgray;
+    }
+}
+
+input {
+    border: none;
+    box-sizing: border-box;
+
+    &:focus {
+        outline: none;
     }
 }
 
