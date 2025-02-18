@@ -1,0 +1,36 @@
+.div_0 {
+    height: 3vh;
+    width: fit-content;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #ededed;
+    gap: 0.1vw;
+    padding: 0 1vw 0 1vw;
+    border-radius: 100px;
+}
+
+
+.p_0 {
+    padding: 0;
+    margin: 0;
+    font-size: 1.5vh;
+    color: darkgray;
+}
+
+.p_1 {
+    padding: 0;
+    margin: 0;
+    font-size: 1.5vh;
+}
+
+.AiOutlineClose {
+    font-size: 1.5vh;
+    margin-left: 0.5vw;
+    &:hover{
+        color: hotpink;
+        transition: 0.2s;
+    }
+}

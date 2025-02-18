@@ -34,3 +34,21 @@ model EmailOnVerifying {
   expiration  DateTime
   createdAt   DateTime @default(now())
 }
+
+model Categories {
+  id       Int          @id @default(autoincrement())
+  category String
+  parentId Int?
+  parent   Categories?  @relation("CategoryParent", fields: [parentId], references: [id])
+  children Categories[] @relation("CategoryParent")
+}
+
+model Article {
+  id                Int      @unique @default(autoincrement())
+  title             String?
+  thumbnailImageUrl String?
+  contents          String?
+  tags              String[]
+  categoryId        Int?
+  authorId          Int?
+}

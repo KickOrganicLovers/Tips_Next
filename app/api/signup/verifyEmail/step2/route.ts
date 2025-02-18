@@ -1,37 +1,37 @@
 import {NextRequest, NextResponse} from "next/server";
 import bcrypt from "bcrypt";
-import { PrismaClient } from "@prisma/client";
+import {PrismaClient} from "@prisma/client";
+import {prisma} from "@/app/lib-server/prisma";
 
 export async function POST(req: NextRequest) {
     console.log('this is from step 2')
-    const prisma = new PrismaClient()
     const body = await req.json()
     const email = body !== undefined && body.email !== undefined && typeof body.email === 'string' ? body.email as string : ''
     const token = body !== undefined && body.token !== undefined && typeof body.token === 'string' ? body.token as string : ''
     // const email = body.email
     // const token = body.token
 
-    try{
+    try {
         console.log(token)
         console.log(email)
-        const data =  await prisma.emailOnVerifying.findUnique({
+        const data = await prisma.emailOnVerifying.findUnique({
             where: {
                 email: email
             }
         })
-        if(data !== undefined){
-            if(bcrypt.compareSync(token, data.hashedToken)){
-                if(data.expiration > new Date()){
+        if (data) {
+            if (bcrypt.compareSync(token, data.hashedToken)) {
+                if (data.expiration > new Date()) {
                     return NextResponse.json({isVerified: true, error: undefined}, {status: 200})
-                }else {
+                } else {
                     return NextResponse.json({isVerified: false, error: 'this token is expired'}, {status: 403})
                 }
-            }else
+            } else
                 return NextResponse.json({isVerified: false, error: 'no match tokens in database'}, {status: 403})
-        }else {
+        } else {
             return NextResponse.json({isVerified: false, error: 'no such email in database'}, {status: 403})
         }
-    }catch(err){
+    } catch (err) {
         throw err
     }
 

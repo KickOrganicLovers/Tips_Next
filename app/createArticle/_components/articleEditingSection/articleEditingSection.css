@@ -12,7 +12,7 @@
     border-radius: 5vh;
 
     &:focus {
-        outline: 2px solid rgba(180, 247, 255, 0.8)
+        outline: 2px solid darkgray;
     }
 ;
 }
@@ -28,4 +28,9 @@
 .tiptap h2 {
     padding-bottom: 1rem;
     border-bottom: solid 2px darkgray;
+}
+
+.tiptap img {
+    display: block;
+    margin: auto;
 }

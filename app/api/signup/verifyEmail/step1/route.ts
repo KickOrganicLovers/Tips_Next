@@ -4,10 +4,10 @@ import {Resend} from "resend";
 import crypto from 'crypto';
 import bcrypt from 'bcrypt'
 import VerificationEmailTemplate from "@/app/api/signup/verifyEmail/step1/verificationEmailTemplate";
+import {prisma} from "@/app/lib-server/prisma";
 
 export async function POST(req: NextRequest) {
     console.log('fuck me')
-    const prisma = new PrismaClient()
     const resend = new Resend(process.env.RESEND_API_KEY)
     const body = await req.json()
     const email = body !== undefined && body.email !== undefined && typeof body.email === 'string' ? body.email as string : ''
@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
         }
     })
 
-    if(user === undefined){
+    if (!user) {
         const token = crypto.randomInt(100000, 999999).toString()
         console.log(typeof Number(process.env["BCRYPT_SALT_ROUNDS"]))
         const data = {
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
         }
         try {
             await prisma.emailOnVerifying.create({data: data})
-            try{
+            try {
                 await resend.emails.send({
                     from: 'onboarding@resend.dev',
                     to: email,
@@ -35,14 +35,15 @@ export async function POST(req: NextRequest) {
                     react: VerificationEmailTemplate({email: email, token: token})
                 })
                 return NextResponse.json({isVerified: true, error: undefined}, {status: 200})
-            }catch(err){
+            } catch (err) {
                 return NextResponse.json({isVerified: false, error: err}, {status: 403})
             }
 
-        }catch(err){
+        } catch (err) {
             return NextResponse.json({isVerified: false, error: err}, {status: 403})
         }
-    }else {
+    } else {
+        console.log('user Already Exists')
         return NextResponse.json({isVerified: false, error: 'user already exists'}, {status: 403})
     }
 

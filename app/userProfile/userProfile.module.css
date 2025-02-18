@@ -69,6 +69,7 @@
     color: black;
     padding: 0 0.5vw 0 0.5vw;
     box-sizing: border-box;
+
     &:hover {
         background-color: #222222;
         color: white;
@@ -116,6 +117,7 @@
     border-radius: 100%;
     color: darkgray;
     border: solid darkgray 0.25vw;
+
     &:hover {
         color: black;
         transition: 0.25s;
@@ -127,6 +129,7 @@
     aspect-ratio: 1;
     font-size: 2vw;
     color: darkgray;
+
     &:hover {
         color: cyan;
         transition: 0.25s;
@@ -138,6 +141,7 @@
     aspect-ratio: 1;
     font-size: 2vw;
     color: darkgray;
+
     &:hover {
         color: hotpink;
         transition: 0.25s;

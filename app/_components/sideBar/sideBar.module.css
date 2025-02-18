@@ -4,10 +4,11 @@
     position: absolute;
     right: 0;
     bottom: 0;
+    padding: 0;
     background-color: white;
     box-sizing: border-box;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
     @media screen and (max-width: 1024px) {
         min-width: 0px;
         width: 0px;
@@ -20,13 +21,13 @@
     @media screen and (max-width: 1024px) {
         width: 40vw;
     }
-    @media screen and (max-width: 512px){
+    @media screen and (max-width: 512px) {
         width: 60vw;
     }
 }
 
 
-.div_1{
+.div_1 {
     width: 200%;
     height: 100%;
     position: absolute;
@@ -35,7 +36,7 @@
     transition: left 0.5s ease;
 }
 
-.div_1.createArticle{
+.div_1.createArticle {
     left: -20vw;
     @media screen and (max-width: 1024px) {
         left: -40vw;

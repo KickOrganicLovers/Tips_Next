@@ -1,35 +1,24 @@
 import {useState} from "react";
 import styles from './verificationCard_step1.module.css'
+import {postDataToServerWithJson} from "@/app/lib-client/fetch";
+import {VerifyingResult} from "@/typs";
 
-interface props  {
+interface props {
     setVerificationCardStatus: (step: string) => void
     email: string
     setEmail: (email: string) => void
 }
+
 export default function VerificationCard_Step1(props: props) {
 
     const verifyEmail_step1 = async () => {
-        const url = '/api/signup/verifyEmail/step1'
-        const params = {
-            method: 'POST',
-            headers: {'Content-type': 'application/json'},
-            body: JSON.stringify({email: props.email})
-        }
-        try {
-            const res = await fetch(url, params)
-            const data = await res.json()
-            console.log(data)
-            return data
-        } catch (err) {
-            throw err
-        }
+        return await postDataToServerWithJson<{isVerified: boolean, error: string}>('/api/signup/verifyEmail/step1', {email: props.email})
     }
-
     const clickEventHandler = () => {
         verifyEmail_step1().then(data => {
             if (data.isVerified) {
                 props.setVerificationCardStatus('verifying_step2')
-            }else {
+            } else {
                 console.log(data.error)
             }
         }).catch(err => console.log(err))

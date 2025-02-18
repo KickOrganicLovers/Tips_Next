@@ -24,7 +24,7 @@ export default function EditorToolGuide() {
 
 
     useEffect(() => {
-        if(WhereIam.whereIam === 'createArticle'){
+        if (WhereIam.whereIam === 'createArticle') {
             setSentence('')
             loop(initialSentence.length, 0, () => {
                 setClassName(`${styles['p_0']} ${styles['active']}`)

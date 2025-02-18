@@ -4,6 +4,8 @@ import {useRouter} from "next/navigation";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "@/redux/store";
 import {setIsLoggedIn, setLoginStatus} from "@/redux/slices/loginStatusSlice";
+import {postDataToServerWithJson} from "@/app/lib-client/fetch";
+import {LoginStatusScheme} from "@/typs";
 
 
 export default function LoginCard() {
@@ -18,23 +20,7 @@ export default function LoginCard() {
     const [password, setPassword] = useState('');
 
     const login = async () => {
-        const url = '/api/login'
-        const params = {
-            method: 'POST',
-            headers: {'Content-type': 'application/json'},
-            body: JSON.stringify({
-                email: email,
-                password: password,
-            })
-        }
-        try {
-            const res = await fetch(url, params)
-            const data = await res.json()
-            console.log(data)
-            return data
-        } catch (err) {
-            throw err
-        }
+        return await postDataToServerWithJson<LoginStatusScheme>('/api/login', {email: email, password: password});
     }
 
     const clickEventHandler = () => {
@@ -47,10 +33,10 @@ export default function LoginCard() {
 
 
     useEffect(() => {
-        if(LoginStatus.isLoggedIn){
+        if (LoginStatus.isLoggedIn) {
             console.log(LoginStatus)
             router.push('/')
-        }else {
+        } else {
             setIsMounted(true);
         }
     })
@@ -69,7 +55,9 @@ export default function LoginCard() {
                        onChange={(e) => {
                            setPassword(e.target.value)
                        }}/>
-                {(() => {return LoginStatus.error !== '' ? <p>{LoginStatus.error}</p> : undefined})()}
+                {(() => {
+                    return LoginStatus.error !== '' ? <p>{LoginStatus.error}</p> : undefined
+                })()}
                 <button className={styles.button} onClick={clickEventHandler}>ログイン</button>
             </div>
         </div>

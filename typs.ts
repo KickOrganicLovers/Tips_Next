@@ -1,7 +1,6 @@
-import {Document} from "mongodb";
 
 
-export interface LoginStatusScheme {
+export interface LoginStatusScheme{
     isLoggedIn: boolean
     error: string
     userProfile: UserProfileScheme
@@ -19,9 +18,22 @@ export interface CategoryScheme {
     details: string[]
 }
 
-export interface ArticleScheme extends Document {
+export interface ArticleScheme {
+    id: number
     title: string
-    thumbnailImgUrl: string
-    sentence: string
-    author: string
+    thumbnailImageUrl: string
+    contents: string
+    tags: string[]
+    categoryId: number
+    authorId: number
+    authorName?: string
+    authorProfileImageUrl?: string
 }
+
+export interface Category {
+    id: number
+    category: string
+    parentId?: number
+    children?: Category[]
+}
+

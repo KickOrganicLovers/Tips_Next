@@ -20,7 +20,7 @@ interface props {
 
 export default function EditorToolButton(props: props) {
 
-    const [screenWidth , setScreenWidth] = useState<number>(0)
+    const [screenWidth, setScreenWidth] = useState<number>(0)
 
     const ArticleEditorStatus = useSelector<RootState, RootState['ArticleEditorStatus']>((state) => state.ArticleEditorStatus)
     const extensionStatus = ArticleEditorStatus[props.extension as keyof typeof ArticleEditorStatus]
@@ -30,17 +30,17 @@ export default function EditorToolButton(props: props) {
     const dispatch = useDispatch<AppDispatch>();
 
     const style = (() => {
-        if(screenWidth < 512) {
+        if (screenWidth < 512) {
             return {
                 top: `${25 - 22.5 * Math.sin(2 / 13 * props.index * Math.PI)}vw`,
                 left: `${25 + 22.5 * Math.cos(2 / 13 * props.index * Math.PI)}vw`,
             }
-        }else if(screenWidth < 1024) {
+        } else if (screenWidth < 1024) {
             return {
                 top: `${16.5 - 15 * Math.sin(2 / 13 * props.index * Math.PI)}vw`,
                 left: `${16.5 + 15 * Math.cos(2 / 13 * props.index * Math.PI)}vw`,
             }
-        }else {
+        } else {
             return {
                 top: `${8.5 - 7 * Math.sin(2 / 13 * props.index * Math.PI)}vw`,
                 left: `${8.5 + 7 * Math.cos(2 / 13 * props.index * Math.PI)}vw`,

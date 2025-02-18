@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
-import { S3Client } from "@aws-sdk/client-s3";
-import { Upload } from "@aws-sdk/lib-storage";
+import {NextRequest, NextResponse} from "next/server";
+import {S3Client} from "@aws-sdk/client-s3";
+import {Upload} from "@aws-sdk/lib-storage";
+import {s3} from "@/app/lib-server/s3";
 
 export async function POST(req: NextRequest) {
     console.log("this is from postUserProfileImage");
@@ -12,7 +13,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({
                 profileImageUrl: undefined,
                 error: "Missing required fields",
-            }, { status: 400 });
+            }, {status: 400});
         }
 
         const id = body.userId
@@ -20,16 +21,9 @@ export async function POST(req: NextRequest) {
         const imgAsBase64 = imgAsBase64WithPrefix.replace(/^data:image\/\w+;base64,/, "");
         const imgAsBuffer = Buffer.from(imgAsBase64, "base64");
 
-        const client = new S3Client({
-            region: process.env.AWS_REGION as string,
-            credentials: {
-                accessKeyId: process.env.AWS_ACCESS_KEY_ID as string,
-                secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
-            },
-        });
 
         const upload = new Upload({
-            client: client,
+            client: s3,
             params: {
                 Bucket: "tipsimgcontainer",
                 Key: `${id}-profile.jpeg`,
@@ -57,6 +51,6 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({
             profileImageUrl: undefined,
             error: "Internal Server Error",
-        }, { status: 500 });
+        }, {status: 500});
     }
 }

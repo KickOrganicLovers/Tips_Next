@@ -15,22 +15,83 @@
     animation: fadeIn 0.5s ease-in-out forwards;
 }
 
-
-.div_1 {
-    position: absolute;
-    bottom: 0;
-    left: 0;
+.img_0 {
     width: 100%;
-    height: 30%;
-    background-color: white;
-    color: white;
+    height: 100%;
+    object-fit: cover;
 }
 
-.div_2 {
+
+.div_1 {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 70%;
+    height: 66.666%;
     background-color: lightgray;
+    overflow: hidden;
+}
+.div_2 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 33.333%;
+    background-color: white;
+    box-sizing: border-box;
+    padding: 1vh 1vw 1vh 1vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.p_0 {
+    margin: 0;
+    font-size: 2vh;
+}
+
+.div_3 {
+    height: 3vh;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.div_4 {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5vw;
+}
+
+.img_1 {
+    height: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 100%;
+}
+
+.p_1 {
+    margin: 0;
+    padding: 0;
+    font-size: 1.5vh;
+
+}
+
+
+.p_2 {
+    margin: 0;
+    padding: 0;
+    font-size: 1.5vh;
+    color: darkgray;
+}
+
+.MdCategory {
+    font-size: 1.5vh;
+    color: darkgray;
+    padding-top: 0.3vh;
 }

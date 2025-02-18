@@ -33,7 +33,9 @@ const LoginStatusSlice = createSlice({
         setLoginStatus: (state, action: PayloadAction<LoginStatusScheme>) => {
             state.isLoggedIn = action.payload.isLoggedIn
             state.error = action.payload.error
-            state.userProfile = action.payload.userProfile
+            if (action.payload.isLoggedIn) {
+                state.userProfile = action.payload.userProfile
+            }
         }
     }
 })

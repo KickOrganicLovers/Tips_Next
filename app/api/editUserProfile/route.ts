@@ -1,12 +1,12 @@
-import { PrismaClient } from "@prisma/client";
+import {PrismaClient} from "@prisma/client";
 import {NextRequest, NextResponse} from "next/server";
+import {prisma} from "@/app/lib-server/prisma";
 
 export async function POST(req: NextRequest) {
     const body = await req.json()
 
-    const prisma = new PrismaClient()
 
-    try{
+    try {
         const updatedUserProfile = await prisma.userProfile.update({
             where: {
                 userId: body.userId,
@@ -15,18 +15,18 @@ export async function POST(req: NextRequest) {
                 username: body.username,
                 profileImageUrl: body.profileImageUrl,
                 introduction: body.introduction,
-                ...(body.profileImageUrl !== undefined && { profileImageUrl: body.profileImageUrl }),
+                ...(body.profileImageUrl !== undefined && {profileImageUrl: body.profileImageUrl}),
             }
         })
 
-        if(updatedUserProfile){
+        if (updatedUserProfile) {
             return NextResponse.json({updatedUserProfile: updatedUserProfile, error: undefined}, {status: 200})
-        }else {
+        } else {
             return NextResponse.json({updatedUserProfile: undefined, error: 'user not found'}, {status: 404})
         }
 
 
-    }catch (error){
+    } catch (error) {
         console.error(error)
         return NextResponse.json({updatedUserProfile: undefined, error: error}, {status: 404})
     }

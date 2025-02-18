@@ -21,10 +21,10 @@
     text-wrap: nowrap;
 }
 
-
-.MdCategory {
+.MdFileUpload {
     width: 6vh;
     height: 6vh;
     padding: 1.25vh;
     box-sizing: border-box;
 }
+

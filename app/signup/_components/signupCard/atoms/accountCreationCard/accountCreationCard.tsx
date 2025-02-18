@@ -1,6 +1,7 @@
 import styles from './accountCreationCard.module.css'
 import {SyntheticEvent, useState} from "react";
 import {useRouter} from "next/navigation";
+import {postDataToServerWithJson} from "@/app/lib-client/fetch";
 
 interface props {
     email: string
@@ -14,15 +15,16 @@ export default function AccountCreationCard(props: props) {
     const router = useRouter()
 
 
+    //改善の余地あり
     const clickEventHandler = () => {
         createAccount().then((data) => {
-            if(data !== undefined){
-                if(data.isCreated){
+            if (data !== undefined) {
+                if (data.isCreated) {
                     router.push('/login')
-                }else {
+                } else {
                     console.error(data.error)
                 }
-            }else {
+            } else {
                 console.error('something went wrong')
             }
         })
@@ -31,31 +33,18 @@ export default function AccountCreationCard(props: props) {
     }
 
     const createAccount = async () => {
-        const url = '/api/signup/createAccount'
-        const params = {
-            method: 'POST',
-            headers: {'Content-type': 'application/json'},
-            body: JSON.stringify({
-                username: username,
-                email: props.email,
-                password: password,
-            })
-        }
-        try {
-            const res = await fetch(url, params)
-            const data = await res.json()
-            console.log(data)
-            return data
-        } catch (err) {
-            throw err
-        }
+        return await postDataToServerWithJson<{isCreated: boolean; error: string}>('/api/signup/createAccount', {username: username, password: password, email: props.email})
     }
 
     return (
         <div className={styles.div_0}>
             <p className={styles.p_0}>メールアドレスの認証に成功しました。以下の情報を入力し、登録を完了してください。</p>
-            <input className={styles.input_0} type='text' placeholder='ユーザー名' onChange={(e) => {setUsername(e.target.value)}} />
-            <input className={styles.input_0}  type='password' placeholder='パスワード' onChange={(e) => {setPassword(e.target.value)}}/>
+            <input className={styles.input_0} type='text' placeholder='ユーザー名' onChange={(e) => {
+                setUsername(e.target.value)
+            }}/>
+            <input className={styles.input_0} type='password' placeholder='パスワード' onChange={(e) => {
+                setPassword(e.target.value)
+            }}/>
             <button className={styles.button_0} onClick={clickEventHandler}>登録</button>
         </div>
     )

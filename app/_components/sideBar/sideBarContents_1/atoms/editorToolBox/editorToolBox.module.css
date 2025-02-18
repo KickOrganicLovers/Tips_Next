@@ -25,7 +25,7 @@
         height: 40vw;
     }
 
-    @media screen and (max-width: 512px){
+    @media screen and (max-width: 512px) {
         width: 60vw;
         height: 60vw;
     }

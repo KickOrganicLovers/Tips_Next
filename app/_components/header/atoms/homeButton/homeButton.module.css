@@ -1,9 +1,9 @@
 .AiOutlineHome {
     width: auto;
     height: 3vh;
-    color: black;
+    color: darkgray;
 }
 
 .active {
-    color: deepskyblue;
+    color: black;
 }

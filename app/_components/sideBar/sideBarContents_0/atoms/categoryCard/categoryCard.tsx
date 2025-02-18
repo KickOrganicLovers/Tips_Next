@@ -1,33 +1,40 @@
-import {useState} from "react";
-import {CategoryScheme} from "@/typs";
+import {ReactNode, useState} from "react";
+import {Category, CategoryScheme} from "@/typs";
 import {useSelector} from "react-redux";
 import styles from './categoryCard.module.css'
 
-export default function CategoryCard(props: CategoryScheme) {
+
+interface props {
+    category: Category;
+}
+
+export default function CategoryCard(props: props) {
     const [isActive, setIsActive] = useState(false)
     const className = isActive ? `${styles['div1']} ${styles['active']}` : styles['div1']
-    const dynamicHeight = isActive ? `${props.details.length * 4}vh` : '0'
+    const dynamicHeight: string = isActive && props.category.children ? `${props.category.children.length * 4}vh` : '0'
 
     const clickEventHandler = () => {
         setIsActive(!isActive)
     }
 
-    const addList = (arg0: string[]) => {
-        const Items = []
-        for (const str of arg0) {
-            Items.push(<li className={styles.li} key={str}><p className={styles.p_1}>{str}</p></li>)
+    const addList = (categories?: Category[]) => {
+        const Items: ReactNode[] = []
+        if(categories && categories.length > 0) {
+            categories.map((category, i) => {
+                Items.push(<li className={styles.li} key={i}><p className={styles.p_1}>{category.category}</p></li>)
+            })
+            return Items
         }
-        return Items
     }
 
 
     return (
         <div className={styles.div0}>
             <div className={className}>
-                <p onClick={clickEventHandler} className={styles.p_0}>{props.cardName}</p>
+                <p onClick={clickEventHandler} className={styles.p_0}>{props.category.category}</p>
             </div>
             <ul className={styles.ul} style={{height: dynamicHeight}}>
-                {addList(props.details)}
+                {addList(props.category.children)}
             </ul>
         </div>
     )

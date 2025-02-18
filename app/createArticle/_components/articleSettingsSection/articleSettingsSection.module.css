@@ -1,0 +1,38 @@
+.div_0 {
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.div_1 {
+    width: fit-content;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 2vw;
+    border-radius: 6vh;
+    padding: 4vh;
+}
+
+
+.div_2 {
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+}
+
+.h1_0 {
+    font-size: 2vh;
+}
+
+.h2_0{
+    font-size: 1.5vh;
+}

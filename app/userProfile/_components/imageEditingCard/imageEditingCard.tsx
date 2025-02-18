@@ -79,7 +79,6 @@ export default function ImageEditingCard(props: props) {
     }
 
 
-
     const getCroppedImage = async (imageSrc: string, pixelCrop: Area, rotation = 0, flip = {
         horizontal: false,
         verticalL: false
@@ -153,7 +152,7 @@ export default function ImageEditingCard(props: props) {
     }, [])
 
 
-    const onCropCompleted = () => {
+    const onCropFinished = () => {
         if (cropperProps.image && croppedAreaPixels) {
             getCroppedImage(cropperProps.image, croppedAreaPixels, cropperProps.rotation).then((imgAsBase64) => {
                 if (imgAsBase64) {
@@ -195,13 +194,9 @@ export default function ImageEditingCard(props: props) {
     }, [props.loadedImage]);
 
 
-
-
-
-
     return (
         <div className={styles.div_0}>
-            <Cropper {...cropperProps} onCropComplete={onCropComplete} />
+            <Cropper {...cropperProps} onCropComplete={onCropComplete}/>
             <div className={styles.div_1}>
                 <p className={styles.p_0}>Zoom</p>
                 <input
@@ -233,7 +228,7 @@ export default function ImageEditingCard(props: props) {
                 />
             </div>
             <div className={styles.div_2}>
-                <AiOutlineCheck className={styles.AiOutlineCheck} onClick={onCropCompleted}/>
+                <AiOutlineCheck className={styles.AiOutlineCheck} onClick={onCropFinished}/>
                 <AiOutlineClose className={styles.AiOutlineClose} onClick={onCropCanceled}/>
             </div>
         </div>

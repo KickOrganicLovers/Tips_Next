@@ -53,7 +53,16 @@ const initialState: {
     textAlign_right: {
         isActive: boolean
         variable: boolean
-    },
+    }
+    image: {
+        variable: boolean
+    }
+    settings: {
+        variable: boolean
+    }
+    upload: {
+        variable: boolean
+    }
 
 } = {
     bold: {
@@ -107,7 +116,17 @@ const initialState: {
     textAlign_right: {
         isActive: false,
         variable: false
+    },
+    image: {
+        variable: false,
+    },
+    settings: {
+        variable: false,
+    },
+    upload: {
+        variable: false
     }
+
 }
 
 const ArticleEditorStatusSlice = createSlice({
@@ -192,7 +211,15 @@ const ArticleEditorStatusSlice = createSlice({
         textAlign_right_onClick: (state) => {
             state.textAlign_right.variable = !state.textAlign_right.variable
         },
-
+        image_onClick: (state) => {
+            state.image.variable = !state.image.variable
+        },
+        settings_onClick: (state) => {
+            state.settings.variable = !state.settings.variable
+        },
+        upload_onClick: (state) => {
+            state.upload.variable = !state.upload.variable
+        }
     }
 })
 
@@ -222,7 +249,10 @@ export const {
     textAlign_center_setIsActive,
     textAlign_center_onClick,
     textAlign_right_setIsActive,
-    textAlign_right_onClick
+    textAlign_right_onClick,
+    image_onClick,
+    settings_onClick,
+    upload_onClick,
 } = ArticleEditorStatusSlice.actions
 
 export const ArticleEditorStatusReducer = ArticleEditorStatusSlice.reducer

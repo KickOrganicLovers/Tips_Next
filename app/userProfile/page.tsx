@@ -9,7 +9,7 @@ import {AiOutlineCheck, AiOutlineClose, AiOutlineEdit} from "react-icons/ai";
 import {FiPlus} from "react-icons/fi";
 import ImageEditingCard from "@/app/userProfile/_components/imageEditingCard/imageEditingCard";
 import {setUserProfile} from "@/redux/slices/loginStatusSlice";
-import { UserProfileScheme } from '@/typs';
+import {UserProfileScheme} from '@/typs';
 import {router} from "next/client";
 import {useRouter} from "next/navigation";
 
@@ -47,6 +47,7 @@ export default function Page() {
     }
 
     const postImgToServer = async (profileImageAsBase64: string, userId: number) => {
+
         const url = 'api/editUserProfile/postUserProfileImage'
         console.log(userId)
         const params = {
@@ -70,12 +71,12 @@ export default function Page() {
             userId,
             username,
             introduction,
-            ...(profileImageUrl && { profileImageUrl }),
+            ...(profileImageUrl && {profileImageUrl}),
         };
 
         const params = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(body),
         };
 
@@ -89,20 +90,20 @@ export default function Page() {
 
 
     const onEditComplete = () => {
-        if(profileImageAsBase64 !== ''){
+        if (profileImageAsBase64 !== '') {
             console.log(LoginStatus.userProfile.userId)
             postImgToServer(profileImageAsBase64, LoginStatus.userProfile.userId).then(
                 (res) => {
                     res.json().then(
-                        (json: {error: string; profileImageUrl: string}) => {
+                        (json: { error: string; profileImageUrl: string }) => {
                             if (!json.error && introduction && json.profileImageUrl) {
                                 // setProfileImageUrl(json.profileImageUrl)
                                 applyUserProfileChanges(LoginStatus.userProfile.userId, username, introduction, json.profileImageUrl).then(
                                     (res) => {
                                         res.json().then(
                                             (json: { error: string; updatedUserProfile: UserProfileScheme; }) => {
-                                                if(!json.error){
-                                                    if(json.updatedUserProfile.profileImageUrl){
+                                                if (!json.error) {
+                                                    if (json.updatedUserProfile.profileImageUrl) {
                                                         setProfileImageUrl(json.updatedUserProfile.profileImageUrl)
                                                         setProfileImageAsBase64('')
                                                         dispatch(setUserProfile(json.updatedUserProfile))
@@ -118,16 +119,16 @@ export default function Page() {
                         })
                 }
             )
-        }else{
+        } else {
             applyUserProfileChanges(LoginStatus.userProfile.userId, username, introduction).then(
                 (res) => {
                     res.json().then(
-                        (json: {error: string; updatedUserProfile: UserProfileScheme}) => {
-                            if(!json.error){
+                        (json: { error: string; updatedUserProfile: UserProfileScheme }) => {
+                            if (!json.error) {
                                 dispatch(setUserProfile(json.updatedUserProfile))
                                 setIsEditingMode(false)
                             }
-                    })
+                        })
                 }
             )
 
@@ -142,11 +143,10 @@ export default function Page() {
     }
 
 
-
     useEffect(() => {
-        if(LoginStatus.isLoggedIn){
+        if (LoginStatus.isLoggedIn) {
             dispatch(applyWhereIam('userProfile'))
-        }else{
+        } else {
             router.push('/')
         }
     }, []);
@@ -155,8 +155,11 @@ export default function Page() {
         <div className={styles.div_0}>
             <div className={styles.div_1}>
                 <div className={styles.div_3}>
-                    <img src={(() => profileImageAsBase64 === '' ? profileImageUrl : profileImageAsBase64)()} alt='profileImage' className={styles.img_0}/>
-                    {(() => isEditingMode ? <FiPlus className={styles.FiPlus} onClick={() => {inputImageRef.current?.click()}}/> : undefined)()}
+                    <img src={(() => profileImageAsBase64 === '' ? profileImageUrl : profileImageAsBase64)()}
+                         alt='profileImage' className={styles.img_0}/>
+                    {(() => isEditingMode ? <FiPlus className={styles.FiPlus} onClick={() => {
+                        inputImageRef.current?.click()
+                    }}/> : undefined)()}
                 </div>
                 <div className={styles.div_4}>
                     {(() => isEditingMode ?
@@ -186,9 +189,12 @@ export default function Page() {
             <div className={styles.div_2}>
 
             </div>
-            {(() => isCropperOpen? <ImageEditingCard loadedImage={loadedImage} setIsCropperOpen={setIsCropperOpen} userProfile={LoginStatus.userProfile} setProfileImageAsBase64={setProfileImageAsBase64}/> : undefined)()}
-            {(() => isCropperOpen? <div className={styles.FadeLayer}></div> : undefined)()}
-            <input type={'file'} accept={'image/*'} className={styles.input_1} onChange={onFileChange} ref={inputImageRef}/>
+            {(() => isCropperOpen ? <ImageEditingCard loadedImage={loadedImage} setIsCropperOpen={setIsCropperOpen}
+                                                      userProfile={LoginStatus.userProfile}
+                                                      setProfileImageAsBase64={setProfileImageAsBase64}/> : undefined)()}
+            {(() => isCropperOpen ? <div className={styles.FadeLayer}></div> : undefined)()}
+            <input type={'file'} accept={'image/*'} className={styles.input_1} onChange={onFileChange}
+                   ref={inputImageRef}/>
         </div>
     )
 }
