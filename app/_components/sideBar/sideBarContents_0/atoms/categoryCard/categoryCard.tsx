@@ -1,11 +1,11 @@
 import {ReactNode, useState} from "react";
-import {Category, CategoryScheme} from "@/typs";
+import {CategoryScheme} from "@/typs";
 import {useSelector} from "react-redux";
 import styles from './categoryCard.module.css'
 
 
 interface props {
-    category: Category;
+    category: CategoryScheme;
 }
 
 export default function CategoryCard(props: props) {
@@ -17,7 +17,7 @@ export default function CategoryCard(props: props) {
         setIsActive(!isActive)
     }
 
-    const addList = (categories?: Category[]) => {
+    const addList = (categories?: CategoryScheme[]) => {
         const Items: ReactNode[] = []
         if(categories && categories.length > 0) {
             categories.map((category, i) => {

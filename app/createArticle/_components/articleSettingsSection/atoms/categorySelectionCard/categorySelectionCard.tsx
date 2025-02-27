@@ -3,22 +3,30 @@ import {useSelector} from "react-redux";
 import {RootState} from "@/redux/store";
 import styles from './categorySelectionCard.module.css'
 import CategoryCard from "@/app/_components/sideBar/sideBarContents_0/atoms/categoryCard/categoryCard";
+import {CategoryScheme} from "@/typs";
+import {findCategoryById} from "@/app/lib-client/processing";
 
 interface props{
+    categoryId: number,
     setCategoryId: Dispatch<SetStateAction<number>>
 }
 export default function CategorySelectionCard(props: props) {
-    const [parentCategoryIdOnFocus, setParentCategoryIdOnFocus] = useState<number>(0);
-    const [categoryName, setCategoryName] = useState<string>();
-    const [isClicked, setIsClicked] = useState<boolean>(false)
     const Categories = useSelector<RootState, RootState['Categories']>((state) => state.Categories)
+    const [parentCategoryIdOnFocus, setParentCategoryIdOnFocus] = useState<number>(0);
+    const [categoryName, setCategoryName] = useState<string>('');
+    const [isClicked, setIsClicked] = useState<boolean>(false)
     const className_ul_1 = isClicked ? `${styles['ul_1']} ${styles['active']}` : `${styles['ul_1']}`
+
+    useEffect(() => {
+        setCategoryName(findCategoryById(Categories, props.categoryId)?.category as string)
+    }, [props.categoryId]);
 
 
     const clickEventHandler = (index: number) => {
         setIsClicked(true)
         setParentCategoryIdOnFocus(index)
     }
+
 
     return (
         <div className={styles.div_0}>
@@ -37,7 +45,7 @@ export default function CategorySelectionCard(props: props) {
                     {(() => {
                         if (Categories && Categories.length > 0 && isClicked) {
                             if (Categories[parentCategoryIdOnFocus].children) {
-                                return Categories[parentCategoryIdOnFocus].children.map((child, i) => <li key={i}
+                                return Categories[parentCategoryIdOnFocus].children.map((child: CategoryScheme, i: number) => <li key={i}
                                                                                                           className={styles.li_1}
                                                                                                           onClick={() => {
                                                                                                               props.setCategoryId(child.id);

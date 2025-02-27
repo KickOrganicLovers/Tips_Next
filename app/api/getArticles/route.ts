@@ -6,36 +6,41 @@ export async function GET (req: NextRequest){
     const { searchParams } = new URL(req.url);
 
     // クエリパラメータ "id" を取得
-    const id = searchParams.get("id");
-    console.log(id);
+    const articleId = searchParams.get("articleId");
+    const authorId = searchParams.get("authorId");
 
     // 数値に変換（クエリパラメータは string 型なので）
-    const articleId = id ? parseInt(id, 10) : undefined;
+    const articleIdAsNum = articleId ? parseInt(articleId, 10) : undefined;
+    const authorIdAsNum = authorId ? parseInt(authorId, 10) : undefined;
 
     try{
-        const articles = await prisma.$transaction(async (tx) => {
-            const articlesWithoutAuthorName = await tx.article.findMany({
-                where: !!articleId ? {id: articleId} : {}
+        const articlesWithAuthorProfile = await prisma.$transaction(async (tx) => {
+            const articles = await tx.article.findMany({
+                where: (() => {
+                    if(!!articleIdAsNum){
+                        return {id: articleIdAsNum}
+                    }else if(!!authorIdAsNum) {
+                        return {authorId: authorIdAsNum}
+                    }
+                })()
             })
-            const articles = articlesWithoutAuthorName.map(async (articleWithoutAuthorName) => {
-                const user = await tx.userProfile.findUnique({
+            const articlesWithAuthorProfile = articles.map(async (article) => {
+                const authorProfile = await tx.userProfile.findUnique({
                     where: {
-                        userId: articleWithoutAuthorName.authorId
+                        userId: article.authorId
                     }
                 })
                 return {
-                    ...articleWithoutAuthorName,
-                    authorName: !!user ? user.username : null,
-                    authorProfileImageUrl: !!user? user.profileImageUrl : null
+                    article: article,
+                    authorProfile: authorProfile,
                 }
             })
 
-            return await Promise.all(articles)
+            return await Promise.all(articlesWithAuthorProfile)
         })
-        console.log(articles)
-        return NextResponse.json({articles: articles, error: undefined}, {status: 200})
+        return NextResponse.json({articlesWithAuthorProfile: articlesWithAuthorProfile, error: undefined}, {status: 200})
     }catch (error){
-        return NextResponse.json({articles: undefined, error: error}, {status: 400})
+        return NextResponse.json({articlesWithAuthorProfile: undefined, error: error}, {status: 400})
     }
 
 

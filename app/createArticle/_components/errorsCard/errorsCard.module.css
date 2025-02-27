@@ -1,0 +1,34 @@
+.div_0 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: fit-content;
+    height: fit-content;
+    z-index: 1;
+    background-color: white;
+    padding: 2vw;
+}
+
+.ul_0 {
+    width: fit-content;
+    height: fit-content;
+}
+
+.li_0 {
+    font-size: 1.5rem;
+    color: hotpink;
+}
+
+.AiOutlineClose {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 1.5rem;
+    &:hover{
+        color: hotpink;
+        transition: 0.2s;
+    }
+}

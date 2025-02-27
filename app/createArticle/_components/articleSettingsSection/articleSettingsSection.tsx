@@ -9,12 +9,15 @@ import CategorySelectionCard
 
 interface props {
     setThumbnailImageAsBase64: Dispatch<SetStateAction<string>>
+    categoryId: number
     setCategoryId: Dispatch<SetStateAction<number>>
     tags: string[]
     setTags: Dispatch<SetStateAction<string[]>>
 }
 
 export default function ArticleSettingsSection(props: props) {
+
+
 
 
 
@@ -27,7 +30,7 @@ export default function ArticleSettingsSection(props: props) {
                 </div>
                 <div>
                     <h1 className={styles.h1_0}>カテゴリーの選択</h1>
-                    <CategorySelectionCard setCategoryId={props.setCategoryId}/>
+                    <CategorySelectionCard categoryId={props.categoryId} setCategoryId={props.setCategoryId}/>
                 </div>
                 <div>
                     <h1 className={styles.h1_0}>タグの追加</h1>

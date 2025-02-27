@@ -1,0 +1,80 @@
+.div_0 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 8vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5vw;
+    margin: 0 1vw 0 1vw;
+}
+
+.div_1 {
+    display: flex;
+    height: fit-content;
+    width: fit-content;
+    align-items: center;
+    background-color: white;
+    border-radius: 100px;
+    overflow: hidden;
+
+}
+
+.div_1.edit{
+    border: 2px solid deepskyblue;
+}
+
+.div_1.trash{
+    border: 2px solid hotpink;
+}
+
+.AiOutlineEdit {
+    aspect-ratio: 1;
+    font-size: 2vh;
+    padding: 1vh;
+    color: deepskyblue;
+    border-radius: 0 100px 100px 0;
+}
+
+.FaRegTrashCan {
+    aspect-ratio: 1;
+    font-size: 2vh;
+    padding: 1vh;
+    color: hotpink;
+    border-radius: 0 100px 100px 0;
+}
+
+.p_0 {
+    margin: 0;
+    padding: 0;
+    height: 2vh;
+    font-size: 1.5vh;
+    width: 0;
+    text-wrap: nowrap;
+    overflow: hidden;
+}
+
+.p_0.edit {
+    color: deepskyblue;
+}
+
+.p_0.trash {
+    color: hotpink;
+}
+
+.div_1:hover .p_0 {
+    width: 8.5vh;
+    margin-left: 1vh;
+    transition: width 0.4s ease;
+}
+
+.div_1:hover .AiOutlineEdit{
+    background-color: deepskyblue;
+    color: white;
+}
+
+.div_1:hover .FaRegTrashCan{
+    background-color: hotpink;
+    color: white;
+}

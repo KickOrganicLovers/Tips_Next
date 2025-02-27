@@ -42,6 +42,7 @@ import {applyWhereIam} from "@/redux/slices/whereIamSlice";
 interface props {
     title: string,
     setTitle: Dispatch<SetStateAction<string>>,
+    contents: string,
     setContents: Dispatch<SetStateAction<string>>
 }
 export default function ArticleEditingSection(props: props) {
@@ -59,6 +60,12 @@ export default function ArticleEditingSection(props: props) {
         }
 
     });
+
+    useEffect(() => {
+        if (editor && editor.getHTML() !== props.contents) {
+            editor.commands.setContent(props.contents);
+        }
+    }, [props.contents, editor]);
 
 
     useEffect(() => {

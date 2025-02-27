@@ -13,10 +13,6 @@ export interface UserProfileScheme {
     introduction: string
 }
 
-export interface CategoryScheme {
-    cardName: string
-    details: string[]
-}
 
 export interface ArticleScheme {
     id: number
@@ -25,15 +21,13 @@ export interface ArticleScheme {
     contents: string
     tags: string[]
     categoryId: number
-    authorId: number
-    authorName?: string
-    authorProfileImageUrl?: string
+    authorId?: number
 }
 
-export interface Category {
+export interface CategoryScheme {
     id: number
     category: string
     parentId?: number
-    children?: Category[]
+    children?: CategoryScheme[]
 }
 

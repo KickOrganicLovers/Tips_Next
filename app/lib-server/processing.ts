@@ -14,6 +14,39 @@ export function extractBase64Images(html: string) {
 }
 
 
+export function extractImageUrls(html: string) {
+    console.log('this is from extractImageUrls');
+    const jsdom = new JSDOM()
+    const parser = new jsdom.window.DOMParser()
+
+    const doc = parser.parseFromString(html, "text/html");
+    const images = Array.from(doc.querySelectorAll('img'));
+    console.log(images)
+
+    return images
+        .map((img) => img.getAttribute('src'))
+        .filter((src): src is string => !!src && src.startsWith('https://'))
+}
+
+export function extractKeyFromUrl(url: string) {
+    try {
+        const parsedUrl = new URL(url);
+        const hostnameParts = parsedUrl.hostname.split('.');
+
+        if (hostnameParts[0] === 's3') {
+            // パス形式 (s3.amazonaws.com/bucket-name/path/to/object.jpg)
+            const [, bucket, ...keyParts] = parsedUrl.pathname.split('/');
+            return keyParts.join('/');
+        } else {
+            // バケット形式 (bucket-name.s3.amazonaws.com/path/to/object.jpg)
+            return parsedUrl.pathname.substring(1);
+        }
+    } catch (error) {
+        console.error("Invalid URL:", error);
+        return null;
+    }
+}
+
 export function replaceImageSrc(html: string, replacements: { base64: string; s3Url: string }[]) {
     const dom = new JSDOM(html);
     const document = dom.window.document;
