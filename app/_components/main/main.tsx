@@ -2,7 +2,7 @@ import {ReactNode, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "@/redux/store";
 import styles from './main.module.css'
-import {getDataFromServerWithJson} from "@/app/lib-client/fetch";
+import {getDataFromServerWithJson} from "@/lib-client/fetch";
 import {ArticleScheme, CategoryScheme, UserProfileScheme} from "@/typs";
 import {setCategories} from "@/redux/slices/categoriesSlice";
 import {applyWhereIam} from "@/redux/slices/whereIamSlice";

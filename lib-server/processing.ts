@@ -25,27 +25,27 @@ export function extractImageUrls(html: string) {
 
     return images
         .map((img) => img.getAttribute('src'))
-        .filter((src): src is string => !!src && src.startsWith('https://'))
+        .filter((src): src is string => !!src && src.startsWith('http://'))
 }
 
 export function extractKeyFromUrl(url: string) {
     try {
         const parsedUrl = new URL(url);
-        const hostnameParts = parsedUrl.hostname.split('.');
+        const pathParts = parsedUrl.pathname.split('/');
 
-        if (hostnameParts[0] === 's3') {
-            // パス形式 (s3.amazonaws.com/bucket-name/path/to/object.jpg)
-            const [, bucket, ...keyParts] = parsedUrl.pathname.split('/');
-            return keyParts.join('/');
-        } else {
-            // バケット形式 (bucket-name.s3.amazonaws.com/path/to/object.jpg)
-            return parsedUrl.pathname.substring(1);
+        if (pathParts.length < 3) {
+            console.error("Invalid MinIO URL format");
         }
+
+        // MinIO は基本的にパス形式なので、バケット名をスキップしてキーを取得
+        const [, , ...keyParts] = pathParts;
+        return keyParts.join('/');
     } catch (error) {
         console.error("Invalid URL:", error);
         return null;
     }
 }
+
 
 export function replaceImageSrc(html: string, replacements: { base64: string; s3Url: string }[]) {
     const dom = new JSDOM(html);

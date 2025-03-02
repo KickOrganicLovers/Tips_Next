@@ -1,7 +1,7 @@
 import styles from './accountCreationCard.module.css'
 import {SyntheticEvent, useState} from "react";
 import {useRouter} from "next/navigation";
-import {postDataToServerWithJson} from "@/app/lib-client/fetch";
+import {postDataToServerWithJson} from "@/lib-client/fetch";
 
 interface props {
     email: string

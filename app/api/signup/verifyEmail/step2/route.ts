@@ -1,7 +1,7 @@
 import {NextRequest, NextResponse} from "next/server";
 import bcrypt from "bcrypt";
 import {PrismaClient} from "@prisma/client";
-import {prisma} from "@/app/lib-server/prisma";
+import {prisma} from "@/lib-server/prisma";
 
 export async function POST(req: NextRequest) {
     console.log('this is from step 2')

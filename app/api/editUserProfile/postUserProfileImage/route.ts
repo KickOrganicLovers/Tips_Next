@@ -1,7 +1,7 @@
 import {NextRequest, NextResponse} from "next/server";
 import {S3Client} from "@aws-sdk/client-s3";
 import {Upload} from "@aws-sdk/lib-storage";
-import {s3} from "@/app/lib-server/s3";
+import {s3} from "@/lib-server/s3";
 
 export async function POST(req: NextRequest) {
     console.log("this is from postUserProfileImage");
@@ -25,8 +25,8 @@ export async function POST(req: NextRequest) {
         const upload = new Upload({
             client: s3,
             params: {
-                Bucket: "tipsimgcontainer",
-                Key: `${id}-profile.jpeg`,
+                Bucket: process.env.MINIO_BUCKET_NAME,
+                Key: `userProfileImages/${id}-profile.jpeg`,
                 Body: imgAsBuffer,
                 ContentType: "image/jpeg",
             },
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
         console.log("Upload done");
 
         return NextResponse.json({
-            profileImageUrl: `https://tipsimgcontainer.s3.${process.env.AWS_REGION}.amazonaws.com/${id}-profile.jpeg?${new Date().toISOString()}`,
+            profileImageUrl: `${process.env.MINIO_BUCKET_LINK}/userProfileImages/${id}-profile.jpeg?${new Date().toISOString()}`,
             error: undefined,
         });
 

@@ -1,8 +1,8 @@
 import {NextRequest, NextResponse} from "next/server";
-import {extractBase64Images, extractImageUrls, extractKeyFromUrl} from "@/app/lib-server/processing";
-import {prisma} from "@/app/lib-server/prisma";
+import {extractBase64Images, extractImageUrls, extractKeyFromUrl} from "@/lib-server/processing";
+import {prisma} from "@/lib-server/prisma";
 import {DeleteObjectCommand, S3Client} from "@aws-sdk/client-s3";
-import {s3} from "@/app/lib-server/s3";
+import {s3} from "@/lib-server/s3";
 
 
 
@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
         const deleteImage = async (key: string) => {
             try {
                 const deleteParams = {
-                    Bucket: "tipsimgcontainer",
+                    Bucket: "tipsimagebucket",
                     Key: key,
                 };
 

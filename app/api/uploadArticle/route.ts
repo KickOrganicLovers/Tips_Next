@@ -1,8 +1,8 @@
 import {NextRequest, NextResponse} from "next/server";
-import {extractBase64Images, replaceImageSrc} from "@/app/lib-server/processing";
+import {extractBase64Images, replaceImageSrc} from "@/lib-server/processing";
 import {Upload} from "@aws-sdk/lib-storage";
-import {s3} from "@/app/lib-server/s3";
-import {prisma} from "@/app/lib-server/prisma";
+import {s3} from "@/lib-server/s3";
+import {prisma} from "@/lib-server/prisma";
 
 
 
@@ -26,11 +26,11 @@ export async function POST(req: NextRequest) {
             const contents: string = body.contents
             const imagesInArticle = extractBase64Images(contents)
             const imageUrlMappings = await Promise.all(imagesInArticle.map(async (imageAsBase64WithPrefix, index) => {
-                const key = `${articleWithPrefix.id}-${index}-article.jpeg`;
+                const key = `articleImages/${articleWithPrefix.id}/${index}-inArticle.jpeg`;
                 const upload = new Upload({
                     client: s3,
                     params: {
-                        Bucket: 'tipsimgcontainer',
+                        Bucket: 'tipsimagebucket',
                         Key: key,
                         Body: Buffer.from(imageAsBase64WithPrefix.replace(/^data:image\/\w+;base64,/, ""), 'base64'),
                         ContentType: 'image/jpeg',
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
                     await upload.done();
                     return {
                         base64: imageAsBase64WithPrefix, // 元の Base64
-                        s3Url: `https://tipsimgcontainer.s3.${process.env.AWS_REGION}.amazonaws.com/${key}?${new Date().toISOString()}`
+                        s3Url: `${process.env.MINIO_BUCKET_LINK}/${key}?${new Date().toISOString()}`
                     };
                 } catch (error) {
                     console.error("Error uploading file:", error);
@@ -59,11 +59,11 @@ export async function POST(req: NextRequest) {
 
 
             //upload thumbnail
-            const key = `${articleWithPrefix.id}-thumbnail.jpeg`;
+            const key = `articleImages/${articleWithPrefix.id}/thumbnail.jpeg`;
             const upload = new Upload({
                 client: s3,
                 params: {
-                    Bucket: 'tipsimgcontainer',
+                    Bucket: 'tipsimagebucket',
                     Key: key,
                     Body: Buffer.from(body.thumbnailImageAsBase64.replace(/^data:image\/\w+;base64,/, ""), 'base64'),
                     ContentType: 'image/jpeg',
@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
                 console.log(`Progress: ${progress.loaded}/${progress.total}`);
             })
             await upload.done()
-            const thumbnailImageUrl = `https://tipsimgcontainer.s3.${process.env.AWS_REGION}.amazonaws.com/${key}?${new Date().toISOString()}`
+            const thumbnailImageUrl = `${process.env.MINIO_BUCKET_LINK}/${key}?${new Date().toISOString()}`
 
             const article = await tx.article.update({
                 where: {

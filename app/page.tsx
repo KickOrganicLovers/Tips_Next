@@ -6,7 +6,7 @@ import {useEffect, useState} from "react";
 import {AppDispatch, RootState} from "@/redux/store";
 import {applyWhereIam} from "@/redux/slices/whereIamSlice";
 import ArticleContainer from "@/app/_components/articleContainer/articleContainer";
-import {getDataFromServerWithJson} from "@/app/lib-client/fetch";
+import {getDataFromServerWithJson} from "@/lib-client/fetch";
 import {setCategories} from "@/redux/slices/categoriesSlice";
 import {setArticlesWithAuthorProfile} from "@/redux/slices/articlesWithAuthorProfileSlice";
 import {ArticleScheme, UserProfileScheme} from "@/typs";

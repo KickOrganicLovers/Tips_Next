@@ -1,6 +1,6 @@
 import {useState} from "react";
 import styles from './verificationCard_step1.module.css'
-import {postDataToServerWithJson} from "@/app/lib-client/fetch";
+import {postDataToServerWithJson} from "@/lib-client/fetch";
 import {VerifyingResult} from "@/typs";
 
 interface props {

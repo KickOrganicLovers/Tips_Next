@@ -6,7 +6,7 @@ import {usePathname} from "next/navigation";
 import SideBarContents_1 from "@/app/_components/sideBar/sideBarContents_1/sideBarContents_1";
 import {useEffect} from "react";
 import {setCategories} from "@/redux/slices/categoriesSlice";
-import {getDataFromServerWithJson} from "@/app/lib-client/fetch";
+import {getDataFromServerWithJson} from "@/lib-client/fetch";
 import {Category} from "@/typs";
 
 export default function SideBar() {

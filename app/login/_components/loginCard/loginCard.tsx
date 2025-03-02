@@ -4,7 +4,7 @@ import {useRouter} from "next/navigation";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "@/redux/store";
 import {setIsLoggedIn, setLoginStatus} from "@/redux/slices/loginStatusSlice";
-import {postDataToServerWithJson} from "@/app/lib-client/fetch";
+import {postDataToServerWithJson} from "@/lib-client/fetch";
 import {LoginStatusScheme} from "@/typs";
 
 

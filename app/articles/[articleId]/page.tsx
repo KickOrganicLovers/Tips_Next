@@ -4,7 +4,7 @@ import {useParams} from "next/navigation";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "@/redux/store";
 import {useEffect, useRef, useState} from "react";
-import {getDataFromServerWithJson} from "@/app/lib-client/fetch";
+import {getDataFromServerWithJson} from "@/lib-client/fetch";
 import {applyWhereIam} from "@/redux/slices/whereIamSlice";
 import styles from './article.module.css'
 import {ArticleScheme, UserProfileScheme} from "@/typs";

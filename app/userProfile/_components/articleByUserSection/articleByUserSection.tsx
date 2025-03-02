@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {ArticleScheme, LoginStatusScheme, UserProfileScheme} from "@/typs";
 import {RootState} from "@/redux/store";
 import {useSelector} from "react-redux";
-import {getDataFromServerWithJson} from "@/app/lib-client/fetch";
+import {getDataFromServerWithJson} from "@/lib-client/fetch";
 import ArticleContainer from "@/app/_components/articleContainer/articleContainer";
 import {produceWithPatches} from "immer";
 

@@ -7,7 +7,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "@/redux/store";
 import {useEffect, useRef, useState} from "react";
 import {useRouter} from "next/navigation";
-import {postDataToServerWithJson} from "@/app/lib-client/fetch";
+import {postDataToServerWithJson} from "@/lib-client/fetch";
 import {ArticleScheme, UserProfileScheme} from "@/typs";
 import ErrorsCard from "@/app/createArticle/_components/errorsCard/errorsCard";
 

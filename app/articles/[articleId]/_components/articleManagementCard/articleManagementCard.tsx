@@ -3,7 +3,7 @@ import {AiOutlineEdit} from "react-icons/ai";
 import {FaRegTrashCan} from "react-icons/fa6";
 import classNames from "classnames";
 import {ArticleScheme, UserProfileScheme} from "@/typs";
-import {postDataToServerWithJson} from "@/app/lib-client/fetch";
+import {postDataToServerWithJson} from "@/lib-client/fetch";
 import {useRouter} from "next/navigation";
 
 interface props {

@@ -4,7 +4,7 @@ import {RootState} from "@/redux/store";
 import styles from './categorySelectionCard.module.css'
 import CategoryCard from "@/app/_components/sideBar/sideBarContents_0/atoms/categoryCard/categoryCard";
 import {CategoryScheme} from "@/typs";
-import {findCategoryById} from "@/app/lib-client/processing";
+import {findCategoryById} from "@/lib-client/processing";
 
 interface props{
     categoryId: number,

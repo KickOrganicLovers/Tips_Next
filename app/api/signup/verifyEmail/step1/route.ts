@@ -4,7 +4,7 @@ import {Resend} from "resend";
 import crypto from 'crypto';
 import bcrypt from 'bcrypt'
 import VerificationEmailTemplate from "@/app/api/signup/verifyEmail/step1/verificationEmailTemplate";
-import {prisma} from "@/app/lib-server/prisma";
+import {prisma} from "@/lib-server/prisma";
 
 export async function POST(req: NextRequest) {
     console.log('fuck me')

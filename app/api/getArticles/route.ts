@@ -1,5 +1,5 @@
 import {NextRequest, NextResponse} from "next/server";
-import {prisma} from "@/app/lib-server/prisma";
+import {prisma} from "@/lib-server/prisma";
 
 export async function GET (req: NextRequest){
 
@@ -27,7 +27,7 @@ export async function GET (req: NextRequest){
             const articlesWithAuthorProfile = articles.map(async (article) => {
                 const authorProfile = await tx.userProfile.findUnique({
                     where: {
-                        userId: article.authorId
+                        userId: article.authorId as number
                     }
                 })
                 return {

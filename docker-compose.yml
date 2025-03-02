@@ -12,11 +12,41 @@ services:
       - "5432:5432"
     volumes:
       - postgres_dev_data:/var/lib/postgresql/data
-    networks:
-      - postgres_dev_network
+
+  minio:
+    image: minio/minio
+    container_name: minio_dev
+    restart: always
+    ports:
+      - "9000:9000"  # S3 API (データ転送用)
+      - "9001:9001"  # Web UI (管理画面用)
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+
+    command: server --console-address ":9001" /data
+
+    volumes:
+      - minio_dev_data:/data
+
+  mc:
+    image: minio/mc
+    container_name: minio_mc_dev
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      echo 'Waiting for MinIO to be available...';
+      while ! (echo > /dev/tcp/minio/9000) 2>/dev/null; do
+        sleep 2;
+      done;
+      echo 'MinIO is up! Proceeding with configuration.';
+      /usr/bin/mc alias set minio_dev http://minio:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD};
+      /usr/bin/mc mb minio_dev/tipsimagebucket --region=ap-northeast-1;
+      /usr/bin/mc anonymous set public minio_dev/tipsimagebucket;
+      exit 0;
+      "
 
 volumes:
   postgres_dev_data:
-
-networks:
-  postgres_dev_network:
+  minio_dev_data:
