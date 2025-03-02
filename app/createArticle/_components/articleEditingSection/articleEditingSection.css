@@ -2,14 +2,15 @@
 }
 
 .tiptap.ProseMirror {
+    position: relative;
     width: 60vw;
-    min-height: 75vh;
+    min-height: 72vh;
     padding: 2rem;
     box-sizing: border-box;
     white-space: pre-wrap;
     word-wrap: break-word;
     background-color: white;
-    border-radius: 5vh;
+    margin: 4vh 0 4vh 0;
 
     &:focus {
         outline: 2px solid darkgray;
