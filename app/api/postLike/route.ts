@@ -5,12 +5,23 @@ export async function POST(req: NextRequest){
     const body = await req.json()
     console.log(body)
     try {
-        await prisma.like.create({
-            data: {
-                articleId: body.articleId as number,
-                userId: body.userId as number,
-            }
-        })
+        if(!body.isLiked){
+            await prisma.like.create({
+                data: {
+                    articleId: body.articleId as number,
+                    userId: body.userId as number,
+                }
+            })
+        }else {
+            await prisma.like.delete({
+                where: {
+                    userId_articleId: {
+                        userId: body.userId as number,
+                        articleId: body.articleId as number,
+                    }
+                }
+            })
+        }
 
         return NextResponse.json({isPosted: true, error: null}, {status: 200})
     }catch (error){

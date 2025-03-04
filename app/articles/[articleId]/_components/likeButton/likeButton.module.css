@@ -1,16 +1,28 @@
+.div_0 {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 9.375%;
+    height: fit-content;
+    padding: 2vh 0 2vh 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 2;
+
+}
+
 .IoHeart {
     background-color: white;
     box-sizing: border-box;
     border-radius: 50px;
-    padding: 0.55vw 0.4vw 0.4vw 0.4vw;
-    width: 3vw;
-    height: 3vw;
+    padding: 1.5vh 1vh 1vh 1vh;
+    width: 8vh;
+    height: 8vh;
     color: gray;
-    position: absolute;
-    bottom: 2.5vh;
-    right: 1vw;
-    z-index: 2;
     border: gray solid 3px;
+    pointer-events: auto;
 
     /*&:hover {*/
     /*    border-color: hotpink;*/

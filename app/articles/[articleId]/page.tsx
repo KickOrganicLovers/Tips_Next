@@ -7,7 +7,7 @@ import {useEffect, useRef, useState} from "react";
 import {getDataFromServerWithJson} from "@/lib-client/fetch";
 import {applyWhereIam} from "@/redux/slices/whereIamSlice";
 import styles from './article.module.css'
-import {ArticleScheme, UserProfileScheme} from "@/types";
+import {ArticleScheme, LikeScheme, UserProfileScheme} from "@/types";
 import ArticleDetailsSection from "@/app/articles/[articleId]/_components/articleDetailsSection/articleDetailsSection";
 import ArticleManagementCard from "@/app/articles/[articleId]/_components/articleManagementCard/articleManagementCard";
 import {FaRegHeart} from "react-icons/fa6";
@@ -20,8 +20,9 @@ import TotalLikesCard from "@/app/articles/[articleId]/_components/totalLikesCar
 
 export default function Page() {
     const LoginStatus = useSelector<RootState, RootState['LoginStatus']>((state) => state.LoginStatus)
-    const Articles = useSelector<RootState, RootState['Articles']>((state) => state.Articles)
+    // const Articles = useSelector<RootState, RootState['Articles']>((state) => state.Articles)
     const [article, setArticle] = useState<ArticleScheme>();
+    const [isLiked, setIsLiked] = useState<boolean | undefined>(undefined);
     const [hasError, setHasError] = useState(false);
     const {articleId} = useParams<{articleId: string}>()
     const articleIdAsNumber = parseInt(articleId, 10)
@@ -29,27 +30,30 @@ export default function Page() {
     const contentRef = useRef<HTMLDivElement>(null);
 
 
+    const checkIsLiked = (likes: LikeScheme[]) => {
+        console.log(likes)
+        if(likes.filter((like: LikeScheme) => like.userId === LoginStatus.userProfile.userId).length > 0){
+            setIsLiked(true);
+        }else {
+            setIsLiked(false);
+        }
+    }
+
     const getArticle = async (articleId: number): Promise<ArticleScheme> => {
         const json = await getDataFromServerWithJson<{articles: ArticleScheme[], error: string}>(`/api/getArticles?articleId=${articleId}`);
         return json.articles[0]// 必要な記事を取得
     };
 
     useEffect(() => {
-        const articleInState = Articles.find((article: ArticleScheme) => article.id === articleIdAsNumber);
-        if (!!articleInState) {
-            setArticle(articleInState); // 状態を更新
-        } else {
-            (async () => {
-                const fetchedArticle = await getArticle(articleIdAsNumber);
-                if(!!fetchedArticle){
-                    setArticle(fetchedArticle); // 非同期で取得した記事を状態にセット
-                }else {
-                    setHasError(true);
-                }
-            })()
-        }
+        getArticle(articleIdAsNumber).then((fetchedArticle) => {
+            if(!!fetchedArticle){
+                setArticle(fetchedArticle); // 非同期で取得した記事を状態にセット
+            }else {
+                setHasError(true);
+            }
+        })
         dispatch(applyWhereIam(`article-${articleIdAsNumber}`))
-    }, [articleIdAsNumber, Articles]);
+    }, [articleIdAsNumber]);
 
 
     useEffect(() => {
@@ -60,6 +64,8 @@ export default function Page() {
             // 既存の内容をクリアしてから、新しい DOM を追加
             contentRef.current.innerHTML = ""; // または contentRef.current.textContent = ""
             contentRef.current.appendChild(doc.body); // HTML を `contentRef` に追加
+
+            checkIsLiked(article.likes)
         }
     }, [article]); // `article` が変更されるたびに再実行
 
@@ -73,12 +79,13 @@ export default function Page() {
     return (
         <div className={styles.div_0}>
             <ArticleDetailsSection article={article}/>
-            <LikeButton articleId={article.id} userId={LoginStatus.userProfile.userId}/>
+            {(() => LoginStatus.isLoggedIn ? <LikeButton articleId={article.id} userId={LoginStatus.userProfile.userId} isLiked={isLiked} setIsLiked={setIsLiked}/> : undefined)()}
             <div className={styles.div_1}>
                 {(() => article.authorProfile.userId === LoginStatus.userProfile.userId ? <ArticleManagementCard article={article}/> : undefined)()}
-                {(() => article.authorProfile.userId === LoginStatus.userProfile.userId ? <TotalLikesCard likes={article.likes}/> : undefined)()}
+                <TotalLikesCard likes={article.likes} isLiked={isLiked}/>
                 <h1 className={styles.h1_0}>{article.title}</h1>
                 <div ref={contentRef} className={styles.div_2}/>
+
             </div>
         </div>
     )

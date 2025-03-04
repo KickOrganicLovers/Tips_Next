@@ -4,7 +4,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    margin: 0 1vw 0 1vw;
+    margin: 0 2vw 0 2vw;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -37,4 +37,10 @@
     padding: 0;
     margin: 0;
     font-size: 2vh;
+}
+
+.div_1.active {
+    border-color: hotpink;
+    color: hotpink;
+    transition: 0.25s;
 }
