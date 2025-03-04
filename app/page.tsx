@@ -8,29 +8,27 @@ import {applyWhereIam} from "@/redux/slices/whereIamSlice";
 import ArticleContainer from "@/app/_components/articleContainer/articleContainer";
 import {getDataFromServerWithJson} from "@/lib-client/fetch";
 import {setCategories} from "@/redux/slices/categoriesSlice";
-import {setArticlesWithAuthorProfile} from "@/redux/slices/articlesWithAuthorProfileSlice";
-import {ArticleScheme, UserProfileScheme} from "@/typs";
+import {ArticleScheme, UserProfileScheme} from "@/types";
+import {setArticles} from "@/redux/slices/articlesSlice";
 
 export default function Page() {
-    const ArticlesWithAuthorProfile = useSelector<RootState, RootState['ArticlesWithAuthorProfile']>((state) => state.ArticlesWithAuthorProfile)
+    const Articles = useSelector<RootState, RootState['Articles']>((state) => state.Articles)
     const dispatch = useDispatch<AppDispatch>();
 
 
-
     async function getArticles() {
-        const json = await getDataFromServerWithJson<{articlesWithAuthorProfile: {article: ArticleScheme, authorProfile: UserProfileScheme}[], error: string}>('/api/getArticles')
+        const json = await getDataFromServerWithJson<{articles: ArticleScheme[], error: string}>('/api/getArticles')
         if (!json.error) {
-            console.log(json.articlesWithAuthorProfile)
-            return json.articlesWithAuthorProfile
+            console.log(json)
+            return json.articles
         }
-
     }
 
     useEffect(() => {
         dispatch(applyWhereIam('app'))
-        getArticles().then((articlesWithAuthorProfile) => {
-            if (articlesWithAuthorProfile !== undefined) {
-                dispatch(setArticlesWithAuthorProfile(articlesWithAuthorProfile))
+        getArticles().then((articles) => {
+            if (articles !== undefined) {
+                dispatch(setArticles(articles))
             }
         })
     }, []);
@@ -39,7 +37,7 @@ export default function Page() {
 
     return (
         <div className={styles.div_0}>
-            {ArticlesWithAuthorProfile.map(({article,  authorProfile}, index) => <ArticleContainer key={index} article={article} authorProfile={authorProfile} />)}
+            {Articles.map((article: ArticleScheme, index) => <ArticleContainer key={index} article={article}/>)}
         </div>
     )
 }

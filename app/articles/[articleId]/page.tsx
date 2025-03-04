@@ -7,14 +7,21 @@ import {useEffect, useRef, useState} from "react";
 import {getDataFromServerWithJson} from "@/lib-client/fetch";
 import {applyWhereIam} from "@/redux/slices/whereIamSlice";
 import styles from './article.module.css'
-import {ArticleScheme, UserProfileScheme} from "@/typs";
+import {ArticleScheme, UserProfileScheme} from "@/types";
 import ArticleDetailsSection from "@/app/articles/[articleId]/_components/articleDetailsSection/articleDetailsSection";
 import ArticleManagementCard from "@/app/articles/[articleId]/_components/articleManagementCard/articleManagementCard";
+import {FaRegHeart} from "react-icons/fa6";
+import {CiHeart} from "react-icons/ci";
+import {IoMdHeartEmpty} from "react-icons/io";
+import {FaHeart} from "react-icons/fa";
+import {IoHeart} from "react-icons/io5";
+import LikeButton from "@/app/articles/[articleId]/_components/likeButton/likeButton";
+import TotalLikesCard from "@/app/articles/[articleId]/_components/totalLikesCard/totalLikesCard";
 
 export default function Page() {
     const LoginStatus = useSelector<RootState, RootState['LoginStatus']>((state) => state.LoginStatus)
-    const ArticlesWithAuthorProfile = useSelector<RootState, RootState['ArticlesWithAuthorProfile']>((state) => state.ArticlesWithAuthorProfile)
-    const [articleWithAuthorProfile, setArticleWithAuthorProfile] = useState<{article: ArticleScheme, authorProfile: UserProfileScheme}>();
+    const Articles = useSelector<RootState, RootState['Articles']>((state) => state.Articles)
+    const [article, setArticle] = useState<ArticleScheme>();
     const [hasError, setHasError] = useState(false);
     const {articleId} = useParams<{articleId: string}>()
     const articleIdAsNumber = parseInt(articleId, 10)
@@ -22,42 +29,42 @@ export default function Page() {
     const contentRef = useRef<HTMLDivElement>(null);
 
 
-    const getArticle = async (articleId: number): Promise<{article: ArticleScheme, authorProfile: UserProfileScheme}> => {
-        const json = await getDataFromServerWithJson<{articlesWithAuthorProfile: {article: ArticleScheme, authorProfile: UserProfileScheme}[], error: string}>(`/api/getArticles?articleId=${articleId}`);
-        return json.articlesWithAuthorProfile[0]// 必要な記事を取得
+    const getArticle = async (articleId: number): Promise<ArticleScheme> => {
+        const json = await getDataFromServerWithJson<{articles: ArticleScheme[], error: string}>(`/api/getArticles?articleId=${articleId}`);
+        return json.articles[0]// 必要な記事を取得
     };
 
     useEffect(() => {
-        const articleInState = ArticlesWithAuthorProfile.find(({article, authorProfile}) => article.id === articleIdAsNumber);
+        const articleInState = Articles.find((article: ArticleScheme) => article.id === articleIdAsNumber);
         if (!!articleInState) {
-            setArticleWithAuthorProfile(articleInState); // 状態を更新
+            setArticle(articleInState); // 状態を更新
         } else {
             (async () => {
                 const fetchedArticle = await getArticle(articleIdAsNumber);
                 if(!!fetchedArticle){
-                    setArticleWithAuthorProfile(fetchedArticle); // 非同期で取得した記事を状態にセット
+                    setArticle(fetchedArticle); // 非同期で取得した記事を状態にセット
                 }else {
                     setHasError(true);
                 }
             })()
         }
         dispatch(applyWhereIam(`article-${articleIdAsNumber}`))
-    }, [articleIdAsNumber, ArticlesWithAuthorProfile]);
+    }, [articleIdAsNumber, Articles]);
 
 
     useEffect(() => {
-        if (articleWithAuthorProfile?.article && contentRef.current) {
+        if (article && contentRef.current) {
             const parser = new DOMParser();
-            const doc = parser.parseFromString(articleWithAuthorProfile.article.contents, "text/html");
+            const doc = parser.parseFromString(article.contents, "text/html");
 
             // 既存の内容をクリアしてから、新しい DOM を追加
             contentRef.current.innerHTML = ""; // または contentRef.current.textContent = ""
             contentRef.current.appendChild(doc.body); // HTML を `contentRef` に追加
         }
-    }, [articleWithAuthorProfile?.article]); // `article` が変更されるたびに再実行
+    }, [article]); // `article` が変更されるたびに再実行
 
 
-    if (!articleWithAuthorProfile) {
+    if (!article) {
         if(hasError) {
             return <p>記事が存在しません。</p>
         }
@@ -65,10 +72,12 @@ export default function Page() {
     }
     return (
         <div className={styles.div_0}>
-            <ArticleDetailsSection {...articleWithAuthorProfile}/>
+            <ArticleDetailsSection article={article}/>
+            <LikeButton articleId={article.id} userId={LoginStatus.userProfile.userId}/>
             <div className={styles.div_1}>
-                {(() => articleWithAuthorProfile.authorProfile.userId === LoginStatus.userProfile.userId ? <ArticleManagementCard {...articleWithAuthorProfile}/> : undefined)()}
-                <h1 className={styles.h1_0}>{articleWithAuthorProfile.article.title}</h1>
+                {(() => article.authorProfile.userId === LoginStatus.userProfile.userId ? <ArticleManagementCard article={article}/> : undefined)()}
+                {(() => article.authorProfile.userId === LoginStatus.userProfile.userId ? <TotalLikesCard likes={article.likes}/> : undefined)()}
+                <h1 className={styles.h1_0}>{article.title}</h1>
                 <div ref={contentRef} className={styles.div_2}/>
             </div>
         </div>

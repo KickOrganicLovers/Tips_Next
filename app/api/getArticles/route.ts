@@ -14,33 +14,24 @@ export async function GET (req: NextRequest){
     const authorIdAsNum = authorId ? parseInt(authorId, 10) : undefined;
 
     try{
-        const articlesWithAuthorProfile = await prisma.$transaction(async (tx) => {
-            const articles = await tx.article.findMany({
-                where: (() => {
+        const articles = await prisma.article.findMany({
+            where: (() => {
                     if(!!articleIdAsNum){
                         return {id: articleIdAsNum}
                     }else if(!!authorIdAsNum) {
                         return {authorId: authorIdAsNum}
                     }
-                })()
-            })
-            const articlesWithAuthorProfile = articles.map(async (article) => {
-                const authorProfile = await tx.userProfile.findUnique({
-                    where: {
-                        userId: article.authorId as number
-                    }
-                })
-                return {
-                    article: article,
-                    authorProfile: authorProfile,
                 }
-            })
-
-            return await Promise.all(articlesWithAuthorProfile)
+            )(),
+            include: {
+                authorProfile: true,
+                likes: true
+            }
         })
-        return NextResponse.json({articlesWithAuthorProfile: articlesWithAuthorProfile, error: undefined}, {status: 200})
+
+        return NextResponse.json({articles: articles, error: undefined}, {status: 200})
     }catch (error){
-        return NextResponse.json({articlesWithAuthorProfile: undefined, error: error}, {status: 400})
+        return NextResponse.json({articles: undefined, error: error}, {status: 400})
     }
 
 

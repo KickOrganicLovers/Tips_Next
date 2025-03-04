@@ -6,7 +6,7 @@ export async function GET() {
 
 
     try {
-        const categories = await prisma.categories.findMany({
+        const categories = await prisma.category.findMany({
                 where: {
                     parentId: null,
                 },

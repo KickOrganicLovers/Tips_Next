@@ -1,0 +1,26 @@
+.IoHeart {
+    background-color: white;
+    box-sizing: border-box;
+    border-radius: 50px;
+    padding: 0.55vw 0.4vw 0.4vw 0.4vw;
+    width: 3vw;
+    height: 3vw;
+    color: gray;
+    position: absolute;
+    bottom: 2.5vh;
+    right: 1vw;
+    z-index: 2;
+    border: gray solid 3px;
+
+    /*&:hover {*/
+    /*    border-color: hotpink;*/
+    /*    transition: 0.25s;*/
+    /*}*/
+
+}
+
+.active{
+    border-color: hotpink;
+    color: hotpink;
+    transition: 0.25s;
+}

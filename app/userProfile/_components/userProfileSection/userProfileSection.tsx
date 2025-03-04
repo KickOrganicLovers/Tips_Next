@@ -4,7 +4,7 @@ import {AiOutlineCheck, AiOutlineClose, AiOutlineEdit} from "react-icons/ai";
 import React, {useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "@/redux/store";
-import {LoginStatusScheme, UserProfileScheme} from "@/typs";
+import {LoginStatusScheme, UserProfileScheme} from "@/types";
 import {setUserProfile} from "@/redux/slices/loginStatusSlice";
 import ImageEditingCard from "@/app/userProfile/_components/userProfileSection/atoms/imageEditingCard/imageEditingCard";
 

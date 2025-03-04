@@ -2,7 +2,7 @@ import React, {Dispatch, SetStateAction, useCallback, useEffect, useState} from 
 import Cropper, {Area, CropperProps, Point} from "react-easy-crop";
 import styles from './imageEditingCard.module.css'
 import {AiOutlineCheck, AiOutlineClose} from "react-icons/ai";
-import {UserProfileScheme} from "@/typs";
+import {UserProfileScheme} from "@/types";
 
 interface props {
     loadedImage: string

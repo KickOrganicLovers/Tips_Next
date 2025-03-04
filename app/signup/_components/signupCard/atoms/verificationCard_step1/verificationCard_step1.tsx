@@ -1,7 +1,7 @@
 import {useState} from "react";
 import styles from './verificationCard_step1.module.css'
 import {postDataToServerWithJson} from "@/lib-client/fetch";
-import {VerifyingResult} from "@/typs";
+import {VerifyingResult} from "@/types";
 
 interface props {
     setVerificationCardStatus: (step: string) => void

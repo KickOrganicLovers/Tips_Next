@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {LoginStatusScheme, UserProfileScheme} from "@/typs";
+import {LoginStatusScheme, UserProfileScheme} from "@/types";
 
 
 const initialState: {

@@ -1,0 +1,40 @@
+.div_0 {
+    height: 8vh;
+    width: fit-content;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0 1vw 0 1vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.div_1 {
+    height: 4vh;
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border-radius: 100px;
+    padding: 0 0.75vw 0 0.75vw;
+    gap: 0.2vw;
+    border: 2px solid gray;
+    color: gray;
+}
+
+.IoHeart{
+    background-color: white;
+    border-radius: 100px;
+    padding-top: 0.2vh;
+    font-size: 2vh;
+
+}
+
+.p_0 {
+    padding: 0;
+    margin: 0;
+    font-size: 2vh;
+}

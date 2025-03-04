@@ -7,7 +7,7 @@ import SideBarContents_1 from "@/app/_components/sideBar/sideBarContents_1/sideB
 import {useEffect} from "react";
 import {setCategories} from "@/redux/slices/categoriesSlice";
 import {getDataFromServerWithJson} from "@/lib-client/fetch";
-import {Category} from "@/typs";
+import {Category} from "@/types";
 
 export default function SideBar() {
     const SideBarStatus = useSelector<RootState, RootState['SideBarStatus']>((state) => state.SideBarStatus)

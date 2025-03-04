@@ -2,13 +2,12 @@ import styles from './articleManagementCard.module.css'
 import {AiOutlineEdit} from "react-icons/ai";
 import {FaRegTrashCan} from "react-icons/fa6";
 import classNames from "classnames";
-import {ArticleScheme, UserProfileScheme} from "@/typs";
+import {ArticleScheme, UserProfileScheme} from "@/types";
 import {postDataToServerWithJson} from "@/lib-client/fetch";
 import {useRouter} from "next/navigation";
 
 interface props {
     article: ArticleScheme
-    authorProfile: UserProfileScheme
 }
 
 export default function ArticleManagementCard(props: props) {

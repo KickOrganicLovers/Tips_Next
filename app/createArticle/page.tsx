@@ -8,7 +8,7 @@ import {RootState} from "@/redux/store";
 import {useEffect, useRef, useState} from "react";
 import {useRouter} from "next/navigation";
 import {postDataToServerWithJson} from "@/lib-client/fetch";
-import {ArticleScheme, UserProfileScheme} from "@/typs";
+import {ArticleScheme, UserProfileScheme} from "@/types";
 import ErrorsCard from "@/app/createArticle/_components/errorsCard/errorsCard";
 
 export default function Page() {

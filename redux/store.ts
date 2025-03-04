@@ -4,9 +4,8 @@ import {LoginStatusReducer} from "@/redux/slices/loginStatusSlice";
 import {SideBarStatusReducer} from "@/redux/slices/sideBarStatusSlice";
 import {ArticleEditorStatusReducer} from "@/redux/slices/articleEditorStatusSlice";
 import {CategoriesReducer} from "@/redux/slices/categoriesSlice";
-import ArticlesWithAuthorProfileSlice, {
-    ArticlesWithAuthorProfileReducer
-} from "@/redux/slices/articlesWithAuthorProfileSlice";
+import {ArticlesReducer} from "@/redux/slices/articlesSlice";
+
 
 const store = configureStore({
     reducer: {
@@ -15,7 +14,7 @@ const store = configureStore({
         SideBarStatus: SideBarStatusReducer,
         ArticleEditorStatus: ArticleEditorStatusReducer,
         Categories: CategoriesReducer,
-        ArticlesWithAuthorProfile: ArticlesWithAuthorProfileReducer,
+        Articles: ArticlesReducer,
     }
 })
 

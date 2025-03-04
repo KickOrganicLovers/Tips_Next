@@ -1,5 +1,5 @@
 import {ReactNode, useState} from "react";
-import {CategoryScheme} from "@/typs";
+import {CategoryScheme} from "@/types";
 import {useSelector} from "react-redux";
 import styles from './categoryCard.module.css'
 

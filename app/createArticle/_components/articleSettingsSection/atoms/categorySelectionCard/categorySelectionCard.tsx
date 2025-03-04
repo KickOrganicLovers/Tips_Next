@@ -3,7 +3,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "@/redux/store";
 import styles from './categorySelectionCard.module.css'
 import CategoryCard from "@/app/_components/sideBar/sideBarContents_0/atoms/categoryCard/categoryCard";
-import {CategoryScheme} from "@/typs";
+import {CategoryScheme} from "@/types";
 import {findCategoryById} from "@/lib-client/processing";
 
 interface props{

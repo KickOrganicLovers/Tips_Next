@@ -1,13 +1,13 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {Category} from "@/typs";
+import {CategoryScheme} from "@/types";
 
-const initialState: Category[] = []
+const initialState: CategoryScheme[] = []
 
 const CategoriesSlice = createSlice({
     name: 'Categories',
     initialState: initialState,
     reducers: {
-        setCategories: (state, action: PayloadAction<Category[]>) => {
+        setCategories: (state, action: PayloadAction<CategoryScheme[]>) => {
             return action.payload
         }
     }

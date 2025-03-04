@@ -1,6 +1,6 @@
 import styles from './articleByUserSection.module.css'
 import {useEffect, useState} from "react";
-import {ArticleScheme, LoginStatusScheme, UserProfileScheme} from "@/typs";
+import {ArticleScheme, LoginStatusScheme, UserProfileScheme} from "@/types";
 import {RootState} from "@/redux/store";
 import {useSelector} from "react-redux";
 import {getDataFromServerWithJson} from "@/lib-client/fetch";
@@ -13,14 +13,14 @@ interface props {
 }
 
 export default function ArticleByUserSection(props: props) {
-    const [articlesByUser, setArticleByUser] = useState<{article: ArticleScheme, authorProfile: UserProfileScheme}[]>([])
+    const [articlesByUser, setArticleByUser] = useState<ArticleScheme[]>([])
 
     const getArticlesByUser = async () => {
-        const json = await getDataFromServerWithJson<{articlesWithAuthorProfile: {article: ArticleScheme, authorProfile: UserProfileScheme}[], error?: string}>(`api/getArticles?authorId=${props.loginStatus.userProfile.userId}`)
+        const json = await getDataFromServerWithJson<{articles: ArticleScheme[], error?: string}>(`api/getArticles?authorId=${props.loginStatus.userProfile.userId}`)
         console.log(json)
         if(!json.error) {
-            console.log(json.articlesWithAuthorProfile)
-            return json.articlesWithAuthorProfile
+            console.log(json.articles)
+            return json.articles
         }else {
             return []
         }
@@ -36,7 +36,7 @@ export default function ArticleByUserSection(props: props) {
 
     return (
         <div className={styles.div_0}>
-            {articlesByUser.map(({article, authorProfile}, index) => <ArticleContainer article={article} authorProfile={authorProfile} key={index}/>)}
+            {articlesByUser.map((article: ArticleScheme, index) => <ArticleContainer article={article} key={index}/>)}
         </div>
     )
 }

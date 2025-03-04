@@ -1,4 +1,4 @@
-import {CategoryScheme} from "@/typs";
+import {CategoryScheme} from "@/types";
 
 export const findCategoryById = (categories: CategoryScheme[], id: number): CategoryScheme | undefined => {
     for (const category of categories) {

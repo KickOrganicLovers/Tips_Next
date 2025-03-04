@@ -1,4 +1,4 @@
-import {ArticleScheme, CategoryScheme, UserProfileScheme} from "@/typs";
+import {ArticleScheme, CategoryScheme, UserProfileScheme} from "@/types";
 import {useEffect, useState} from "react";
 import styles from './articleContainer.module.css'
 import {useSelector} from "react-redux";
@@ -8,7 +8,6 @@ import {useRouter} from "next/navigation";
 
 interface props {
     article: ArticleScheme;
-    authorProfile: UserProfileScheme;
 }
 
 export default function ArticleContainer(props: props) {
@@ -52,8 +51,8 @@ export default function ArticleContainer(props: props) {
                 <p className={styles.p_0}>{props.article.title}</p>
                 <div className={styles.div_3}>
                     <div className={styles.div_4}>
-                        <img className={styles.img_1} src={props.authorProfile.profileImageUrl} alt={'author-img'}/>
-                        <p className={styles.p_1}>{props.authorProfile.username}</p>
+                        <img className={styles.img_1} src={props.article.authorProfile.profileImageUrl} alt={'author-img'}/>
+                        <p className={styles.p_1}>{props.article.authorProfile.username}</p>
                     </div>
                     <div className={styles.div_4}>
                         <MdCategory className={styles.MdCategory}/>

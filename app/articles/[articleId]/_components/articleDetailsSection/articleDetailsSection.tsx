@@ -1,11 +1,10 @@
 import styles from './articleDetailsSection.module.css'
-import {ArticleScheme, CategoryScheme, UserProfileScheme} from "@/typs";
+import {ArticleScheme, CategoryScheme, UserProfileScheme} from "@/types";
 import {useSelector} from "react-redux";
 import {RootState} from "@/redux/store";
 
 interface props {
     article: ArticleScheme
-    authorProfile: UserProfileScheme
 }
 
 export default function ArticleDetailsSection(props: props) {
@@ -34,9 +33,9 @@ export default function ArticleDetailsSection(props: props) {
             </div>
             <div className={styles.div_2}>
                 <p className={styles.p_0}>この記事の作成者</p>
-                <img src={props.authorProfile.profileImageUrl} className={styles.img_0} alt={'authorProfile'}/>
-                <h2>{props.authorProfile.username}</h2>
-                <p className={styles.p_2}>{props.authorProfile.introduction}</p>
+                <img src={props.article.authorProfile.profileImageUrl} className={styles.img_0} alt={'authorProfile'}/>
+                <h2>{props.article.authorProfile.username}</h2>
+                <p className={styles.p_2}>{props.article.authorProfile.introduction}</p>
             </div>
             <div className={styles.div_3}>
                 {props.article.tags.map((tag, index) => <div className={styles.div_4} key={index}><p className={styles.p_3}>＃</p><p
