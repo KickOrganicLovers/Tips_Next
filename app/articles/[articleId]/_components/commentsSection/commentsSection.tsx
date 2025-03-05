@@ -18,6 +18,7 @@ export default function CommentsSection(props: props) {
             <h2 className={styles.h2_0}>コメント</h2>
             {(() => props.loginStatus.isLoggedIn? <CommentInsertionCard loginStatus={props.loginStatus} article={props.article} setComments={setComments}/> : null)()}
             {comments.map((comment: CommentScheme, index: number) => <CommentCard comment={comment} key={index}/>)}
+            {(() => comments.length === 0? <div className={styles.div_1}>この記事にまだコメントはありません。</div> : null)()}
         </div>
     )
 }

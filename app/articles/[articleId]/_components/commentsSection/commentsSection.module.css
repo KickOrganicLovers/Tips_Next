@@ -3,6 +3,14 @@
     height: fit-content;
     margin-bottom: 5vh;
 }
+
+.div_1 {
+    width: 100%;
+    height: fit-content;
+    background-color: white;
+    padding: 2vw;
+    box-sizing: border-box;
+}
 .h2_0 {
     width: 100%;
     text-align: left;
