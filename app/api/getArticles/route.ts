@@ -25,7 +25,12 @@ export async function GET (req: NextRequest){
             )(),
             include: {
                 authorProfile: true,
-                likes: true
+                likes: true,
+                comments: {
+                    include: {
+                        userProfile: true,
+                    },
+                },
             }
         })
 

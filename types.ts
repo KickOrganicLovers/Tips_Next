@@ -25,6 +25,7 @@ export interface ArticleScheme extends Article{
     authorId: number
     authorProfile: UserProfileScheme
     likes: LikeScheme[]
+    comments: CommentScheme[]
 }
 
 export interface CategoryScheme extends Category{
@@ -37,5 +38,18 @@ export interface CategoryScheme extends Category{
 export interface LikeScheme extends Like {
     id: string
     userId: number
+    userProfile?: UserProfileScheme
     articleId: number
+    article?: ArticleScheme
+    createdAt: Date
+}
+
+export interface CommentScheme extends Comment {
+    id: string
+    userId: number
+    userProfile?: UserProfileScheme
+    articleId: number
+    article?: ArticleScheme
+    contents: string
+    createdAt: Date
 }

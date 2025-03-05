@@ -28,6 +28,7 @@ model UserProfile {
   user             User      @relation(fields: [userId], references: [id])
   likes            Like[]
   articleCreatedBy Article[]
+  comments         Comment[]
 }
 
 model EmailOnVerifying {
@@ -55,6 +56,7 @@ model Article {
   authorId          Int
   authorProfile     UserProfile @relation(fields: [authorId], references: [userId])
   likes             Like[]
+  comments          Comment[]
 }
 
 model Like {
@@ -63,8 +65,17 @@ model Like {
   userId    Int
   article   Article     @relation(fields: [articleId], references: [id], onDelete: Cascade)
   articleId Int
-
-  createdAt DateTime @default(now())
+  createdAt DateTime    @default(now())
 
   @@unique([userId, articleId]) // 同じユーザーが同じ記事に対して1回だけいいねできるようにする
+}
+
+model Comment {
+  id          String      @id @default(cuid())
+  contents    String
+  userProfile UserProfile @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  userId      Int
+  article     Article     @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  articleId   Int
+  createdAt   DateTime    @default(now())
 }

@@ -17,6 +17,7 @@ import {FaHeart} from "react-icons/fa";
 import {IoHeart} from "react-icons/io5";
 import LikeButton from "@/app/articles/[articleId]/_components/likeButton/likeButton";
 import TotalLikesCard from "@/app/articles/[articleId]/_components/totalLikesCard/totalLikesCard";
+import CommentsSection from "@/app/articles/[articleId]/_components/commentsSection/commentsSection";
 
 export default function Page() {
     const LoginStatus = useSelector<RootState, RootState['LoginStatus']>((state) => state.LoginStatus)
@@ -85,7 +86,7 @@ export default function Page() {
                 <TotalLikesCard likes={article.likes} isLiked={isLiked}/>
                 <h1 className={styles.h1_0}>{article.title}</h1>
                 <div ref={contentRef} className={styles.div_2}/>
-
+                <CommentsSection article={article} loginStatus={LoginStatus}/>
             </div>
         </div>
     )
