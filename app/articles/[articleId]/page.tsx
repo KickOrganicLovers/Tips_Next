@@ -3,11 +3,11 @@
 import {useParams} from "next/navigation";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "@/redux/store";
-import {useEffect, useRef, useState} from "react";
-import {getDataFromServerWithJson} from "@/lib-client/fetch";
+import {Dispatch, SetStateAction, useEffect, useRef, useState} from "react";
+import {getDataFromServerWithJson, postDataToServerWithJson} from "@/lib-client/fetch";
 import {applyWhereIam} from "@/redux/slices/whereIamSlice";
 import styles from './article.module.css'
-import {ArticleScheme, LikeScheme, UserProfileScheme} from "@/types";
+import {ArticleScheme, FollowScheme, LikeScheme, UserProfileScheme, WatchHistoryScheme} from "@/types";
 import ArticleDetailsSection from "@/app/articles/[articleId]/_components/articleDetailsSection/articleDetailsSection";
 import ArticleManagementCard from "@/app/articles/[articleId]/_components/articleManagementCard/articleManagementCard";
 import {FaRegHeart} from "react-icons/fa6";
@@ -18,43 +18,63 @@ import {IoHeart} from "react-icons/io5";
 import LikeButton from "@/app/articles/[articleId]/_components/likeButton/likeButton";
 import TotalLikesCard from "@/app/articles/[articleId]/_components/totalLikesCard/totalLikesCard";
 import CommentsSection from "@/app/articles/[articleId]/_components/commentsSection/commentsSection";
+import {setArticles} from "@/redux/slices/articlesSlice";
+import {Simulate} from "react-dom/test-utils";
+import error = Simulate.error;
+import {appendWatchHistories} from "@/redux/slices/loginStatusSlice";
 
 export default function Page() {
     const LoginStatus = useSelector<RootState, RootState['LoginStatus']>((state) => state.LoginStatus)
-    // const Articles = useSelector<RootState, RootState['Articles']>((state) => state.Articles)
-    const [article, setArticle] = useState<ArticleScheme>();
-    const [isLiked, setIsLiked] = useState<boolean | undefined>(undefined);
+    const [article, setArticle] = useState<ArticleScheme | undefined>();
+    const [like, setLike] = useState<LikeScheme | undefined>(undefined);
+    const [follow, setFollow] = useState<FollowScheme | undefined>(undefined);
     const [hasError, setHasError] = useState(false);
     const {articleId} = useParams<{articleId: string}>()
-    const articleIdAsNumber = parseInt(articleId, 10)
     const dispatch = useDispatch<AppDispatch>();
     const contentRef = useRef<HTMLDivElement>(null);
 
 
     const checkIsLiked = (likes: LikeScheme[]) => {
-        console.log(likes)
-        if(likes.filter((like: LikeScheme) => like.userId === LoginStatus.userProfile.userId).length > 0){
-            setIsLiked(true);
+        const like = likes.filter((like: LikeScheme) => like.userId === LoginStatus.userProfile.userId)
+        if(like.length > 0){
+            setLike(like[0]);
         }else {
-            setIsLiked(false);
+            setLike(undefined)
         }
     }
 
-    const getArticle = async (articleId: number): Promise<ArticleScheme> => {
+    const checkIsFollowed = (follows: FollowScheme[]) => {
+        const follow =  follows.filter((follow: FollowScheme) => follow.following === article?.authorId)
+        if(follow.length > 0){
+            setFollow(follow[0])
+        }else {
+            setFollow(undefined)
+        }
+    }
+
+    const postWatchHistory = async () => {
+        if(LoginStatus.isLoggedIn){
+            return await postDataToServerWithJson<{watchHistory: WatchHistoryScheme, error: string}>('/api/postWatchHistory', {articleId: articleId, userId: LoginStatus.userProfile.userId})
+        }
+    }
+
+    const getArticle = async (articleId: string): Promise<ArticleScheme> => {
         const json = await getDataFromServerWithJson<{articles: ArticleScheme[], error: string}>(`/api/getArticles?articleId=${articleId}`);
         return json.articles[0]// 必要な記事を取得
     };
 
+
     useEffect(() => {
-        getArticle(articleIdAsNumber).then((fetchedArticle) => {
+        getArticle(articleId).then((fetchedArticle) => {
             if(!!fetchedArticle){
                 setArticle(fetchedArticle); // 非同期で取得した記事を状態にセット
             }else {
                 setHasError(true);
             }
         })
-        dispatch(applyWhereIam(`article-${articleIdAsNumber}`))
-    }, [articleIdAsNumber]);
+        dispatch(applyWhereIam(`article-${articleId}`))
+
+    }, [articleId]);
 
 
     useEffect(() => {
@@ -66,9 +86,25 @@ export default function Page() {
             contentRef.current.innerHTML = ""; // または contentRef.current.textContent = ""
             contentRef.current.appendChild(doc.body); // HTML を `contentRef` に追加
 
-            checkIsLiked(article.likes)
+            postWatchHistory().then((json) => {
+                if(!!json && !json.error){
+                    console.log('hello')
+                    dispatch(appendWatchHistories(json.watchHistory))
+                }else {
+                    //
+                }
+            }).catch((error) => {
+                console.log(error)
+            })
         }
     }, [article]); // `article` が変更されるたびに再実行
+
+    useEffect(() => {
+        if(article){
+            checkIsLiked(article.likes)
+            checkIsFollowed(LoginStatus.userProfile.followings)
+        }
+    }, [article, LoginStatus]);
 
 
     if (!article) {
@@ -79,11 +115,11 @@ export default function Page() {
     }
     return (
         <div className={styles.div_0}>
-            <ArticleDetailsSection article={article}/>
-            {(() => LoginStatus.isLoggedIn ? <LikeButton articleId={article.id} userId={LoginStatus.userProfile.userId} isLiked={isLiked} setIsLiked={setIsLiked}/> : undefined)()}
+            <ArticleDetailsSection article={article} loginStatus={LoginStatus} follow={follow} setFollow={setFollow} />
+            {(() => LoginStatus.isLoggedIn ? <LikeButton articleId={article.id} userId={LoginStatus.userProfile.userId} like={like} setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>} /> : undefined)()}
             <div className={styles.div_1}>
                 {(() => article.authorProfile.userId === LoginStatus.userProfile.userId ? <ArticleManagementCard article={article}/> : undefined)()}
-                <TotalLikesCard likes={article.likes} isLiked={isLiked}/>
+                <TotalLikesCard likes={article.likes} like={like}/>
                 <h1 className={styles.h1_0}>{article.title}</h1>
                 <div ref={contentRef} className={styles.div_2}/>
                 <CommentsSection article={article} loginStatus={LoginStatus}/>

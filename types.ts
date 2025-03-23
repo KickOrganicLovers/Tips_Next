@@ -1,4 +1,3 @@
-import {Article, Category, Like, UserProfile} from "@prisma/client";
 
 
 export interface LoginStatusScheme{
@@ -7,49 +6,77 @@ export interface LoginStatusScheme{
     userProfile: UserProfileScheme
 }
 
-export interface UserProfileScheme extends UserProfile{
-    userId: number
+export interface UserProfileScheme{
+    userId: string
     username: string
     profileImageUrl: string
     introduction: string
+    likes: LikeScheme[]
+    followings: FollowScheme[]
+    followers: FollowScheme[]
+    articleCreatedBy: ArticleScheme[]
+    watchHistories: WatchHistoryScheme[]
+    createdAt: string
 }
 
 
-export interface ArticleScheme extends Article{
-    id: number
+export interface ArticleScheme{
+    id: string
     title: string
     thumbnailImageUrl: string
     contents: string
     tags: string[]
     categoryId: number
-    authorId: number
+    authorId: string
     authorProfile: UserProfileScheme
     likes: LikeScheme[]
     comments: CommentScheme[]
+    watchHistories: WatchHistoryScheme[]
+    category: CategoryScheme
+    createdAt: string
 }
 
-export interface CategoryScheme extends Category{
+export interface CategoryScheme{
     id: number
-    category: string
+    categoryName: string
     parentId: number | null
     children: CategoryScheme[] | null
 }
 
-export interface LikeScheme extends Like {
+export interface LikeScheme{
     id: string
-    userId: number
+    userId: string
     userProfile?: UserProfileScheme
-    articleId: number
+    articleId: string
     article?: ArticleScheme
-    createdAt: Date
+    createdAt: string
 }
 
-export interface CommentScheme extends Comment {
+export interface CommentScheme{
     id: string
-    userId: number
+    userId: string
     userProfile?: UserProfileScheme
-    articleId: number
+    articleId: string
     article?: ArticleScheme
     contents: string
     createdAt: Date
+}
+
+export interface FollowScheme{
+    id: string,
+    following: string,
+    followingWithProfile?: UserProfileScheme
+    follower: string,
+    followerWithProfile?: UserProfileScheme
+    createdAt: string
+}
+
+export interface WatchHistoryScheme{
+    id: string
+    userId: string
+    userProfile?: UserProfileScheme
+    articleId: string
+    article?: ArticleScheme
+    contents: string
+    createdAt: string
 }

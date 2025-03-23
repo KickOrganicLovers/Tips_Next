@@ -8,17 +8,18 @@ import {prisma} from "@/lib-server/prisma";
 
 export async function POST(req: NextRequest) {
     const body = await req.json()
+    console.log(body)
 
     try {
         await prisma.$transaction(async (tx) => {
             const articleWithPrefix = await tx.article.create({
                 data: {
-                    title: '',
+                    title: body.title,
                     contents: '',
                     thumbnailImageUrl: '',
-                    authorId: 0,
-                    tags: [],
-                    categoryId: 0,
+                    authorId: body.authorId,
+                    tags: body.tags,
+                    categoryId: body.categoryId,
                 }
             })
 
@@ -79,53 +80,17 @@ export async function POST(req: NextRequest) {
                     id: articleWithPrefix.id
                 },
                 data: {
-                    title: body.title,
                     contents: replacedHtml,
                     thumbnailImageUrl: thumbnailImageUrl,
-                    authorId: body.authorId,
-                    tags: body.tags,
-                    categoryId: body.categoryId,
                 }
             })
         })
 
         return NextResponse.json({isCreated: true, error: undefined}, {status: 200})
     } catch (error) {
+        console.log('error' + error)
         return NextResponse.json({isCreated: false, error: error}, {status: 400})
     }
 }
-
-
-    //記事内の画像をs3にアップロードし、それと同時にurlを取得。
-    // const imageUrlMappings = await Promise.all(imagesInArticle.map(async (imageAsBase64WithPrefix, index) => {
-    //     const imageAsBase64 = imageAsBase64WithPrefix.replace(/^data:image\/\w+;base64,/, "")
-    //     const imageAsBuffer = Buffer.from(imageAsBase64, "base64")
-    //     const key = `${body.authorId}-${index}-article.jpeg`;
-    //     const upload = new Upload({
-    //         client: s3,
-    //         params: {
-    //             Bucket: 'tipsimgcontainer',
-    //             Key: key,
-    //             Body: imageAsBuffer,
-    //             ContentType: 'image/jpeg',
-    //         }
-    //     }).on("httpUploadProgress", (progress) => {
-    //         console.log(`Progress: ${progress.loaded}/${progress.total}`);
-    //     })
-    //
-    //     try {
-    //         await upload.done();
-    //         return {
-    //             base64: imageAsBase64WithPrefix, // 元の Base64
-    //             s3Url: `https://tipsimgcontainer.s3.${process.env.AWS_REGION}.amazonaws.com/${key}?${new Date().toISOString()}`
-    //         };
-    //     } catch (error) {
-    //         console.error("Error uploading file:", error);
-    //         return null;
-    //     }
-    //
-    // }))
-    // const validMappings = imageUrlMappings.filter((mapping) => mapping !== null) as { base64: string; s3Url: string }[];
-    // const replacedHtml = replaceImageSrc(contents, validMappings)
 
 

@@ -2,40 +2,44 @@ import {IoHeart} from "react-icons/io5";
 import styles from './likeButton.module.css'
 import {postDataToServerWithJson} from "@/lib-client/fetch";
 import {Dispatch, SetStateAction, useCallback, useEffect, useState} from "react";
+import {ArticleScheme, LikeScheme} from "@/types";
+import {editFollowings, editLikes} from "@/redux/slices/loginStatusSlice";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "@/redux/store";
 
 interface props {
-    articleId: number
-    userId: number
-    isLiked: boolean | undefined
-    setIsLiked: Dispatch<SetStateAction<boolean | undefined>>
+    articleId: string
+    userId: string
+    like: LikeScheme | undefined
+    setArticle: Dispatch<SetStateAction<ArticleScheme>>
 }
 
 export default function LikeButton(props: props) {
-    const className = props.isLiked? `${styles['IoHeart']} ${styles['active']}` : styles['IoHeart']
-
-    useEffect(() => {
-
-    }, [props.articleId, props.userId])
+    const className = props.like? `${styles['IoHeart']} ${styles['active']}` : styles['IoHeart']
+    const dispatch = useDispatch<AppDispatch>();
 
     const postLike = async () => {
         console.log('this is from postLike')
-        return await postDataToServerWithJson<{isPosted: boolean, error: string}>('/api/postLike', {articleId: props.articleId, userId: props.userId, isLiked: props.isLiked})
+        return await postDataToServerWithJson<{like: LikeScheme, error: string}>('/api/postLike', {articleId: props.articleId, userId: props.userId, like: props.like})
     }
 
-    const clickEventHandler = useCallback(async () => {
-        const newLike = !props.isLiked
-        props.setIsLiked(newLike)
-        try {
-            const json = await postLike()
-            if(!json.isPosted || !!json.error){
-                props.setIsLiked(!newLike)
-                return
-            }
-        }catch(err){
-            props.setIsLiked(!newLike)
+    const clickEventHandler = () => {
+        if(!props.like){
+            postLike().then(json => {
+                if(json.like && !json.error){
+                    props.setArticle((prevState) => ({...prevState, likes: [...prevState.likes, json.like]}))
+                    dispatch(editLikes({like: json.like, remove: false}))
+                }
+            })
+        }else {
+            postLike().then(json => {
+                if(json.like && !json.error){
+                    props.setArticle((prevState) => ({...prevState, likes: prevState.likes.filter((like) => like.id !== json.like.id)}))
+                    dispatch(editLikes({like: json.like, remove: true}))
+                }
+            })
         }
-
-    }, [props.articleId, props.userId, props.isLiked])
+    }
 
     return (
         <div className={styles.div_0}>

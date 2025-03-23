@@ -17,7 +17,7 @@ export default function PinInput(props: props) {
     ]);
 
 
-    const inputRefs = Array.from({length: 6}, () => useRef<HTMLInputElement | undefined>(undefined));
+    const inputRefs = Array.from({length: 6}, () => useRef<HTMLInputElement | null>(null));
 
     // フォームデータを更新する関数
     const updateFormData = (id: number, newValue: string) => {

@@ -5,7 +5,7 @@
 .div_1 {
     width: 20vw;
     height: fit-content;
-    background-color: #ededed;
+    background-color: #f3f3f3;
 }
 
 .p_0 {
@@ -39,7 +39,7 @@
     padding: 0;
     width: 50%;
     height: 100%;
-    background-color: #ededed;
+    background-color: #f3f3f3;
     overflow-y: scroll;
 }
 
@@ -48,7 +48,7 @@
     padding: 0;
     width: 50%;
     height: 100%;
-    background-color: #ededed;
+    background-color: #f3f3f3;
     overflow-y: scroll;
 }
 

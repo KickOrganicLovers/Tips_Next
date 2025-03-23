@@ -2,6 +2,7 @@
     width: auto;
     height: 3vh;
     color: darkgray;
+    cursor: pointer;
 }
 
 .active {

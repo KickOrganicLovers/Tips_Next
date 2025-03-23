@@ -3,6 +3,7 @@
     height: 3vh;
     font-size: 25px;
     color: darkgray;
+    cursor: pointer;
 }
 
 .active {

@@ -2,6 +2,12 @@
     height: 0;
     padding-bottom: 100%;
     position: relative;
+    cursor: pointer;
+}
+
+.firstArticle{
+    grid-column: span 2;
+    grid-row: span 2;
 }
 
 @keyframes fadeIn {
@@ -48,7 +54,7 @@
 
 .p_0 {
     margin: 0;
-    font-size: 2vh;
+    font-size: 1.8vh;
 }
 
 .div_3 {
@@ -94,4 +100,35 @@
     font-size: 1.5vh;
     color: darkgray;
     padding-top: 0.3vh;
+}
+
+.div_5{
+    width: fit-content;
+    height: fit-content;
+    position: absolute;
+    bottom: 1vh;
+    right: 1vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: white;
+    border-radius: 100px;
+    padding: 0.4vh 0.6vw 0.4vh 0.6vw;
+    gap: 0.2vw;
+    box-sizing: border-box;
+}
+
+.p_3 {
+    padding: 0;
+    margin: 0;
+    font-size: 1.8vh;
+}
+
+.IoHeart{
+    font-size: 2.5vh;
+    height: 100%;
+    aspect-ratio: 1;
+    color: gray;
+    padding-top: 0.2vh;
 }

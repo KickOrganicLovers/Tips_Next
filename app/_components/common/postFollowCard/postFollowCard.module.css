@@ -1,0 +1,27 @@
+.button_0 {
+    border: none;
+    font-size: 1.5vh;
+    outline: 2px solid deepskyblue;
+    color: deepskyblue;
+    padding: 0.8vh 0.8vw 0.8vh 0.8vw;
+    border-radius: 100px;
+    background-color: white;
+
+    &:hover {
+        outline: none;
+        background-color: deepskyblue;
+        color: white;
+        transition: 0.25s;
+    }
+}
+
+.button_0.active {
+    outline-color: hotpink;
+    color: hotpink;
+    &:hover {
+        outline: none;
+        background-color: hotpink;
+        color: white;
+        transition: 0.25s;
+    }
+}

@@ -5,28 +5,22 @@ import AccountBanner from "@/app/_components/sideBar/sideBarContents_0/atoms/acc
 import CategoryCard from "@/app/_components/sideBar/sideBarContents_0/atoms/categoryCard/categoryCard";
 import {usePathname} from "next/navigation";
 import {useEffect} from "react";
+import MyPageOptionsCard from "@/app/_components/sideBar/sideBarContents_0/atoms/myOptionsCard/myOptionsCard";
+import SubscribedAccountCard
+    from "@/app/_components/sideBar/sideBarContents_0/atoms/subscribedAccountsCard/subscribedAccountCard";
 
 export default function SideBarContents_0() {
-
-    const Categories = useSelector<RootState, RootState['Categories']>((state) => state.Categories)
+    const LoginStatus = useSelector<RootState, RootState['LoginStatus']>((state) => state.LoginStatus)
 
     useEffect(() => {
-        console.log(Categories)
-    }, [Categories]);
+        console.log(LoginStatus)
+    }, [LoginStatus]);
 
     return (
         <div className={styles.div_0}>
-            <AccountBanner/>
-            <div className={styles.div_1}>カテゴリーで探す</div>
-            <ul className={styles.ul}>
-                {Categories.map((category, i) => <li className={styles.li} key={i}><CategoryCard category={category}/></li>)}
-                {/*<li className={styles.li} key={'test0'}>*/}
-                {/*    <CategoryCard cardName={'test0'} details={['apple', 'orange', 'grape']}/>*/}
-                {/*</li>*/}
-                {/*<li className={styles.li} key={'test1'}>*/}
-                {/*    <CategoryCard cardName={'test1'} details={['kajimoto', 'takamatsu', 'nishimura']}/>*/}
-                {/*</li>*/}
-            </ul>
+            <AccountBanner loginStatus={LoginStatus}/>
+            <MyPageOptionsCard/>
+            <SubscribedAccountCard loginStatus={LoginStatus}/>
         </div>
     )
 }

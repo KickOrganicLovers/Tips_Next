@@ -21,7 +21,7 @@ export default function CategoryCard(props: props) {
         const Items: ReactNode[] = []
         if(categories && categories.length > 0) {
             categories.map((category, i) => {
-                Items.push(<li className={styles.li} key={i}><p className={styles.p_1}>{category.category}</p></li>)
+                Items.push(<li className={styles.li} key={i}><p className={styles.p_1}>{category.categoryName}</p></li>)
             })
             return Items
         }
@@ -31,10 +31,10 @@ export default function CategoryCard(props: props) {
     return (
         <div className={styles.div0}>
             <div className={className}>
-                <p onClick={clickEventHandler} className={styles.p_0}>{props.category.category}</p>
+                <p onClick={clickEventHandler} className={styles.p_0}>{props.category.categoryName}</p>
             </div>
             <ul className={styles.ul} style={{height: dynamicHeight}}>
-                {addList(props.category.children)}
+                {addList(props.category.children as CategoryScheme[])}
             </ul>
         </div>
     )

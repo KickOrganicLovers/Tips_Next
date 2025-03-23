@@ -1,4 +1,4 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const WhereIamSlice = createSlice({
     name: 'WhereIam',
@@ -6,7 +6,7 @@ const WhereIamSlice = createSlice({
         whereIam: 'app'
     },
     reducers: {
-        applyWhereIam: (state, action) => {
+        applyWhereIam: (state, action: PayloadAction<string>) => {
             state.whereIam = action.payload
         }
     }

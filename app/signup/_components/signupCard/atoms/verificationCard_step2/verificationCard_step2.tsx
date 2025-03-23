@@ -3,7 +3,6 @@ import {Dispatch, SetStateAction, useState} from "react";
 import OTPInput from "react-otp-input";
 import PinInput from "@/app/signup/_components/signupCard/atoms/verificationCard_step2/atoms/pinInput";
 import {postDataToServerWithJson} from "@/lib-client/fetch";
-import {VerifyingResult} from "@/types";
 
 interface props {
     setVerificationCardStatus: Dispatch<SetStateAction<string>>

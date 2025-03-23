@@ -1,0 +1,32 @@
+.div_0 {
+    width: 30%;
+    height: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3vh;
+}
+
+.img_0 {
+    width: 40%;
+    aspect-ratio: 1;
+    border-radius: 100%;
+}
+
+.h1_0 {
+    margin: 0;
+    padding: 0;
+    font-size: 1.5vw;
+    height: fit-content;
+    width: 100%;
+    text-align: center;
+}
+.div_1 {
+    width: fit-content;
+    max-width: 60%;
+    text-align: left;
+    font-size: 1vw;
+    box-sizing: border-box;
+}

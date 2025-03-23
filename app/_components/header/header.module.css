@@ -21,7 +21,8 @@
 }
 
 .img_0 {
-    height: 60%;
+    height: 75%;
+    aspect-ratio: 1;
     border-radius: 20%;
     width: auto;
 }

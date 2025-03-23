@@ -1,5 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
 import {prisma} from "@/lib-server/prisma";
+import {replaceAllDatesToIsoString} from "@/lib-server/processing";
 
 export async function POST(req: NextRequest) {
     const body = await req.json()
@@ -7,8 +8,8 @@ export async function POST(req: NextRequest) {
     try {
         const postedComment = await prisma.comment.create({
             data: {
-                userId: body.userId as number,
-                articleId: body.articleId as number,
+                userId: body.userId as string,
+                articleId: body.articleId as string,
                 contents: body.contents as string,
             },
             include: {
@@ -16,7 +17,7 @@ export async function POST(req: NextRequest) {
             }
         })
 
-        return NextResponse.json({postedComment: postedComment, error: undefined}, {status: 200})
+        return NextResponse.json({postedComment: replaceAllDatesToIsoString(postedComment), error: undefined}, {status: 200})
     }catch (error){
         return NextResponse.json({postedComment: undefined, error: error}, {status: 400})
     }

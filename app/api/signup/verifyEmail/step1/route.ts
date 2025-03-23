@@ -1,4 +1,4 @@
-import {PrismaClient} from "@prisma/client";
+
 import {NextRequest, NextResponse} from "next/server";
 import {Resend} from "resend";
 import crypto from 'crypto';
@@ -11,6 +11,7 @@ export async function POST(req: NextRequest) {
     const resend = new Resend(process.env.RESEND_API_KEY)
     const body = await req.json()
     const email = body !== undefined && body.email !== undefined && typeof body.email === 'string' ? body.email as string : ''
+    console.log(email)
     const user = await prisma.user.findUnique({
         where: {
             email: email

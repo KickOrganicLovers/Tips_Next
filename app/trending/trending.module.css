@@ -1,0 +1,47 @@
+.div_0 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.div_1 {
+    width: 25%;
+    height: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.div_2 {
+    width: 75%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4vh;
+    padding: 4vh 0 4vh 0;
+    box-sizing: border-box;
+    overflow: scroll;
+}
+
+.img_0 {
+    width: 50%;
+    aspect-ratio: 1;
+}
+
+
+.h1_0 {
+
+}
+
+.p_0 {
+    color: darkgray;
+    width: 75%;
+    text-align: center;
+}
+
+.h2_0 {
+}

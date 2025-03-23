@@ -5,10 +5,10 @@ import ArticleSettingsSection from "@/app/createArticle/_components/articleSetti
 import styles from './createArticle.module.css'
 import {useSelector} from "react-redux";
 import {RootState} from "@/redux/store";
-import {useEffect, useRef, useState} from "react";
+import {Dispatch, SetStateAction, useEffect, useRef, useState} from "react";
 import {useRouter} from "next/navigation";
 import {postDataToServerWithJson} from "@/lib-client/fetch";
-import {ArticleScheme, UserProfileScheme} from "@/types";
+import {ArticleScheme, CategoryScheme, UserProfileScheme} from "@/types";
 import ErrorsCard from "@/app/createArticle/_components/errorsCard/errorsCard";
 
 export default function Page() {
@@ -22,7 +22,7 @@ export default function Page() {
     const [contents, setContents] = useState<string>('');
     const [thumbnailImageAsBase64, setThumbnailImageAsBase64] = useState<string>('');
     const [thumbnailImageUrl, setThumbnailImageUrl] = useState<string>('');
-    const [categoryId, setCategoryId] = useState<number>(0);
+    const [category, setCategory] = useState<CategoryScheme | undefined>(undefined);
     const [tags, setTags] = useState<string[]>([]);
 
     const [errors, setErrors] = useState<string[]>([]);
@@ -32,7 +32,7 @@ export default function Page() {
             title: title,
             contents: contents,
             thumbnailImageAsBase64: thumbnailImageAsBase64,
-            categoryId: categoryId,
+            categoryId: category?.id as number,
             tags: tags,
             authorId: LoginStatus.userProfile.userId
         });
@@ -49,7 +49,7 @@ export default function Page() {
         if(!thumbnailImageAsBase64){
             errors.push('サムネイル画像を選択してください。')
         }
-        if(!categoryId){
+        if(!category){
             errors.push('カテゴリーを選択してください。')
         }
         if(!tags || tags.length === 0){
@@ -67,7 +67,7 @@ export default function Page() {
                 setContents(articleToEdit.article.contents)
                 setThumbnailImageUrl(articleToEdit.article.thumbnailImageUrl)
                 setTags(articleToEdit.article.tags)
-                setCategoryId(articleToEdit.article.categoryId)
+                setCategory(articleToEdit.article.category)
                 sessionStorage.removeItem('articleToEdit');
             }
         }
@@ -100,7 +100,7 @@ export default function Page() {
         <div className={styles.div_0}>
             <div className={className}>
                 <ArticleEditingSection title={title} setTitle={setTitle} contents={contents} setContents={setContents}/>
-                <ArticleSettingsSection setThumbnailImageAsBase64={setThumbnailImageAsBase64} categoryId={categoryId} setCategoryId={setCategoryId}
+                <ArticleSettingsSection setThumbnailImageAsBase64={setThumbnailImageAsBase64} category={category as CategoryScheme} setCategory={setCategory as Dispatch<SetStateAction<CategoryScheme>>}
                                         tags={tags} setTags={setTags}/>
             </div>
             {(() => {

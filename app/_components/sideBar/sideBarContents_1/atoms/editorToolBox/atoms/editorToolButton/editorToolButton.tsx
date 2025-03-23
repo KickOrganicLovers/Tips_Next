@@ -24,7 +24,7 @@ export default function EditorToolButton(props: props) {
 
     const ArticleEditorStatus = useSelector<RootState, RootState['ArticleEditorStatus']>((state) => state.ArticleEditorStatus)
     const extensionStatus = ArticleEditorStatus[props.extension as keyof typeof ArticleEditorStatus]
-    const className = extensionStatus.isActive ? `${styles['button']} ${styles['active']}` : `${styles['button']}`
+    const className = extensionStatus.isActive? `${styles['button']} ${styles['active']}` : `${styles['button']}`
     const imageSrc = `/images/toolBoxIcons/${props.extension}.svg`
 
     const dispatch = useDispatch<AppDispatch>();

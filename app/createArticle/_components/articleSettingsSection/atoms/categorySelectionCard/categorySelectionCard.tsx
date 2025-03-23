@@ -2,13 +2,12 @@ import {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "@/redux/store";
 import styles from './categorySelectionCard.module.css'
-import CategoryCard from "@/app/_components/sideBar/sideBarContents_0/atoms/categoryCard/categoryCard";
 import {CategoryScheme} from "@/types";
 import {findCategoryById} from "@/lib-client/processing";
 
 interface props{
-    categoryId: number,
-    setCategoryId: Dispatch<SetStateAction<number>>
+    category: CategoryScheme,
+    setCategory: Dispatch<SetStateAction<CategoryScheme>>
 }
 export default function CategorySelectionCard(props: props) {
     const Categories = useSelector<RootState, RootState['Categories']>((state) => state.Categories)
@@ -17,16 +16,11 @@ export default function CategorySelectionCard(props: props) {
     const [isClicked, setIsClicked] = useState<boolean>(false)
     const className_ul_1 = isClicked ? `${styles['ul_1']} ${styles['active']}` : `${styles['ul_1']}`
 
-    useEffect(() => {
-        setCategoryName(findCategoryById(Categories, props.categoryId)?.category as string)
-    }, [props.categoryId]);
-
 
     const clickEventHandler = (index: number) => {
         setIsClicked(true)
         setParentCategoryIdOnFocus(index)
     }
-
 
     return (
         <div className={styles.div_0}>
@@ -39,7 +33,7 @@ export default function CategorySelectionCard(props: props) {
                         className={(() => i === parentCategoryIdOnFocus && isClicked ? `${styles['li_0']} ${styles['active']}` : `${styles['li_0']}`)()}
                         key={i} onClick={() => {
                         clickEventHandler(i)
-                    }}>{category.category}</li>)}
+                    }}>{category.categoryName}</li>)}
                 </ul>
                 <ul className={className_ul_1}>
                     {(() => {
@@ -48,9 +42,9 @@ export default function CategorySelectionCard(props: props) {
                                 return Categories[parentCategoryIdOnFocus].children.map((child: CategoryScheme, i: number) => <li key={i}
                                                                                                           className={styles.li_1}
                                                                                                           onClick={() => {
-                                                                                                              props.setCategoryId(child.id);
-                                                                                                              setCategoryName(child.category)
-                                                                                                          }}>{child.category}</li>)
+                                                                                                              props.setCategory(child);
+                                                                                                              setCategoryName(child.categoryName)
+                                                                                                          }}>{child.categoryName}</li>)
                             }
                         }
                     })()}

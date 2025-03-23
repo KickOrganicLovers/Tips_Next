@@ -14,21 +14,25 @@ datasource db {
 }
 
 model User {
-  id       Int          @id @default(autoincrement())
+  id       String       @id @default(cuid())
   email    String       @unique
   password String
   profile  UserProfile? @relation()
 }
 
 model UserProfile {
-  userId           Int       @id
+  userId           String         @id
   username         String?
   profileImageUrl  String?
   introduction     String?
-  user             User      @relation(fields: [userId], references: [id])
+  user             User           @relation(fields: [userId], references: [id])
   likes            Like[]
   articleCreatedBy Article[]
   comments         Comment[]
+  followings       Follow[]       @relation("following")
+  followers        Follow[]       @relation("follower")
+  watchHistories   WatchHistory[]
+  createdAt        DateTime       @default(now())
 }
 
 model EmailOnVerifying {
@@ -39,32 +43,36 @@ model EmailOnVerifying {
 }
 
 model Category {
-  id           Int        @id @default(autoincrement())
+  id           String     @id @default(cuid())
   categoryName String
-  parentId     Int?
+  parentId     String?
   parent       Category?  @relation("CategoryParent", fields: [parentId], references: [id])
   children     Category[] @relation("CategoryParent")
+  articles     Article[]
 }
 
 model Article {
-  id                Int         @unique @default(autoincrement())
+  id                String         @id @default(cuid())
   title             String
   thumbnailImageUrl String
   contents          String
   tags              String[]
-  categoryId        Int
-  authorId          Int
-  authorProfile     UserProfile @relation(fields: [authorId], references: [userId])
+  categoryId        String
+  category          Category       @relation(fields: [categoryId], references: [id])
+  authorId          String
+  authorProfile     UserProfile    @relation(fields: [authorId], references: [userId])
   likes             Like[]
   comments          Comment[]
+  watchHistories    WatchHistory[]
+  createdAt         DateTime       @default(now())
 }
 
 model Like {
   id        String      @id @default(cuid())
   user      UserProfile @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  userId    Int
+  userId    String
   article   Article     @relation(fields: [articleId], references: [id], onDelete: Cascade)
-  articleId Int
+  articleId String
   createdAt DateTime    @default(now())
 
   @@unique([userId, articleId]) // 同じユーザーが同じ記事に対して1回だけいいねできるようにする
@@ -74,8 +82,28 @@ model Comment {
   id          String      @id @default(cuid())
   contents    String
   userProfile UserProfile @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  userId      Int
+  userId      String
   article     Article     @relation(fields: [articleId], references: [id], onDelete: Cascade)
-  articleId   Int
+  articleId   String
   createdAt   DateTime    @default(now())
+}
+
+model Follow {
+  id                   String      @id @default(cuid())
+  following            String
+  followingWithProfile UserProfile @relation("following", fields: [following], references: [userId])
+  follower             String
+  followerWithProfile  UserProfile @relation("follower", fields: [follower], references: [userId])
+  createdAt            DateTime    @default(now())
+
+  @@unique([following, follower])
+}
+
+model WatchHistory {
+  id        String      @id @default(cuid())
+  user      UserProfile @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  userId    String
+  article   Article     @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  articleId String
+  createdAt DateTime    @default(now())
 }

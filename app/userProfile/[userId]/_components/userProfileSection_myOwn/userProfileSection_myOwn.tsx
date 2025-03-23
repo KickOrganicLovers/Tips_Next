@@ -1,23 +1,25 @@
-import styles from './userProfileSection.module.css'
+import styles from './userProfileSection_myOwn.module.css'
 import {FiPlus} from "react-icons/fi";
 import {AiOutlineCheck, AiOutlineClose, AiOutlineEdit} from "react-icons/ai";
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "@/redux/store";
 import {LoginStatusScheme, UserProfileScheme} from "@/types";
 import {setUserProfile} from "@/redux/slices/loginStatusSlice";
-import ImageEditingCard from "@/app/userProfile/_components/userProfileSection/atoms/imageEditingCard/imageEditingCard";
+import ImageEditingCard from "@/app/userProfile/[userId]/_components/userProfileSection_myOwn/atoms/imageEditingCard";
+import {WritableDraft} from "immer";
+import {redirect} from "next/navigation";
+import TotalFollowCard from "@/app/_components/common/totalFollowCard/totalFollowCard";
 
 interface props {
     loginStatus: LoginStatusScheme
 }
 
-export default function UserProfileSection(props: props) {
+export default function UserProfileSection_MyOwn(props: props) {
 
     const [username, setUsername] = useState(props.loginStatus.userProfile.username);
     const [profileImageUrl, setProfileImageUrl] = useState(props.loginStatus.userProfile.profileImageUrl);
     const [introduction, setIntroduction] = useState(props.loginStatus.userProfile.introduction);
-
 
     const [isEditingMode, setIsEditingMode] = useState<boolean>(false);
     const [isCropperOpen, setIsCropperOpen] = useState<boolean>(false);
@@ -42,9 +44,9 @@ export default function UserProfileSection(props: props) {
         }
     }
 
-    const postImgToServer = async (profileImageAsBase64: string, userId: number) => {
+    const postImgToServer = async (profileImageAsBase64: string, userId: string) => {
 
-        const url = 'api/editUserProfile/postUserProfileImage'
+        const url = '/api/editUserProfile/postUserProfileImage'
         console.log(userId)
         const params = {
             method: 'POST',
@@ -58,9 +60,9 @@ export default function UserProfileSection(props: props) {
         return await fetch(url, params)
     }
 
-    const applyUserProfileChanges = async (userId: number, username: string, introduction: string, profileImageUrl?: string) => {
+    const applyUserProfileChanges = async (userId: string, username: string, introduction: string, profileImageUrl?: string) => {
 
-        const url = 'api/editUserProfile';
+        const url = '/api/editUserProfile';
 
         // 条件付きでオブジェクトを構築
         const body = {
@@ -102,7 +104,7 @@ export default function UserProfileSection(props: props) {
                                                     if (json.updatedUserProfile.profileImageUrl) {
                                                         setProfileImageUrl(json.updatedUserProfile.profileImageUrl)
                                                         setProfileImageAsBase64('')
-                                                        dispatch(setUserProfile(json.updatedUserProfile))
+                                                        dispatch(setUserProfile(json.updatedUserProfile as unknown as WritableDraft<UserProfileScheme>))
                                                         setIsEditingMode(false)
                                                         console.log(props.loginStatus.userProfile)
                                                     }
@@ -121,7 +123,7 @@ export default function UserProfileSection(props: props) {
                     res.json().then(
                         (json: { error: string; updatedUserProfile: UserProfileScheme }) => {
                             if (!json.error) {
-                                dispatch(setUserProfile(json.updatedUserProfile))
+                                dispatch(setUserProfile(json.updatedUserProfile as unknown as WritableDraft<UserProfileScheme>))
                                 setIsEditingMode(false)
                             }
                         })
@@ -138,6 +140,12 @@ export default function UserProfileSection(props: props) {
         setIsEditingMode(false)
     }
 
+    useEffect(() => {
+        if(!props.loginStatus.isLoggedIn){
+            redirect('/')
+        }
+    }, []);
+
 
     return (
         <div className={styles.div_0}>
@@ -148,30 +156,26 @@ export default function UserProfileSection(props: props) {
                     inputImageRef.current?.click()
                 }}/> : undefined)()}
             </div>
-            <div className={styles.div_2}>
-                {(() => isEditingMode ?
-                    <input type={"text"} className={styles.input_0} value={username} onChange={(e) => {
-                        setUsername(e.target.value)
-                    }}/> : <h1 className={styles.h1_0}>{props.loginStatus.userProfile.username}</h1>)()}
-            </div>
-            <div className={styles.div_3}>
-                {(() => isEditingMode ?
-                    <textarea className={styles.textarea_0} value={introduction} onChange={(e) => {
-                        setIntroduction(e.target.value)
-                    }}/> : <div className={styles.div_5}>{props.loginStatus.userProfile.introduction}</div>)()}
-            </div>
-            <div className={styles.div_4}>
-                {(() => isEditingMode ?
-                    <div className={styles.div_7}>
+            {(() => isEditingMode ?
+                <input type={"text"} className={styles.input_0} value={username} onChange={(e) => {
+                    setUsername(e.target.value)
+                }}/> : <h1 className={styles.h1_0}>{props.loginStatus.userProfile.username}</h1>)()}
+            {(() => isEditingMode ? null : <TotalFollowCard userProfile={props.loginStatus.userProfile}/>)()}
+            {(() => isEditingMode ?
+                <textarea className={styles.textarea_0} value={introduction} onChange={(e) => {
+                    setIntroduction(e.target.value)
+                }}/> : <div className={styles.div_2}>{props.loginStatus.userProfile.introduction}</div>)()}
+            {(() => isEditingMode ?
+                    <div className={styles.div_4}>
                         <AiOutlineCheck className={styles.AiOutlineCheck} onClick={onEditComplete}/>
                         <AiOutlineClose className={styles.AiOutlineClose} onClick={onEditCancel}/>
                     </div>
                     :
-                    <div className={styles.div_6} onClick={() => setIsEditingMode(true)}>
+                    <div className={styles.div_3} onClick={() => setIsEditingMode(true)}>
                         <AiOutlineEdit className={styles.AiOutlineEdit}/>
                         <p className={styles.p_0}>プロフィールを編集</p>
-                    </div>)()}
-            </div>
+                    </div>
+            )()}
             {(() => isCropperOpen ? <ImageEditingCard loadedImage={loadedImage} setIsCropperOpen={setIsCropperOpen}
                                                       userProfile={props.loginStatus.userProfile}
                                                       setProfileImageAsBase64={setProfileImageAsBase64}/> : undefined)()}

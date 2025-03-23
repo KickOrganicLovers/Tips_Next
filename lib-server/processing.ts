@@ -64,3 +64,21 @@ export function replaceImageSrc(html: string, replacements: { base64: string; s3
 
     return dom.window.document.body.innerHTML; // 変更後のHTMLを取得
 }
+
+export function replaceAllDatesToIsoString<T>(obj: T): T {
+    if (obj === null || typeof obj !== "object") {
+        return obj;
+    }
+
+    if (obj instanceof Date) {
+        return obj.toISOString() as T; // DateならISO文字列に変換
+    }
+
+    if (Array.isArray(obj)) {
+        return obj.map((item) => replaceAllDatesToIsoString(item)) as T;
+    }
+
+    return Object.fromEntries(
+        Object.entries(obj).map(([key, value]) => [key, replaceAllDatesToIsoString(value)])
+    ) as T;
+}

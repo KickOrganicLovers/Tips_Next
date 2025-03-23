@@ -6,11 +6,12 @@ import TagAdditionCard
     from "@/app/createArticle/_components/articleSettingsSection/atoms/tagAdditionCard/tagAdditionCard";
 import CategorySelectionCard
     from "@/app/createArticle/_components/articleSettingsSection/atoms/categorySelectionCard/categorySelectionCard";
+import {CategoryScheme} from "@/types";
 
 interface props {
     setThumbnailImageAsBase64: Dispatch<SetStateAction<string>>
-    categoryId: number
-    setCategoryId: Dispatch<SetStateAction<number>>
+    category: CategoryScheme
+    setCategory: Dispatch<SetStateAction<CategoryScheme>>
     tags: string[]
     setTags: Dispatch<SetStateAction<string[]>>
 }
@@ -30,7 +31,7 @@ export default function ArticleSettingsSection(props: props) {
                 </div>
                 <div>
                     <h1 className={styles.h1_0}>カテゴリーの選択</h1>
-                    <CategorySelectionCard categoryId={props.categoryId} setCategoryId={props.setCategoryId}/>
+                    <CategorySelectionCard category={props.category} setCategory={props.setCategory}/>
                 </div>
                 <div>
                     <h1 className={styles.h1_0}>タグの追加</h1>

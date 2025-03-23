@@ -4,9 +4,12 @@ import {AiOutlinePlusCircle} from "react-icons/ai";
 import styles from './accountBanner.module.css'
 import {useRouter} from "next/navigation";
 import {disable} from "@/redux/slices/sideBarStatusSlice";
+import {LoginStatusScheme} from "@/types";
 
-export default function AccountBanner() {
-    const LoginStatus = useSelector<RootState, RootState['LoginStatus']>((state) => state.LoginStatus)
+interface props {
+    loginStatus: LoginStatusScheme
+}
+export default function AccountBanner(props: props) {
     const dispatch = useDispatch<AppDispatch>();
     const router = useRouter()
 
@@ -27,7 +30,7 @@ export default function AccountBanner() {
     }
 
     const clickEventHandler_navigateToUserProfile = () => {
-        router.push('/userProfile')
+        router.push('/userProfile/me')
         dispatch(disable())
     }
 
@@ -36,19 +39,19 @@ export default function AccountBanner() {
         <div className={styles.div_0}>
             <div className={styles.div_1}>
                 <div className={styles.div_3}>
-                    <img className={styles.img_0} src={LoginStatus.userProfile.profileImageUrl} alt='profileimage'/>
+                    <img className={styles.img_0} src={props.loginStatus.userProfile.profileImageUrl} alt='profileimage'/>
                 </div>
                 <div className={styles.div_4}>
-                    {(() => LoginStatus.isLoggedIn ? (
+                    {(() => props.loginStatus.isLoggedIn ? (
                         <p className={styles.p_1}
-                           onClick={clickEventHandler_navigateToUserProfile}>{LoginStatus.userProfile.username}</p>
+                           onClick={clickEventHandler_navigateToUserProfile}>{props.loginStatus.userProfile.username}</p>
                     ) : (
                         <p className={styles.p_1} onClick={clickEventHandler_navigateToLogin}>ログイン</p>
                     ))()}
                 </div>
             </div>
             <div className={styles.div_2}>
-                {(() => LoginStatus.isLoggedIn ? (
+                {(() => props.loginStatus.isLoggedIn ? (
                     <div className={styles.div_5}>
                         <AiOutlinePlusCircle className={styles.AiOutlinePlusCircle}
                                              onClick={clickEventHandler_navigateToCreateArticle}/>

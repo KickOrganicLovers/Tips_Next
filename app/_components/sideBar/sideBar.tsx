@@ -4,10 +4,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "@/redux/store";
 import {usePathname} from "next/navigation";
 import SideBarContents_1 from "@/app/_components/sideBar/sideBarContents_1/sideBarContents_1";
-import {useEffect} from "react";
-import {setCategories} from "@/redux/slices/categoriesSlice";
-import {getDataFromServerWithJson} from "@/lib-client/fetch";
-import {Category} from "@/types";
 
 export default function SideBar() {
     const SideBarStatus = useSelector<RootState, RootState['SideBarStatus']>((state) => state.SideBarStatus)

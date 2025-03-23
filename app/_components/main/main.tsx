@@ -5,8 +5,6 @@ import styles from './main.module.css'
 import {getDataFromServerWithJson} from "@/lib-client/fetch";
 import {ArticleScheme, CategoryScheme, UserProfileScheme} from "@/types";
 import {setCategories} from "@/redux/slices/categoriesSlice";
-import {applyWhereIam} from "@/redux/slices/whereIamSlice";
-import {setArticlesWithAuthorProfile} from "@/redux/slices/articlesSlice";
 
 export default function Main({children}: { children: ReactNode }) {
     const SideBarStatus = useSelector<RootState, RootState['SideBarStatus']>((state) => state.SideBarStatus)

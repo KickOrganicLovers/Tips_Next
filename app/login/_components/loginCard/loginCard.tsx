@@ -25,6 +25,7 @@ export default function LoginCard() {
 
     const clickEventHandler = () => {
         login().then(data => {
+            console.log(data)
             dispatch(setLoginStatus(data))
         }).catch(error => {
             console.error(error)

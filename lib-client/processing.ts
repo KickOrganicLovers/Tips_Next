@@ -14,3 +14,17 @@ export const findCategoryById = (categories: CategoryScheme[], id: number): Cate
     }
     return
 }
+
+export const isToday = (date: string | Date): boolean => {
+    const target = new Date(date);
+    const today =  new Date();
+
+    return target.getFullYear() === today.getFullYear() &&
+        target.getMonth() === today.getMonth() &&
+        target.getDate() === today.getDate();
+}
+
+export const stripTags = (htmlString: string)=> {
+    let doc = new DOMParser().parseFromString(htmlString, 'text/html');
+    return doc.body.textContent || "";
+}

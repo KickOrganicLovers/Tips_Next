@@ -55,12 +55,15 @@ const initialState: {
         variable: boolean
     }
     image: {
+        isActive?: boolean
         variable: boolean
     }
     settings: {
+        isActive?: boolean
         variable: boolean
     }
     upload: {
+        isActive?: boolean
         variable: boolean
     }
 
