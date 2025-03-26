@@ -2,40 +2,34 @@ import {ReactNode, useState} from "react";
 import {CategoryScheme} from "@/types";
 import {useSelector} from "react-redux";
 import styles from './categoryCard.module.css'
+import {RootState} from "@/redux/store";
 
-
-interface props {
-    category: CategoryScheme;
-}
-
-export default function CategoryCard(props: props) {
+export default function CategoryCard() {
     const [isActive, setIsActive] = useState(false)
-    const className = isActive ? `${styles['div1']} ${styles['active']}` : styles['div1']
-    const dynamicHeight: string = isActive && props.category.children ? `${props.category.children.length * 4}vh` : '0'
+    const className = isActive ? `${styles['div_3']} ${styles['active']}` : styles['div_3']
+    const Categories = useSelector<RootState, RootState['Categories']>((state) => state.Categories)
 
     const clickEventHandler = () => {
         setIsActive(!isActive)
     }
 
-    const addList = (categories?: CategoryScheme[]) => {
-        const Items: ReactNode[] = []
-        if(categories && categories.length > 0) {
-            categories.map((category, i) => {
-                Items.push(<li className={styles.li} key={i}><p className={styles.p_1}>{category.categoryName}</p></li>)
-            })
-            return Items
-        }
-    }
-
+    //<li className={styles.li} key={i}><p className={styles.p_1}>{category.categoryName}</p></li>
 
     return (
-        <div className={styles.div0}>
-            <div className={className}>
-                <p onClick={clickEventHandler} className={styles.p_0}>{props.category.categoryName}</p>
-            </div>
-            <ul className={styles.ul} style={{height: dynamicHeight}}>
-                {addList(props.category.children as CategoryScheme[])}
-            </ul>
+        <div className={styles.div_0}>
+            <div className={styles.div_1}>カテゴリーで探す</div>
+            {Categories.map((category, i) => (
+                <div className={styles.div_2}>
+                    <div className={className}>
+                        <p onClick={clickEventHandler} className={styles.p_0}>{category.categoryName}</p>
+                    </div>
+                    <ul className={styles.ul_0} style={{height: isActive && category.children ? `${category.children.length * 4}vh` : '0'}}>
+                        {category.children?.map((children, i) => (
+                            <li className={styles.li_0} key={i}><p className={styles.p_1}>{children.categoryName}</p></li>
+                        ))}
+                    </ul>
+                </div>
+            ))}
         </div>
     )
 }

@@ -21,6 +21,7 @@ export default function SideBarContents_0() {
             <AccountBanner loginStatus={LoginStatus}/>
             <MyPageOptionsCard/>
             <SubscribedAccountCard loginStatus={LoginStatus}/>
+            <CategoryCard/>
         </div>
     )
 }

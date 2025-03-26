@@ -1,22 +1,44 @@
-.div0 {
+.div_0 {
     overflow: hidden;
+    margin: 0 0.75vw 2vh 0.75vw;
 }
 
+.div_1 {
+    width: 100%;
+    height: 4vh;
+    line-height: 4vh;
+    font-size: 1.5vh;
+    padding-left: 0.25vw;
+    box-sizing: border-box;
+    color: #4a4a4a;
+    font-weight: 750;
+    background-color: white;
+    border-bottom: solid darkgray 2px;
+    white-space: nowrap;
+}
 
-.div1 {
+.div_2 {
+    margin: 0 0 0 0.25vw;
+}
+
+.div_3 {
     background-color: white;
     height: 4vh;
-
+    cursor: pointer;
+    transition: 0.25s;
     &:hover {
-        background-color: #f3f3f3;
+        color: deepskyblue;
     }
 }
 
-.div1.active {
-    background-color: #f3f3f3;
+.active {
+    color: hotpink;
+    &:hover {
+        color: hotpink;
+    }
 }
 
-.ul {
+.ul_0 {
     height: 0;
     margin: 0;
     padding: 0;
@@ -26,34 +48,33 @@
     overflow: hidden;
 }
 
-.li {
+.li_0 {
     height: 4vh;
     list-style: none;
-    background-color: #f3f3f3;
+    cursor: pointer;
+    transition: 0.25s;
 
     &:hover {
-        background-color: #f3f3f3;
+        color: deepskyblue;
     }
 }
 
 .p_0 {
-    padding: 0 0 0 1vw;
+    padding: 0 ;
     margin: 0;
     height: 100%;
     line-height: 4vh;
     font-size: 1.5vh;
     font-weight: 600;
-    color: #222222;
     white-space: nowrap
 }
 
 .p_1 {
-    padding: 0 0 0 1.25vw;
+    padding: 0;
     margin: 0;
     height: 100%;
     line-height: 4vh;
     font-size: 1.5vh;
     font-weight: 500;
-    color: #222222;
     white-space: nowrap
 }

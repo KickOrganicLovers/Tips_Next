@@ -2,22 +2,35 @@
     width: 100vw;
     height: 8vh;
     min-height: 40px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
     background-color: white;
+    position: relative;
 }
 
 .div_0 {
-    margin-left: 2.5vw;
     display: flex;
     flex-direction: row;
     justify-content: left;
     align-items: center;
     gap: 10px;
     height: 100%;
-    width: auto
+    width: auto;
+    position: absolute;
+    left: 2vw;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    cursor: pointer;
+}
+
+.div_1 {
+    height: fit-content;
+    width: fit-content;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
 }
 
 .img_0 {
@@ -33,14 +46,17 @@
 }
 
 .ul {
+    position: absolute;
+    top: 0;
+    right: 2vw;
+    bottom: 0;
+    margin: auto;
     display: flex;
     justify-content: flex-end;
     gap: 3vw;
     align-items: center;
-    width: 20%;
-    min-width: 15vw;
+    width: fit-content;
     height: 100%;
-    margin: 0px 3vw 0px 0px;
     padding: 4px 0px 0px 0px;
 }
 

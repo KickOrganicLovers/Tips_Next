@@ -47,6 +47,18 @@ services:
       exit 0;
       "
 
+  meilisearch:
+    image: getmeili/meilisearch:latest
+    container_name: meilisearch
+    ports:
+      - "7700:7700"
+    environment:
+      - MEILI_MASTER_KEY=${MEILI_PASSWORD}
+      - MEILI_NO_ANALYTICS=true
+    volumes:
+      - meili_data:/meili_dat
+
 volumes:
   postgres_dev_data:
   minio_dev_data:
+  meili_data:

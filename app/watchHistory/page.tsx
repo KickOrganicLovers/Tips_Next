@@ -30,7 +30,7 @@ export default function Page () {
 
     useEffect(() => {
         if(LoginStatus.isLoggedIn){
-            dispatch(applyWhereIam('watchHistories'))
+            dispatch(applyWhereIam('watchHistory'))
         }else {
             router.push('/login')
         }

@@ -1,5 +1,6 @@
 .div_0 {
-
+    margin: 0 0.75vw 2vh 0.75vw;
+    box-sizing: border-box;
 }
 
 .div_1 {
@@ -8,11 +9,11 @@
     line-height: 4vh;
     font-size: 1.5vh;
     box-sizing: border-box;
-    padding-left: 1vw;
+    padding-left: 0.25vw;
     color: #4a4a4a;
     font-weight: 750;
     background-color: white;
-    border-bottom: solid lightgray 1px;
+    border-bottom: solid darkgray 2px;
     white-space: nowrap;
 }
 
@@ -24,7 +25,7 @@
     align-items: center;
     justify-content: flex-start;
     gap: 0.5vw;
-    padding: 1vh 0.5vw 1vh 0.5vw;
+    padding: 1vh 0 1vh 0;
     cursor: pointer;
 }
 
@@ -45,7 +46,7 @@
 
 .p_0{
     width: 100%;
-    margin: 0.5vw;
+    margin: 1vh 0.25vw 1vh 0.25vw;
     font-size: 1.5vh;
 }
 

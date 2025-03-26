@@ -3,6 +3,7 @@ import {extractBase64Images, replaceImageSrc} from "@/lib-server/processing";
 import {Upload} from "@aws-sdk/lib-storage";
 import {s3} from "@/lib-server/s3";
 import {prisma} from "@/lib-server/prisma";
+import {meili} from "@/lib-server/meili";
 
 
 
@@ -82,8 +83,27 @@ export async function POST(req: NextRequest) {
                 data: {
                     contents: replacedHtml,
                     thumbnailImageUrl: thumbnailImageUrl,
+                },
+                include: {
+                    category: true,
+                    likes: true,
+                    watchHistories: true,
                 }
             })
+
+            const index = meili.index('articles')
+
+            const document = {
+                id: article.id,
+                title: article.title,
+                contents: article.contents,
+                category: article.category.categoryName,
+                tags: article.tags,
+                likes: article.likes.length,
+                watchHistories: article.watchHistories.length
+            }
+
+            await index.addDocuments([document])
         })
 
         return NextResponse.json({isCreated: true, error: undefined}, {status: 200})

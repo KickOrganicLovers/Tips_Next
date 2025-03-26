@@ -1,0 +1,7 @@
+.div_0 {
+    padding: 4vh 2vw 4vh 2vw;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+    gap: 2vw;
+    place-items: center;
+}

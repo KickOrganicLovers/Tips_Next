@@ -18,7 +18,7 @@
 .div_2 {
     width: 75%;
     height: 100%;
-    padding: 4vh 0 4vh 0;
+    padding: 4vh 2vw 4vh 2vw;
     box-sizing: border-box;
     overflow: scroll;
     display: flex;

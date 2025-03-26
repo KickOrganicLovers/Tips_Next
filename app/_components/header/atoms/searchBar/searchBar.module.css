@@ -1,0 +1,41 @@
+.div_0 {
+    height: 4vh;
+    width: 20vw;
+    position: relative;
+}
+
+.input_0 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 100px;
+    background-color: #f3f3f3;
+    padding: 0 4vh 0 1vw;
+}
+
+
+.AiOutlineSearch {
+    height: 4vh;
+    width: 4vh;
+    padding: 1vh;
+    box-sizing: border-box;
+    background-color: white;
+    border-radius: 100px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 2px solid darkgray;
+}
+
+.active{
+    border: 2px solid deepskyblue;
+    color: deepskyblue;
+
+    &:hover{
+        background-color: deepskyblue;
+        color: white;
+        transition: 0.25s;
+    }
+}

@@ -1,7 +1,7 @@
 .div_0 {
-    width: 100%;
     height: fit-content;
-    margin-bottom: 2vh;
+    margin: 0 0.75vw 2vh 0.75vw;
+    box-sizing: border-box;
 }
 
 .div_1 {
@@ -9,17 +9,17 @@
     height: 4vh;
     line-height: 4vh;
     font-size: 1.5vh;
+    padding-left: 0.25vw;
     box-sizing: border-box;
-    padding-left: 1vw;
     color: #4a4a4a;
     font-weight: 750;
     background-color: white;
-    border-bottom: solid lightgray 1px;
+    border-bottom: solid darkgray 2px;
     white-space: nowrap;
 }
 
 .li_0 {
-    width: 100%;
+    width: fit-content;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -27,11 +27,15 @@
     gap: 0.5vw;
     padding: 1vh 0 1vh 0;
     cursor: pointer;
+    &:hover{
+        transition: 0.25s;
+        color: deepskyblue;
+    }
 }
 
 .ul_0 {
-    padding: 0 0 0 0.5vw;
-    margin: 0;
+    padding: 0;
+    margin: 0 0 0 0.25vw;
 }
 
 .p_0 {
@@ -43,4 +47,14 @@
 .icons {
     padding-top: 0.2vh;
     font-size: 2vh;
+}
+
+.active {
+    color: hotpink;
+    &:hover{
+        color: hotpink;
+    }
+}
+
+.li_0.active .icons{
 }
