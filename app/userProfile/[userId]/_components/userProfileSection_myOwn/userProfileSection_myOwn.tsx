@@ -123,7 +123,7 @@ export default function UserProfileSection_MyOwn(props: props) {
                     res.json().then(
                         (json: { error: string; updatedUserProfile: UserProfileScheme }) => {
                             if (!json.error) {
-                                dispatch(setUserProfile(json.updatedUserProfile as unknown as WritableDraft<UserProfileScheme>))
+                                dispatch(setUserProfile(json.updatedUserProfile))
                                 setIsEditingMode(false)
                             }
                         })

@@ -8,6 +8,7 @@ import classNames from "classnames";
 import {editFollowings} from "@/redux/slices/loginStatusSlice";
 import {useRouter} from "next/navigation";
 import TotalFollowCard from "@/app/_components/common/totalFollowCard/totalFollowCard";
+import {findCategoryById} from "@/lib-client/processing";
 
 interface props {
     article: ArticleScheme
@@ -21,20 +22,6 @@ export default function ArticleDetailsSection(props: props) {
     const dispatch = useDispatch<AppDispatch>();
     const router = useRouter();
 
-    const findCategoryById = (categories: CategoryScheme[], id: number): CategoryScheme | undefined => {
-        for (const category of categories) {
-            if (category.id === id) {
-                return category;
-            }
-            if (category.children) {
-                const found = findCategoryById(category.children, id);
-                if (found) {
-                    return found;
-                }
-            }
-        }
-        return
-    }
 
     const postFollow = async () =>{
         return await postDataToServerWithJson<{follow: FollowScheme, error: string}>('/api/postFollow', {following: props.article.authorId, follower: props.loginStatus.userProfile.userId, follow: props.follow})
@@ -62,12 +49,16 @@ export default function ArticleDetailsSection(props: props) {
         router.push(`/userProfile/${props.article.authorId}`)
     }
 
+    const clickEventHandler_pushToTagPage = (tagName: string) => {
+        router.push(`/tags/${tagName}`)
+    }
+
 
 
     return (
         <div className={styles.div_0}>
             <div className={styles.div_1}>
-                <p className={styles.p_1}><a className={styles.a_0}>{findCategoryById(Categories, findCategoryById(Categories, props.article.categoryId)?.parentId as number)?.categoryName}</a>{' > '}<a className={styles.a_0}>{findCategoryById(Categories, props.article.categoryId)?.categoryName}</a></p>
+                <p className={styles.p_1}><a className={styles.a_0}>{findCategoryById(Categories, findCategoryById(Categories, props.article.categoryId)?.parentId as string)?.categoryName}</a>{' > '}<a className={styles.a_0}>{findCategoryById(Categories, props.article.categoryId)?.categoryName}</a></p>
             </div>
             <div className={styles.div_2}>
                 <p className={styles.p_0}>この記事の作成者</p>
@@ -80,9 +71,11 @@ export default function ArticleDetailsSection(props: props) {
                     onClick={clickEventHandler_postFollow}>{(() => !!props.follow ? 'フォロー済み' : 'フォロー')()}</button> : null)()}
             </div>
             <div className={styles.div_3}>
-                {props.article.tags.map((tag, index) => <div className={styles.div_4} key={index}><p
-                    className={styles.p_3}>＃</p><p
-                    className={styles.p_4}>{tag}</p></div>)}
+                {props.article.tags.map((tag, index) =>
+                    <div className={styles.div_4} key={index} onClick={() => {clickEventHandler_pushToTagPage(tag)}}>
+                        <p className={styles.p_3}>＃</p>
+                        <p className={styles.p_4}>{tag}</p>
+                    </div>)}
             </div>
         </div>
     )

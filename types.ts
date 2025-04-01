@@ -26,7 +26,7 @@ export interface ArticleScheme{
     thumbnailImageUrl: string
     contents: string
     tags: string[]
-    categoryId: number
+    categoryId: string
     authorId: string
     authorProfile: UserProfileScheme
     likes: LikeScheme[]
@@ -37,9 +37,9 @@ export interface ArticleScheme{
 }
 
 export interface CategoryScheme{
-    id: number
+    id: string
     categoryName: string
-    parentId: number | null
+    parentId: string | null
     children: CategoryScheme[] | null
 }
 

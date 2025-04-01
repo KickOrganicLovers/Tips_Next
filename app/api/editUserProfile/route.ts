@@ -30,6 +30,8 @@ export async function POST(req: NextRequest) {
                                     }
                                 },
                                 likes: true,
+                                watchHistories: true,
+                                category: true,
                             }
                         }
                     }
@@ -51,6 +53,8 @@ export async function POST(req: NextRequest) {
                                     }
                                 },
                                 likes: true,
+                                watchHistories: true,
+                                category: true
                             }
                         }
                     }

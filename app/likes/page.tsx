@@ -11,7 +11,6 @@ import {useRouter} from "next/navigation";
 import ReducedArticleContainer from "@/app/_components/common/reducedArticleContainer/reducedArticleContainer";
 
 export default function Page () {
-    const router = useRouter();
     const dispatch = useDispatch()
     const LoginStatus = useSelector<RootState, RootState['LoginStatus']>((state) => state.LoginStatus)
 

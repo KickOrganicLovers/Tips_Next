@@ -1,6 +1,6 @@
 import {CategoryScheme} from "@/types";
 
-export const findCategoryById = (categories: CategoryScheme[], id: number): CategoryScheme | undefined => {
+export const findCategoryById = (categories: CategoryScheme[], id: string): CategoryScheme | undefined => {
     for (const category of categories) {
         if (category.id === id) {
             return category;
