@@ -31,14 +31,12 @@ export default function ArticleDetailsSection(props: props) {
         if(props.follow){
             postFollow().then(json => {
                 if(json.follow && !json.error){
-                    console.log('ddd')
                     dispatch(editFollowings({following: json.follow, remove: true}))
                 }
             })
         }else {
             postFollow().then(json => {
                 if(json.follow && !json.error){
-                    console.log('ccc')
                     dispatch(editFollowings({following: json.follow, remove: false}))
                 }
             })
@@ -72,9 +70,9 @@ export default function ArticleDetailsSection(props: props) {
             </div>
             <div className={styles.div_3}>
                 {props.article.tags.map((tag, index) =>
-                    <div className={styles.div_4} key={index} onClick={() => {clickEventHandler_pushToTagPage(tag)}}>
+                    <div className={styles.div_4} key={index} onClick={() => {clickEventHandler_pushToTagPage(tag.tagName)}}>
                         <p className={styles.p_3}>＃</p>
-                        <p className={styles.p_4}>{tag}</p>
+                        <p className={styles.p_4}>{tag.tagName}</p>
                     </div>)}
             </div>
         </div>

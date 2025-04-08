@@ -8,8 +8,10 @@ import {useEffect} from "react";
 import MyPageOptionsCard from "@/app/_components/sideBar/sideBarContents_0/atoms/myOptionsCard/myOptionsCard";
 import SubscribedAccountCard
     from "@/app/_components/sideBar/sideBarContents_0/atoms/subscribedAccountsCard/subscribedAccountCard";
+import {useTheme} from "@/app/_components/themeProvider";
 
 export default function SideBarContents_0() {
+    const {toggleTheme} = useTheme()
     const LoginStatus = useSelector<RootState, RootState['LoginStatus']>((state) => state.LoginStatus)
 
     useEffect(() => {
@@ -22,6 +24,8 @@ export default function SideBarContents_0() {
             <MyPageOptionsCard/>
             <SubscribedAccountCard loginStatus={LoginStatus}/>
             <CategoryCard/>
+            <button onClick={toggleTheme} type="button">テーマ切り替え</button>
+
         </div>
     )
 }

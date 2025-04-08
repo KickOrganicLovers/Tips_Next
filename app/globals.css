@@ -29,3 +29,27 @@ input {
 ::-webkit-scrollbar-thumb {
     background-color: darkgray;
 }
+
+:root {
+    --bg-color-1: white;
+    --bg-color-2: #f3f3f3;
+    --bg-color-3: #373737;
+    --bg-color-4: black;
+    --border-color-1: darkgray;
+    --border-color-2: black;
+    --text-color-1: black;
+    --text-color-2: #373737;
+    --text-color-3: white;
+}
+
+:root.dark {
+    --bg-color-1: #272727;
+    --bg-color-2: #373737;
+    --bg-color-3: #e1e1e1;
+    --bg-color-4: white;
+    --border-color: darkgray;
+    --border-color-2: white;
+    --text-color-1: white;
+    --text-color-2: darkgray;
+    --text-color-3: #373737;
+}

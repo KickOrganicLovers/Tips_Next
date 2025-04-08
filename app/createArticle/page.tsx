@@ -32,7 +32,7 @@ export default function Page() {
             title: title,
             contents: contents,
             thumbnailImageAsBase64: thumbnailImageAsBase64,
-            categoryId: category?.id as number,
+            categoryId: category?.id as string,
             tags: tags,
             authorId: LoginStatus.userProfile.userId
         });
@@ -66,7 +66,7 @@ export default function Page() {
                 setTitle(articleToEdit.article.title)
                 setContents(articleToEdit.article.contents)
                 setThumbnailImageUrl(articleToEdit.article.thumbnailImageUrl)
-                setTags(articleToEdit.article.tags)
+                setTags(articleToEdit.article.tags.map(tag => tag.tagName))
                 setCategory(articleToEdit.article.category)
                 sessionStorage.removeItem('articleToEdit');
             }

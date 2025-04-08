@@ -2,7 +2,7 @@
     width: 100vw;
     height: 8vh;
     min-height: 40px;
-    background-color: white;
+    background-color: var(--bg-color-1);
     position: relative;
 }
 
@@ -69,4 +69,11 @@
     @media screen and (max-width: 1024px) {
         display: list-item;
     }
+}
+
+.h1_0 {
+    font-size: 3.2vh;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
 }

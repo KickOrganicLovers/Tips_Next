@@ -5,20 +5,20 @@
 .div_1 {
     width: 20vw;
     height: fit-content;
-    background-color: #f3f3f3;
+    background-color: var(--bg-color-2);
 }
 
 .p_0 {
     padding: 0.5vw 0 0.5vw 1vw;
     margin: 0;
-    color: #373737;
+    color: var(--text-color-2);
     font-size: 1vw;
     height: fit-content;
 }
 
 .mark_0 {
     background: none;
-    color: black;
+    color: var(--text-color-1);
     padding-left: 1vw;
 }
 
@@ -30,7 +30,6 @@
     width: 20vw;
     height: 22vw;
     box-sizing: border-box;
-    background-color: blue;
 }
 
 
@@ -39,7 +38,7 @@
     padding: 0;
     width: 50%;
     height: 100%;
-    background-color: #f3f3f3;
+    background-color: var(--bg-color-2);
     overflow-y: scroll;
 }
 
@@ -48,8 +47,8 @@
     padding: 0;
     width: 50%;
     height: 100%;
-    background-color: #f3f3f3;
     overflow-y: scroll;
+    background-color: var(--bg-color-2);
 }
 
 .li_0 {
@@ -60,17 +59,17 @@
     text-align: left;
     padding: 1vh 0 1vh 1vw;
     box-sizing: border-box;
-    color: gray;
+    color: var(--text-color-1);
     &:hover{
-        background-color: #373737;
-        color: white;
+        background-color: var(--bg-color-4);
+        color: var(--text-color-3);
         transition: 0.2s ease;
     }
 }
 
 .active {
-    background-color: #373737;
-    color: white;
+    background-color: var(--bg-color-3);
+    color: var(--text-color-3);
 }
 
 .li_1 {
@@ -80,13 +79,11 @@
     font-size: 0.75vw;
     text-align: left;
     padding: 1vh 0 1vh 1vw;
-    background-color: #373737;
-    color: lightgray;
     box-sizing: border-box;
 
     &:hover {
-        color: white;
-        background-color: black;
+        background-color: var(--bg-color-4);
+        color: var(--text-color-3);
         transition: 0.2s ease;
     }
 }

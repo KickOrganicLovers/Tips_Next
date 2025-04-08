@@ -19,8 +19,8 @@ export default function CategoryCard() {
     return (
         <div className={styles.div_0}>
             <div className={styles.div_1}>カテゴリーで探す</div>
-            {Categories.map((category, i) => (
-                <div className={styles.div_2}>
+            {Categories.map((category, index) => (
+                <div className={styles.div_2} key={index}>
                     <div className={className} onClick={() => {setIsActive(!isActive)}}>
                         <p className={styles.p_0}>{category.categoryName}</p>
                     </div>

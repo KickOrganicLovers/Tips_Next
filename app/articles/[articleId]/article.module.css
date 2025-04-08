@@ -25,7 +25,7 @@
     margin-bottom: 2vh;
     padding: 2vw;
     box-sizing: border-box;
-    background-color: white;
+    background-color: var(--bg-color-1);
     /*border-radius: 3vw;*/
 }
 

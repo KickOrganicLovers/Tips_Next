@@ -14,7 +14,7 @@
     height: auto;
     display: flex;
     flex-direction: row;
-    background-color: white;
+    background-color: var(--bg-color-1);
     align-items: flex-start;
     justify-content: center;
     gap: 2vw;

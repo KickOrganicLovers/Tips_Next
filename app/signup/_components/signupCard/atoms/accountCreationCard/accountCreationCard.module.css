@@ -22,7 +22,7 @@
     font-size: 2vh;
     border-radius: 10vh;
     box-sizing: border-box;
-    background-color: #f3f3f3;
+    background-color: var(--bg-color-2);
     color: #222222;
     border: none;
     @media screen and (max-width: 1024px) {
@@ -52,7 +52,7 @@
     border: none;
     box-sizing: border-box;
     border-radius: 2vw;
-    background-color: #f3f3f3;
+    background-color: var(--bg-color-2);
     color: #222222;
     font-size: 1.5vh;
 

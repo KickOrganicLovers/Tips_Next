@@ -11,10 +11,10 @@
     font-size: 1.5vh;
     padding-left: 0.25vw;
     box-sizing: border-box;
-    color: #4a4a4a;
+    color: var(--text-color-2);
     font-weight: 750;
-    background-color: white;
-    border-bottom: solid darkgray 2px;
+    background-color: var(--bg-color-1);
+    border-bottom: solid 2px var(--border-color-1);
     white-space: nowrap;
 }
 

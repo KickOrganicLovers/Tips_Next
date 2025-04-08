@@ -1,0 +1,13 @@
+{
+  "/api/getArticles/route": "app/api/getArticles/route.js",
+  "/api/login/route": "app/api/login/route.js",
+  "/api/getUserProfile/route": "app/api/getUserProfile/route.js",
+  "/page": "app/page.js",
+  "/trending/page": "app/trending/page.js",
+  "/login/page": "app/login/page.js",
+  "/createArticle/page": "app/createArticle/page.js",
+  "/userProfile/me/page": "app/userProfile/me/page.js",
+  "/userProfile/[userId]/page": "app/userProfile/[userId]/page.js",
+  "/likes/page": "app/likes/page.js",
+  "/watchHistory/page": "app/watchHistory/page.js"
+}

@@ -21,18 +21,19 @@ model User {
 }
 
 model UserProfile {
-  userId           String         @id
+  userId           String          @id
   username         String?
   profileImageUrl  String?
   introduction     String?
-  user             User           @relation(fields: [userId], references: [id])
+  user             User            @relation(fields: [userId], references: [id])
   likes            Like[]
   articleCreatedBy Article[]
   comments         Comment[]
-  followings       Follow[]       @relation("following")
-  followers        Follow[]       @relation("follower")
+  followings       Follow[]        @relation("following")
+  followers        Follow[]        @relation("follower")
   watchHistories   WatchHistory[]
-  createdAt        DateTime       @default(now())
+  createdAt        DateTime        @default(now())
+  searchHistories  SearchHistory[]
 }
 
 model EmailOnVerifying {
@@ -40,6 +41,22 @@ model EmailOnVerifying {
   hashedToken String
   expiration  DateTime
   createdAt   DateTime @default(now())
+}
+
+model Article {
+  id                String         @id @default(cuid())
+  title             String
+  thumbnailImageUrl String
+  contents          String
+  tags              Tag[]          @relation("ArticleTags")
+  categoryId        String
+  category          Category       @relation(fields: [categoryId], references: [id])
+  authorId          String
+  authorProfile     UserProfile    @relation(fields: [authorId], references: [userId])
+  likes             Like[]
+  comments          Comment[]
+  watchHistories    WatchHistory[]
+  createdAt         DateTime       @default(now())
 }
 
 model Category {
@@ -51,20 +68,10 @@ model Category {
   articles     Article[]
 }
 
-model Article {
-  id                String         @id @default(cuid())
-  title             String
-  thumbnailImageUrl String
-  contents          String
-  tags              String[]
-  categoryId        String
-  category          Category       @relation(fields: [categoryId], references: [id])
-  authorId          String
-  authorProfile     UserProfile    @relation(fields: [authorId], references: [userId])
-  likes             Like[]
-  comments          Comment[]
-  watchHistories    WatchHistory[]
-  createdAt         DateTime       @default(now())
+model Tag {
+  id       String    @id @default(cuid())
+  tagName  String    @unique
+  articles Article[] @relation("ArticleTags")
 }
 
 model Like {
@@ -106,4 +113,15 @@ model WatchHistory {
   article   Article     @relation(fields: [articleId], references: [id], onDelete: Cascade)
   articleId String
   createdAt DateTime    @default(now())
+}
+
+model SearchHistory {
+  id          String      @id @default(cuid())
+  userId      String
+  userProfile UserProfile @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  searchQuery String
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, searchQuery])
 }

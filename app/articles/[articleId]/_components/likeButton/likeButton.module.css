@@ -14,7 +14,7 @@
 }
 
 .IoHeart {
-    background-color: white;
+    background-color: var(--bg-color-1);
     box-sizing: border-box;
     border-radius: 50px;
     padding: 1.5vh 1vh 1vh 1vh;

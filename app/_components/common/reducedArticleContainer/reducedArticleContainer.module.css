@@ -6,7 +6,7 @@
     overflow-y: hidden;
     display: flex;
     flex-direction: row;
-    background-color: white;
+    background-color: var(--bg-color-1);
 }
 
 .div_1 {
@@ -37,7 +37,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    border-bottom: 2px solid darkgray;
+    border-bottom: solid 2px var(--border-color-1);
 }
 
 .div_3 {
@@ -70,7 +70,7 @@
     justify-content: flex-start;
     gap: 0.4vw;
     margin: 1vh 0 1vh 0;
-    color: darkgray;
+    color: var(--text-color-2);
     font-size: 0.8vw;
 }
 
@@ -91,6 +91,6 @@
     text-overflow: ellipsis;
     box-sizing: border-box;
     margin: 1vw 0 1vw 0;
-    color: darkgray;
+    color: var(--text-color-2);
     font-size: 0.8vw;
 }

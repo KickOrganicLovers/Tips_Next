@@ -1,7 +1,7 @@
 .mainContent {
     height: 92vh;
     width: 80vw;
-    background-color: #f3f3f3;
+    background-color: var(--bg-color-2);
     overflow-y: scroll;
     @media screen and (max-width: 1024px) {
         width: 100%;

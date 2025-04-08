@@ -8,8 +8,8 @@
     box-sizing: border-box;
     gap: 0.5vw;
     padding: 1vh 1vw 1vh 1vw;
-    background-color: white;
-    border-bottom: 1px solid lightgray;
+    background-color: var(--bg-color-1);
+    border-bottom: 1px solid var(--border-color-1);
 }
 
 .img_0 {
@@ -26,11 +26,12 @@
     outline: none;
     padding: 1vh 1vw 1vh 1vw;
     border: none;
-    border-bottom: 2px solid lightgray;
+    border-bottom: 2px solid var(--border-color-1);
     resize: none;
-
+    background-color: var(--bg-color-1);
+    color: var(--text-color-1);
     &:focus {
-        border-color: gray;
+        border-color: var(--border-color-2);
     }
 }
 
@@ -52,7 +53,7 @@
     width: 3vh;
     padding: 0.5vh;
     color: gray;
-    border: 2px solid gray;
+    border: 2px solid var(--border-color-1);
     border-radius: 100px;
 }
 
@@ -62,7 +63,7 @@
     width: 3vh;
     padding: 0.5vh;
     color: gray;
-    border: 2px solid gray;
+    border: 2px solid var(--border-color-1);
     border-radius: 100px;
 }
 

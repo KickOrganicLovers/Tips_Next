@@ -29,7 +29,7 @@ export default function Page () {
                 <p className={styles.p_0}>今トレンドの記事が表示されます</p>
             </div>
             <div className={styles.div_2}>
-                {Articles.map((article: ArticleScheme, index: number) => <div key={index}><ExtendedArticleContainer article={article}/></div>)}
+                {Articles.map((article: ArticleScheme, index: number) => <div key={index}><ExtendedArticleContainer article={article} key={index}/></div>)}
             </div>
         </div>
     )

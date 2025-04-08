@@ -25,7 +25,7 @@ export interface ArticleScheme{
     title: string
     thumbnailImageUrl: string
     contents: string
-    tags: string[]
+    tags: TagScheme[]
     categoryId: string
     authorId: string
     authorProfile: UserProfileScheme
@@ -34,6 +34,11 @@ export interface ArticleScheme{
     watchHistories: WatchHistoryScheme[]
     category: CategoryScheme
     createdAt: string
+}
+
+export interface TagScheme{
+    id: string
+    tagName: string
 }
 
 export interface CategoryScheme{

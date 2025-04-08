@@ -51,7 +51,7 @@ export default function ExtendedArticleContainer(props: props) {
                     {props.article.tags.map((tag, index) => (
                         <div className={styles.div_10} key={index}>
                             <p className={styles.p_4}>＃</p>
-                            <p className={styles.p_5}>{tag}</p>
+                            <p className={styles.p_5}>{tag.tagName}</p>
                         </div>
                     ))}
                 </div>

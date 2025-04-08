@@ -1,5 +1,6 @@
 .body {
     margin: 0;
+    color: var(--text-color-1);
 }
 
 
@@ -12,5 +13,5 @@
     height: 100%;
     box-sizing: border-box;
     overflow-y: scroll;
-    background-color: #f3f3f3;
+    background-color: var(--bg-color-2);
 }

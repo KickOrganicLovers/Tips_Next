@@ -14,10 +14,10 @@
     font-size: 1.5vh;
     box-sizing: border-box;
     padding-left: 1vw;
-    color: #4a4a4a;
+    color: var(--text-color-2);
     font-weight: 750;
-    background-color: white;
-    border-bottom: solid lightgray 1px;
+    background-color: var(--bg-color-1);
+    border-bottom: solid 1px var(--border-color-1);
     white-space: nowrap;
 }
 

@@ -13,6 +13,7 @@ import SideBar from "@/app/_components/sideBar/sideBar";
 import 'dotenv/config'
 import {json} from "node:stream/consumers";
 import {setCategories} from "@/redux/slices/categoriesSlice";
+import {ThemeProvider} from "@/app/_components/themeProvider";
 
 const noto_sans_jp = Noto_Sans_JP({
     subsets: ['latin'],
@@ -31,9 +32,11 @@ export default function RootLayout({children}: { children: ReactNode }) {
         </head>
         <body className={styles.body}>
         <Provider store={store}>
-            <Header/>
-            <SideBar/>
-            <Main children={children}/>
+            <ThemeProvider>
+                <Header/>
+                <SideBar/>
+                <Main children={children}/>
+            </ThemeProvider>
         </Provider>
         </body>
         </html>

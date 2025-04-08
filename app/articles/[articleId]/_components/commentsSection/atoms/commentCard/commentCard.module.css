@@ -1,12 +1,12 @@
 .div_0 {
     width: 100%;
     height: fit-content;
-    background-color: white;
+    background-color: var(--bg-color-1);
     padding: 1vh 1vw 1vh 1vw;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid var(--border-color-1);
 }
 
 .div_1 {

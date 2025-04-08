@@ -5,7 +5,7 @@
     color: deepskyblue;
     padding: 0.8vh 0.8vw 0.8vh 0.8vw;
     border-radius: 100px;
-    background-color: white;
+    background-color: var(--bg-color-1);
 
     &:hover {
         outline: none;

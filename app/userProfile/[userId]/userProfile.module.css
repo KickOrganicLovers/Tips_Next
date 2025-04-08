@@ -7,7 +7,7 @@
 .div_1 {
     width: 30%;
     height: 100%;
-    background-color: white;
+    background-color: var(--bg-color-1);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -18,7 +18,7 @@
 .div_2 {
     width: 70%;
     height: 100%;
-    background-color: #f3f3f3;
+    background-color: var(--bg-color-2);
 }
 
 .div_3 {
@@ -58,7 +58,7 @@
 .div_8 {
     width: 60%;
     aspect-ratio: 5/1;
-    background-color: white;
+    background-color: var(--bg-color-1);
     border-radius: 10vh;
     display: flex;
     flex-direction: row;
@@ -113,9 +113,9 @@
     right: 0;
     width: 25%;
     height: 25%;
-    background-color: white;
+    background-color: var(--bg-color-1);
     border-radius: 100%;
-    color: darkgray;
+    color: var(--text-color-2);
     border: solid darkgray 0.25vw;
 
     &:hover {
@@ -128,7 +128,7 @@
     height: 100%;
     aspect-ratio: 1;
     font-size: 2vw;
-    color: darkgray;
+    color: var(--text-color-2);
 
     &:hover {
         color: cyan;
@@ -140,7 +140,7 @@
     height: 100%;
     aspect-ratio: 1;
     font-size: 2vw;
-    color: darkgray;
+    color: var(--text-color-2);
 
     &:hover {
         color: hotpink;
@@ -162,10 +162,10 @@
     text-align: center;
     width: 100%;
     aspect-ratio: 6/1;
-    color: darkgray;
+    color: var(--text-color-2);
     font-size: 1.5vw;
     box-sizing: border-box;
-    border-bottom: 2px solid darkgray;
+    border-bottom: 2px solid var(--border-color-1);
 
     &:focus {
         border-bottom: 2px solid black;
@@ -186,8 +186,8 @@
     width: 100%;
     font-size: 1vw;
     aspect-ratio: 3/2;
-    color: darkgray;
-    background-color: white;
+    color: var(--text-color-2);
+    background-color: var(--bg-color-1);
     box-sizing: border-box;
     border-width: 2px 0 2px 0;
     resize: none;

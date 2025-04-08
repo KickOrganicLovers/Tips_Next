@@ -23,7 +23,7 @@ export async function GET (req: NextRequest){
                     }else if(!!categoryId){
                         return {categoryId: categoryId}
                     }else if(!!tagName){
-                        return {tags: {has: tagName}}
+                        return {tags: {some: {tagName}}}
                     }
                 }
             )(),
@@ -42,6 +42,7 @@ export async function GET (req: NextRequest){
                 },
                 watchHistories: true,
                 category: true,
+                tags: true,
             }
         })
 

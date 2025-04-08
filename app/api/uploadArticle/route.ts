@@ -4,6 +4,8 @@ import {Upload} from "@aws-sdk/lib-storage";
 import {s3} from "@/lib-server/s3";
 import {prisma} from "@/lib-server/prisma";
 import {meili} from "@/lib-server/meili";
+import {Tag} from "@prisma/client";
+import crypto from "crypto";
 
 
 
@@ -13,13 +15,35 @@ export async function POST(req: NextRequest) {
 
     try {
         await prisma.$transaction(async (tx) => {
+            const tags = body.tags as string[];
+            const tagMappings = tags.map(async (tag) => {
+                const alreadyExistsTag = await tx.tag.findUnique({
+                    where: {
+                        tagName: tag
+                    }
+                })
+
+                if(!alreadyExistsTag){
+                    return tx.tag.create({
+                        data: {
+                            tagName: tag
+                        }
+                    })
+                }else {
+                    return alreadyExistsTag
+                }
+            })
+
+
             const articleWithPrefix = await tx.article.create({
                 data: {
                     title: body.title,
                     contents: '',
                     thumbnailImageUrl: '',
                     authorId: body.authorId,
-                    tags: body.tags,
+                    tags: {
+                        connect: await Promise.all(tagMappings)
+                    },
                     categoryId: body.categoryId,
                 }
             })
@@ -88,22 +112,46 @@ export async function POST(req: NextRequest) {
                     category: true,
                     likes: true,
                     watchHistories: true,
+                    tags: true
                 }
             })
 
-            const index = meili.index('articles')
+            const index_articles = meili.index('articles')
 
-            const document = {
+            const document_article = {
                 id: article.id,
                 title: article.title,
                 contents: article.contents,
                 category: article.category.categoryName,
-                tags: article.tags,
+                tags: article.tags.map((tag) => tag.tagName),
                 likes: article.likes.length,
                 watchHistories: article.watchHistories.length
             }
 
-            await index.addDocuments([document])
+            await index_articles.addDocuments([document_article])
+
+            const index_tags = meili.index('tags')
+
+
+            const document_tag_mappings = article.tags.map(async (tag) => {
+                const population = await tx.article.count({
+                    where: {
+                        tags: {
+                            some: tag
+                        }
+                    }
+                })
+                return {
+                    id: tag.id,
+                    name: tag.tagName,
+                    population
+                }
+            })
+
+            const documents_tags = await Promise.all(document_tag_mappings)
+
+            await index_tags.addDocuments(documents_tags)
+
         })
 
         return NextResponse.json({isCreated: true, error: undefined}, {status: 200})

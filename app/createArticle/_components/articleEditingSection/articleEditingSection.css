@@ -9,7 +9,7 @@
     box-sizing: border-box;
     white-space: pre-wrap;
     word-wrap: break-word;
-    background-color: white;
+    background-color: var(--bg-color-1);
     margin: 4vh 0 4vh 0;
 
     &:focus {

@@ -7,7 +7,7 @@
     right: 0;
     left: 0;
     margin: auto;
-    background-color: white;
+    background-color: var(--bg-color-1);
     @media screen and (max-width: 512px) {
         width: 90vw;
         height: 55vh;
@@ -72,7 +72,7 @@
     font-size: 2vh;
     border-radius: 10vh;
     box-sizing: border-box;
-    background-color: #f3f3f3;
+    background-color: var(--bg-color-2);
     color: #222222;
     border: none;
     @media screen and (max-width: 1024px) {
@@ -94,8 +94,8 @@
 
 @keyframes changeColor {
     to {
-        color: white;
-        background-color: #222222;
+        color: var(--text-color-3);
+        background-color: var(--bg-color-3);
     }
 }
 
@@ -106,8 +106,8 @@
     border: none;
     box-sizing: border-box;
     border-radius: 2vw;
-    background-color: #f3f3f3;
-    color: #222222;
+    background-color: var(--bg-color-2);
+    color: var(--text-color-2);
     font-size: 1.5vh;
 
     &:hover {

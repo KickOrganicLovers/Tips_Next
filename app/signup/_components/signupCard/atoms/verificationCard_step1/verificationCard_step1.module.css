@@ -19,7 +19,7 @@
     font-size: 2vh;
     border-radius: 10vh;
     box-sizing: border-box;
-    background-color: #f3f3f3;
+    background-color: var(--bg-color-2);
     color: #222222;
     border: none;
     @media screen and (max-width: 1024px) {
@@ -39,7 +39,7 @@
     margin: 0;
     padding: 0 1vh 1vh 1vh;
     box-sizing: border-box;
-    border-bottom: 2px solid darkgray;
+    border-bottom: 2px solid var(--border-color-1);
     border-image: linear-gradient(to right, #ff94e8, #7ae7f3) 1;
 }
 
@@ -59,7 +59,7 @@
     border: none;
     box-sizing: border-box;
     border-radius: 2vw;
-    background-color: #f3f3f3;
+    background-color: var(--bg-color-2);
     color: #222222;
     font-size: 1.5vh;
 

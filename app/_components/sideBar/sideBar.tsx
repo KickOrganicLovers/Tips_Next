@@ -5,7 +5,7 @@ import {AppDispatch, RootState} from "@/redux/store";
 import {usePathname} from "next/navigation";
 import SideBarContents_1 from "@/app/_components/sideBar/sideBarContents_1/sideBarContents_1";
 
-export default function SideBar() {
+export default function sideBar() {
     const SideBarStatus = useSelector<RootState, RootState['SideBarStatus']>((state) => state.SideBarStatus)
     const WhereIam = useSelector<RootState, RootState['WhereIam']>((state) => state.WhereIam)
     const className_div0 = SideBarStatus.isActive ? `${styles[`div_0`]} ${styles['active']}` : `${styles['div_0']}`

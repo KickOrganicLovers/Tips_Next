@@ -1,7 +1,7 @@
 .AiOutlineSearch {
     width: auto;
     height: 3vh;
-    color: darkgray;
+    color: var(--text-color-2);
     cursor: pointer;
 }
 

@@ -2,7 +2,7 @@
     width: auto;
     height: 3vh;
     font-size: 25px;
-    color: darkgray;
+    color: var(--text-color-2);
     cursor: pointer;
 }
 
