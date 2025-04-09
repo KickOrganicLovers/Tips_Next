@@ -1,0 +1,9 @@
+{
+  "/api/getCategories/route": "app/api/getCategories/route.js",
+  "/api/login/route": "app/api/login/route.js",
+  "/api/getArticles/route": "app/api/getArticles/route.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/page": "app/page.js",
+  "/trending/page": "app/trending/page.js",
+  "/login/page": "app/login/page.js"
+}

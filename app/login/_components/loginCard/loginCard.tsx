@@ -6,41 +6,50 @@ import {AppDispatch, RootState} from "@/redux/store";
 import {setIsLoggedIn, setLoginStatus} from "@/redux/slices/loginStatusSlice";
 import {postDataToServerWithJson} from "@/lib-client/fetch";
 import {LoginStatusScheme} from "@/types";
-
+import { signIn, useSession } from 'next-auth/react';
 
 export default function LoginCard() {
     const [isMounted, setIsMounted] = useState(false);
     const className = isMounted ? `${styles['div_0']} ${styles['mounted']}` : styles['div_0'];
     const dispatch = useDispatch<AppDispatch>();
     const LoginStatus = useSelector<RootState, RootState['LoginStatus']>(state => state.LoginStatus);
-
+    const session = useSession();
     const router = useRouter();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const login = async () => {
-        return await postDataToServerWithJson<LoginStatusScheme>('/api/login', {email: email, password: password});
-    }
+    const fetchuserdata = async () => {
 
-    const clickEventHandler = () => {
-        login().then(data => {
-            console.log(data)
-            dispatch(setLoginStatus(data))
-        }).catch(error => {
-            console.error(error)
-        })
-    }
+          if (session.status === 'authenticated') {
+              const data = await fetch('api/login/', {method: 'POST', body: JSON.stringify({email: session.data?.user?.email})})
+              return await data.json();
+             }
+         else{
+             return null;
+         };
+        
+     }
+
+     useEffect(() => {
+         fetchuserdata().then((data)=> {
+             console.log(data);
+            //  router.push('/');
+         })
+     }, [session])
+    
 
 
-    useEffect(() => {
-        if (LoginStatus.isLoggedIn) {
-            console.log(LoginStatus)
-            router.push('/')
-        } else {
-            setIsMounted(true);
-        }
-    })
+
+     const handleLogin = async (e: React.FormEvent) => {
+         e.preventDefault();
+         const result = await signIn("credentials", {
+           redirect: false,
+           email,
+           password,
+         });
+     };
+
 
 
     return (
@@ -48,18 +57,18 @@ export default function LoginCard() {
             <img src='/images/PageIcon.svg' alt='PageIcon' className={styles.img}/>
             <h1 className={styles.h1}>Tipsにログイン</h1>
             <div className={styles.div_1}>
-                <input className={styles.input} type={`email`} name={'email'} placeholder={'メールアドレス'}
+                <input className={styles.input} type={`email`} name={'email'} value={email} placeholder={'メールアドレス'}
                        onChange={(e) => {
                            setEmail(e.target.value)
                        }}/>
-                <input className={styles.input} type={'password'} name={'password'} placeholder={'パスワード'}
+                <input className={styles.input} type={'password'} name={'password'} value={password} placeholder={'パスワード'}
                        onChange={(e) => {
                            setPassword(e.target.value)
                        }}/>
-                {(() => {
-                    return LoginStatus.error !== '' ? <p>{LoginStatus.error}</p> : undefined
-                })()}
-                <button className={styles.button} onClick={clickEventHandler}>ログイン</button>
+                <button className={styles.button} onClick={handleLogin}>ログイン</button>
+            </div>
+            <div>
+                <button className={styles.button} onClick={() =>{signIn('google')}}>googleでログイン</button>
             </div>
         </div>
     )
