@@ -6,6 +6,12 @@
     height: 100%;
     display: flex;
     flex-direction: row;
+
+    @media screen  and (max-width: 768px){
+        flex-direction: column;
+        align-items: flex-start;
+        overflow-y: scroll;
+    }
 }
 
 .trending_div_1__EBet_ {
@@ -16,28 +22,68 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 1vh;
+
+    @media screen  and (max-width: 768px){
+        flex-direction: row;
+        width: 100%;
+        height: -moz-fit-content;
+        height: fit-content;
+        padding: 2vh 1vw 2vh 1vw;
+        box-sizing: border-box;
+        gap: 0;
+    }
 }
 
 .trending_div_2__T9OdR {
-    width: 75%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4vh;
-    padding: 4vh 0 4vh 0;
+}
+
+.trending_div_3__DQK1n {
+    width: 75%;
+    height: 100%;
+    padding: 4vh 2vw 4vh 2vw;
     box-sizing: border-box;
-    overflow: scroll;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    @media screen  and (max-width: 768px){
+        overflow-y: visible;
+        width: 100%;
+        height: auto;
+    }
+}
+
+.trending_div_4__5N8Hi {
+}
+
+.trending_div_5__bT8Ph {
+    width: -moz-fit-content;
+    width: fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 4vh;
 }
 
 .trending_img_0__JarNe {
     width: 50%;
     aspect-ratio: 1;
+    @media screen  and (max-width: 768px){
+        height: 30vw;
+        width: 30vw;
+        aspect-ratio: 1;
+    }
 }
 
 
 .trending_h1_0__g_5NA {
-
+    margin: 0;
 }
 
 .trending_p_0__7nL_a {
@@ -46,17 +92,16 @@
     text-align: center;
 }
 
-.trending_h2_0__8_vNj {
-}
-
 /*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./app/_components/common/extendedArticleContainer/extendedArticleContainer.module.css ***!
   \*******************************************************************************************************************************************************************************************************************************************************************************************************************************/
 .extendedArticleContainer_div_0__5siBd {
-    width: 40vw;
+    width: 100%;
     aspect-ratio: 2;
     display: flex;
     flex-direction: row;
+    max-width:750px;
+    max-height: 375px;
 }
 
 .extendedArticleContainer_div_1__BsDy2 {

@@ -27,17 +27,23 @@
       "static/chunks/main-app.js",
       "static/chunks/app/api/getArticles/route.js"
     ],
+    "/trending/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/trending/page.css",
+      "static/chunks/app/trending/page.js"
+    ],
     "/articles/[articleId]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/css/app/articles/[articleId]/page.css",
       "static/chunks/app/articles/[articleId]/page.js"
     ],
-    "/trending/page": [
+    "/likes/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/trending/page.css",
-      "static/chunks/app/trending/page.js"
+      "static/css/app/likes/page.css",
+      "static/chunks/app/likes/page.js"
     ],
     "/login/page": [
       "static/chunks/webpack.js",
@@ -50,11 +56,11 @@
       "static/chunks/main-app.js",
       "static/chunks/app/api/login/route.js"
     ],
-    "/createArticle/page": [
+    "/watchHistory/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/createArticle/page.css",
-      "static/chunks/app/createArticle/page.js"
+      "static/css/app/watchHistory/page.css",
+      "static/chunks/app/watchHistory/page.js"
     ],
     "/userProfile/me/page": [
       "static/chunks/webpack.js",
@@ -72,17 +78,16 @@
       "static/chunks/main-app.js",
       "static/chunks/app/api/getUserProfile/route.js"
     ],
-    "/likes/page": [
+    "/api/postWatchHistory/route": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/likes/page.css",
-      "static/chunks/app/likes/page.js"
+      "static/chunks/app/api/postWatchHistory/route.js"
     ],
-    "/watchHistory/page": [
+    "/categories/[categoryId]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/watchHistory/page.css",
-      "static/chunks/app/watchHistory/page.js"
+      "static/css/app/categories/[categoryId]/page.css",
+      "static/chunks/app/categories/[categoryId]/page.js"
     ]
   }
 }

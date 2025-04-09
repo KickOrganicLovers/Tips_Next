@@ -5,221 +5,20 @@
     width: 100%;
     height: 100%;
     display: flex;
-}
-
-.userProfile_div_1__SSv1g {
-    width: 30%;
-    height: 100%;
-    background-color: var(--bg-color-1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 4vh;
-}
-
-.userProfile_div_2__CygRG {
-    width: 70%;
-    height: 100%;
-    background-color: var(--bg-color-2);
-}
-
-.userProfile_div_3__kvLBS {
-    position: relative;
-    width: 40%;
-    aspect-ratio: 1;
-}
-
-.userProfile_div_4__8YPJt {
-    width: 60%;
-    aspect-ratio: 6/1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.userProfile_div_5__ICqXj {
-    width: 60%;
-    height: auto;
-}
-
-.userProfile_div_6__D7UTS {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-
-.userProfile_div_7__a4E2L {
-    text-align: center;
-    font-size: 1vw;
-    box-sizing: border-box;
-    padding: 0 2vw 0 2vw;
-}
-
-.userProfile_div_8__YE0sE {
-    width: 60%;
-    aspect-ratio: 5/1;
-    background-color: var(--bg-color-1);
-    border-radius: 10vh;
-    display: flex;
     flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 0.5vw;
-    margin-top: 4vh;
-    color: black;
-    padding: 0 0.5vw 0 0.5vw;
-    box-sizing: border-box;
 
-    &:hover {
-        background-color: #222222;
-        color: white;
-        transition: 0.25s;
+    @media screen and (max-width: 768px) {
+        flex-direction: column;
+        overflow-y: scroll;
     }
 }
 
-.userProfile_div_9__9OLLr {
-    width: 40%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1vw;
-}
-
-.userProfile_img_0__KnTHY {
-    width: 100%;
-    height: 100%;
-    border-radius: 100%;
-}
-
-.userProfile_h1_0__x2aav {
-    margin: 0;
-    padding: 0;
-    font-size: 1.5vw;
-    height: 5vh;
-    width: 100%;
-    text-align: center;
-}
-
-.userProfile_AiOutlineEdit__UALyb {
-    box-sizing: border-box;
-    padding: 1vh;
-    height: 100%;
-    width: auto;
-}
-
-.userProfile_FiPlus__3_cmm {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 25%;
-    height: 25%;
-    background-color: var(--bg-color-1);
-    border-radius: 100%;
-    color: var(--text-color-2);
-    border: solid darkgray 0.25vw;
-
-    &:hover {
-        color: black;
-        transition: 0.25s;
-    }
-}
-
-.userProfile_AiOutlineCheck__czmkF {
-    height: 100%;
-    aspect-ratio: 1;
-    font-size: 2vw;
-    color: var(--text-color-2);
-
-    &:hover {
-        color: cyan;
-        transition: 0.25s;
-    }
-}
-
-.userProfile_AiOutlineClose__kRasi {
-    height: 100%;
-    aspect-ratio: 1;
-    font-size: 2vw;
-    color: var(--text-color-2);
-
-    &:hover {
-        color: hotpink;
-        transition: 0.25s;
-    }
-}
-
-
-.userProfile_p_0__r0zOV {
-
-    padding: 0;
-    margin: 0;
-    font-size: 1vw;
-    text-wrap: nowrap;
-}
-
-.userProfile_input_0__IjhEy {
-    margin: 0;
-    text-align: center;
-    width: 100%;
-    aspect-ratio: 6/1;
-    color: var(--text-color-2);
-    font-size: 1.5vw;
-    box-sizing: border-box;
-    border-bottom: 2px solid var(--border-color-1);
-
-    &:focus {
-        border-bottom: 2px solid black;
-        transition: 0.2s;
-        outline: none;
-        color: black;
-    }
-}
-
-.userProfile_input_1__M6XNK {
-    display: none;
-}
-
-.userProfile_textarea_0__jK566 {
-    margin: 0;
-    padding: 12px 8px 12px 8px;
-    text-align: center;
-    width: 100%;
-    font-size: 1vw;
-    aspect-ratio: 3/2;
-    color: var(--text-color-2);
-    background-color: var(--bg-color-1);
-    box-sizing: border-box;
-    border-width: 2px 0 2px 0;
-    resize: none;
-    border-color: darkgray;
-    overflow-y: scroll;
-
-    &:focus {
-        transition: 0.2s;
-        outline: none;
-        border-color: black;
-        color: black;
-    }
-}
-
-.userProfile_FadeLayer__cKjXI {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    background: black;
-    opacity: 0.3;
-}
 
 /*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./app/userProfile/[userId]/_components/userProfileSection_myOwn/userProfileSection_myOwn.module.css ***!
   \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 .userProfileSection_myOwn_div_0__FqTTn {
-    width: 30%;
+    width: 25%;
     height: 100%;
     background-color: var(--bg-color-1);
     display: flex;
@@ -227,11 +26,17 @@
     align-items: center;
     justify-content: center;
     gap: 3vh;
+    @media screen and (max-width: 768px) {
+        padding: 30px;
+        box-sizing: border-box;
+        width: 100%;
+        height: -moz-fit-content;
+        height: fit-content;
+    }
 }
 
 .userProfileSection_myOwn_div_1__hkDWx {
     position: relative;
-    width: 40%;
     aspect-ratio: 1;
 }
 
@@ -242,64 +47,85 @@
     width: fit-content;
     max-width: 75%;
     text-align: left;
-    font-size: 1vw;
+    font-size: 1rem;
     box-sizing: border-box;
     padding: 0 2vw 0 2vw;
+    @media screen and (max-width: 768px) {
+        max-width: 100%;
+        width: 40vw;
+    }
 }
 
 
 
 .userProfileSection_myOwn_div_3__sIoe5 {
-    width: 60%;
-    aspect-ratio: 5/1;
+    width: -moz-fit-content;
+    width: fit-content;
     background-color: var(--bg-color-1);
     color: var(--text-color-2);
-    border-radius: 10vh;
+    border-radius: 100px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
     gap: 0.5vw;
-    padding: 0 0.5vw 0 0.5vw;
+    padding: 10px;
     box-sizing: border-box;
     cursor: pointer;
-    margin-top: 3vh;
 
     &:hover {
         background-color: var(--bg-color-3);
         color: var(--text-color-3);
         transition: 0.25s;
     }
+
+    @media screen and (max-width: 768px) {
+        justify-content: center;
+        gap: 3vw;
+        width: 100%;
+        border-radius: 0;
+    }
 }
 
 .userProfileSection_myOwn_div_4__OUxGi {
-    width: 40%;
+    box-sizing: border-box;
+    padding: 10px 20px 10px 20px;
+    width: -moz-fit-content;
+    width: fit-content;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 1vw;
+    background-color: var(--bg-color-2);
+    border-radius: 100px;
+    @media screen and (max-width: 768px) {
+        gap: 3vw;
+    }
 }
 
 .userProfileSection_myOwn_img_0__tjMg6 {
-    width: 100%;
-    height: 100%;
+    width: 10vw;
+    height: 10vw;
     border-radius: 100%;
+
+    @media screen and (max-width: 768px) {
+        width: 20vw;
+        height: 20vw;
+    }
 }
 
 .userProfileSection_myOwn_h1_0__zcyxL {
     margin: 0;
-    padding: 0;
-    font-size: 1.5vw;
+    padding: 10px;
+    font-size: 1.5rem;
     height: -moz-fit-content;
     height: fit-content;
-    width: 100%;
     text-align: center;
 }
 
 .userProfileSection_myOwn_AiOutlineEdit__X99Mm {
+    font-size: 1.5rem;
     box-sizing: border-box;
-    padding: 1vh;
-    height: 100%;
     width: auto;
 }
 
@@ -320,12 +146,13 @@
         color: var(--text-color-3);
         transition: 0.25s;
     }
+
+
 }
 
 .userProfileSection_myOwn_AiOutlineCheck__x4ZXg {
-    height: 100%;
     aspect-ratio: 1;
-    font-size: 2vw;
+    font-size: 1.5rem;
     color: var(--text-color-2);
     cursor: pointer;
 
@@ -336,9 +163,8 @@
 }
 
 .userProfileSection_myOwn_AiOutlineClose__ojoWy {
-    height: 100%;
     aspect-ratio: 1;
-    font-size: 2vw;
+    font-size: 1.5rem;
     color: var(--text-color-2);
     cursor: pointer;
 
@@ -350,10 +176,9 @@
 
 
 .userProfileSection_myOwn_p_0__A9vdH {
-
     padding: 0;
     margin: 0;
-    font-size: 1vw;
+    font-size: 1rem;
     text-wrap: nowrap;
 }
 
@@ -361,18 +186,21 @@
     margin: 0;
     text-align: center;
     width: 75%;
-    aspect-ratio: 6/1;
     color: var(--text-color-2);
-    font-size: 1.5vw;
+    font-size: 1.5rem;
+    padding: 10px;
     box-sizing: border-box;
-    border-bottom: 2px solid var(--border-color-1);
-    background-color: var(--bg-color-1);
+    background-color: var(--bg-color-2);
+    border-radius: 5px;
 
     &:focus {
-        border-bottom: 2px solid var(--border-color-2);
         transition: 0.2s;
         outline: none;
         color: var(--text-color-1);
+    }
+
+    @media screen and (max-width: 768px) {
+        width: 100%;
     }
 }
 
@@ -382,24 +210,27 @@
 
 .userProfileSection_myOwn_textarea_0__NMjiY {
     margin: 0;
-    padding: 12px 8px 12px 8px;
-    text-align: center;
+    padding: 10px;
+    text-align: left;
     width: 75%;
-    font-size: 1vw;
-    aspect-ratio: 3/2;
+    height: 20vh;
+    font-size: 1rem;
     color: var(--text-color-2);
-    background-color: var(--bg-color-1);
+    background-color: var(--bg-color-2);
+    border: none;
+    border-radius: 5px;
     box-sizing: border-box;
-    border-width: 2px 0 2px 0;
     resize: none;
-    border-color: darkgray;
     overflow-y: scroll;
 
     &:focus {
         transition: 0.2s;
         outline: none;
-        border-color: var(--border-color-2);
         color: var(--text-color-1);
+    }
+    @media screen and (max-width: 768px) {
+        width: 100%;
+        height: calc(49px + 20vw + 2vh);
     }
 }
 
@@ -411,6 +242,43 @@
     left: 0;
     background: black;
     opacity: 0.3;
+}
+
+
+.userProfileSection_myOwn_div_5__l5Il5{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 2vh;
+    @media screen and (max-width: 768px) {
+        width: 40vw;
+    }
+}
+
+.userProfileSection_myOwn_div_6__66vdM {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    gap: 2vh;
+    @media screen and (max-width: 768px) {
+        width: 40vw;
+    }
+}
+
+.userProfileSection_myOwn_div_7__K9G_w {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2vh;
+    @media screen and (max-width: 768px) {
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: row;
+    }
 }
 
 /*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
@@ -510,6 +378,7 @@
     text-align: center;
     justify-content: center;
     gap: 0.5vw;
+    font-size: 0.8rem;
 }
 
 .totalFollowCard_p_0__moELB {
@@ -517,7 +386,6 @@
     padding: 0;
     color: gray;
     font-weight: bold;
-    font-size: 1.5vh;
 }
 
 .totalFollowCard_p_1__Xld0a {
@@ -525,14 +393,13 @@
     padding: 0;
     color: gray;
     font-weight: bold;
-    font-size: 1.5vh;
 }
 
 /*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./app/userProfile/[userId]/_components/articleByUserSection/articleByUserSection.module.css ***!
   \*************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 .articleByUserSection_div_0__6PGLq {
-    width: 70%;
+    width: 75%;
     height: 100%;
     padding: 6vh;
     display: grid;
@@ -542,6 +409,11 @@
     box-sizing: border-box;
     overflow-y: scroll;
     background-color: var(--bg-color-2);
+
+    @media screen and (max-width: 768px) {
+        overflow-y: visible;
+        width: 100%;
+    }
 }
 
 /*!***************************************************************************************************************************************************************************************************************************************************************************************************************!*\
@@ -665,7 +537,7 @@
     align-items: center;
     background-color: var(--bg-color-1);
     border-radius: 100px;
-    padding: 0.4vh 0.6vw 0.4vh 0.6vw;
+    padding: 10px;
     gap: 0.2vw;
     box-sizing: border-box;
 }
@@ -688,7 +560,7 @@
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./app/userProfile/[userId]/_components/userProfileSection/userProfileSection.module.css ***!
   \*********************************************************************************************************************************************************************************************************************************************************************************************************************************/
 .userProfileSection_div_0__3ST3W {
-    width: 30%;
+    width: 25%;
     height: 100%;
     background-color: var(--bg-color-1);
     display: flex;
@@ -696,18 +568,31 @@
     align-items: center;
     justify-content: center;
     gap: 3vh;
+
+    @media screen and (max-width: 768px){
+        width: 100%;
+        padding: 30px;
+        height: -moz-fit-content;
+        height: fit-content;
+        box-sizing: border-box;
+    }
 }
 
 .userProfileSection_img_0__a7XdL {
-    width: 40%;
-    aspect-ratio: 1;
+    width: 10vw;
+    height: 10vw;
     border-radius: 100%;
+
+    @media screen and (max-width: 768px) {
+        width: 20vw;
+        height: 20vw;
+    }
 }
 
 .userProfileSection_h1_0__TJKQu {
     margin: 0;
     padding: 0;
-    font-size: 1.5vw;
+    font-size: 1.5rem;
     height: -moz-fit-content;
     height: fit-content;
     width: 100%;
@@ -716,10 +601,50 @@
 .userProfileSection_div_1__egKaX {
     width: -moz-fit-content;
     width: fit-content;
-    max-width: 60%;
+    max-width: 75%;
     text-align: left;
-    font-size: 1vw;
+    font-size: 1rem;
     box-sizing: border-box;
+    @media screen and (max-width: 768px) {
+        max-width: 100%;
+        width: 40vw;
+    }
+}
+
+.userProfileSection_div_3__OZzdB{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 2vh;
+    @media screen and (max-width: 768px) {
+        width: 40vw;
+    }
+}
+
+.userProfileSection_div_4__3Mnmr {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    gap: 2vh;
+    @media screen and (max-width: 768px) {
+        width: 40vw;
+    }
+}
+
+.userProfileSection_div_2__Vkh6l {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2vh;
+    @media screen and (max-width: 768px) {
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: row;
+    }
 }
 
 /*!***********************************************************************************************************************************************************************************************************************************************************************************************************!*\

@@ -1,5 +1,5 @@
 .div_0 {
-    width: 30%;
+    width: 25%;
     height: 100%;
     background-color: var(--bg-color-1);
     display: flex;
@@ -7,26 +7,78 @@
     align-items: center;
     justify-content: center;
     gap: 3vh;
+
+    @media screen and (max-width: 768px){
+        width: 100%;
+        padding: 30px;
+        height: fit-content;
+        box-sizing: border-box;
+    }
 }
 
 .img_0 {
-    width: 40%;
-    aspect-ratio: 1;
+    width: 10vw;
+    height: 10vw;
     border-radius: 100%;
+
+    @media screen and (max-width: 768px) {
+        width: 20vw;
+        height: 20vw;
+    }
 }
 
 .h1_0 {
     margin: 0;
     padding: 0;
-    font-size: 1.5vw;
+    font-size: 1.5rem;
     height: fit-content;
     width: 100%;
     text-align: center;
 }
 .div_1 {
     width: fit-content;
-    max-width: 60%;
+    max-width: 75%;
     text-align: left;
-    font-size: 1vw;
+    font-size: 1rem;
     box-sizing: border-box;
+    @media screen and (max-width: 768px) {
+        max-width: 100%;
+        width: 40vw;
+    }
+}
+
+.div_3{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 2vh;
+    @media screen and (max-width: 768px) {
+        width: 40vw;
+    }
+}
+
+.div_4 {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    gap: 2vh;
+    @media screen and (max-width: 768px) {
+        width: 40vw;
+    }
+}
+
+.div_2 {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2vh;
+    @media screen and (max-width: 768px) {
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: row;
+    }
 }

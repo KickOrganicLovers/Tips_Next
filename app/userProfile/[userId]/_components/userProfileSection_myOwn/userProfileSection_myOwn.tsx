@@ -149,22 +149,57 @@ export default function UserProfileSection_MyOwn(props: props) {
 
     return (
         <div className={styles.div_0}>
-            <div className={styles.div_1}>
-                <img src={(() => profileImageAsBase64 === '' ? profileImageUrl : profileImageAsBase64)()}
-                     alt='profileImage' className={styles.img_0}/>
-                {(() => isEditingMode ? <FiPlus className={styles.FiPlus} onClick={() => {
-                    inputImageRef.current?.click()
-                }}/> : undefined)()}
+            <div className={styles.div_7}>
+                <div className={styles.div_5}>
+                    <div className={styles.div_1}>
+                        <img src={(() => profileImageAsBase64 === '' ? profileImageUrl : profileImageAsBase64)()}
+                             alt='profileImage' className={styles.img_0}/>
+                        {(() => isEditingMode ? <FiPlus className={styles.FiPlus} onClick={() => {
+                            inputImageRef.current?.click()
+                        }}/> : undefined)()}
+                    </div>
+
+                    {(() => isEditingMode ?
+                        <input type={"text"} className={styles.input_0} value={username} onChange={(e) => {
+                            setUsername(e.target.value)
+                        }}/> : <h1 className={styles.h1_0}>{props.loginStatus.userProfile.username}</h1>)()}
+                </div>
+
+                {/*//image*/}
+                {/*<div className={styles.div_1}>*/}
+                {/*    <img src={(() => profileImageAsBase64 === '' ? profileImageUrl : profileImageAsBase64)()}*/}
+                {/*         alt='profileImage' className={styles.img_0}/>*/}
+                {/*    {(() => isEditingMode ? <FiPlus className={styles.FiPlus} onClick={() => {*/}
+                {/*        inputImageRef.current?.click()*/}
+                {/*    }}/> : undefined)()}*/}
+                {/*</div>*/}
+
+                {/*//username*/}
+                {/*{(() => isEditingMode ?*/}
+                {/*    <input type={"text"} className={styles.input_0} value={username} onChange={(e) => {*/}
+                {/*        setUsername(e.target.value)*/}
+                {/*    }}/> : <h1 className={styles.h1_0}>{props.loginStatus.userProfile.username}</h1>)()}*/}
+
+
+                <div className={styles.div_6}>
+                    {(() => isEditingMode ? null : <TotalFollowCard userProfile={props.loginStatus.userProfile}/>)()}
+
+
+                    {(() => isEditingMode ?
+                        <textarea className={styles.textarea_0} value={introduction} onChange={(e) => {
+                            setIntroduction(e.target.value)
+                        }}/> : <div className={styles.div_2}>{props.loginStatus.userProfile.introduction}</div>)()}
+                </div>
+
+                {/*//follow*/}
+                {/*{(() => isEditingMode ? null : <TotalFollowCard userProfile={props.loginStatus.userProfile}/>)()}*/}
+
+                {/*//introduction*/}
+                {/*{(() => isEditingMode ?*/}
+                {/*    <textarea className={styles.textarea_0} value={introduction} onChange={(e) => {*/}
+                {/*        setIntroduction(e.target.value)*/}
+                {/*    }}/> : <div className={styles.div_2}>{props.loginStatus.userProfile.introduction}</div>)()}*/}
             </div>
-            {(() => isEditingMode ?
-                <input type={"text"} className={styles.input_0} value={username} onChange={(e) => {
-                    setUsername(e.target.value)
-                }}/> : <h1 className={styles.h1_0}>{props.loginStatus.userProfile.username}</h1>)()}
-            {(() => isEditingMode ? null : <TotalFollowCard userProfile={props.loginStatus.userProfile}/>)()}
-            {(() => isEditingMode ?
-                <textarea className={styles.textarea_0} value={introduction} onChange={(e) => {
-                    setIntroduction(e.target.value)
-                }}/> : <div className={styles.div_2}>{props.loginStatus.userProfile.introduction}</div>)()}
             {(() => isEditingMode ?
                     <div className={styles.div_4}>
                         <AiOutlineCheck className={styles.AiOutlineCheck} onClick={onEditComplete}/>
@@ -176,6 +211,8 @@ export default function UserProfileSection_MyOwn(props: props) {
                         <p className={styles.p_0}>プロフィールを編集</p>
                     </div>
             )()}
+
+
             {(() => isCropperOpen ? <ImageEditingCard loadedImage={loadedImage} setIsCropperOpen={setIsCropperOpen}
                                                       userProfile={props.loginStatus.userProfile}
                                                       setProfileImageAsBase64={setProfileImageAsBase64}/> : undefined)()}

@@ -6,6 +6,12 @@
     height: 100%;
     display: flex;
     flex-direction: row;
+
+    @media screen  and (max-width: 768px){
+        flex-direction: column;
+        align-items: flex-start;
+        overflow-y: scroll;
+    }
 }
 
 .likes_div_1__d4dJB {
@@ -16,28 +22,56 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 1vh;
+
+    @media screen  and (max-width: 768px){
+        flex-direction: row;
+        width: 100%;
+        height: -moz-fit-content;
+        height: fit-content;
+        padding: 2vh 1vw 2vh 1vw;
+        box-sizing: border-box;
+        gap: 0;
+    }
 }
 
 .likes_div_2__1iaf2 {
-    width: 75%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4vh;
+}
+
+.likes_div_3__kAK_g {
+    width: 75%;
+    height: 100%;
     padding: 4vh 2vw 4vh 2vw;
     box-sizing: border-box;
-    overflow: scroll;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    @media screen  and (max-width: 768px){
+        overflow-y: visible;
+        width: 100%;
+        height: auto;
+    }
 }
+
 
 .likes_img_0__Vcp7E {
     width: 50%;
     aspect-ratio: 1;
+    @media screen  and (max-width: 768px){
+        height: 30vw;
+        width: 30vw;
+        aspect-ratio: 1;
+    }
 }
 
 
 .likes_h1_0__7louQ {
-
+    margin: 0;
 }
 
 .likes_p_0__wN0FG {

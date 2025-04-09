@@ -25,6 +25,7 @@ const noto_sans_jp = Noto_Sans_JP({
 export default function RootLayout({children}: { children: ReactNode }) {
 
 
+
     return (
         <html lang='ja' className={noto_sans_jp.className}>
         <head>

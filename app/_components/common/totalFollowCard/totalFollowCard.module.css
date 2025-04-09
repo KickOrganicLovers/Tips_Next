@@ -13,6 +13,7 @@
     text-align: center;
     justify-content: center;
     gap: 0.5vw;
+    font-size: 0.8rem;
 }
 
 .p_0 {
@@ -20,7 +21,6 @@
     padding: 0;
     color: gray;
     font-weight: bold;
-    font-size: 1.5vh;
 }
 
 .p_1 {
@@ -28,5 +28,4 @@
     padding: 0;
     color: gray;
     font-weight: bold;
-    font-size: 1.5vh;
 }

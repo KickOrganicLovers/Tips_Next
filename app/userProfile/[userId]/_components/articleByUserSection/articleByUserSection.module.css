@@ -1,5 +1,5 @@
 .div_0 {
-    width: 70%;
+    width: 75%;
     height: 100%;
     padding: 6vh;
     display: grid;
@@ -8,4 +8,9 @@
     box-sizing: border-box;
     overflow-y: scroll;
     background-color: var(--bg-color-2);
+
+    @media screen and (max-width: 768px) {
+        overflow-y: visible;
+        width: 100%;
+    }
 }
