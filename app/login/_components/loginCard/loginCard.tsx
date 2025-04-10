@@ -1,5 +1,5 @@
 import styles from './loginCard.module.css'
-import {useEffect, useState} from "react";
+import {use, useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "@/redux/store";
@@ -26,16 +26,17 @@ export default function LoginCard() {
         const data = await res.json();
         dispatch(setLoginStatus(data));
     }
-    
-    
-    if (session?.status === 'authenticated' && LoginStatus?.isLoggedIn) {
-        dispatch(setIsLoggedIn(true));
-        // ここにもredux?
-        router.push('/');　
-    }else if (session?.status === 'authenticated' && !LoginStatus?.isLoggedIn) {
-        // 新規登録画面に遷移router.push('');
-    }
-        
+    // 初回レンダリング時とsessionが変化したときに実行
+    useEffect(() => {
+       if (session?.status === 'authenticated' && LoginStatus?.isLoggedIn) {
+           dispatch(setIsLoggedIn(true));
+           // ここにもredux?
+           router.push('/');　
+       }else if (session?.status === 'authenticated' && !LoginStatus?.isLoggedIn) {
+           // 新規登録画面に遷移router.push('');
+       }
+    }, [session?.status]);
+
     const handleLogin = async (e: React.FormEvent) => {
          e.preventDefault();
          const result = await signIn("credentials", {
