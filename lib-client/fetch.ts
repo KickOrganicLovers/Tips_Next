@@ -35,3 +35,4 @@ export async function getDataFromServerWithJson<T>(url: string): Promise<T> {
         return {error: err as string} as T
     }
 }
+
