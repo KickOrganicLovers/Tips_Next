@@ -7,6 +7,7 @@ import {setIsLoggedIn, setLoginStatus} from "@/redux/slices/loginStatusSlice";
 import {postDataToServerWithJson} from "@/lib-client/fetch";
 import {LoginStatusScheme} from "@/types";
 import { signIn, useSession } from 'next-auth/react';
+import Link from "next/link";
 
 export default function LoginCard() {
     const [isMounted, setIsMounted] = useState(false);
@@ -28,7 +29,7 @@ export default function LoginCard() {
          else{
              return null;
          };
-        
+
      }
 
      useEffect(() => {
@@ -37,7 +38,7 @@ export default function LoginCard() {
             //  router.push('/');
          })
      }, [session])
-    
+
 
 
 
@@ -69,6 +70,9 @@ export default function LoginCard() {
             </div>
             <div>
                 <button className={styles.button} onClick={() =>{signIn('google')}}>googleでログイン</button>
+            </div>
+            <div>
+                <Link href="/signup"><a>アカウントを作成</a></Link>
             </div>
         </div>
     )

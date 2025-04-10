@@ -1,6 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {Editor} from "@tiptap/core";
 
+
 const initialState: {
     bold: {
         isActive: boolean
