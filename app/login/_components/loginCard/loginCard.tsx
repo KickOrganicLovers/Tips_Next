@@ -15,42 +15,35 @@ export default function LoginCard() {
     const LoginStatus = useSelector<RootState, RootState['LoginStatus']>(state => state.LoginStatus);
     const session = useSession();
     const router = useRouter();
-
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+
+    // ログイン画面にてまずsessionがあるかを確認し、あればそのままログイン状態にする
+    // その後、sessionがない場合はログイン画面を表示する
     const fetchuserdata = async () => {
-
-          if (session.status === 'authenticated') {
-              const data = await fetch('api/login/', {method: 'POST', body: JSON.stringify({email: session.data?.user?.email})})
-              return await data.json();
-             }
-         else{
-             return null;
-         };
-        
-     }
-
-     useEffect(() => {
-         fetchuserdata().then((data)=> {
-             console.log(data);
-            //  router.push('/');
-         })
-     }, [session])
+        const res = await fetch('api/login/', {method: 'POST', body: JSON.stringify({email: session.data?.user?.email})})
+        const data = await res.json();
+        dispatch(setLoginStatus(data));
+    }
     
-
-
-
-     const handleLogin = async (e: React.FormEvent) => {
+    
+    if (session?.status === 'authenticated' && LoginStatus?.isLoggedIn) {
+        dispatch(setIsLoggedIn(true));
+        // ここにもredux?
+        router.push('/');　
+    }else if (session?.status === 'authenticated' && !LoginStatus?.isLoggedIn) {
+        // 新規登録画面に遷移router.push('');
+    }
+        
+    const handleLogin = async (e: React.FormEvent) => {
          e.preventDefault();
          const result = await signIn("credentials", {
            redirect: false,
            email,
            password,
          });
-     };
-
-
+    };
 
     return (
         <div className={className}>
@@ -72,4 +65,6 @@ export default function LoginCard() {
             </div>
         </div>
     )
-}
+    
+    
+};
