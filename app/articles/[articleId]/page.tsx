@@ -29,6 +29,8 @@ export default function Page() {
     const [like, setLike] = useState<LikeScheme | undefined>(undefined);
     const [follow, setFollow] = useState<FollowScheme | undefined>(undefined);
     const [hasError, setHasError] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+
     const {articleId} = useParams<{articleId: string}>()
     const dispatch = useDispatch<AppDispatch>();
     const contentRef = useRef<HTMLDivElement>(null);
@@ -106,6 +108,17 @@ export default function Page() {
         }
     }, [article, LoginStatus]);
 
+    useEffect(() => {
+        // クライアント側でのみ実行される
+        const mediaQuery = window.matchMedia('(max-width: 768px)');
+        setIsMobile(mediaQuery.matches);
+
+        const handleResize = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+        mediaQuery.addEventListener('change', handleResize);
+
+        return () => mediaQuery.removeEventListener('change', handleResize);
+    }, []);
+
 
     if (!article) {
         if(hasError) {
@@ -115,14 +128,16 @@ export default function Page() {
     }
     return (
         <div className={styles.div_0}>
+            {(() => isMobile?<CommentsSection article={article} loginStatus={LoginStatus}/> : null)()}
             <ArticleDetailsSection article={article} loginStatus={LoginStatus} follow={follow} setFollow={setFollow} />
-            {(() => LoginStatus.isLoggedIn ? <LikeButton articleId={article.id} userId={LoginStatus.userProfile.userId} like={like} setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>} /> : undefined)()}
+            {(() => LoginStatus.isLoggedIn && !isMobile? <LikeButton articleId={article.id} userId={LoginStatus.userProfile.userId} like={like} setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>} /> : null)()}
             <div className={styles.div_1}>
                 {(() => article.authorProfile.userId === LoginStatus.userProfile.userId ? <ArticleManagementCard article={article}/> : undefined)()}
                 <TotalLikesCard likes={article.likes} like={like}/>
                 <h1 className={styles.h1_0}>{article.title}</h1>
                 <div ref={contentRef} className={styles.div_2}/>
-                <CommentsSection article={article} loginStatus={LoginStatus}/>
+                {(() => LoginStatus.isLoggedIn && isMobile? <LikeButton articleId={article.id} userId={LoginStatus.userProfile.userId} like={like} setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>} /> : null)()}
+                {(() => !isMobile?<CommentsSection article={article} loginStatus={LoginStatus}/> : null)()}
             </div>
         </div>
     )
