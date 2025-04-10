@@ -57,15 +57,15 @@
     transition: left 0.5s ease-in-out;
 }
 
-.div_1.verifying_step1 {
+.div_1.step1 {
     left: 0;
 }
 
-.div_1.verifying_step2 {
+.div_1.step2 {
     left: -50vh;
 }
 
-.div_1.accountCreation {
+.div_1.step3 {
     left: -100vh;
 }
 

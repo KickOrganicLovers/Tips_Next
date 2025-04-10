@@ -12,9 +12,41 @@
     gap: 4vh;
 }
 
-.input_0 {
+.div_1 {
     height: 5vh;
     width: 80%;
+    position: relative;
+}
+
+.div_2 {
+    margin-top: 3vh;
+    width: 80%;
+}
+
+.div_3 {
+    display: flex;
+    flex-direction: row;
+    gap: 1vw;
+}
+
+.img_0 {
+    height: 5vh;
+    width: 5vh;
+    padding: 1vh;
+    box-sizing: border-box;
+    border-radius: 100px;
+    border: 2px solid darkgray;
+
+    &:hover{
+    }
+}
+
+.input_0 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
     padding: 0 0 0 1vw;
     font-size: 2vh;
     border-radius: 10vh;
@@ -29,9 +61,6 @@
         padding: 0 0 0 4vw;
     }
 
-    &:focus {
-        outline: 2px solid rgba(180, 247, 255, 0.8)
-    }
 }
 
 .h2_0 {
@@ -52,14 +81,16 @@
 }
 
 .button_0 {
-    width: 20%;
-    height: 4vh;
-    padding: 0;
-    margin: 2vh 0 0 0;
-    border: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    padding: 0 20px 0 20px;
+    margin: 0;
+    border: 2px solid darkgray;
     box-sizing: border-box;
     border-radius: 2vw;
-    background-color: #f3f3f3;
+    background-color: white;
     color: #222222;
     font-size: 1.5vh;
 
