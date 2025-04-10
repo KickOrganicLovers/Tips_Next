@@ -1,9 +1,7 @@
 .div_0 {
     position: absolute;
     bottom: 0;
-    right: 0;
-    width: 9.375%;
-    height: fit-content;
+    right: 2vw;
     padding: 2vh 0 2vh 0;
     display: flex;
     align-items: center;
@@ -17,12 +15,16 @@
     background-color: var(--bg-color-1);
     box-sizing: border-box;
     border-radius: 50px;
-    padding: 1.5vh 1vh 1vh 1vh;
-    width: 8vh;
-    height: 8vh;
+    padding: 13px 10px 10px 10px;
+    font-size: 75px;
     color: gray;
     border: gray solid 3px;
     pointer-events: auto;
+
+    @media screen and (max-width: 768px) {
+        font-size: 50px;
+        padding: 10px 7px 7px 7px;
+    }
 
     /*&:hover {*/
     /*    border-color: hotpink;*/
