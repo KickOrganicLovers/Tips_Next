@@ -51,21 +51,35 @@ export default function LoginCard() {
             <img src='/images/PageIcon.svg' alt='PageIcon' className={styles.img}/>
             <h1 className={styles.h1}>Tipsにログイン</h1>
             <div className={styles.div_1}>
-                <input className={styles.input} type={`email`} name={'email'} value={email} placeholder={'メールアドレス'}
+                <input className={styles.input} type={`email`} name={'email'} value={email}
+                       placeholder={'メールアドレス'}
                        onChange={(e) => {
                            setEmail(e.target.value)
                        }}/>
-                <input className={styles.input} type={'password'} name={'password'} value={password} placeholder={'パスワード'}
+                <input className={styles.input} type={'password'} name={'password'} value={password}
+                       placeholder={'パスワード'}
                        onChange={(e) => {
                            setPassword(e.target.value)
                        }}/>
                 <button className={styles.button} onClick={handleLogin}>ログイン</button>
+                <p className={styles.p_0}>または、以下のサービスでログイン</p>
+                <div className={styles.div_2}>
+                    <div className={styles.div_3}>
+                        <img src={'/images/logoGoogle.png'} alt={'logoGoogle'} className={styles.img_0}/>
+                    </div>
+                    <div className={styles.div_3}>
+                        <img src={'/images/logoApple.png'} alt={'logoApple'} className={styles.img_0}/>
+                    </div>
+                </div>
             </div>
             <div>
-                <button className={styles.button} onClick={() =>{signIn('google')}}>googleでログイン</button>
+                {/*<button className={styles.button} onClick={() => {*/}
+                {/*    signIn('google')*/}
+                {/*}}>googleでログイン*/}
+                {/*</button>*/}
             </div>
         </div>
     )
-    
-    
+
+
 };

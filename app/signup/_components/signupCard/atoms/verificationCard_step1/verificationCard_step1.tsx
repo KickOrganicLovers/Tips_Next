@@ -33,7 +33,17 @@ export default function VerificationCard_Step1(props: props) {
                        }}/>
                 <button className={styles.button_0} onClick={clickEventHandler}>送信</button>
             </div>
-            <p className={styles.p_0}>または、以下のサービスで登録</p>
+            <div className={styles.div_2}>
+                <p className={styles.p_0}>または、以下のサービスで登録</p>
+                <div className={styles.div_3}>
+                    <div className={styles.div_4}>
+                        <img src={'/images/logoGoogle.png'} alt={'logoGoogle'} className={styles.img_0}/>
+                    </div>
+                    <div className={styles.div_4}>
+                        <img src={'/images/logoApple.png'} alt={'logoApple'} className={styles.img_0}/>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }

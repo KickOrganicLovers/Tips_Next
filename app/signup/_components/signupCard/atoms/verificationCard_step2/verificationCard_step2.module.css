@@ -1,13 +1,18 @@
 .div_0 {
     position: absolute;
-    width: 50vh;
+    width: 500px;
     height: 100%;
-    left: 50vh;
+    left: 500px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    gap: 2vh;
+    gap: 20px;
+
+    @media screen and (max-width: 512px) {
+        width: 90vw;
+        left: 90vw;
+    }
 
 }
 

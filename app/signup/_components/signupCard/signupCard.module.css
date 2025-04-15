@@ -1,20 +1,25 @@
 .div_0 {
-    width: 50vh;
-    height: 60vh;
+    width: 500px;
+    height: 600px;
     position: absolute;
+    box-sizing: border-box;
+    padding: 60px 0;
     top: 0;
     bottom: 0;
     right: 0;
     left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
+    align-items: center;
     margin: auto;
     background-color: white;
     overflow: hidden;
     @media screen and (max-width: 512px) {
         width: 90vw;
-        height: 55vh;
-        min-height: 100vw;
-    }
-}
+        aspect-ratio: 5/6;
+    }}
 
 @keyframes fadeIn {
     to {
@@ -28,45 +33,33 @@
 }
 
 .img {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 8vh;
-    margin: auto;
-    height: 10vh;
-    width: auto;
+    width: 100px;
+    aspect-ratio: 1;
     border-radius: 20%;
 }
 
 .h1 {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 20vh;
-    margin: auto;
     text-align: center;
-    font-size: 3vh;
+    font-size: 2rem
 }
 
 .div_1 {
+    margin-top: 15px;
     width: 300%;
     height: 55%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
     transition: left 0.5s ease-in-out;
 }
 
-.div_1.step1 {
+.div_1.verifying_step1 {
     left: 0;
 }
 
-.div_1.step2 {
-    left: -50vh;
+.div_1.verifying_step2 {
+    left: -500px;
 }
 
-.div_1.step3 {
-    left: -100vh;
+.div_1.accountCreation {
+    left: -1000px;
 }
 
 
