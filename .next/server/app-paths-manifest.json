@@ -1,11 +1,3 @@
 {
-  "/api/getCategories/route": "app/api/getCategories/route.js",
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/api/getArticles/route": "app/api/getArticles/route.js",
-  "/page": "app/page.js",
-  "/trending/page": "app/trending/page.js",
-  "/likes/page": "app/likes/page.js",
-  "/signup/page": "app/signup/page.js",
-  "/watchHistory/page": "app/watchHistory/page.js",
-  "/login/page": "app/login/page.js"
+  "/page": "app/page.js"
 }

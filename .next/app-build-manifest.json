@@ -32,35 +32,10 @@
       "static/chunks/main-app.js",
       "static/chunks/app/api/getArticles/route.js"
     ],
-    "/trending/page": [
+    "/_not-found/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/trending/page.css",
-      "static/chunks/app/trending/page.js"
-    ],
-    "/likes/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/likes/page.css",
-      "static/chunks/app/likes/page.js"
-    ],
-    "/login/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/login/page.css",
-      "static/chunks/app/login/page.js"
-    ],
-    "/signup/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/signup/page.css",
-      "static/chunks/app/signup/page.js"
-    ],
-    "/watchHistory/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/watchHistory/page.css",
-      "static/chunks/app/watchHistory/page.js"
+      "static/chunks/app/_not-found/page.js"
     ]
   }
 }

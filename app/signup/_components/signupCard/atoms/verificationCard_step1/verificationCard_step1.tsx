@@ -1,9 +1,9 @@
-import {useState} from "react";
+import {Dispatch, SetStateAction, useState} from "react";
 import styles from './verificationCard_step1.module.css'
 import {postDataToServerWithJson} from "@/lib-client/fetch";
 
 interface props {
-    setVerificationCardStatus: (step: string) => void
+    setVerificationCardStatus: Dispatch<SetStateAction<string>>
     email: string
     setEmail: (email: string) => void
 }
