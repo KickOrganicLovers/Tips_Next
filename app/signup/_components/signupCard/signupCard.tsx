@@ -13,8 +13,8 @@ export default function SignupCard() {
     const [email, setEmail] = useState('');
 
 
-    const className_div0 = isMounted ? `${styles['div_0']} ${styles['mounted']}` : styles['div_0'];
-    const className_div1 = `${styles['div_1']} ${styles[verificationCardStatus]}`
+    const className_div_0 = isMounted ? `${styles['div_0']} ${styles['mounted']}` : styles['div_0'];
+    const className_div_1 = `${styles['div_1']} ${styles[verificationCardStatus]}`
 
 
     useEffect(() => {
@@ -22,10 +22,10 @@ export default function SignupCard() {
     })
 
     return (
-        <div className={className_div0}>
+        <div className={className_div_0}>
             <img src='/images/PageIcon.svg' alt='PageIcon' className={styles.img}/>
             <h1 className={styles.h1}>Tipsにサインアップ</h1>
-            <div className={className_div1}>
+            <div className={className_div_1}>
                 <VerificationCard_Step1 setVerificationCardStatus={setVerificationCardStatus} email={email}
                                         setEmail={setEmail}/>
                 <VerificationCard_Step2 setVerificationCardStatus={setVerificationCardStatus} email={email}/>

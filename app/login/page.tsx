@@ -15,14 +15,7 @@ export default function Page() {
     const dispatch = useDispatch<AppDispatch>();
     const router = useRouter()
 
-    useEffect(() => {
-        if (LoginStatus.isLoggedIn) {
-            router.push('/')
-        } else {
-            dispatch(applyWhereIam('login'))
-        }
-    })
-
+    
     return (
         <div className={styles.div_0}>
             <LoginCard/>

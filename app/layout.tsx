@@ -13,7 +13,15 @@ import SideBar from "@/app/_components/sideBar/sideBar";
 import 'dotenv/config'
 import {json} from "node:stream/consumers";
 import {setCategories} from "@/redux/slices/categoriesSlice";
-import {ThemeProvider} from "@/app/_components/themeProvider";
+
+import { SessionProvider, useSession } from "next-auth/react"
+import { getServerSession } from "next-auth/next"
+import { authOptions } from "@/lib-server/auth";
+import { useState } from "react";
+import { Session } from "next-auth";
+
+
+
 
 const noto_sans_jp = Noto_Sans_JP({
     subsets: ['latin'],
@@ -22,9 +30,13 @@ const noto_sans_jp = Noto_Sans_JP({
 
 
 
-export default function RootLayout({children}: { children: ReactNode }) {
+export default  function RootLayout({children}: { children: ReactNode }) {
+    const [session, setSession] = useState<Session>(); 
 
-
+    useEffect(() => {
+        getServerSession(authOptions).then((session) => {
+            if(!!session){setSession(session)}}
+        )}, [])
 
     return (
         <html lang='ja' className={noto_sans_jp.className}>
@@ -32,13 +44,13 @@ export default function RootLayout({children}: { children: ReactNode }) {
             <title>Tips</title>
         </head>
         <body className={styles.body}>
+        <SessionProvider session={session}> 
         <Provider store={store}>
-            <ThemeProvider>
-                <Header/>
-                <SideBar/>
-                <Main children={children}/>
-            </ThemeProvider>
+            <Header/>
+            <SideBar/>
+            <Main children={children}/>
         </Provider>
+        </SessionProvider> 
         </body>
         </html>
     )

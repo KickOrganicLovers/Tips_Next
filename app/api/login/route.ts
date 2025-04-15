@@ -1,15 +1,12 @@
 import {NextRequest, NextResponse} from "next/server";
 import {PrismaClient} from "@prisma/client";
-import bcrypt from "bcrypt";
 import {prisma} from "@/lib-server/prisma";
 import {replaceAllDatesToIsoString} from "@/lib-server/processing";
 
 export async function POST(req: NextRequest) {
     const body = await req.json()
-
-    const email = body !== undefined && body.email !== undefined && typeof body.email === 'string' ? body.email as string : ''
-    const password = body !== undefined && body.password !== undefined && typeof body.password !== 'string' ? body.password as string : ''
-
+    
+    const email = typeof body?.email === 'string' ? body.email : '';
 
     try {
         const user = await prisma.user.findUnique({
@@ -66,7 +63,6 @@ export async function POST(req: NextRequest) {
         })
 
         if (user) {
-            if (bcrypt.compareSync(password, user.password)) {
                 console.log(user)
                 return NextResponse.json({
                     isLoggedIn: true,
@@ -83,13 +79,7 @@ export async function POST(req: NextRequest) {
                         createdAt: user.profile?.createdAt as Date
                     })
                 }, {status: 200})
-            } else {
-                return NextResponse.json({
-                    isLoggedIn: false,
-                    error: 'password is incorrect',
-                    userProfile: undefined
-                }, {status: 403})
-            }
+            
         } else {
             return NextResponse.json({
                 isLoggedIn: false,

@@ -1,13 +1,11 @@
 {
+  "/api/getCategories/route": "app/api/getCategories/route.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
   "/api/getArticles/route": "app/api/getArticles/route.js",
-  "/api/getUserProfile/route": "app/api/getUserProfile/route.js",
-  "/api/postWatchHistory/route": "app/api/postWatchHistory/route.js",
   "/page": "app/page.js",
   "/trending/page": "app/trending/page.js",
-  "/articles/[articleId]/page": "app/articles/[articleId]/page.js",
-  "/watchHistory/page": "app/watchHistory/page.js",
-  "/categories/[categoryId]/page": "app/categories/[categoryId]/page.js",
   "/likes/page": "app/likes/page.js",
-  "/userProfile/me/page": "app/userProfile/me/page.js",
-  "/userProfile/[userId]/page": "app/userProfile/[userId]/page.js"
+  "/signup/page": "app/signup/page.js",
+  "/watchHistory/page": "app/watchHistory/page.js",
+  "/login/page": "app/login/page.js"
 }

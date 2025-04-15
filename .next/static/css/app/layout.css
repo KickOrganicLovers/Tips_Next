@@ -201,9 +201,9 @@
 
 
 .app_div_0___XUJL {
-    padding: 2vh;
+    padding: 20px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
     grid-gap: 2vh;
     gap: 2vh;
     width: 100%;
@@ -211,6 +211,10 @@
     box-sizing: border-box;
     overflow-y: scroll;
     background-color: var(--bg-color-2);
+
+    @media screen  and (max-width: 768px){
+        grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
+    }
 }
 
 /*!********************************************************************************************************************************************************************************************************************************************************************************!*\

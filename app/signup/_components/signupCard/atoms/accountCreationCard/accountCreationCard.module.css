@@ -1,13 +1,17 @@
 .div_0 {
     position: absolute;
-    width: 50vh;
+    width: 500px;
     height: 100%;
-    left: 100vh;
+    left: 1000px;
     display: flex;
     flex-direction: column;
-    gap: 2vh;
+    gap: 20px;
     align-items: center;
     justify-content: flex-start;
+    @media screen and (max-width: 512px) {
+        width: 90vw;
+        left: 180vw;
+    }
 }
 
 .p_0 {
@@ -22,7 +26,7 @@
     font-size: 2vh;
     border-radius: 10vh;
     box-sizing: border-box;
-    background-color: var(--bg-color-2);
+    background-color: #f3f3f3;
     color: #222222;
     border: none;
     @media screen and (max-width: 1024px) {
@@ -52,7 +56,7 @@
     border: none;
     box-sizing: border-box;
     border-radius: 2vw;
-    background-color: var(--bg-color-2);
+    background-color: #f3f3f3;
     color: #222222;
     font-size: 1.5vh;
 

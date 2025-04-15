@@ -22,6 +22,11 @@
       "static/chunks/main-app.js",
       "static/chunks/app/api/getCategories/route.js"
     ],
+    "/api/auth/[...nextauth]/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/auth/[...nextauth]/route.js"
+    ],
     "/api/getArticles/route": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -32,12 +37,6 @@
       "static/chunks/main-app.js",
       "static/css/app/trending/page.css",
       "static/chunks/app/trending/page.js"
-    ],
-    "/articles/[articleId]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/articles/[articleId]/page.css",
-      "static/chunks/app/articles/[articleId]/page.js"
     ],
     "/likes/page": [
       "static/chunks/webpack.js",
@@ -51,43 +50,17 @@
       "static/css/app/login/page.css",
       "static/chunks/app/login/page.js"
     ],
-    "/api/login/route": [
+    "/signup/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/api/login/route.js"
+      "static/css/app/signup/page.css",
+      "static/chunks/app/signup/page.js"
     ],
     "/watchHistory/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/css/app/watchHistory/page.css",
       "static/chunks/app/watchHistory/page.js"
-    ],
-    "/userProfile/me/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/userProfile/me/page.js"
-    ],
-    "/userProfile/[userId]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/userProfile/[userId]/page.css",
-      "static/chunks/app/userProfile/[userId]/page.js"
-    ],
-    "/api/getUserProfile/route": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/api/getUserProfile/route.js"
-    ],
-    "/api/postWatchHistory/route": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/api/postWatchHistory/route.js"
-    ],
-    "/categories/[categoryId]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/categories/[categoryId]/page.css",
-      "static/chunks/app/categories/[categoryId]/page.js"
     ]
   }
 }
