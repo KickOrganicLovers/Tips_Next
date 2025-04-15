@@ -67,7 +67,7 @@ export default function LoginCard() {
                     <div className={styles.div_3}>
                         <img src={'/images/logos/apple.png'} alt={'logoGoogle'} className={styles.img_0}/>
                     </div>
-                    <div className={styles.div_3}>
+                    <div className={styles.div_3} onClick={() => {signIn('google')}}>
                         <img src={'/images/logos/google.png'} alt={'logoApple'} className={styles.img_0}/>
                     </div>
                 </div>
