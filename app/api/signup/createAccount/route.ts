@@ -1,6 +1,6 @@
 import {PrismaClient} from "@prisma/client";
 import {NextRequest, NextResponse} from "next/server";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import {prisma} from "@/lib-server/prisma";
 
 export async function POST(req: NextRequest) {
@@ -8,14 +8,13 @@ export async function POST(req: NextRequest) {
 
     const email = body !== undefined && body.email !== undefined && typeof body.email === 'string' ? body.email as string : ''
     const username = body !== undefined && body.username !== undefined && typeof body.username === 'string' ? body.username as string : ''
-    const password = body !== undefined && body.password !== undefined && typeof body.password !== 'string' ? body.password as string : ''
-
+    const password = body !== undefined && body.password !== undefined && typeof body.password === 'string' ? body.password as string : ''
     try {
         const result = await prisma.$transaction(async (tx) => {
             const newUser = await tx.user.create({
                 data: {
                     email: email,
-                    password: bcrypt.hashSync(password, Number(process.env.BCRYPT_SALT_ROUNDS)),
+                    password: bcrypt.hashSync(password, Number(process.env["BCRYPT_SALT_ROUNDS"])),
                 },
             });
 

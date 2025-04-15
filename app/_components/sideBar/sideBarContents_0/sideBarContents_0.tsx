@@ -25,7 +25,6 @@ export default function SideBarContents_0() {
             <SubscribedAccountCard loginStatus={LoginStatus}/>
             <CategoryCard/>
             <button onClick={toggleTheme} type="button">テーマ切り替え</button>
-
         </div>
     )
 }

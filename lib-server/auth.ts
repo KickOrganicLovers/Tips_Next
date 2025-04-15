@@ -5,7 +5,8 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { prisma } from '@/lib-server/prisma'
 import { NextAuthOptions } from 'next-auth'
-import bcrypt from "bcrypt";
+import bcrypt from 'bcryptjs'
+
 
 
 
@@ -17,7 +18,6 @@ export const authOptions: NextAuthOptions = {
         strategy: "jwt", // JWTを使う場合
       },
     providers: [
-
         CredentialsProvider({
             name: "Credentials",
             credentials: {
@@ -31,16 +31,11 @@ export const authOptions: NextAuthOptions = {
               });
 
               if (!user) throw new Error("メールアドレスが間違っています");
-
-              // const isValid = await bcrypt.compare(credentials!.password, user.password);
                 const isValid = bcrypt.compareSync(credentials!.password, user.password)
               if (!isValid) throw new Error("パスワードが違います");
-
               return user; // セッションに入る
             },
         }),
-
-
 
 
        GoogleProvider({

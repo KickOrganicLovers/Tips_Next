@@ -2,7 +2,7 @@
 import {NextRequest, NextResponse} from "next/server";
 import {Resend} from "resend";
 import crypto from 'crypto';
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import VerificationEmailTemplate from "@/app/api/signup/verifyEmail/step1/verificationEmailTemplate";
 import {prisma} from "@/lib-server/prisma";
 

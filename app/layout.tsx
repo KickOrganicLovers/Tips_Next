@@ -8,7 +8,7 @@ import {Provider, useDispatch, useSelector} from "react-redux";
 import Main from "@/app/_components/main/main";
 import './globals.css'
 import {Noto_Sans_JP} from "next/font/google"
-import {usePathname} from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 import SideBar from "@/app/_components/sideBar/sideBar";
 import 'dotenv/config'
 import {json} from "node:stream/consumers";
@@ -19,6 +19,7 @@ import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/lib-server/auth";
 import { useState } from "react";
 import { Session } from "next-auth";
+import {ThemeProvider} from "@/app/_components/themeProvider";
 
 
 
@@ -31,11 +32,16 @@ const noto_sans_jp = Noto_Sans_JP({
 
 
 export default  function RootLayout({children}: { children: ReactNode }) {
-    const [session, setSession] = useState<Session>(); 
+    const [session, setSession] = useState<Session>();
+    const router = useRouter();
 
     useEffect(() => {
         getServerSession(authOptions).then((session) => {
-            if(!!session){setSession(session)}}
+            console.log('fuck')
+            if(!!session){
+                setSession(session)
+                router.push('/')
+            }}
         )}, [])
 
     return (
@@ -44,13 +50,15 @@ export default  function RootLayout({children}: { children: ReactNode }) {
             <title>Tips</title>
         </head>
         <body className={styles.body}>
-        <SessionProvider session={session}> 
-        <Provider store={store}>
-            <Header/>
-            <SideBar/>
-            <Main children={children}/>
-        </Provider>
-        </SessionProvider> 
+        <SessionProvider session={session}>
+            <ThemeProvider>
+                <Provider store={store}>
+                    <Header/>
+                    <SideBar/>
+                    <Main children={children}/>
+                </Provider>
+            </ThemeProvider>
+        </SessionProvider>
         </body>
         </html>
     )
