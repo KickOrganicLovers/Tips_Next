@@ -1,19 +1,14 @@
 .div_0 {
     width: 500px;
     height: 600px;
-    position: absolute;
     box-sizing: border-box;
     padding: 60px 0;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    margin: auto;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
     gap: 10px;
+    position: relative;
     background-color: var(--bg-color-1);
     @media screen and (max-width: 512px) {
         width: 90vw;
