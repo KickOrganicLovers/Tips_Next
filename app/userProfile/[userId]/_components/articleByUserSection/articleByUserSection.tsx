@@ -15,7 +15,10 @@ export default function ArticleByUserSection(props: props) {
 
     return (
         <div className={styles.div_0}>
-            {props.userProfile?.articleCreatedBy.map((article: ArticleScheme, index) => <ArticleContainer article={article} key={index}/>)}
+            <h2 className={styles.h2_0}>作成した記事</h2>
+            <div className={styles.div_1}>
+                {props.userProfile?.articleCreatedBy.map((article: ArticleScheme, index) => <ArticleContainer article={article} key={index}/>)}
+            </div>
         </div>
     )
 }

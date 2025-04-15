@@ -1,0 +1,122 @@
+.div_0 {
+    width: 90%;
+}
+
+.div_1 {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border-color-1);
+}
+
+.div_2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+}
+
+.img_0 {
+    width: 10vw;
+    height: 10vw;
+    min-width: 50px;
+    min-height: 50px;
+    border-radius: 100px;
+}
+
+.div_3 {
+    font-size: 1.2rem;
+}
+
+.div_4 {
+    font-size: 0.8rem;
+    color: darkgray;
+}
+
+.button_0{
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    top: 0;
+    margin: auto;
+    font-size: 1rem;
+    width: fit-content;
+    padding: 0 10px;
+    height: 40px;
+    border-radius: 100px;
+    border: none;
+    outline: 2px solid deepskyblue;
+    color: deepskyblue;
+    background-color: var(--bg-color-1);
+    &:hover{
+        background-color: deepskyblue;
+        color: var(--text-color-3);
+        transition: 0.25s;
+    }
+}
+
+.button_0.active {
+    outline-color: hotpink;
+    color: hotpink;
+    &:hover {
+        outline: none;
+        background-color: hotpink;
+        color: white;
+        transition: 0.25s;
+    }
+}
+
+
+.MdCategory{
+    font-size: 1.2rem;
+}
+
+.div_5 {
+    padding: 1vh 1vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.div_6 {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 2vw;
+}
+
+.div_7 {
+    padding: 10px;
+    border-radius: 100px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    background-color: var(--bg-color-2);
+}
+.p_0 {
+    margin: 0;
+    color: var(--text-color-2);
+}
+
+.p_1 {
+    margin: 0;
+    color: var(--text-color-1);
+}
+
+
+.div_8 {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: var(--bg-color-1);
+}

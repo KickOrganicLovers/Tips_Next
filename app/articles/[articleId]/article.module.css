@@ -8,7 +8,6 @@
         flex-direction: column-reverse;
         overflow-y: scroll;
         align-items: center;
-        justify-content: flex-start;
     }
 }
 
@@ -26,7 +25,7 @@
         overflow-y: visible;
         width: 100%;
         height: fit-content;
-        padding-bottom: 25px;
+        padding-bottom: 8vh;
     }
 }
 

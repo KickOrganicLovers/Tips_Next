@@ -30,7 +30,13 @@
     border-radius: 100px;
     padding-top: 0.2vh;
     font-size: 2vh;
+}
 
+.LuEye{
+    background-color: var(--bg-color-1);
+    border-radius: 100px;
+    padding-top: 0.2vh;
+    font-size: 2vh;
 }
 
 .p_0 {

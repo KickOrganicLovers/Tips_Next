@@ -10,9 +10,6 @@ interface props {
     like: LikeScheme | undefined
 }
 export default function TotalLikesCard(props: props) {
-    const [isLiked_initial, setIsLiked_initial] = useState<boolean | undefined>(undefined)
-    const [isLikedAsNum, setIsLikedAsNum] = useState(0)
-    const changeCount = useRef(0);
     const className = props.like? `${styles['div_1']} ${styles['active']}` : styles['div_1']
 
 
@@ -21,7 +18,7 @@ export default function TotalLikesCard(props: props) {
         <div className={styles.div_0}>
             <div className={className}>
                 <IoHeart className={styles.IoHeart}/>
-                <p className={styles.p_0}>{props.likes.length + isLikedAsNum}</p>
+                <p className={styles.p_0}>{props.likes.length}</p>
             </div>
         </div>
     )

@@ -22,6 +22,10 @@ import {setArticles} from "@/redux/slices/articlesSlice";
 import {Simulate} from "react-dom/test-utils";
 import error = Simulate.error;
 import {appendWatchHistories} from "@/redux/slices/loginStatusSlice";
+import ReducedArticleDetailsSection
+    from "@/app/articles/[articleId]/_components/reducedArticleDetailsSection/reducedArticleDetailsSection";
+import TotalLikesAndViewsCard
+    from "@/app/articles/[articleId]/_components/totalLikesAndViewsCard/totalLikesAndViewsCard";
 
 export default function Page() {
     const LoginStatus = useSelector<RootState, RootState['LoginStatus']>((state) => state.LoginStatus)
@@ -129,14 +133,14 @@ export default function Page() {
     return (
         <div className={styles.div_0}>
             {(() => isMobile?<CommentsSection article={article} loginStatus={LoginStatus}/> : null)()}
-            <ArticleDetailsSection article={article} loginStatus={LoginStatus} follow={follow} setFollow={setFollow} />
+            {(() => !isMobile?<ArticleDetailsSection article={article} loginStatus={LoginStatus} follow={follow} setFollow={setFollow} /> : null)()}
+            {(() => isMobile?<ReducedArticleDetailsSection article={article} loginStatus={LoginStatus} follow={follow} setFollow={setFollow}/> : null)()}
             {(() => LoginStatus.isLoggedIn && !isMobile? <LikeButton articleId={article.id} userId={LoginStatus.userProfile.userId} like={like} setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>} /> : null)()}
             <div className={styles.div_1}>
                 {(() => article.authorProfile.userId === LoginStatus.userProfile.userId ? <ArticleManagementCard article={article}/> : undefined)()}
-                <TotalLikesCard likes={article.likes} like={like}/>
+                <TotalLikesAndViewsCard article={article} loginStatus={LoginStatus} like={like} setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>}/>
                 <h1 className={styles.h1_0}>{article.title}</h1>
                 <div ref={contentRef} className={styles.div_2}/>
-                {(() => LoginStatus.isLoggedIn && isMobile? <LikeButton articleId={article.id} userId={LoginStatus.userProfile.userId} like={like} setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>} /> : null)()}
                 {(() => !isMobile?<CommentsSection article={article} loginStatus={LoginStatus}/> : null)()}
             </div>
         </div>

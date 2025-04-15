@@ -1,0 +1,62 @@
+.div_0 {
+    height: 8vh;
+    width: fit-content;
+    position: absolute;
+    top: 0;
+    right: 2vw;
+    margin: 0;
+    display: flex;
+    gap: 0.5vw;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    @media screen and (max-width: 768px) {
+        top: auto;
+        bottom: 0;
+        right: 6vw;
+        gap: 2vw;
+    }
+}
+
+.div_1 {
+    height: 4vh;
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-color-1);
+    border-radius: 100px;
+    padding: 3px 15px;
+    gap: 0.2vw;
+    border: 2px solid var(--border-color-1);
+    color: gray;
+}
+
+.IoHeart{
+    background-color: var(--bg-color-1);
+    border-radius: 100px;
+    padding-top: 0.2vh;
+    font-size: 2vh;
+}
+
+.LuEye{
+    background-color: var(--bg-color-1);
+    border-radius: 100px;
+    padding-top: 0.2vh;
+    font-size: 2vh;
+}
+
+
+.p_0 {
+    padding: 0;
+    margin: 0;
+    font-size: 2vh;
+}
+
+.div_1.active {
+    border-color: hotpink;
+    color: hotpink;
+    transition: 0.25s;
+}

@@ -1,13 +1,20 @@
 .div_0 {
     position: absolute;
     top: 0;
-    left: 0;
+    left: 2vw;
     height: 8vh;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5vw;
-    margin: 0 2vw 0 2vw;
+    margin: 0;
+
+    @media screen and (max-width: 768px) {
+        top: auto;
+        bottom: 0;
+        left: 6vw;
+        gap: 2vw;
+    }
 }
 
 .div_1 {
@@ -18,7 +25,7 @@
     background-color: var(--bg-color-1);
     border-radius: 100px;
     overflow: hidden;
-
+    box-sizing: border-box;
 }
 
 .div_1.edit{
@@ -32,7 +39,7 @@
 .AiOutlineEdit {
     aspect-ratio: 1;
     font-size: 2vh;
-    padding: 1vh;
+    padding: 11px;
     color: deepskyblue;
     border-radius: 0 100px 100px 0;
 }
@@ -40,7 +47,7 @@
 .FaRegTrashCan {
     aspect-ratio: 1;
     font-size: 2vh;
-    padding: 1vh;
+    padding: 11px;
     color: hotpink;
     border-radius: 0 100px 100px 0;
 }

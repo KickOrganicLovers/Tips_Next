@@ -49,10 +49,12 @@ export default function Page () {
         <div className={styles.div_0}>
             <div className={styles.div_1}>
                 <img src='/images/logoCategory.png' alt='fire' className={styles.img_0}/>
-                <h1 className={styles.h1_0}>{category?.categoryName}</h1>
-                <p className={styles.p_0}>{`${articles.length}件の記事`}</p>
+                <div className={styles.div_2}>
+                    <h1 className={styles.h1_0}>{category?.categoryName}</h1>
+                    <p className={styles.p_0}>{`${articles.length}件の記事`}</p>
+                </div>
             </div>
-            <div className={styles.div_2}>
+            <div className={styles.div_3}>
                 {articles.map((article: ArticleScheme, index: number) => <ArticleContainer article= {article} key={index}/>)}
             </div>
         </div>
