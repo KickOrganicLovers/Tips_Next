@@ -4,7 +4,7 @@ import GoogleProvider from 'next-auth/providers/google'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { prisma } from '@/lib-server/prisma'
-import { NextAuthOptions } from 'next-auth'
+import {NextAuthOptions, User} from 'next-auth'
 import bcrypt from 'bcryptjs'
 
 
@@ -25,15 +25,22 @@ export const authOptions: NextAuthOptions = {
               password: { label: "Password", type: "password" },
             },
             async authorize(credentials) {
-              const user = await prisma.user.findUnique({
+              const userFromDB = await prisma.user.findUnique({
                 where: { email: credentials?.email },
                 include: { profile: true },
               });
 
-              if (!user) throw new Error("メールアドレスが間違っています");
-                const isValid = bcrypt.compareSync(credentials!.password, user.password)
+              if (!userFromDB) throw new Error("メールアドレスが間違っています");
+              const isValid = bcrypt.compareSync(credentials!.password, userFromDB.password)
               if (!isValid) throw new Error("パスワードが違います");
-              return user; // セッションに入る
+              if(!!userFromDB.profile){
+                  const user : User = {
+                      id: userFromDB.id,
+                      email: userFromDB.email,
+                  }
+                  return user
+              }
+              return null
             },
         }),
 
@@ -58,9 +65,11 @@ export const authOptions: NextAuthOptions = {
         return token;
       },
       async session({ session, token }) {
-        session.user.id = token.id;
-        session.user.email = token.email;
-        return session;
+          if(session.user){
+              session.user.id = token.id;
+              session.user.email = token.email;
+          }
+          return session;
       },
     },
 }

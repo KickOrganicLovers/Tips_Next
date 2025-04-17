@@ -37,6 +37,9 @@ const LoginStatusSlice = createSlice({
         setLoginStatus: (state, action: PayloadAction<LoginStatusScheme>) => {
             return action.payload
         },
+        resetLoginStatus: (state) => {
+            return initialState
+        },
         editLikes: (state, action: PayloadAction<{like: LikeScheme, remove: boolean}>) => {
             if(action.payload.remove){
                 state.userProfile.likes = state.userProfile.likes.filter(like => like.id !== action.payload.like.id)
@@ -68,7 +71,7 @@ const LoginStatusSlice = createSlice({
     }
 })
 
-export const {setIsLoggedIn, setError, setUserProfile, setLoginStatus, editLikes, editFollowings, appendWatchHistories} = LoginStatusSlice.actions
+export const {setIsLoggedIn, setError, setUserProfile, resetLoginStatus, setLoginStatus, editLikes, editFollowings, appendWatchHistories} = LoginStatusSlice.actions
 
 export const LoginStatusReducer = LoginStatusSlice.reducer
 

@@ -27,15 +27,21 @@ export default function LoginCard() {
         dispatch(setLoginStatus(data));
     }
     // 初回レンダリング時とsessionが変化したときに実行
+    // useEffect(() => {
+    //    if (session?.status === 'authenticated' && LoginStatus?.isLoggedIn) {
+    //        dispatch(setIsLoggedIn(true));
+    //        // ここにもredux?
+    //        router.push('/');　
+    //    }else if (session?.status === 'authenticated' && !LoginStatus?.isLoggedIn) {
+    //        // 新規登録画面に遷移router.push('');
+    //    }
+    // }, [session?.status]);
+
     useEffect(() => {
-       if (session?.status === 'authenticated' && LoginStatus?.isLoggedIn) {
-           dispatch(setIsLoggedIn(true));
-           // ここにもredux?
-           router.push('/');　
-       }else if (session?.status === 'authenticated' && !LoginStatus?.isLoggedIn) {
-           // 新規登録画面に遷移router.push('');
-       }
-    }, [session?.status]);
+        if(session.status === 'authenticated'){
+            router.push('/');
+        }
+    }, [session.status]);
 
     const handleLogin = async (e: React.FormEvent) => {
          e.preventDefault();
@@ -66,7 +72,7 @@ export default function LoginCard() {
                 <div className={styles.div_2}>
                     <div className={styles.div_3}>
                         <img src={'/images/logos/apple.png'} alt={'logoGoogle'} className={styles.img_0}/>
-                    </div>
+                    </div>3
                     <div className={styles.div_3} onClick={() => {signIn('google')}}>
                         <img src={'/images/logos/google.png'} alt={'logoApple'} className={styles.img_0}/>
                     </div>
