@@ -1,6 +1,7 @@
 import {useState} from "react";
 import styles from './verificationCard_step1.module.css'
 import {postDataToServerWithJson} from "@/lib-client/fetch";
+import {signIn} from "next-auth/react";
 
 interface props {
     setVerificationCardStatus: (step: string) => void
@@ -37,7 +38,8 @@ export default function VerificationCard_Step1(props: props) {
                 <p className={styles.p_0}>または、以下のサービスで登録</p>
                 <div className={styles.div_3}>
                     <div className={styles.div_4}>
-                        <img src={'/images/logoGoogle.png'} alt={'logoGoogle'} className={styles.img_0}/>
+                        <img src={'/images/logoGoogle.png'} alt={'logoGoogle'} className={styles.img_0}
+                         onClick={()=>{signIn('google')}}/>
                     </div>
                     <div className={styles.div_4}>
                         <img src={'/images/logoApple.png'} alt={'logoApple'} className={styles.img_0}/>

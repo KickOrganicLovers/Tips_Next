@@ -5,8 +5,7 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { prisma } from '@/lib-server/prisma'
 import { NextAuthOptions } from 'next-auth'
-
-
+import bcrypt from 'bcryptjs'
 
 
 
@@ -53,7 +52,7 @@ export const authOptions: NextAuthOptions = {
       },
 
     callbacks: {
-      async jwt({ token, user }) {
+      async jwt({ token, user, isNewUser }) {
         if (user) {
           token.id = user.id;
           token.email = user.email;
@@ -65,5 +64,45 @@ export const authOptions: NextAuthOptions = {
         session.user.email = token.email;
         return session;
       },
-    },
+      async redirect({ url, baseUrl }) {
+        if (url.startsWith(baseUrl)) return url;
+        return baseUrl;
+        // 上の処理は外部サイトにリダイレクトするのを防ぐためのもの。
+        // signInの第二引数に指定したURLがここのurlに入る。
+        // baseurlは、NextAuthのURL
+      },
+      async signIn({ user, account, profile, }) {
+        if (!user?.email) return false // null チェック
+
+        const existsUser = await prisma.user.findUnique({where: {email: user.email}})
+
+        switch (account?.provider) {
+        case 'google':
+          if (!!existsUser) {return true}
+          else if(!existsUser){
+            // ユーザーが存在しない場合は新規登録処理を行う
+              const newUser = await prisma.user.create({
+              data: {
+                email: user.email,
+                password: '', // パスワードは空にするか、適当な値を入れる
+                profile:{
+                  create:{
+                    username: user.name,
+                    
+                  },
+                }
+              },
+            });
+            return true; // 新規登録成功
+          } 
+
+          // ユーザーがサインインしたときの処理
+          // ここでユーザー情報をDBに保存することができる。
+          break;
+        case 'apple':
+          break;
+        }
+        return true; // サインインを許可する
+      },  
+    }
 }
