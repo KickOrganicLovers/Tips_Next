@@ -1,4 +1,4 @@
-// File: E:\Assets\WebStorm\Projects\Tips_Next\app\api\getCategories\route.ts
+// File: C:\Users\LEON\Desktop\Tips_Next\app\api\getCategories\route.ts
 import * as entry from '../../../../../app/api/getCategories/route.js'
 import type { NextRequest } from 'next/server.js'
 

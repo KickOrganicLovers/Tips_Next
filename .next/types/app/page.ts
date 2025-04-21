@@ -1,4 +1,4 @@
-// File: E:\Assets\WebStorm\Projects\Tips_Next\app\page.tsx
+// File: C:\Users\LEON\Desktop\Tips_Next\app\page.tsx
 import * as entry from '../../../app/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
