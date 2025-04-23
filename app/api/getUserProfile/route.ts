@@ -17,6 +17,7 @@ export async function GET(req: NextRequest) {
                 likes: true,
                 followers: true,
                 followings: true,
+                watchHistories: true,
                 articleCreatedBy: {
                     include: {
                         likes: true,

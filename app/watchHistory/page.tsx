@@ -58,7 +58,7 @@ export default function Page () {
                         </div>
                     ))
                 })()}
-                {/*{LoginStatus.userProfile.watchHistories.map((watchHistory: WatchHistoryScheme, index: number) => <div><ExtendedArticleContainer article={watchHistory.article as ArticleScheme}/></div>)}*/}
+                {/*{loginStatus.userProfile.watchHistories.map((watchHistory: WatchHistoryScheme, index: number) => <div><ExtendedArticleContainer article={watchHistory.article as ArticleScheme}/></div>)}*/}
             </div>
         </div>
     )

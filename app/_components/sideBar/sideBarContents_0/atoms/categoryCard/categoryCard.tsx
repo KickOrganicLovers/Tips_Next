@@ -22,11 +22,11 @@ export default function CategoryCard() {
             {Categories.map((category, index) => (
                 <div className={styles.div_2} key={index}>
                     <div className={className} onClick={() => {setIsActive(!isActive)}}>
-                        <p className={styles.p_0}>{category.categoryName}</p>
+                        {category.categoryName}
                     </div>
-                    <ul className={styles.ul_0} style={{height: isActive && category.children ? `${category.children.length * 4}vh` : '0'}}>
+                    <ul className={styles.ul_0} style={{height: isActive && category.children ? `${category.children.length * 36}px` : '0'}}>
                         {category.children?.map((children, i) => (
-                            <li className={styles.li_0} key={i} onClick={() => {router.push(`/categories/${children.id}`)}}><p className={styles.p_1}>{children.categoryName}</p></li>
+                            <li className={styles.li_0} key={i} onClick={() => {router.push(`/categories/${children.id}`)}}>{children.categoryName}</li>
                         ))}
                     </ul>
                 </div>

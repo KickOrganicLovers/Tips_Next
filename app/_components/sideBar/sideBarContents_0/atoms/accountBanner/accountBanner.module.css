@@ -1,76 +1,67 @@
 .div_0 {
-    width: 100%;
-    height: 8vh;
+    height: fit-content;
     /*background-image: url('../../../../../../public/images/AccountBanner.png');*/
     /*background-size: 100% 100%;*/
     background-color: var(--bg-color-3);
     color: var(--text-color-3);
     box-sizing: border-box;
     overflow: hidden;
-    padding-left: 0.5vw;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
 }
 
 .div_1 {
-    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
     width: 100%;
-    height: 5vh;
+    gap: 5px;
+    height: fit-content;
 }
 
 .div_2 {
     width: 100%;
-    height: 3vh;
+    height: fit-content;
 }
+
 
 .div_3 {
-    width: 5vh;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.div_4 {
-    width: auto;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 5.5vh;
-    white-space: nowrap;
-}
-
-.div_5 {
+    height: fit-content;
     width: 100%;
-    height: 100%;
-    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 5px;
 }
 
 .img_0 {
-    width: 100%;
-    height: 100%;
+    width: 45px;
+    height: 45px;
+    flex-shrink: 0;
     overflow: hidden;
     border-radius: 50%;
-    padding: 0.5vh;
     box-sizing: border-box;
 }
 
 .p_0 {
-    height: 100%;
+    height: fit-content;
     width: auto;
-    position: absolute;
-    top: 0;
-    left: 3vh;
-    line-height: 2.5vh;
-    font-size: 1.5vh;
+    font-size: 1rem;
     margin: 0;
     padding: 0;
     white-space: nowrap;
 }
 
 .p_1 {
-    height: 100%;
-    width: auto;
-    line-height: 5vh;
-    font-size: 2vh;
+    height: fit-content;
+    width: fit-content;
+    font-size: 1.1rem;
+    text-wrap: nowrap;
     padding: 0;
     margin: 0;
     font-weight: bolder;
@@ -83,12 +74,11 @@
 }
 
 .AiOutlinePlusCircle {
-    height: 75%;
-    width: auto;
-    position: absolute;
-    top: 0.3vh;
-    left: 0.4vh;
-    font-size: 1.5vh;
+    flex-shrink: 0;
+    height: fit-content;
+    aspect-ratio: 1;
+    font-size: 1.4rem;
+    padding-top: 2px;
     transition: color 0.2s ease-in-out;
 
     &:hover {

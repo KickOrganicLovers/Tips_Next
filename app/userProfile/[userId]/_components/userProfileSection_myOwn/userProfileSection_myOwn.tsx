@@ -165,22 +165,6 @@ export default function UserProfileSection_MyOwn(props: props) {
                         }}/> : <h1 className={styles.h1_0}>{props.loginStatus.userProfile.username}</h1>)()}
                 </div>
 
-                {/*//image*/}
-                {/*<div className={styles.div_1}>*/}
-                {/*    <img src={(() => profileImageAsBase64 === '' ? profileImageUrl : profileImageAsBase64)()}*/}
-                {/*         alt='profileImage' className={styles.img_0}/>*/}
-                {/*    {(() => isEditingMode ? <FiPlus className={styles.FiPlus} onClick={() => {*/}
-                {/*        inputImageRef.current?.click()*/}
-                {/*    }}/> : undefined)()}*/}
-                {/*</div>*/}
-
-                {/*//username*/}
-                {/*{(() => isEditingMode ?*/}
-                {/*    <input type={"text"} className={styles.input_0} value={username} onChange={(e) => {*/}
-                {/*        setUsername(e.target.value)*/}
-                {/*    }}/> : <h1 className={styles.h1_0}>{props.loginStatus.userProfile.username}</h1>)()}*/}
-
-
                 <div className={styles.div_6}>
                     {(() => isEditingMode ? null : <TotalFollowCard userProfile={props.loginStatus.userProfile}/>)()}
 

@@ -22,6 +22,10 @@ export default function CategorySelectionCard(props: props) {
         setParentCategoryIdOnFocus(index)
     }
 
+    useEffect(() => {
+        setCategoryName(props.category?.categoryName)
+    }, [props]);
+
     return (
         <div className={styles.div_0}>
             <div className={styles.div_1}>

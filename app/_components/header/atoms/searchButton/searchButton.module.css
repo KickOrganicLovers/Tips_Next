@@ -1,8 +1,14 @@
 .AiOutlineSearch {
+    padding-top: 2px;
     width: auto;
     height: 3vh;
+    min-height: 25px;
+    font-size: 25px;
     color: var(--text-color-2);
     cursor: pointer;
+    @media  screen and (min-width: 769px) {
+        display: none;
+    }
 }
 
 .active {

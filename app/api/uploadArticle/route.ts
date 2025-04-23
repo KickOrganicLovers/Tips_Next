@@ -1,109 +1,121 @@
 import {NextRequest, NextResponse} from "next/server";
-import {extractBase64Images, replaceImageSrc} from "@/lib-server/processing";
+import {
+    deleteUnusedImageTags,
+    extractBase64Images,
+    replaceHtml,
+    replaceImageSrc,
+    uploadThumbnail
+} from "@/lib-server/processing";
 import {Upload} from "@aws-sdk/lib-storage";
 import {s3} from "@/lib-server/s3";
 import {prisma} from "@/lib-server/prisma";
 import {meili} from "@/lib-server/meili";
+import cuid from "cuid";
+import {ArticleScheme, ArticleSchemeWithPrefix, TagScheme} from "@/types";
 
 
 
 export async function POST(req: NextRequest) {
-    const body = await req.json()
+    const body: {article: ArticleSchemeWithPrefix}  = await req.json()
     console.log(body)
+
+    const index = meili.index('articles')
 
     try {
         await prisma.$transaction(async (tx) => {
-            const articleWithPrefix = await tx.article.create({
-                data: {
-                    title: body.title,
-                    contents: '',
-                    thumbnailImageUrl: '',
-                    authorId: body.authorId,
-                    tags: body.tags,
-                    categoryId: body.categoryId,
+
+
+            const tagsPromise = body.article.tags.map(async (tag: string) => {
+                const existingTag = await tx.tag.findUnique({
+                    where: {tagName: tag}
+                })
+                if(!!existingTag){
+                    return existingTag
+                }else {
+                    return tx.tag.create({
+                        data: {
+                            tagName: tag
+                        }
+                    })
                 }
             })
 
-            //upload images in article and replace image src in html
-            const contents: string = body.contents
-            const imagesInArticle = extractBase64Images(contents)
-            const imageUrlMappings = await Promise.all(imagesInArticle.map(async (imageAsBase64WithPrefix, index) => {
-                const key = `articleImages/${articleWithPrefix.id}/${index}-inArticle.jpeg`;
-                const upload = new Upload({
-                    client: s3,
-                    params: {
-                        Bucket: 'tipsimagebucket',
-                        Key: key,
-                        Body: Buffer.from(imageAsBase64WithPrefix.replace(/^data:image\/\w+;base64,/, ""), 'base64'),
-                        ContentType: 'image/jpeg',
+
+            if(!body.article.id || !body.article.previousContents){
+                const articleId = cuid()
+                const replacedContents = await replaceHtml(body.article.contents, articleId)
+                const thumbnailImageUrl = await uploadThumbnail(articleId, body.article.thumbnailImageAsBase64)
+
+                const article = await tx.article.create({
+                    data: {
+                        id: articleId,
+                        title: body.article.title,
+                        contents: replacedContents,
+                        thumbnailImageUrl: thumbnailImageUrl,
+                        authorId: body.article.authorId,
+                        categoryId: body.article.categoryId,
+                        tags: {
+                            connect: await Promise.all(tagsPromise)
+                        }
+                    },
+                    include: {
+                        likes: true,
+                        category: true,
+                        tags: true,
+                        watchHistories: true,
                     }
-                }).on("httpUploadProgress", (progress) => {
-                    console.log(`Progress: ${progress.loaded}/${progress.total}`);
                 })
 
-                try {
-                    await upload.done();
-                    return {
-                        base64: imageAsBase64WithPrefix, // 元の Base64
-                        s3Url: `${process.env.MINIO_BUCKET_LINK}/${key}?${new Date().toISOString()}`
-                    };
-                } catch (error) {
-                    console.error("Error uploading file:", error);
-                    return null;
+                const document = {
+                    id: article.id,
+                    title: article.title,
+                    contents: article.contents,
+                    category: article.category.categoryName,
+                    tags: article.tags.map((tag) => tag.tagName),
+                    likes: article.likes.length,
+                    watchHistories: article.watchHistories.length
                 }
 
-            }))
-            const validMappings = imageUrlMappings.filter((mapping) => mapping !== null) as {
-                base64: string;
-                s3Url: string
-            }[];
-            const replacedHtml = replaceImageSrc(contents, validMappings)
+                await index.addDocuments([document])
 
+            }else {
+                const replacedContents = await replaceHtml(body.article.contents, body.article.id)
+                const thumbnailImageUrl = await uploadThumbnail(body.article.id, body.article.thumbnailImageAsBase64)
+                await deleteUnusedImageTags(replacedContents, body.article.previousContents)
 
-            //upload thumbnail
-            const key = `articleImages/${articleWithPrefix.id}/thumbnail.jpeg`;
-            const upload = new Upload({
-                client: s3,
-                params: {
-                    Bucket: 'tipsimagebucket',
-                    Key: key,
-                    Body: Buffer.from(body.thumbnailImageAsBase64.replace(/^data:image\/\w+;base64,/, ""), 'base64'),
-                    ContentType: 'image/jpeg',
+                const article = await tx.article.update({
+                    where: {
+                        id: body.article.id
+                    },
+                    data: {
+                        title: body.article.title,
+                        contents: replacedContents,
+                        thumbnailImageUrl: thumbnailImageUrl,
+                        authorId: body.article.authorId,
+                        categoryId: body.article.categoryId,
+                        tags: {
+                            connect: await Promise.all(tagsPromise)
+                        }
+                    },
+                    include: {
+                        likes: true,
+                        category: true,
+                        tags: true,
+                        watchHistories: true,
+                    }
+                })
+
+                const document = {
+                    id: article.id,
+                    title: article.title,
+                    contents: article.contents,
+                    category: article.category.categoryName,
+                    tags: article.tags.map((tag) => tag.tagName),
+                    likes: article.likes.length,
+                    watchHistories: article.watchHistories.length
                 }
-            }).on("httpUploadProgress", (progress) => {
-                console.log(`Progress: ${progress.loaded}/${progress.total}`);
-            })
-            await upload.done()
-            const thumbnailImageUrl = `${process.env.MINIO_BUCKET_LINK}/${key}?${new Date().toISOString()}`
-
-            const article = await tx.article.update({
-                where: {
-                    id: articleWithPrefix.id
-                },
-                data: {
-                    contents: replacedHtml,
-                    thumbnailImageUrl: thumbnailImageUrl,
-                },
-                include: {
-                    category: true,
-                    likes: true,
-                    watchHistories: true,
-                }
-            })
-
-            const index = meili.index('articles')
-
-            const document = {
-                id: article.id,
-                title: article.title,
-                contents: article.contents,
-                category: article.category.categoryName,
-                tags: article.tags,
-                likes: article.likes.length,
-                watchHistories: article.watchHistories.length
+                await index.addDocuments([document])
             }
-
-            await index.addDocuments([document])
         })
 
         return NextResponse.json({isCreated: true, error: undefined}, {status: 200})

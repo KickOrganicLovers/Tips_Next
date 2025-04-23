@@ -16,7 +16,7 @@ export default function CommentInsertionCard(props: props) {
     const [contents, setContents] = useState<string>('')
 
     const postComment = async () => {
-        return await postDataToServerWithJson<{postedComment: CommentScheme, error: string}>('/api/postComment', {articleId: props.article.id, userId: props.loginStatus.userProfile.userId, contents: contents})
+        return await postDataToServerWithJson<{postedComment: CommentScheme, error: string}>('/api/postComment', {articleId: props.article.id, userId: props.loginStatus.userProfile?.userId, contents: contents})
     }
 
 
@@ -43,7 +43,7 @@ export default function CommentInsertionCard(props: props) {
     return (
         <div className={styles.div_0}>
             <img src={props.loginStatus.userProfile.profileImageUrl} alt={'userProfile'} className={styles.img_0}/>
-            <TextareaAutosize className={styles.textarea_0} value={contents} placeholder={props.loginStatus.userProfile.username + 'としてコメントを投稿'} onChange={(e) => {setContents(e.target.value)}}/>
+            <TextareaAutosize className={styles.textarea_0} value={contents} placeholder={props.loginStatus.userProfile?.username + 'としてコメントを投稿'} onChange={(e) => {setContents(e.target.value)}}/>
             <div className={styles.div_1}>
                 <AiOutlineCheck className={(() => contents? classNames(styles.AiOutlineCheck, styles.active) : classNames(styles.AiOutlineCheck))()} onClick={clickEventHandler_check}/>
                 <AiOutlineClose className={(() => contents? classNames(styles.AiOutlineClose, styles.active) : classNames(styles.AiOutlineClose))()} onClick={clickEventHandler_close}/>

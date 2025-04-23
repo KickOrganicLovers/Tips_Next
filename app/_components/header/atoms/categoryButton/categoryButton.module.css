@@ -1,11 +1,12 @@
 .AiOutlineMenu {
     width: auto;
     height: 3vh;
+    min-height: 25px;
     font-size: 25px;
     color: var(--text-color-2);
     cursor: pointer;
 }
 
 .active {
-    color: black;
+    color: var(--text-color-1);
 }

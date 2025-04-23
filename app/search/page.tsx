@@ -33,7 +33,7 @@ export default function Page() {
             if(!json.error){
                 setArticles(json.articles)
                 if(LoginStatus.isLoggedIn){
-                    postSearchHistory(search_query, LoginStatus.userProfile.userId).then((json) => {
+                    postSearchHistory(search_query, loginStatus.userProfile.userId).then((json) => {
                         if(!!json.error){
                             console.error(json.error)
                         }

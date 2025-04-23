@@ -220,6 +220,9 @@ const ArticleEditorStatusSlice = createSlice({
         settings_onClick: (state) => {
             state.settings.variable = !state.settings.variable
         },
+        settings_reset: (state) => {
+            state.settings.variable = false
+        },
         upload_onClick: (state) => {
             state.upload.variable = !state.upload.variable
         }
@@ -255,6 +258,7 @@ export const {
     textAlign_right_onClick,
     image_onClick,
     settings_onClick,
+    settings_reset,
     upload_onClick,
 } = ArticleEditorStatusSlice.actions
 

@@ -1,5 +1,5 @@
 import {NextRequest, NextResponse} from "next/server";
-import {extractBase64Images, extractImageUrls, extractKeyFromUrl} from "@/lib-server/processing";
+import {deleteImage, extractBase64Images, extractImageUrls, extractKeyFromUrl} from "@/lib-server/processing";
 import {prisma} from "@/lib-server/prisma";
 import {DeleteObjectCommand, S3Client} from "@aws-sdk/client-s3";
 import {s3} from "@/lib-server/s3";
@@ -11,30 +11,6 @@ export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
         console.log(body)
-
-        const deleteImage = async (key: string) => {
-            try {
-                const deleteParams = {
-                    Bucket: "tipsimagebucket",
-                    Key: key,
-                };
-
-                const command = new DeleteObjectCommand(deleteParams);
-                const response = await s3.send(command);
-
-                if (response.$metadata.httpStatusCode === 204) {
-                    console.log(`Image deleted successfully: ${key}`);
-                    return true;
-                } else {
-                    console.warn(`Unexpected response while deleting image: ${key}`, response);
-                    return false;
-                }
-            } catch (error) {
-                console.error(`Failed to delete S3 object: ${key}`, error);
-                return false;
-            }
-        };
-
 
 
         if (!body.id) {
@@ -50,12 +26,9 @@ export async function POST(req: NextRequest) {
 
         // 画像削除処理
         imageUrlsInArticle.map(async (imageUrl) => {
-            console.log('this is fuck')
             const key = extractKeyFromUrl(imageUrl);
-            console.log(`key: ${key}`)
             if (key) {
                 try {
-                    console.log(key)
                     await deleteImage(key);
                 } catch (error) {
                     console.error(`Failed to delete image: ${imageUrl}`, error);

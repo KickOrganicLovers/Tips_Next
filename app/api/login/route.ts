@@ -2,59 +2,60 @@ import {NextRequest, NextResponse} from "next/server";
 import {PrismaClient} from "@prisma/client";
 import {prisma} from "@/lib-server/prisma";
 import {replaceAllDatesToIsoString} from "@/lib-server/processing";
+import {getServerSession} from "next-auth/next";
+import {authOptions} from "@/lib-server/auth";
 
-export async function POST(req: NextRequest) {
-    const body = await req.json()
-    
-    const email = typeof body?.email === 'string' ? body.email : '';
+export async function GET(req: NextRequest) {
+    const { searchParams } = new URL(req.url);
+    // クエリパラメータ "id" を取得
+    const session = await getServerSession(authOptions);
+
+    if(!session || !session.user.id) return NextResponse.json({isLoggedIn: false, error: 'session not found', userProfile: undefined });
+
 
     try {
-        const user = await prisma.user.findUnique({
+        const userProfile = await prisma.userProfile.findUnique({
             where: {
-                email: email,
+                userId: session?.user.id
             },
 
             include: {
-                profile: {
+                likes: {
                     include: {
-                        likes: {
+                        article: {
                             include: {
-                                article: {
+                                authorProfile: {
                                     include: {
-                                        authorProfile: {
-                                            include: {
-                                                followers: true,
-                                                followings: true
-                                            }
-                                        },
-                                        likes: true,
-                                        watchHistories: true,
-                                        category: true
+                                        followers: true,
+                                        followings: true
                                     }
-                                }
+                                },
+                                likes: true,
+                                watchHistories: true,
+                                category: true
                             }
-                        },
-                        followings: {
+                        }
+                    }
+                },
+                followings: {
+                    include: {
+                        followingWithProfile: true,
+                    }
+                },
+                followers: true,
+                watchHistories: {
+                    include: {
+                        article: {
                             include: {
-                                followingWithProfile: true,
-                            }
-                        },
-                        followers: true,
-                        watchHistories: {
-                            include: {
-                                article: {
+                                authorProfile: {
                                     include: {
-                                        authorProfile: {
-                                            include: {
-                                                followers: true,
-                                                followings: true
-                                            }
-                                        },
-                                        likes: true,
-                                        watchHistories: true,
-                                        category: true
+                                        followers: true,
+                                        followings: true
                                     }
-                                }
+                                },
+                                likes: true,
+                                watchHistories: true,
+                                category: true
                             }
                         }
                     }
@@ -62,24 +63,13 @@ export async function POST(req: NextRequest) {
             }
         })
 
-        if (user) {
-                console.log(user)
+        if (userProfile) {
                 return NextResponse.json({
                     isLoggedIn: true,
                     error: undefined,
-                    userProfile: replaceAllDatesToIsoString({
-                        userId: user.id,
-                        username: user.profile?.username,
-                        profileImageUrl: user.profile?.profileImageUrl,
-                        introduction: user.profile?.introduction,
-                        likes: user.profile?.likes,
-                        followings: user.profile?.followings,
-                        followers: user.profile?.followers,
-                        watchHistories: user.profile?.watchHistories,
-                        createdAt: user.profile?.createdAt as Date
-                    })
+                    userProfile: replaceAllDatesToIsoString(userProfile)
                 }, {status: 200})
-            
+
         } else {
             return NextResponse.json({
                 isLoggedIn: false,

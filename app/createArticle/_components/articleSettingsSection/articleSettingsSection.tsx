@@ -9,6 +9,7 @@ import CategorySelectionCard
 import {CategoryScheme} from "@/types";
 
 interface props {
+    thumbnailImageUrl: string
     setThumbnailImageAsBase64: Dispatch<SetStateAction<string>>
     category: CategoryScheme
     setCategory: Dispatch<SetStateAction<CategoryScheme>>
@@ -27,7 +28,7 @@ export default function ArticleSettingsSection(props: props) {
             <div className={styles.div_1}>
                 <div>
                     <h1 className={styles.h1_0}>サムネイル画像の選択</h1>
-                    <ImageEditingCard setThumbnailImageAsBase64={props.setThumbnailImageAsBase64}/>
+                    <ImageEditingCard setThumbnailImageAsBase64={props.setThumbnailImageAsBase64} thumbnailImageUrl={props.thumbnailImageUrl}/>
                 </div>
                 <div>
                     <h1 className={styles.h1_0}>カテゴリーの選択</h1>

@@ -54,8 +54,10 @@ export default  function RootLayout({children}: { children: ReactNode }) {
             <ThemeProvider>
                 <Provider store={store}>
                     <Header/>
-                    <SideBar/>
-                    <Main children={children}/>
+                    <div className={styles.wrapper}>
+                        <Main children={children}/>
+                        <SideBar/>
+                    </div>
                 </Provider>
             </ThemeProvider>
         </SessionProvider>

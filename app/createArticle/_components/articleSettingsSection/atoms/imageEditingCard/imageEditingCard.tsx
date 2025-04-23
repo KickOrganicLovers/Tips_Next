@@ -1,9 +1,10 @@
 import Cropper, {Area, CropperProps, Point} from "react-easy-crop";
-import React, {Dispatch, SetStateAction, useCallback, useRef, useState} from "react";
+import React, {Dispatch, SetStateAction, useCallback, useEffect, useRef, useState} from "react";
 import styles from './imageEditingCard.module.css'
 import {AiOutlineCheck, AiOutlineClose} from "react-icons/ai";
 
 interface props {
+    thumbnailImageUrl: string,
     setThumbnailImageAsBase64: Dispatch<SetStateAction<string>>
 }
 
@@ -202,6 +203,11 @@ export default function ImageEditingCard(props: props) {
         setIsImageEditingMode(false)
     }
 
+    useEffect(() => {
+        setCropperProps(state => {
+            return {...state, image: props.thumbnailImageUrl}
+        })
+    }, [props.thumbnailImageUrl]);
 
 
     return (

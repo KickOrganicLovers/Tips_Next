@@ -3,13 +3,15 @@
 import ArticleEditingSection from "@/app/createArticle/_components/articleEditingSection/articleEditingSection";
 import ArticleSettingsSection from "@/app/createArticle/_components/articleSettingsSection/articleSettingsSection";
 import styles from './createArticle.module.css'
-import {useSelector} from "react-redux";
-import {RootState} from "@/redux/store";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "@/redux/store";
 import {Dispatch, SetStateAction, useEffect, useRef, useState} from "react";
 import {useRouter} from "next/navigation";
 import {postDataToServerWithJson} from "@/lib-client/fetch";
-import {ArticleScheme, CategoryScheme, UserProfileScheme} from "@/types";
+import {ArticleScheme, ArticleSchemeWithPrefix, CategoryScheme, UserProfileScheme} from "@/types";
 import ErrorsCard from "@/app/createArticle/_components/errorsCard/errorsCard";
+import {Article} from "@prisma/client";
+import {settings_reset} from "@/redux/slices/articleEditorStatusSlice";
 
 export default function Page() {
     const ArticleEditorStatus = useSelector<RootState, RootState['ArticleEditorStatus']>((state) => state.ArticleEditorStatus)
@@ -17,6 +19,10 @@ export default function Page() {
     const className = ArticleEditorStatus.settings.variable ? `${styles['div_1']} ${styles['active']}` : styles['div_1'];
     const hasMounted = useRef(true);
     const router = useRouter();
+    const dispatch = useDispatch<AppDispatch>();
+
+    const [id, setId] = useState<string | undefined>(undefined);
+    const [previousContents, setPreviousContents] = useState<string | undefined>(undefined);
 
     const [title, setTitle] = useState<string>('');
     const [contents, setContents] = useState<string>('');
@@ -28,14 +34,17 @@ export default function Page() {
     const [errors, setErrors] = useState<string[]>([]);
 
     const postArticleDataToServer = async () => {
-        return await postDataToServerWithJson<{isCreated: boolean, error: string}>('api/uploadArticle', {
+        const article: ArticleSchemeWithPrefix =  {
+            id: id,
+            previousContents: previousContents,
             title: title,
             contents: contents,
             thumbnailImageAsBase64: thumbnailImageAsBase64,
             categoryId: category?.id as string,
             tags: tags,
-            authorId: LoginStatus.userProfile.userId
-        });
+            authorId: loginStatus.userProfile.userId
+        }
+        return await postDataToServerWithJson<{isCreated: boolean, error: string}>('api/uploadArticle', {article});
     }
 
     const checkErrors = () => {
@@ -59,15 +68,19 @@ export default function Page() {
     }
 
     useEffect(() => {
+        dispatch(settings_reset())
         if(hasMounted.current){
             const articleToEditAsString = sessionStorage.getItem('articleToEdit');
             if (articleToEditAsString) {
-                const articleToEdit: {article: ArticleScheme, authorProfile: UserProfileScheme} = JSON.parse(articleToEditAsString)
-                setTitle(articleToEdit.article.title)
-                setContents(articleToEdit.article.contents)
-                setThumbnailImageUrl(articleToEdit.article.thumbnailImageUrl)
-                setTags(articleToEdit.article.tags.map(tag => tag.tagName))
-                setCategory(articleToEdit.article.category)
+                const articleToEdit: ArticleScheme = JSON.parse(articleToEditAsString)
+                console.log(articleToEdit)
+                setId(articleToEdit.id)
+                setTitle(articleToEdit.title)
+                setContents(articleToEdit.contents)
+                setThumbnailImageUrl(articleToEdit.thumbnailImageUrl)
+                setTags(articleToEdit.tags.map(tag => tag.tagName))
+                setCategory(articleToEdit.category)
+                setPreviousContents(articleToEdit.contents)
                 sessionStorage.removeItem('articleToEdit');
             }
         }
@@ -100,7 +113,7 @@ export default function Page() {
         <div className={styles.div_0}>
             <div className={className}>
                 <ArticleEditingSection title={title} setTitle={setTitle} contents={contents} setContents={setContents}/>
-                <ArticleSettingsSection setThumbnailImageAsBase64={setThumbnailImageAsBase64} category={category as CategoryScheme} setCategory={setCategory as Dispatch<SetStateAction<CategoryScheme>>}
+                <ArticleSettingsSection thumbnailImageUrl={thumbnailImageUrl} setThumbnailImageAsBase64={setThumbnailImageAsBase64} category={category as CategoryScheme} setCategory={setCategory as Dispatch<SetStateAction<CategoryScheme>>}
                                         tags={tags} setTags={setTags}/>
             </div>
             {(() => {

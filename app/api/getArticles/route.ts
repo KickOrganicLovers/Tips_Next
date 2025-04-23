@@ -9,6 +9,7 @@ export async function GET (req: NextRequest){
     // クエリパラメータ "id" を取得
     const articleId = searchParams.get("articleId");
     const authorId = searchParams.get("authorId");
+    const tagName = searchParams.get("tagName");
 
 
     try{
@@ -18,6 +19,8 @@ export async function GET (req: NextRequest){
                         return {id: articleId}
                     }else if(!!authorId) {
                         return {authorId: authorId}
+                    }else if(!!tagName){
+                        return {tags: {some: {tagName: tagName}}}
                     }
                 }
             )(),

@@ -38,27 +38,23 @@ export default function AccountBanner(props: props) {
     return (
         <div className={styles.div_0}>
             <div className={styles.div_1}>
-                <div className={styles.div_3}>
-                    <img className={styles.img_0} src={props.loginStatus.userProfile.profileImageUrl} alt='profileimage'/>
-                </div>
-                <div className={styles.div_4}>
-                    {(() => props.loginStatus.isLoggedIn ? (
-                        <p className={styles.p_1}
-                           onClick={clickEventHandler_navigateToUserProfile}>{props.loginStatus.userProfile.username}</p>
-                    ) : (
-                        <p className={styles.p_1} onClick={clickEventHandler_navigateToLogin}>ログイン</p>
-                    ))()}
-                </div>
+                <img className={styles.img_0} src={props.loginStatus.userProfile?.profileImageUrl} alt='profileimage'/>
+                {(() => props.loginStatus.isLoggedIn ? (
+                    <p className={styles.p_1}
+                       onClick={clickEventHandler_navigateToUserProfile}>{props.loginStatus.userProfile?.username}</p>
+                ) : (
+                    <p className={styles.p_1} onClick={clickEventHandler_navigateToLogin}>ログイン</p>
+                ))()}
             </div>
             <div className={styles.div_2}>
                 {(() => props.loginStatus.isLoggedIn ? (
-                    <div className={styles.div_5}>
+                    <div className={styles.div_3}>
                         <AiOutlinePlusCircle className={styles.AiOutlinePlusCircle}
                                              onClick={clickEventHandler_navigateToCreateArticle}/>
                         <p className={styles.p_0}>記事を作成</p>
                     </div>
                 ) : (
-                    <div className={styles.div_5}>
+                    <div className={styles.div_3}>
                         <AiOutlinePlusCircle className={styles.AiOutlinePlusCircle}
                                              onClick={clickEventHandler_navigateToSignup}/>
                         <p className={styles.p_0}>アカウントを作成</p>

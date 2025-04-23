@@ -5,12 +5,17 @@ import {useRouter} from "next/navigation";
 import classNames from "classnames";
 import {getDataFromServerWithJson} from "@/lib-client/fetch";
 
-export default function SearchBar() {
+interface props {
+    isSearchMode: boolean;
+}
+
+export default function SearchBar(props: props) {
     const [searchQuery, setSearchQuery] = useState('');
     const [suggestions, setSuggestions] = useState<string[]>([])
     const [isTag, setIsTag] = useState(false)
     const router = useRouter();
-    const className = searchQuery === ''? classNames(styles.AiOutlineSearch) : classNames(styles.AiOutlineSearch, styles.active)
+    const className_0 = searchQuery === ''? classNames(styles.AiOutlineSearch) : classNames(styles.AiOutlineSearch, styles.active)
+    const className_1 = props.isSearchMode? classNames(styles.div_0, styles.searchMode) : classNames(styles.div_0)
 
     const getSuggestions = async (searchQuery: string) => {
 
@@ -65,15 +70,18 @@ export default function SearchBar() {
 
 
     return (
-        <div className={styles.div_0}>
+        <div className={className_1}>
             <div className={styles.div_1}>
                 <input type={"text"} className={styles.input_0} placeholder={'記事を検索'} value={searchQuery}
                        onChange={(e) => changeEventHandler(e)} onKeyDown={keyDownEventHandler}/>
-                <AiOutlineSearch className={className} onClick={clickEventHandler_searchWithQuery}/>
+                <AiOutlineSearch className={className_0} onClick={clickEventHandler_searchWithQuery}/>
             </div>
-            <div className={styles.div_2}>
-                {suggestions.map((suggestion, i) => <div className={styles.div_3} key={i} onClick={() => {clickEventHandler_searchWithSuggestion(suggestion, isTag)}}>{isTag? `# ${suggestion}`: suggestion}</div> )}
-
+            <div className={styles.div_4}>
+                <div className={styles.div_2}>
+                    {suggestions.map((suggestion, i) => <div className={styles.div_3} key={i} onClick={() => {
+                        clickEventHandler_searchWithSuggestion(suggestion, isTag)
+                    }}>{isTag ? `# ${suggestion}` : suggestion}</div>)}
+                </div>
             </div>
         </div>
     )

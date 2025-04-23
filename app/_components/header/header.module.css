@@ -1,7 +1,7 @@
 .header {
     width: 100vw;
-    height: 8vh;
-    min-height: 40px;
+    height: 8%;
+    min-height: 60px;
     background-color: var(--bg-color-1);
     position: relative;
 }
@@ -20,6 +20,12 @@
     bottom: 0;
     margin: auto;
     cursor: pointer;
+}
+
+.header.searchMode .div_0 {
+    @media screen and (max-width: 768px){
+        display: none;
+    }
 }
 
 .div_1 {
@@ -60,6 +66,12 @@
     padding: 4px 0px 0px 0px;
 }
 
+.header.searchMode .ul {
+    @media screen and (max-width: 768px){
+        display: none;
+    }
+}
+
 .li {
     list-style: none;
 }
@@ -72,8 +84,29 @@
 }
 
 .h1_0 {
-    font-size: 3.2vh;
+    font-size: clamp(1.5rem, 3vh, 2rem);
     font-weight: bold;
     margin: 0;
     padding: 0;
+}
+
+.MdArrowBackIos {
+    display: none;
+}
+
+.header.searchMode .MdArrowBackIos{
+    @media screen and (max-width: 768px){
+        display: block;
+        position: absolute;
+        font-size: 1.8rem;
+        top: 0;
+        bottom: 0;
+        left: 30px;
+        margin: auto;
+        color: var(--text-color-2);
+
+        &:hover{
+            color: var(--text-color-1);
+        }
+    }
 }

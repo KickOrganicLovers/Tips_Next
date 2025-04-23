@@ -24,7 +24,7 @@ export default function ArticleManagementCard(props: props) {
     }
 
     const clickEventHandler_editArticle = () => {
-        sessionStorage.setItem('articleToEdit', JSON.stringify(props));
+        sessionStorage.setItem('articleToEdit', JSON.stringify(props.article));
         router.push('/createArticle')
     }
 

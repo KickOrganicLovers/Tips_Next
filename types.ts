@@ -36,6 +36,17 @@ export interface ArticleScheme{
     createdAt: string
 }
 
+export interface ArticleSchemeWithPrefix {
+    id?: string
+    title: string
+    thumbnailImageAsBase64: string
+    contents: string
+    previousContents?: string
+    tags: string[]
+    categoryId: string
+    authorId: string
+}
+
 export interface TagScheme{
     id: string
     tagName: string

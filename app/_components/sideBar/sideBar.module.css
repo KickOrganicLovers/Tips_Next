@@ -1,15 +1,16 @@
 .div_0 {
     width: 20vw;
-    height: 92vh;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    padding: 0;
+    height: 100%;
+    position: relative;
     background-color: var(--bg-color-1);
     box-sizing: border-box;
     overflow-x: hidden;
     overflow-y: auto;
     @media screen and (max-width: 1024px) {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        padding: 0;
         min-width: 0px;
         width: 0px;
         transition: width 0.5s;

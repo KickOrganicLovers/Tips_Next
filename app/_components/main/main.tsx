@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "@/redux/store";
 import styles from './main.module.css'
 import {getDataFromServerWithJson} from "@/lib-client/fetch";
-import {ArticleScheme, CategoryScheme, UserProfileScheme} from "@/types";
+import {ArticleScheme, CategoryScheme, LoginStatusScheme, UserProfileScheme} from "@/types";
 import {setCategories} from "@/redux/slices/categoriesSlice";
 import {useSession} from "next-auth/react";
 import {resetLoginStatus, setLoginStatus, setUserProfile} from "@/redux/slices/loginStatusSlice";
@@ -20,8 +20,8 @@ export default function Main({children}: { children: ReactNode }) {
         return await getDataFromServerWithJson<{categories: CategoryScheme[]; error: string}>('/api/getCategories');
     }
 
-    const getUserProfile = async (userId: string) => {
-        return await getDataFromServerWithJson<{userProfile: UserProfileScheme, error: string}>(`/api/getUserProfile?userId=${userId}`);
+    const tryToLogin = async (userId: string) => {
+        return await getDataFromServerWithJson<LoginStatusScheme>(`/api/login?userId=${userId}`);
     }
 
 
@@ -38,13 +38,9 @@ export default function Main({children}: { children: ReactNode }) {
     useEffect(() => {
         if(!!session){
             if(session.status === 'authenticated'){
-                getUserProfile(session.data.user.id).then((json) => {
+                tryToLogin(session.data.user.id).then((json) => {
                     if(!json.error){
-                        dispatch(setLoginStatus({
-                            isLoggedIn: true,
-                            error: '',
-                            userProfile: json.userProfile,
-                        }))
+                        dispatch(setLoginStatus(json))
                     }else {
                         console.error(json.error)
                     }

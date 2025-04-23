@@ -1,8 +1,9 @@
 .mainContent {
-    height: 92vh;
+    height: 100%;
     width: 80vw;
     background-color: var(--bg-color-2);
     overflow-y: scroll;
+    container-type: size;
     @media screen and (max-width: 1024px) {
         width: 100%;
     }
@@ -12,7 +13,7 @@
     display: none;
     @media screen and (max-width: 1024px) {
         width: 100vw;
-        height: 92vh;
+        height: 100%;
         background-color: black;
         opacity: 0.2;
         position: absolute;
