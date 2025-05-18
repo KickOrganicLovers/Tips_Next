@@ -1,17 +1,12 @@
 'use client'
 
 import styles from './tags.module.css'
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "@/redux/store";
-import {applyWhereIam} from "@/redux/slices/whereIamSlice";
+import {useDispatch} from "react-redux";
 import {useEffect, useState} from "react";
-import {ArticleScheme, CategoryScheme, LikeScheme} from "@/types";
-import ExtendedArticleContainer from "@/app/_components/common/extendedArticleContainer/extendedArticleContainer";
+import {ArticleScheme} from "@/types";
 import {useParams, useRouter} from "next/navigation";
-import ReducedArticleContainer from "@/app/_components/common/reducedArticleContainer/reducedArticleContainer";
-import {getDataFromServerWithJson} from "@/lib-client/fetch";
+import {getDataFromServerWithJson} from "@/lib/lib-client/fetch";
 import ArticleContainer from "@/app/_components/common/articleContainer/articleContainer";
-import {findCategoryById} from "@/lib-client/processing";
 
 export default function Page () {
     const [articles, setArticles] = useState<ArticleScheme[]>([]);

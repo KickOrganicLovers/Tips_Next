@@ -2,21 +2,18 @@ import styles from './userProfileSection_myOwn.module.css'
 import {FiPlus} from "react-icons/fi";
 import {AiOutlineCheck, AiOutlineClose, AiOutlineEdit} from "react-icons/ai";
 import React, {useEffect, useRef, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "@/redux/store";
-import {LoginStatusScheme, UserProfileScheme} from "@/types";
-import {setUserProfile} from "@/redux/slices/loginStatusSlice";
+import {LoginStatusScheme} from "@/types";
 import ImageEditingCard from "@/app/userProfile/[userId]/_components/userProfileSection_myOwn/atoms/imageEditingCard";
-import {WritableDraft} from "immer";
 import {redirect} from "next/navigation";
 import TotalFollowCard from "@/app/_components/common/totalFollowCard/totalFollowCard";
+import {postDataToServerWithJson} from "@/lib/lib-client/fetch";
+import setLoginStatusStore from "@/lib/lib-client/stores/loginStatusStore";
 
 interface props {
     loginStatus: LoginStatusScheme
 }
 
 export default function UserProfileSection_MyOwn(props: props) {
-
     const [username, setUsername] = useState(props.loginStatus.userProfile.username);
     const [profileImageUrl, setProfileImageUrl] = useState(props.loginStatus.userProfile.profileImageUrl);
     const [introduction, setIntroduction] = useState(props.loginStatus.userProfile.introduction);
@@ -27,9 +24,7 @@ export default function UserProfileSection_MyOwn(props: props) {
     const [profileImageAsBase64, setProfileImageAsBase64] = useState<string>('')
 
     const inputImageRef = useRef<HTMLInputElement>(null);
-
-    const dispatch = useDispatch();
-
+    const applyUserProfileChanges = setLoginStatusStore((state) => state.applyUserProfileChanges)
 
     const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
@@ -44,92 +39,24 @@ export default function UserProfileSection_MyOwn(props: props) {
         }
     }
 
-    const postImgToServer = async (profileImageAsBase64: string, userId: string) => {
-
-        const url = '/api/editUserProfile/postUserProfileImage'
-        console.log(userId)
-        const params = {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                profileImageAsBase64: profileImageAsBase64,
-                userId: userId,
-            })
-        }
-
-        return await fetch(url, params)
+    const postImageToServer = async (profileImageAsBase64: string, userId: string) => {
+        return await postDataToServerWithJson<{
+            profileImageUrl: string,
+            error: string
+        }>('/api/editUserProfile/postUserProfileImage', {profileImageAsBase64, userId})
     }
-
-    const applyUserProfileChanges = async (userId: string, username: string, introduction: string, profileImageUrl?: string) => {
-
-        const url = '/api/editUserProfile';
-
-        // 条件付きでオブジェクトを構築
-        const body = {
-            userId,
-            username,
-            introduction,
-            ...(profileImageUrl && {profileImageUrl}),
-        };
-
-        const params = {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(body),
-        };
-
-
-        try {
-            return await fetch(url, params)
-        } catch (error) {
-            throw error
-        }
-    }
-
 
     const onEditComplete = () => {
         if (profileImageAsBase64 !== '') {
-            console.log(props.loginStatus.userProfile.userId)
-            postImgToServer(profileImageAsBase64, props.loginStatus.userProfile.userId).then(
-                (res) => {
-                    res.json().then(
-                        (json: { error: string; profileImageUrl: string }) => {
-                            if (!json.error && introduction && json.profileImageUrl) {
-                                // setProfileImageUrl(json.profileImageUrl)
-                                applyUserProfileChanges(props.loginStatus.userProfile.userId, username, introduction, json.profileImageUrl).then(
-                                    (res) => {
-                                        res.json().then(
-                                            (json: { error: string; updatedUserProfile: UserProfileScheme; }) => {
-                                                if (!json.error) {
-                                                    if (json.updatedUserProfile.profileImageUrl) {
-                                                        setProfileImageUrl(json.updatedUserProfile.profileImageUrl)
-                                                        setProfileImageAsBase64('')
-                                                        dispatch(setUserProfile(json.updatedUserProfile as unknown as WritableDraft<UserProfileScheme>))
-                                                        setIsEditingMode(false)
-                                                        console.log(props.loginStatus.userProfile)
-                                                    }
-                                                }
-                                            }
-                                        )
-                                    }
-                                )
-                            }
-                        })
+            postImageToServer(profileImageAsBase64, props.loginStatus.userProfile.userId).then((json) => {
+                if (!!json.profileImageUrl && !json.error) {
+                    applyUserProfileChanges(username, introduction, profileImageUrl)
+                    setIsEditingMode(false)
                 }
-            )
+            })
         } else {
-            applyUserProfileChanges(props.loginStatus.userProfile.userId, username, introduction).then(
-                (res) => {
-                    res.json().then(
-                        (json: { error: string; updatedUserProfile: UserProfileScheme }) => {
-                            if (!json.error) {
-                                dispatch(setUserProfile(json.updatedUserProfile))
-                                setIsEditingMode(false)
-                            }
-                        })
-                }
-            )
-
+            applyUserProfileChanges(username, introduction, profileImageUrl)
+            setIsEditingMode(false)
         }
     }
 
@@ -174,15 +101,6 @@ export default function UserProfileSection_MyOwn(props: props) {
                             setIntroduction(e.target.value)
                         }}/> : <div className={styles.div_2}>{props.loginStatus.userProfile.introduction}</div>)()}
                 </div>
-
-                {/*//follow*/}
-                {/*{(() => isEditingMode ? null : <TotalFollowCard userProfile={props.loginStatus.userProfile}/>)()}*/}
-
-                {/*//introduction*/}
-                {/*{(() => isEditingMode ?*/}
-                {/*    <textarea className={styles.textarea_0} value={introduction} onChange={(e) => {*/}
-                {/*        setIntroduction(e.target.value)*/}
-                {/*    }}/> : <div className={styles.div_2}>{props.loginStatus.userProfile.introduction}</div>)()}*/}
             </div>
             {(() => isEditingMode ?
                     <div className={styles.div_4}>

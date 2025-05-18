@@ -3,23 +3,8 @@
     height: 100%;
     overflow-x: hidden;
     position: relative;
-}
-
-.div_1 {
-    width: 200%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    transition: left 0.5s ease;
-}
-
-.div_1.active {
-    left: -80vw;
-
-    @media screen and (max-width: 1024px) {
-        left: -100vw;
-    }
+    display: flex;
+    flex-direction: row;
 }
 
 .FadeLayer {

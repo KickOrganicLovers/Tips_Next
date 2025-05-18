@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
-import {meili} from "@/lib-server/meili";
-import {prisma} from "@/lib-server/prisma";
+import {meili} from "@/lib/lib-server/meili";
+import {prisma} from "@/lib/lib-server/prisma";
 
 export async function GET(req: NextRequest){
     const searchParams = req.nextUrl.searchParams;

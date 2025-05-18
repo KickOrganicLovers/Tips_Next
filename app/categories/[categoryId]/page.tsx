@@ -1,25 +1,22 @@
 'use client'
 
 import styles from './category.module.css'
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "@/redux/store";
-import {applyWhereIam} from "@/redux/slices/whereIamSlice";
 import {useEffect, useState} from "react";
-import {ArticleScheme, CategoryScheme, LikeScheme} from "@/types";
-import ExtendedArticleContainer from "@/app/_components/common/extendedArticleContainer/extendedArticleContainer";
+import {ArticleScheme, CategoryScheme} from "@/types";
 import {useParams, useRouter} from "next/navigation";
-import ReducedArticleContainer from "@/app/_components/common/reducedArticleContainer/reducedArticleContainer";
-import {getDataFromServerWithJson} from "@/lib-client/fetch";
+import {getDataFromServerWithJson} from "@/lib/lib-client/fetch";
 import ArticleContainer from "@/app/_components/common/articleContainer/articleContainer";
-import {findCategoryById} from "@/lib-client/processing";
+import {findCategoryById} from "@/lib/lib-client/processing";
+import useWhereIamStore from "@/lib/lib-client/stores/whereIamStore";
+import useCategoriesStore from "@/lib/lib-client/stores/categoriesStore";
 
 export default function Page () {
+    const applyWhereIam = useWhereIamStore(state => state.applyWhereIam)
     const [articles, setArticles] = useState<ArticleScheme[]>([]);
     const [category, setCategory] = useState<CategoryScheme>();
     const router = useRouter();
-    const dispatch = useDispatch()
     const {categoryId} = useParams<{categoryId: string}>()
-    const Categories = useSelector<RootState, RootState['Categories']>((state) => state.Categories)
+    const categories = useCategoriesStore(state => state.categories)
 
 
     const getArticlesWithCategory = async (id: string) => {
@@ -28,10 +25,10 @@ export default function Page () {
 
 
     useEffect(() => {
-        const category = findCategoryById(Categories, categoryId)
+        const category = findCategoryById(categories, categoryId)
         if(!!category){
             setCategory(category)
-            dispatch(applyWhereIam(`category-${category.categoryName}`))
+            applyWhereIam(`category-${category.categoryName}`)
 
             getArticlesWithCategory(categoryId).then((json)=> {
                 if(!json.error){
@@ -42,7 +39,7 @@ export default function Page () {
         }else {
             router.push('/')
         }
-    }, [Categories, categoryId])
+    }, [categories, categoryId])
 
 
     return (

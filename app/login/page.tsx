@@ -1,21 +1,17 @@
 'use client'
 
-import {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, RootState} from "@/redux/store";
-import {useRouter} from "next/navigation";
-import {applyWhereIam} from "@/redux/slices/whereIamSlice";
 import styles from './login.module.css'
 import LoginCard from "@/app/login/_components/loginCard/loginCard";
+import useWhereIamStore from "@/lib/lib-client/stores/whereIamStore";
+import {useEffect} from "react";
 
 export default function Page() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const LoginStatus = useSelector<RootState, RootState['LoginStatus']>(state => state.LoginStatus);
-    const dispatch = useDispatch<AppDispatch>();
-    const router = useRouter()
+    const applyWhereIam = useWhereIamStore(state => state.applyWhereIam)
 
-    
+    useEffect(() => {
+        applyWhereIam('login')
+    }, []);
+
     return (
         <div className={styles.div_0}>
             <LoginCard/>

@@ -1,5 +1,5 @@
 import {NextResponse} from "next/server";
-import {meili} from "@/lib-server/meili";
+import {meili} from "@/lib/lib-server/meili";
 
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
@@ -7,10 +7,9 @@ export async function GET(req: Request) {
 
     console.log(query);
 
-    if (query.length < 1) return NextResponse.json({ suggestions: [] });
 
     if(!query.startsWith('#')){
-        console.log('hey!')
+        if (query.length < 1) return NextResponse.json({suggestions: []});
         const index_searchHistory = meili.index("search_history")
         try{
             // 人気度順で検索
@@ -27,7 +26,7 @@ export async function GET(req: Request) {
             return NextResponse.json({suggestions: null, error: error}, {status: 400})
         }
     }else{
-        console.log('wtf')
+        if (query.length < 2) return NextResponse.json({suggestions: []});
 
         const index_tags = meili.index("tags")
         try{

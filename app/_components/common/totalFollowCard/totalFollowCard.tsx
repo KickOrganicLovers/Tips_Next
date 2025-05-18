@@ -1,9 +1,5 @@
 import styles from './totalFollowCard.module.css'
-import {FollowScheme, LoginStatusScheme, UserProfileScheme} from "@/types";
-import {editFollowings} from "@/redux/slices/loginStatusSlice";
-import {postDataToServerWithJson} from "@/lib-client/fetch";
-import {useDispatch} from "react-redux";
-import {AppDispatch} from "@/redux/store";
+import {UserProfileScheme} from "@/types";
 
 
 interface props {

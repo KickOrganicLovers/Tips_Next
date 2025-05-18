@@ -1,10 +1,6 @@
 import styles from './articleByUserSection.module.css'
-import {ArticleScheme, LoginStatusScheme, UserProfileScheme} from "@/types";
-import {RootState} from "@/redux/store";
-import {useSelector} from "react-redux";
-import {getDataFromServerWithJson} from "@/lib-client/fetch";
+import {ArticleScheme, UserProfileScheme} from "@/types";
 import ArticleContainer from "@/app/_components/common/articleContainer/articleContainer";
-import {produceWithPatches} from "immer";
 
 
 interface props {

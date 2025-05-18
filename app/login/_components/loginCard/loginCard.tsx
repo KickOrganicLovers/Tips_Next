@@ -1,47 +1,23 @@
 import styles from './loginCard.module.css'
 import {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
-import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, RootState} from "@/redux/store";
-import {setIsLoggedIn, setLoginStatus} from "@/redux/slices/loginStatusSlice";
-import {postDataToServerWithJson} from "@/lib-client/fetch";
-import {LoginStatusScheme} from "@/types";
-import { signIn, useSession } from 'next-auth/react';
+import {signIn, useSession} from 'next-auth/react';
 
 export default function LoginCard() {
     const [isMounted, setIsMounted] = useState(false);
     const className = isMounted ? `${styles['div_0']} ${styles['mounted']}` : styles['div_0'];
-    const dispatch = useDispatch<AppDispatch>();
-    const LoginStatus = useSelector<RootState, RootState['LoginStatus']>(state => state.LoginStatus);
     const session = useSession();
     const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
 
-    // ログイン画面にてまずsessionがあるかを確認し、あればそのままログイン状態にする
-    // その後、sessionがない場合はログイン画面を表示する
-    const fetchuserdata = async () => {
-        const res = await fetch('api/login/', {method: 'POST', body: JSON.stringify({email: session.data?.user?.email})})
-        const data = await res.json();
-        dispatch(setLoginStatus(data));
-    }
-    // 初回レンダリング時とsessionが変化したときに実行
-    // useEffect(() => {
-    //    if (session?.status === 'authenticated' && LoginStatus?.isLoggedIn) {
-    //        dispatch(setIsLoggedIn(true));
-    //        // ここにもredux?
-    //        router.push('/');　
-    //    }else if (session?.status === 'authenticated' && !LoginStatus?.isLoggedIn) {
-    //        // 新規登録画面に遷移router.push('');
-    //    }
-    // }, [session?.status]);
-
     useEffect(() => {
         if(session.status === 'authenticated'){
             router.push('/');
         }
     }, [session.status]);
+
 
     const handleLogin = async (e: React.FormEvent) => {
          e.preventDefault();

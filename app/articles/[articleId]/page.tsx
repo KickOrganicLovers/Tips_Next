@@ -1,47 +1,40 @@
 'use client'
 
+import DOMPurify from "dompurify";
 import {useParams} from "next/navigation";
-import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, RootState} from "@/redux/store";
 import {Dispatch, SetStateAction, useEffect, useRef, useState} from "react";
-import {getDataFromServerWithJson, postDataToServerWithJson} from "@/lib-client/fetch";
-import {applyWhereIam} from "@/redux/slices/whereIamSlice";
+import {getDataFromServerWithJson} from "@/lib/lib-client/fetch";
 import styles from './article.module.css'
-import {ArticleScheme, FollowScheme, LikeScheme, UserProfileScheme, WatchHistoryScheme} from "@/types";
+import {ArticleScheme, FollowScheme, LikeForArticleScheme} from "@/types";
 import ArticleDetailsSection from "@/app/articles/[articleId]/_components/articleDetailsSection/articleDetailsSection";
 import ArticleManagementCard from "@/app/articles/[articleId]/_components/articleManagementCard/articleManagementCard";
-import {FaRegHeart} from "react-icons/fa6";
-import {CiHeart} from "react-icons/ci";
-import {IoMdHeartEmpty} from "react-icons/io";
-import {FaHeart} from "react-icons/fa";
-import {IoHeart} from "react-icons/io5";
 import LikeButton from "@/app/articles/[articleId]/_components/likeButton/likeButton";
-import TotalLikesCard from "@/app/articles/[articleId]/_components/totalLikesCard/totalLikesCard";
 import CommentsSection from "@/app/articles/[articleId]/_components/commentsSection/commentsSection";
-import {setArticles} from "@/redux/slices/articlesSlice";
-import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
-import {appendWatchHistories} from "@/redux/slices/loginStatusSlice";
 import ReducedArticleDetailsSection
     from "@/app/articles/[articleId]/_components/reducedArticleDetailsSection/reducedArticleDetailsSection";
 import TotalLikesAndViewsCard
     from "@/app/articles/[articleId]/_components/totalLikesAndViewsCard/totalLikesAndViewsCard";
+import useLoginStatusStore from "@/lib/lib-client/stores/loginStatusStore";
+import useWhereIamStore from "@/lib/lib-client/stores/whereIamStore";
+import RelatedArticlesSection
+    from "@/app/articles/[articleId]/_components/relatedArticlesSection/relatedArticlesSection";
 
 export default function Page() {
-    const LoginStatus = useSelector<RootState, RootState['LoginStatus']>((state) => state.LoginStatus)
+    const loginStatus = useLoginStatusStore((state) => state.loginStatus);
+    const applyWhereIam = useWhereIamStore(state => state.applyWhereIam)
+    const appendWatchHistories = useLoginStatusStore((state) => state.appendWatchHistories)
     const [article, setArticle] = useState<ArticleScheme | undefined>();
-    const [like, setLike] = useState<LikeScheme | undefined>(undefined);
+    const [like, setLike] = useState<LikeForArticleScheme | undefined>(undefined);
     const [follow, setFollow] = useState<FollowScheme | undefined>(undefined);
     const [hasError, setHasError] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
 
     const {articleId} = useParams<{articleId: string}>()
-    const dispatch = useDispatch<AppDispatch>();
     const contentRef = useRef<HTMLDivElement>(null);
 
 
-    const checkIsLiked = (likes: LikeScheme[]) => {
-        const like = likes.filter((like: LikeScheme) => like.userId === LoginStatus.userProfile.userId)
+    const checkIsLiked = (likes: LikeForArticleScheme[]) => {
+        const like = likes.filter((like: LikeForArticleScheme) => like.userId === loginStatus.userProfile.userId)
         if(like.length > 0){
             setLike(like[0]);
         }else {
@@ -58,11 +51,6 @@ export default function Page() {
         }
     }
 
-    const postWatchHistory = async () => {
-        if(LoginStatus.isLoggedIn){
-            return await postDataToServerWithJson<{watchHistory: WatchHistoryScheme, error: string}>('/api/postWatchHistory', {articleId: articleId, userId: LoginStatus.userProfile.userId})
-        }
-    }
 
     const getArticle = async (articleId: string): Promise<ArticleScheme> => {
         const json = await getDataFromServerWithJson<{articles: ArticleScheme[], error: string}>(`/api/getArticles?articleId=${articleId}`);
@@ -78,41 +66,40 @@ export default function Page() {
                 setHasError(true);
             }
         })
-        dispatch(applyWhereIam(`article-${articleId}`))
-
+        applyWhereIam(`article-${articleId}`)
     }, [articleId]);
 
 
     useEffect(() => {
         if (article && contentRef.current) {
             const parser = new DOMParser();
-            const doc = parser.parseFromString(article.contents, "text/html");
+            const safeHtml = DOMPurify.sanitize(article.contents);
+            const doc = parser.parseFromString(safeHtml, "text/html");
 
             // 既存の内容をクリアしてから、新しい DOM を追加
-            contentRef.current.innerHTML = ""; // または contentRef.current.textContent = ""
-            contentRef.current.appendChild(doc.body); // HTML を `contentRef` に追加
+            contentRef.current.innerHTML = "";
+            const frag = document.createDocumentFragment();
+            Array.from(doc.body.childNodes).forEach(node => {
+                // クローンしてフラグメントに追加（deep=true で全階層コピー）
+                frag.appendChild(node.cloneNode(true));
+            });
 
-            postWatchHistory().then((json) => {
-                if(!!json && !json.error){
-                    console.log('hello')
-                    dispatch(appendWatchHistories(json.watchHistory))
-                }else {
-                    //
-                }
-            }).catch((error) => {
-                console.log(error)
-            })
+
+            contentRef.current.appendChild(frag);
+            appendWatchHistories(articleId)
         }
     }, [article]); // `article` が変更されるたびに再実行
 
     useEffect(() => {
         if(article){
             checkIsLiked(article.likes)
-            checkIsFollowed(LoginStatus.userProfile.followings)
+            checkIsFollowed(article.authorProfile.followers)
         }
-    }, [article, LoginStatus]);
+    }, [article]);
+
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         // クライアント側でのみ実行される
         const mediaQuery = window.matchMedia('(max-width: 768px)');
         setIsMobile(mediaQuery.matches);
@@ -132,17 +119,25 @@ export default function Page() {
     }
     return (
         <div className={styles.div_0}>
-            {(() => isMobile?<CommentsSection article={article} loginStatus={LoginStatus}/> : null)()}
-            {(() => !isMobile?<ArticleDetailsSection article={article} loginStatus={LoginStatus} follow={follow} setFollow={setFollow} /> : null)()}
-            {(() => isMobile?<ReducedArticleDetailsSection article={article} loginStatus={LoginStatus} follow={follow} setFollow={setFollow}/> : null)()}
-            {(() => LoginStatus.isLoggedIn && !isMobile? <LikeButton articleId={article.id} userId={LoginStatus.userProfile.userId} like={like} setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>} /> : null)()}
+            {(() => !isMobile ? <ArticleDetailsSection article={article} loginStatus={loginStatus} follow={follow}
+                                                       setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>}/> : null)()}
+            {(() => loginStatus.isLoggedIn && !isMobile ?
+                <LikeButton isLoggedIn={loginStatus.isLoggedIn} articleId={article.id} like={like}
+                            setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>}/> : null)()}
             <div className={styles.div_1}>
-                {(() => article.authorProfile.userId === LoginStatus.userProfile.userId ? <ArticleManagementCard article={article}/> : undefined)()}
-                <TotalLikesAndViewsCard article={article} loginStatus={LoginStatus} like={like} setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>}/>
+                {(() => article.authorProfile.userId === loginStatus.userProfile.userId ?
+                    <ArticleManagementCard article={article}/> : undefined)()}
+                <TotalLikesAndViewsCard article={article} like={like}
+                                        setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>}/>
                 <h1 className={styles.h1_0}>{article.title}</h1>
                 <div ref={contentRef} className={styles.div_2}/>
-                {(() => !isMobile?<CommentsSection article={article} loginStatus={LoginStatus}/> : null)()}
+                {(() => !isMobile ? <CommentsSection article={article} loginStatus={loginStatus} setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>}/> : null)()}
+                {(() => !isMobile ? <RelatedArticlesSection loginStatus={loginStatus} isMobile={isMobile}/> : null)()}
             </div>
+            {(() => isMobile ? <ReducedArticleDetailsSection article={article} loginStatus={loginStatus} follow={follow}
+                                                             setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>}/> : null)()}
+            {(() => isMobile ? <CommentsSection article={article} loginStatus={loginStatus} setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>}/> : null)()}
+            {(() => isMobile ? <RelatedArticlesSection loginStatus={loginStatus} isMobile={isMobile}/> : null)()}
         </div>
     )
 }

@@ -1,9 +1,8 @@
 import {NextRequest, NextResponse} from "next/server";
-import {PrismaClient} from "@prisma/client";
-import {prisma} from "@/lib-server/prisma";
-import {replaceAllDatesToIsoString} from "@/lib-server/processing";
+import {prisma} from "@/lib/lib-server/prisma";
+import {replaceAllDatesToIsoString} from "@/lib/lib-server/processing";
 import {getServerSession} from "next-auth/next";
-import {authOptions} from "@/lib-server/auth";
+import {authOptions} from "@/lib/lib-server/auth";
 
 export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
@@ -20,7 +19,7 @@ export async function GET(req: NextRequest) {
             },
 
             include: {
-                likes: {
+                likesForArticle: {
                     include: {
                         article: {
                             include: {
@@ -37,6 +36,7 @@ export async function GET(req: NextRequest) {
                         }
                     }
                 },
+                likesForComment: true,
                 followings: {
                     include: {
                         followingWithProfile: true,

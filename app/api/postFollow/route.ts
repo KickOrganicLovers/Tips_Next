@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
-import {prisma} from "@/lib-server/prisma";
-import {replaceAllDatesToIsoString} from "@/lib-server/processing";
+import {prisma} from "@/lib/lib-server/prisma";
+import {replaceAllDatesToIsoString} from "@/lib/lib-server/processing";
 
 export async function POST(req: NextRequest){
     const body = await req.json()
@@ -17,22 +17,19 @@ export async function POST(req: NextRequest){
                     followerWithProfile: true,
                 }
             })
-            return NextResponse.json({follow: follow, error: null}, {status: 200})
+            return NextResponse.json({follow: replaceAllDatesToIsoString(follow), error: null}, {status: 200})
 
         }else {
-            const follow = await prisma.follow.delete({
+            await prisma.follow.delete({
                 where: {
-                    following_follower: {
-                        following: body.following as string,
-                        follower: body.follower as string,
-                    }
+                    id: body.follow.id as string
                 }
             })
-            return NextResponse.json({follow: replaceAllDatesToIsoString(follow), error: null}, {status: 200})
+            return NextResponse.json({follow: null, error: null}, {status: 200})
         }
 
     }catch (error){
         console.error('prisma error' + error)
-        return NextResponse.json({isPosted: false, error: error}, {status: 400})
+        return NextResponse.json({follow: null, error: error}, {status: 400})
     }
 }

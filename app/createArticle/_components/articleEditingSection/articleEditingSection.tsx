@@ -2,21 +2,9 @@
 
 import {EditorContent, useEditor} from "@tiptap/react";
 import './articleEditingSection.css'
-import React, {Dispatch, SetStateAction, useEffect, useRef, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, RootState} from "@/redux/store";
-import {
-    bold_onClick,
-    bold_setIsActive, bulletList_setIsActive,
-    codeBlock_setIsActive,
-    heading_1_setIsActive,
-    heading_2_setIsActive,
-    highlight_setIsActive,
-    italic_setIsActive, orderedList_setIsActive,
-    strike_setIsActive, textAlign_center_setIsActive, textAlign_left_setIsActive, textAlign_right_setIsActive,
-    underline_setIsActive
-} from "@/redux/slices/articleEditorStatusSlice";
-import TitleInputField from "@/app/createArticle/_components/articleEditingSection/atoms/titleInputField/titleInputField";
+import React, {Dispatch, SetStateAction, useEffect, useRef} from "react";
+import TitleInputField
+    from "@/app/createArticle/_components/articleEditingSection/atoms/titleInputField/titleInputField";
 import styles from './articleEditingSection.module.css'
 import {Document} from "@tiptap/extension-document";
 import {Paragraph} from "@tiptap/extension-paragraph";
@@ -36,29 +24,33 @@ import {BulletList} from "@tiptap/extension-bullet-list";
 import {OrderedList} from "@tiptap/extension-ordered-list";
 import {Placeholder} from "@tiptap/extension-placeholder";
 import {Image as TipTapImage} from "@tiptap/extension-image";
-import {applyWhereIam} from "@/redux/slices/whereIamSlice";
+import {ArticleEditorStatusScheme, ArticleSchemeWithPrefix} from "@/types";
 
+type editorMode = 'toolBar' | 'both'
 
 interface props {
     title: string,
-    setTitle: Dispatch<SetStateAction<string>>,
     contents: string,
-    setContents: Dispatch<SetStateAction<string>>
+    editorMode: editorMode,
+    setEditorMode: Dispatch<SetStateAction<editorMode>>
+    setArticleOnEdit: Dispatch<SetStateAction<ArticleSchemeWithPrefix>>
+    articleEditorStatus: ArticleEditorStatusScheme,
+    setArticleEditorStatus: Dispatch<SetStateAction<ArticleEditorStatusScheme>>
 }
 export default function ArticleEditingSection(props: props) {
-
-    const dispatch = useDispatch<AppDispatch>();
     const inputImageRef = useRef<HTMLInputElement>(null);
     const hasMounted = useRef(true);
-    const ArticleEditorStatus = useSelector<RootState, RootState['ArticleEditorStatus']>((state) => state.ArticleEditorStatus)
+    const classname = `${styles['div_0']} ${styles[props.editorMode]}`
 
     const editor = useEditor({
         extensions: [Document, Paragraph, Placeholder.configure({placeholder: '記事本文を入力...'}), Text, Bold, Underline, Strike, Italic, Code, Highlight, Link, Heading, CodeBlock, ListItem, TextAlign.configure({types: ['heading', 'paragraph'],}), BulletList, OrderedList, TipTapImage.configure({allowBase64: true})],
         content: '',
         onUpdate: ({editor}) => {
-            props.setContents(editor.getHTML())
+            props.setArticleOnEdit((prevState) => ({
+                ...prevState,
+                contents: editor.getHTML()
+            }))
         }
-
     });
 
     useEffect(() => {
@@ -72,161 +64,189 @@ export default function ArticleEditingSection(props: props) {
         if (!hasMounted.current) {
             editor?.chain().focus().toggleBold().run()
         }
-    }, [ArticleEditorStatus.bold.variable])
+    }, [props.articleEditorStatus.bold.variable])
 
     useEffect(() => {
         if (!hasMounted.current) {
             editor?.chain().focus().toggleUnderline().run()
         }
-    }, [ArticleEditorStatus.underline.variable])
+    }, [props.articleEditorStatus.underline.variable])
 
     useEffect(() => {
         if (!hasMounted.current) {
             editor?.chain().focus().toggleItalic().run()
         }
-    }, [ArticleEditorStatus.italic.variable])
+    }, [props.articleEditorStatus.italic.variable])
 
     useEffect(() => {
         if (!hasMounted.current) {
             editor?.chain().focus().toggleStrike().run()
         }
-    }, [ArticleEditorStatus.strike.variable])
+    }, [props.articleEditorStatus.strike.variable])
 
     useEffect(() => {
         if (!hasMounted.current) {
             editor?.chain().focus().toggleHeading({level: 2}).run()
         }
-    }, [ArticleEditorStatus.heading_1.variable])
+    }, [props.articleEditorStatus.heading_1.variable])
 
     useEffect(() => {
         if (!hasMounted.current) {
             editor?.chain().focus().toggleHeading({level: 3}).run()
         }
 
-    }, [ArticleEditorStatus.heading_2.variable])
+    }, [props.articleEditorStatus.heading_2.variable])
 
     useEffect(() => {
         if (!hasMounted.current) {
             editor?.chain().focus().toggleHighlight().run()
         }
-    }, [ArticleEditorStatus.highlight.variable])
+    }, [props.articleEditorStatus.highlight.variable])
 
     useEffect(() => {
         if (!hasMounted.current) {
             editor?.chain().focus().toggleCodeBlock().run()
         }
-    }, [ArticleEditorStatus.codeBlock.variable])
+    }, [props.articleEditorStatus.codeBlock.variable])
 
     useEffect(() => {
         if (!hasMounted.current) {
             editor?.chain().focus().toggleBulletList().run()
         }
-    }, [ArticleEditorStatus.bulletList.variable])
+    }, [props.articleEditorStatus.bulletList.variable])
 
     useEffect(() => {
         if (!hasMounted.current) {
             editor?.chain().focus().toggleOrderedList().run()
         }
-    }, [ArticleEditorStatus.orderedList.variable])
+    }, [props.articleEditorStatus.orderedList.variable])
 
     useEffect(() => {
         if (!hasMounted.current) {
             editor?.chain().focus().setTextAlign('left').run()
         }
-    }, [ArticleEditorStatus.textAlign_left.variable])
+    }, [props.articleEditorStatus.textAlign_left.variable])
 
     useEffect(() => {
         if (!hasMounted.current) {
             editor?.chain().focus().setTextAlign('center').run()
         }
-    }, [ArticleEditorStatus.textAlign_center.variable])
+    }, [props.articleEditorStatus.textAlign_center.variable])
 
     useEffect(() => {
         if (!hasMounted.current) {
             editor?.chain().focus().setTextAlign('right').run()
         }
-    }, [ArticleEditorStatus.textAlign_right.variable])
+    }, [props.articleEditorStatus.textAlign_right.variable])
 
 
     useEffect(() => {
         if (!hasMounted.current) {
             inputImageRef.current?.click()
         }
-    }, [ArticleEditorStatus.image.variable]);
+    }, [props.articleEditorStatus.image.variable]);
 
 
     useEffect(() => {
-        dispatch(bold_setIsActive(editor?.isActive('bold')))
+        props.setArticleEditorStatus((prevState) => ({
+            ...prevState,
+            bold: {...prevState.bold, isActive: editor?.isActive('bold') as boolean}
+        }))
     }, [editor?.isActive('bold')])
 
     useEffect(() => {
-        dispatch(underline_setIsActive(editor?.isActive('underline')))
+        props.setArticleEditorStatus((prevState) => ({
+            ...prevState,
+            underline: {...prevState.underline, isActive: editor?.isActive('underline') as boolean}
+        }))
     }, [editor?.isActive('underline')])
 
     useEffect(() => {
-        dispatch(italic_setIsActive(editor?.isActive('italic')))
+        props.setArticleEditorStatus((prevState) => ({
+            ...prevState,
+            italic: {...prevState.italic, isActive: editor?.isActive('italic') as boolean}
+        }))
     }, [editor?.isActive('italic')])
 
     useEffect(() => {
-        dispatch(strike_setIsActive(editor?.isActive('strike')))
+        props.setArticleEditorStatus((prevState) => ({
+            ...prevState,
+            strike: {...prevState.strike, isActive: editor?.isActive('strike') as boolean}
+        }))
     }, [editor?.isActive('strike')])
 
     useEffect(() => {
-        dispatch(heading_1_setIsActive(editor?.isActive('heading', {level: 2})))
+        props.setArticleEditorStatus((prevState) => ({
+            ...prevState,
+            heading_1: {...prevState.heading_1, isActive: editor?.isActive('heading', {level: 2}) as boolean}
+        }))
     }, [editor?.isActive('heading', {level: 2})])
 
     useEffect(() => {
-        dispatch(heading_2_setIsActive(editor?.isActive('heading', {level: 3})))
+        props.setArticleEditorStatus((prevState) => ({
+            ...prevState,
+            heading_2: {...prevState.heading_2, isActive: editor?.isActive('heading', {level: 3}) as boolean}
+        }))
     }, [editor?.isActive('heading', {level: 3})])
 
     useEffect(() => {
-        dispatch(highlight_setIsActive(editor?.isActive('highlight')))
+        props.setArticleEditorStatus((prevState) => ({
+            ...prevState,
+            highlight: {...prevState.highlight, isActive: editor?.isActive('highlight') as boolean}
+        }))
     }, [editor?.isActive('highlight')])
 
     useEffect(() => {
-        dispatch(codeBlock_setIsActive(editor?.isActive('codeBlock')))
+        props.setArticleEditorStatus((prevState) => ({
+            ...prevState,
+            codeBlock: {...prevState.codeBlock, isActive: editor?.isActive('codeBlock') as boolean}
+        }))
     }, [editor?.isActive('codeBlock')])
 
     useEffect(() => {
-        dispatch(bulletList_setIsActive(editor?.isActive('bulletList')))
+        props.setArticleEditorStatus((prevState) => ({
+            ...prevState,
+            bulletList: {...prevState.bulletList, isActive: editor?.isActive('bulletList') as boolean}
+        }))
     }, [editor?.isActive('bulletList')])
 
     useEffect(() => {
-        dispatch(orderedList_setIsActive(editor?.isActive('orderedList')))
+        props.setArticleEditorStatus((prevState) => ({
+            ...prevState,
+            orderedList: {...prevState.orderedList, isActive: editor?.isActive('orderedList') as boolean}
+        }))
     }, [editor?.isActive('orderedList')])
 
 
     useEffect(() => {
-        dispatch(textAlign_left_setIsActive(editor?.isActive({textAlign: 'left'})))
+        props.setArticleEditorStatus((prevState) => ({
+            ...prevState,
+            textAlign_left: {...prevState.textAlign_left, isActive: editor?.isActive({textAlign: 'left'}) as boolean}
+        }))
     }, [editor?.isActive({textAlign: 'left'})])
 
     useEffect(() => {
-        dispatch(textAlign_center_setIsActive(editor?.isActive({textAlign: 'center'})))
+        props.setArticleEditorStatus((prevState) => ({
+            ...prevState,
+            textAlign_center: {
+                ...prevState.textAlign_center,
+                isActive: editor?.isActive({textAlign: 'center'}) as boolean
+            }
+        }))
     }, [editor?.isActive({textAlign: 'center'})])
 
     useEffect(() => {
-        dispatch(textAlign_right_setIsActive(editor?.isActive({textAlign: 'right'})))
+        props.setArticleEditorStatus((prevState) => ({
+            ...prevState,
+            textAlign_right: {...prevState.textAlign_right, isActive: editor?.isActive({textAlign: 'right'}) as boolean}
+        }))
     }, [editor?.isActive({textAlign: 'right'})])
 
 
     useEffect(() => {
         hasMounted.current = false;
-        dispatch(applyWhereIam('createArticle'))
     }, [])
 
-    // const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     if (e.target.files && e.target.files.length > 0) {
-    //         const reader = new FileReader()
-    //         reader.onloadend = () => {
-    //             if (reader.result) {
-    //                 if(editor){
-    //                     editor.chain().focus().setImage({ src: reader.result.toString()}).run()
-    //                 }
-    //             }
-    //         }
-    //         reader.readAsDataURL(e.target.files[0])
-    //     }
-    // }
 
     const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
@@ -266,9 +286,9 @@ export default function ArticleEditingSection(props: props) {
 
 
     return (
-        <div className={styles.div_0}>
-            <TitleInputField title={props.title} setTitle={props.setTitle} />
-            <EditorContent editor={editor} placeholder={'記事本文を入力...'}/>
+        <div className={classname}>
+            <TitleInputField title={props.title} setArticleOnEdit={props.setArticleOnEdit}/>
+            <EditorContent editor={editor} placeholder={'記事本文を入力...'} className={styles.editorWrapper}/>
             <input className={styles.input_0} type='file' accept='image/*' ref={inputImageRef} onChange={onFileChange}/>
         </div>
     )

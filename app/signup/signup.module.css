@@ -6,7 +6,6 @@
     position: relative;
     display: grid;
     place-items: center;
-    padding: 50px;
     box-sizing: border-box;
     overflow: scroll;
 }

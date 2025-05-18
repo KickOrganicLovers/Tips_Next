@@ -1,23 +1,22 @@
 'use client'
 
 import {useEffect} from "react";
-import {applyWhereIam} from "@/redux/slices/whereIamSlice";
-import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, RootState} from "@/redux/store";
 import {useRouter} from "next/navigation";
 import styles from './signup.module.css'
 import SignupCard from "@/app/signup/_components/signupCard/signupCard";
+import useLoginStatusStore from "@/lib/lib-client/stores/loginStatusStore";
+import useWhereIamStore from "@/lib/lib-client/stores/whereIamStore";
 
 export default function Page() {
-    const LoginStatus = useSelector<RootState, RootState['LoginStatus']>(state => state.LoginStatus);
-    const dispatch = useDispatch<AppDispatch>();
+    const applyWhereIam = useWhereIamStore(state => state.applyWhereIam)
+    const loginStatus = useLoginStatusStore(state => state.loginStatus)
     const router = useRouter()
 
     useEffect(() => {
-        if (LoginStatus.isLoggedIn) {
+        if (loginStatus.isLoggedIn) {
             router.push('/')
         } else {
-            dispatch(applyWhereIam('signup'))
+            applyWhereIam('signup')
         }
     })
 

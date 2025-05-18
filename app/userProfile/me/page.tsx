@@ -1,14 +1,13 @@
 'use client'
 
-import {useSelector} from "react-redux";
-import {RootState} from "@/redux/store";
 import {redirect} from "next/navigation";
+import LoginStatusStore from "@/lib/lib-client/stores/loginStatusStore";
 
 export default function Page() {
-    const LoginStatus = useSelector<RootState, RootState['LoginStatus']>(state => state.LoginStatus);
+    const loginStatus = LoginStatusStore((state) => state.loginStatus)
 
-    if(LoginStatus.userProfile.userId) {
-        redirect(`/userProfile/${LoginStatus.userProfile.userId}`);
+    if (loginStatus.userProfile.userId) {
+        redirect(`/userProfile/${loginStatus.userProfile.userId}`);
     }else {
         redirect('/login');
     }

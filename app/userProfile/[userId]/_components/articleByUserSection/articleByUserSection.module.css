@@ -1,8 +1,10 @@
 .div_0 {
     width: 75%;
     height: 100%;
+    overflow-y: scroll;
 
     @media screen and (max-width: 768px) {
+        overflow-y: visible;
         width: 100%;
     }
 }

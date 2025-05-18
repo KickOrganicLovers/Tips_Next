@@ -1,54 +1,26 @@
 import {ReactNode, useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, RootState} from "@/redux/store";
 import styles from './main.module.css'
-import {getDataFromServerWithJson} from "@/lib-client/fetch";
-import {ArticleScheme, CategoryScheme, LoginStatusScheme, UserProfileScheme} from "@/types";
-import {setCategories} from "@/redux/slices/categoriesSlice";
 import {useSession} from "next-auth/react";
-import {resetLoginStatus, setLoginStatus, setUserProfile} from "@/redux/slices/loginStatusSlice";
+import useLoginStatusStore from "@/lib/lib-client/stores/loginStatusStore";
+import useCategoriesStore from "@/lib/lib-client/stores/categoriesStore";
+import {useAtom} from "jotai";
+import {sideBarStatusAtom} from "@/lib/lib-client/atoms";
 
 export default function Main({children}: { children: ReactNode }) {
-    const SideBarStatus = useSelector<RootState, RootState['SideBarStatus']>((state) => state.SideBarStatus)
-    const className = SideBarStatus.isActive ? `${styles['fadeLayer']} ${styles['active']}` : `${styles['fadeLayer']}`
-    const dispatch = useDispatch<AppDispatch>();
+    const [sideBarStatus, setSideBarStatus] = useAtom(sideBarStatusAtom)
+    const className = sideBarStatus.isActive ? `${styles['fadeLayer']} ${styles['active']}` : `${styles['fadeLayer']}`
+    const tryToLogin = useLoginStatusStore((state) => state.tryToLogin)
+    const getCategories = useCategoriesStore(state => state.getCategories)
     const session = useSession()
 
     //Get categories from db and initialize categories state
 
-    const getCategories = async () => {
-        return await getDataFromServerWithJson<{categories: CategoryScheme[]; error: string}>('/api/getCategories');
-    }
-
-    const tryToLogin = async (userId: string) => {
-        return await getDataFromServerWithJson<LoginStatusScheme>(`/api/login?userId=${userId}`);
-    }
-
-
-
     useEffect(() => {
-        getCategories().then((json) => {
-            if(!json.error){
-                console.log(json.categories)
-                dispatch(setCategories(json.categories))
-            }
-        })
+        getCategories()
     }, []);
 
     useEffect(() => {
-        if(!!session){
-            if(session.status === 'authenticated'){
-                tryToLogin(session.data.user.id).then((json) => {
-                    if(!json.error){
-                        dispatch(setLoginStatus(json))
-                    }else {
-                        console.error(json.error)
-                    }
-                })
-            }else if(session.status === 'unauthenticated') {
-                dispatch(resetLoginStatus())
-            }
-        }
+        tryToLogin(session)
     }, [session.status]);
 
     return (

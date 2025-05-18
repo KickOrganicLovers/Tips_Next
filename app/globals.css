@@ -2,14 +2,24 @@
 
 html {
     background-color: var(--bg-color-2);
+    overscroll-behavior: none;
+    overflow: hidden;
 }
 body {
+    overscroll-behavior: none;
     margin: 0;
     font-family: "Noto Sans JP", sans-serif;
     font-optical-sizing: auto;
     font-weight: 500;
     font-style: normal;
     scrollbar-gutter: stable;
+    overflow: hidden;
+    color: var(--text-color-1);
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: calc(var(--vh, 1vh) * 100);
+    container-type: inline-size;
 
     ::placeholder {
         color: lightgray;
@@ -40,6 +50,7 @@ input {
     --bg-color-4: black;
     --border-color-1: darkgray;
     --border-color-2: black;
+    --border-color-3: lightgray;
     --text-color-1: black;
     --text-color-2: #373737;
     --text-color-3: white;
@@ -51,8 +62,9 @@ input {
     --bg-color-2: #373737;
     --bg-color-3: #e1e1e1;
     --bg-color-4: white;
-    --border-color: darkgray;
+    --border-color-1: lightgray;
     --border-color-2: white;
+    --border-color-3: darkgray;
     --text-color-1: white;
     --text-color-2: darkgray;
     --text-color-3: #373737;

@@ -1,18 +1,9 @@
 import {NextRequest, NextResponse} from "next/server";
-import {
-    deleteUnusedImageTags,
-    extractBase64Images,
-    replaceHtml,
-    replaceImageSrc,
-    uploadThumbnail
-} from "@/lib-server/processing";
-import {Upload} from "@aws-sdk/lib-storage";
-import {s3} from "@/lib-server/s3";
-import {prisma} from "@/lib-server/prisma";
-import {meili} from "@/lib-server/meili";
+import {deleteUnusedImageTags, replaceHtml, uploadThumbnail} from "@/lib/lib-server/processing";
+import {prisma} from "@/lib/lib-server/prisma";
+import {meili} from "@/lib/lib-server/meili";
 import cuid from "cuid";
-import {ArticleScheme, ArticleSchemeWithPrefix, TagScheme} from "@/types";
-
+import {ArticleSchemeWithPrefix} from "@/types";
 
 
 export async function POST(req: NextRequest) {
@@ -44,7 +35,7 @@ export async function POST(req: NextRequest) {
             if(!body.article.id || !body.article.previousContents){
                 const articleId = cuid()
                 const replacedContents = await replaceHtml(body.article.contents, articleId)
-                const thumbnailImageUrl = await uploadThumbnail(articleId, body.article.thumbnailImageAsBase64)
+                const thumbnailImageUrl = !!body.article.thumbnailImageUrl && !body.article.thumbnailImageAsBase64 ? body.article.thumbnailImageUrl : await uploadThumbnail(articleId, body.article.thumbnailImageAsBase64 as string)
 
                 const article = await tx.article.create({
                     data: {
@@ -80,7 +71,7 @@ export async function POST(req: NextRequest) {
 
             }else {
                 const replacedContents = await replaceHtml(body.article.contents, body.article.id)
-                const thumbnailImageUrl = await uploadThumbnail(body.article.id, body.article.thumbnailImageAsBase64)
+                const thumbnailImageUrl = await uploadThumbnail(body.article.id, body.article.thumbnailImageAsBase64 as string)
                 await deleteUnusedImageTags(replacedContents, body.article.previousContents)
 
                 const article = await tx.article.update({

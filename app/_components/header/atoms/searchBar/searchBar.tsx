@@ -1,9 +1,9 @@
 import styles from './searchBar.module.css'
 import {AiOutlineSearch} from "react-icons/ai";
-import {useCallback, useState, KeyboardEvent, ChangeEvent} from "react";
+import {ChangeEvent, KeyboardEvent, useState} from "react";
 import {useRouter} from "next/navigation";
 import classNames from "classnames";
-import {getDataFromServerWithJson} from "@/lib-client/fetch";
+import {getDataFromServerWithJson} from "@/lib/lib-client/fetch";
 
 interface props {
     isSearchMode: boolean;
@@ -18,7 +18,6 @@ export default function SearchBar(props: props) {
     const className_1 = props.isSearchMode? classNames(styles.div_0, styles.searchMode) : classNames(styles.div_0)
 
     const getSuggestions = async (searchQuery: string) => {
-
         return await getDataFromServerWithJson<{suggestions: string[], isTag: boolean, error: string}>(`/api/getSuggestions?search_query=${encodeURIComponent(searchQuery)}`)
     }
 

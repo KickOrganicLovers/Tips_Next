@@ -1,23 +1,21 @@
 import {AiOutlineSearch} from "react-icons/ai";
-import {useRouter} from "next/navigation";
-import {useDispatch, useSelector} from "react-redux";
 import styles from './searchButton.module.css'
-import {RootState} from "@/redux/store";
 import {Dispatch, SetStateAction} from "react";
-import {disable} from "@/redux/slices/sideBarStatusSlice";
+import useWhereIamStore from "@/lib/lib-client/stores/whereIamStore";
+import {sideBarStatusAtom} from "@/lib/lib-client/atoms";
+import {useAtom} from "jotai";
 
 interface props {
     setIsSearchMode: Dispatch<SetStateAction<boolean>>
 }
 
 export default function SearchButton(props: props) {
-    const router = useRouter()
-    const WhereIam = useSelector<RootState, RootState['WhereIam']>((state: RootState) => state.WhereIam)
-    const className = WhereIam.whereIam === 'search' ? `${styles.AiOutlineSearch} ${styles['active']}` : `${styles['AiOutlineSearch']}`
-    const dispatch = useDispatch();
+    const whereIam = useWhereIamStore(state => state.whereIam)
+    const className = whereIam === 'search' ? `${styles.AiOutlineSearch} ${styles['active']}` : `${styles['AiOutlineSearch']}`
+    const [sideBarStatus, setSideBarStatus] = useAtom(sideBarStatusAtom)
 
     const clickEventHandler = () => {
-        dispatch(disable())
+        setSideBarStatus({isActive: false})
         props.setIsSearchMode(true)
     }
 

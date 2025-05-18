@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
-import {prisma} from "@/lib-server/prisma";
-import {replaceAllDatesToIsoString} from "@/lib-server/processing";
+import {prisma} from "@/lib/lib-server/prisma";
+import {replaceAllDatesToIsoString} from "@/lib/lib-server/processing";
 
 export async function GET(req: NextRequest) {
 
@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
                 userId: userId as string,
             },
             include: {
-                likes: true,
+                likesForArticle: true,
                 followers: true,
                 followings: true,
                 watchHistories: true,

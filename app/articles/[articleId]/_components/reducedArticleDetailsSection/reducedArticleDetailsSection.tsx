@@ -3,41 +3,24 @@ import styles from './reducedArticleDetailsSection.module.css'
 import {MdCategory} from "react-icons/md";
 import classNames from "classnames";
 import {Dispatch, SetStateAction} from "react";
-import {postDataToServerWithJson} from "@/lib-client/fetch";
-import {editFollowings} from "@/redux/slices/loginStatusSlice";
 import {useDispatch} from "react-redux";
-import {AppDispatch} from "@/redux/store";
 import {useRouter} from "next/navigation";
+import useLoginStatusStore from "@/lib/lib-client/stores/loginStatusStore";
 
 interface props {
     article: ArticleScheme
+    setArticle: Dispatch<SetStateAction<ArticleScheme>>
     loginStatus: LoginStatusScheme
     follow: FollowScheme | undefined
-    setFollow: Dispatch<SetStateAction<FollowScheme | undefined>>
 }
 
 export default function ReducedArticleDetailsSection(props: props) {
-    const dispatch = useDispatch<AppDispatch>();
+    const postFollowing = useLoginStatusStore(state => state.postFollowing)
     const router = useRouter();
 
-    const postFollow = async () =>{
-        return await postDataToServerWithJson<{follow: FollowScheme, error: string}>('/api/postFollow', {following: props.article.authorId, follower: props.loginStatus.userProfile.userId, follow: props.follow})
-    }
 
     const clickEventHandler_postFollow = () => {
-        if(props.follow){
-            postFollow().then(json => {
-                if(json.follow && !json.error){
-                    dispatch(editFollowings({following: json.follow, remove: true}))
-                }
-            })
-        }else {
-            postFollow().then(json => {
-                if(json.follow && !json.error){
-                    dispatch(editFollowings({following: json.follow, remove: false}))
-                }
-            })
-        }
+        postFollowing(props.article.authorId, props.follow, props.setArticle)
     }
 
     const clickEventHandler_pushToAuthorProfilePage = () => {

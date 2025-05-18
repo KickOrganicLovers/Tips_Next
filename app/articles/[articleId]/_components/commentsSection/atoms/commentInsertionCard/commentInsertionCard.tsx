@@ -1,7 +1,7 @@
 import {ArticleScheme, CommentScheme, LoginStatusScheme} from "@/types";
 import styles from './commentInsertionCard.module.css'
-import {postDataToServerWithJson} from "@/lib-client/fetch";
-import {Dispatch, SetStateAction, useEffect, useRef, useState} from "react";
+import {postDataToServerWithJson} from "@/lib/lib-client/fetch";
+import {Dispatch, SetStateAction, useState} from "react";
 import TextareaAutosize from 'react-textarea-autosize';
 import {AiOutlineCheck, AiOutlineClose} from "react-icons/ai";
 import classNames from "classnames";
@@ -9,7 +9,7 @@ import classNames from "classnames";
 interface props {
     loginStatus: LoginStatusScheme
     article: ArticleScheme
-    setComments: Dispatch<SetStateAction<CommentScheme[]>>;
+    setArticle: Dispatch<SetStateAction<ArticleScheme>>;
 }
 
 export default function CommentInsertionCard(props: props) {
@@ -24,7 +24,10 @@ export default function CommentInsertionCard(props: props) {
         if(!!contents){
             postComment().then((json) => {
                 if(json.postedComment && !json.error){
-                    props.setComments((prevComments) => [...prevComments, json.postedComment])
+                    props.setArticle(prevState => ({
+                        ...prevState,
+                        comments: [...prevState.comments, json.postedComment]
+                    }))
                     setContents('')
                 }
             }).catch((error) => {

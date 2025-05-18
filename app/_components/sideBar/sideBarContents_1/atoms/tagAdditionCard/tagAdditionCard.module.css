@@ -1,0 +1,131 @@
+.div_0 {
+    width: 100%;
+    container-type: inline-size;
+
+    @media screen and (max-width: 1024px) {
+        width: calc(40vw - 40px);
+    }
+    @media screen and (max-width: 768px) {
+        width: calc(60vw - 40px);
+    }
+}
+
+.div_1 {
+    position: relative;
+    width: 100%;
+    height: 5vh;
+    display: flex;
+    flex-direction: column;
+    border-radius: 100px;
+    border: 2px solid var(--border-color-1);
+    box-sizing: border-box;
+}
+
+.input_0 {
+    background-color: var(--bg-color-2);
+    color: var(--text-color-1);
+    width: 100%;
+    height: 100%;
+    border-radius: 100px;
+    padding: 0 60px 0 40px;
+    box-sizing: border-box;
+    position: absolute;
+    font-size: 1rem;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.button_0 {
+    width: fit-content;
+    height: 100%;
+    padding: 0 10px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    font-size: clamp(0.6rem, 7.5cqw, 1rem);
+    border-radius: 100px;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    background-color: var(--bg-color-1);
+    color: var(--text-color-1);
+
+    &:hover {
+        border: none;
+        background-color: var(--bg-color-3);
+        color: var(--text-color-3);
+        transition: 0.2s ease;
+    }
+}
+
+.p_0 {
+    width: 10%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    margin: 0;
+    padding: 0 0 0 12px;
+    font-size: 1.5rem;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    color: var(--text-color-2);
+}
+
+.div_2 {
+    width: 100%;
+    height: 0;
+    position: relative;
+}
+
+.div_3 {
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    height: fit-content;
+    position: absolute;
+    top: 0;
+    left: 0;
+    flex-direction: column;
+    background-color: var(--bg-color-1);
+    border-radius: 10px;
+    box-shadow: 2px 2px 2px var(--shadow-color);
+    z-index: 20;
+}
+
+.div_3:has(.div_4) {
+    padding: 10px 12px 20px 12px;
+}
+
+
+.div_4 {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.div_5 {
+    width: 100%;
+    height: fit-content;
+    margin-top: 1.5vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    overflow-y: scroll;
+    flex-wrap: wrap;
+}
+
+.p_1 {
+    color: red;
+    padding: 0;
+    margin: 0;
+    font-size: 1.5vh;
+}

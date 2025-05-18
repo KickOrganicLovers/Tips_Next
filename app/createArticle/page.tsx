@@ -1,107 +1,197 @@
 'use client'
 
 import ArticleEditingSection from "@/app/createArticle/_components/articleEditingSection/articleEditingSection";
-import ArticleSettingsSection from "@/app/createArticle/_components/articleSettingsSection/articleSettingsSection";
 import styles from './createArticle.module.css'
-import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, RootState} from "@/redux/store";
-import {Dispatch, SetStateAction, useEffect, useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {useRouter} from "next/navigation";
-import {postDataToServerWithJson} from "@/lib-client/fetch";
-import {ArticleScheme, ArticleSchemeWithPrefix, CategoryScheme, UserProfileScheme} from "@/types";
+import {postDataToServerWithJson} from "@/lib/lib-client/fetch";
+import {ArticleEditorStatusScheme, ArticleScheme} from "@/types";
 import ErrorsCard from "@/app/createArticle/_components/errorsCard/errorsCard";
-import {Article} from "@prisma/client";
-import {settings_reset} from "@/redux/slices/articleEditorStatusSlice";
+import ToolBar from "@/app/createArticle/_components/toolBar/toolBar";
+import useLoginStatusStore from "@/lib/lib-client/stores/loginStatusStore";
+import useWhereIamStore from "@/lib/lib-client/stores/whereIamStore";
+import {useAtom} from "jotai";
+import {articleEditorStatusAtom, articleOnEditAtom} from "@/lib/lib-client/atoms";
+
+type editorMode = 'toolBar' | 'both'
+
+const initialArticleEditorStatus: ArticleEditorStatusScheme = {
+    bold: {
+        isActive: false,
+        variable: false
+    },
+    underline: {
+        isActive: false,
+        variable: false
+    },
+    italic: {
+        isActive: false,
+        variable: false
+    },
+    strike: {
+        isActive: false,
+        variable: false
+    },
+    heading_1: {
+        isActive: false,
+        variable: false
+    },
+    heading_2: {
+        isActive: false,
+        variable: false
+    },
+    highlight: {
+        isActive: false,
+        variable: false
+    },
+    codeBlock: {
+        isActive: false,
+        variable: false
+    },
+    bulletList: {
+        isActive: false,
+        variable: false
+    },
+    orderedList: {
+        isActive: false,
+        variable: false
+    },
+    textAlign_left: {
+        isActive: false,
+        variable: false
+    },
+    textAlign_center: {
+        isActive: false,
+        variable: false
+    },
+    textAlign_right: {
+        isActive: false,
+        variable: false
+    },
+    image: {
+        variable: false,
+    },
+    settings: {
+        variable: false,
+    },
+    upload: {
+        variable: false
+    },
+    cancel: {
+        variable: false
+    }
+}
 
 export default function Page() {
-    const ArticleEditorStatus = useSelector<RootState, RootState['ArticleEditorStatus']>((state) => state.ArticleEditorStatus)
-    const LoginStatus = useSelector<RootState, RootState['LoginStatus']>((state) => state.LoginStatus);
-    const className = ArticleEditorStatus.settings.variable ? `${styles['div_1']} ${styles['active']}` : styles['div_1'];
+    const loginStatus = useLoginStatusStore(state => state.loginStatus)
+    const applyWhereIam = useWhereIamStore(state => state.applyWhereIam)
+    const [articleOnEdit, setArticleOnEdit] = useAtom(articleOnEditAtom)
+    const [articleEditorStatus, setArticleEditorStatus] = useAtom(articleEditorStatusAtom)
+
     const hasMounted = useRef(true);
     const router = useRouter();
-    const dispatch = useDispatch<AppDispatch>();
 
-    const [id, setId] = useState<string | undefined>(undefined);
-    const [previousContents, setPreviousContents] = useState<string | undefined>(undefined);
-
-    const [title, setTitle] = useState<string>('');
-    const [contents, setContents] = useState<string>('');
-    const [thumbnailImageAsBase64, setThumbnailImageAsBase64] = useState<string>('');
-    const [thumbnailImageUrl, setThumbnailImageUrl] = useState<string>('');
-    const [category, setCategory] = useState<CategoryScheme | undefined>(undefined);
-    const [tags, setTags] = useState<string[]>([]);
-
+    const [editorMode, setEditorMode] = useState<editorMode>('both')
     const [errors, setErrors] = useState<string[]>([]);
 
     const postArticleDataToServer = async () => {
-        const article: ArticleSchemeWithPrefix =  {
-            id: id,
-            previousContents: previousContents,
-            title: title,
-            contents: contents,
-            thumbnailImageAsBase64: thumbnailImageAsBase64,
-            categoryId: category?.id as string,
-            tags: tags,
-            authorId: loginStatus.userProfile.userId
-        }
-        return await postDataToServerWithJson<{isCreated: boolean, error: string}>('api/uploadArticle', {article});
+        return await postDataToServerWithJson<{
+            isCreated: boolean,
+            error: string
+        }>('api/uploadArticle', {article: articleOnEdit});
     }
 
     const checkErrors = () => {
         const errors: string[] = [];
-        if(!title){
+        if (!articleOnEdit.title) {
             errors.push('タイトルを設定してください。')
         }
-        if(!contents){
+        if (!articleOnEdit.contents) {
             errors.push('記事が空白です。')
         }
-        if(!thumbnailImageAsBase64){
+        if (!articleOnEdit.thumbnailImageAsBase64) {
             errors.push('サムネイル画像を選択してください。')
         }
-        if(!category){
+        if (!articleOnEdit.categoryId) {
             errors.push('カテゴリーを選択してください。')
         }
-        if(!tags || tags.length === 0){
+        if (!articleOnEdit.tags || articleOnEdit.tags.length === 0) {
             errors.push('タグを追加してください。')
         }
         return errors
     }
 
     useEffect(() => {
-        dispatch(settings_reset())
-        if(hasMounted.current){
-            const articleToEditAsString = sessionStorage.getItem('articleToEdit');
-            if (articleToEditAsString) {
-                const articleToEdit: ArticleScheme = JSON.parse(articleToEditAsString)
-                console.log(articleToEdit)
-                setId(articleToEdit.id)
-                setTitle(articleToEdit.title)
-                setContents(articleToEdit.contents)
-                setThumbnailImageUrl(articleToEdit.thumbnailImageUrl)
-                setTags(articleToEdit.tags.map(tag => tag.tagName))
-                setCategory(articleToEdit.category)
-                setPreviousContents(articleToEdit.contents)
-                sessionStorage.removeItem('articleToEdit');
+        if (loginStatus.isLoggedIn) {
+            setArticleEditorStatus(initialArticleEditorStatus)
+            applyWhereIam('createArticle')
+            if (hasMounted.current) {
+                const articleToEditAsString = sessionStorage.getItem('articleToEdit');
+                if (articleToEditAsString) {
+                    const articleToEdit: ArticleScheme = JSON.parse(articleToEditAsString)
+                    console.log(articleToEdit)
+                    setArticleOnEdit({
+                        id: articleToEdit.id,
+                        title: articleToEdit.title,
+                        contents: articleToEdit.contents,
+                        thumbnailImageUrl: articleToEdit.thumbnailImageUrl,
+                        tags: articleToEdit.tags.map(tag => tag.tagName),
+                        categoryId: articleToEdit.categoryId,
+                        category: articleToEdit.category,
+                        previousContents: articleToEdit.contents,
+                        authorId: articleToEdit.authorId,
+                    })
+                    sessionStorage.removeItem('articleToEdit');
+                }
             }
+        } else {
+            router.push('/login')
         }
     }, []);
 
+    //toolbarのuploadボタンが押されたときに発火する
+    useEffect(() => {
+        if (loginStatus.isLoggedIn) {
+            setArticleOnEdit((prevState) => ({
+                ...prevState,
+                authorId: loginStatus.userProfile.userId
+            }))
+            if (!hasMounted.current) {
+                if (checkErrors().length === 0) {
+                    postArticleDataToServer().then((json) => {
+                        console.log(json.error);
+                        if (!json.error) {
+                            setArticleOnEdit({
+                                title: '',
+                                thumbnailImageAsBase64: '',
+                                contents: '',
+                                tags: [],
+                                categoryId: '',
+                                authorId: ''
+                            })
+                            router.push('/')
+                        }
+                    })
+                } else {
+                    setErrors(checkErrors())
+                }
+            }
+        }
+    }, [articleEditorStatus.upload.variable]);
 
     useEffect(() => {
         if (!hasMounted.current) {
-            if(checkErrors().length === 0){
-                postArticleDataToServer().then((json) => {
-                    console.log(json.error);
-                    if (!json.error) {
-                        router.push('/')
-                    }
-                })
-            }else {
-                setErrors(checkErrors())
-            }
+            setArticleOnEdit({
+                title: '',
+                thumbnailImageAsBase64: '',
+                contents: '',
+                tags: [],
+                categoryId: '',
+                authorId: ''
+            })
+            router.push('/')
         }
-    }, [ArticleEditorStatus.upload.variable]);
-
+    }, [articleEditorStatus.cancel.variable]);
 
 
     useEffect(() => {
@@ -111,11 +201,13 @@ export default function Page() {
 
     return (
         <div className={styles.div_0}>
-            <div className={className}>
-                <ArticleEditingSection title={title} setTitle={setTitle} contents={contents} setContents={setContents}/>
-                <ArticleSettingsSection thumbnailImageUrl={thumbnailImageUrl} setThumbnailImageAsBase64={setThumbnailImageAsBase64} category={category as CategoryScheme} setCategory={setCategory as Dispatch<SetStateAction<CategoryScheme>>}
-                                        tags={tags} setTags={setTags}/>
-            </div>
+            <ToolBar editorMode={editorMode} setEditorMode={setEditorMode} articleEditorStatus={articleEditorStatus}
+                     setArticleEditorStatus={setArticleEditorStatus}/>
+            <ArticleEditingSection title={articleOnEdit.title} contents={articleOnEdit.contents} editorMode={editorMode}
+                                   setEditorMode={setEditorMode} setArticleOnEdit={setArticleOnEdit}
+                                   articleEditorStatus={articleEditorStatus}
+                                   setArticleEditorStatus={setArticleEditorStatus}/>
+
             {(() => {
                 if(!!errors && errors.length > 0){
                     return <div className={styles.FadeLayer}></div>

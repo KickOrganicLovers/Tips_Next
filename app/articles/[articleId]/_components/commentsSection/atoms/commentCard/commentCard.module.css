@@ -2,11 +2,12 @@
     width: 100%;
     height: fit-content;
     background-color: var(--bg-color-1);
-    padding: 1vh 1vw 1vh 1vw;
+    padding: 10px 20px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     border-bottom: 1px solid var(--border-color-1);
+    position: relative;
 }
 
 .div_1 {
@@ -30,4 +31,40 @@
     font-size: 1.8vh;
     padding: 0;
     margin: 0;
+}
+
+.div_2 {
+    position: absolute;
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    padding: 5px 10px;
+    gap: 5px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100px;
+    background-color: var(--bg-color-1);
+    border: 2px solid var(--border-color-1);
+    color: var(--text-color-1);
+    top: 13px;
+    right: 20px;
+    cursor: pointer;
+}
+
+.div_2.active {
+    border-color: hotpink;
+    color: hotpink;
+}
+
+.p_1 {
+    margin: 0;
+    padding: 0 0 2px 0;
+    font-size: 1rem
+}
+
+.IoHeart {
+    margin: 0;
+    padding: 0;
+    font-size: 1rem;
 }

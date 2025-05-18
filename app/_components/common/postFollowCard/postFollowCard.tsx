@@ -1,10 +1,7 @@
-import {useDispatch} from "react-redux";
-import {AppDispatch} from "@/redux/store";
-import {postDataToServerWithJson} from "@/lib-client/fetch";
 import {FollowScheme, LoginStatusScheme, UserProfileScheme} from "@/types";
-import {editFollowings} from "@/redux/slices/loginStatusSlice";
 import classNames from "classnames";
 import styles from './postFollowCard.module.css'
+import useLoginStatusStore from "@/lib/lib-client/stores/loginStatusStore";
 
 interface props {
     follow: FollowScheme;
@@ -13,26 +10,10 @@ interface props {
 }
 
 export default function PostFollowCard(props: props) {
-    const dispatch = useDispatch<AppDispatch>();
-
-    const postFollow = async () =>{
-        return await postDataToServerWithJson<{follow: FollowScheme, error: string}>('/api/postFollow', {following: props.userProfile.userId, follower: props.loginStatus.userProfile.userId, follow: props.follow})
-    }
+    const postFollowing = useLoginStatusStore(state => state.postFollowing)
 
     const clickEventHandler = () => {
-        if(props.follow){
-            postFollow().then(json => {
-                if(json.follow && !json.error){
-                    dispatch(editFollowings({following: json.follow, remove: true}))
-                }
-            })
-        }else {
-            postFollow().then(json => {
-                if(json.follow && !json.error){
-                    dispatch(editFollowings({following: json.follow, remove: false}))
-                }
-            })
-        }
+        postFollowing(props.userProfile.userId, props.follow)
     }
 
     return (

@@ -1,23 +1,20 @@
 'use client'
 
 import styles from './trending.module.css'
-import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, RootState} from "@/redux/store";
 import {ArticleScheme} from "@/types";
-import ArticleContainer from "@/app/_components/common/articleContainer/articleContainer";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import ExtendedArticleContainer from "@/app/_components/common/extendedArticleContainer/extendedArticleContainer";
-import {applyWhereIam} from "@/redux/slices/whereIamSlice";
+import useWhereIamStore from "@/lib/lib-client/stores/whereIamStore";
+import useArticlesStore from "@/lib/lib-client/stores/articlesStore";
 
 export default function Page () {
-    const dispatch = useDispatch<AppDispatch>();
-
-    const Articles = useSelector<RootState, RootState['Articles']>((state) => state.Articles)
+    const applyWhereIam = useWhereIamStore(state => state.applyWhereIam)
+    const articles = useArticlesStore((state) => state.articles);
 
 
     useEffect(() => {
-        dispatch(applyWhereIam('trending'))
-    }, [Articles])
+        applyWhereIam('trending')
+    }, [])
 
 
 
@@ -31,7 +28,8 @@ export default function Page () {
                 </div>
             </div>
             <div className={styles.div_3}>
-                {Articles.map((article: ArticleScheme, index: number) => <div key={index}><ExtendedArticleContainer article={article} key={index}/></div>)}
+                {articles.map((article: ArticleScheme, index: number) => <div key={index}><ExtendedArticleContainer
+                    article={article} key={index}/></div>)}
             </div>
         </div>
     )

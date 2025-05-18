@@ -1,10 +1,9 @@
 import styles from './header.module.css'
-import HomeButton from "@/app/_components/header/atoms/homeButton/homeButton";
 import SearchButton from "@/app/_components/header/atoms/searchButton/searchButton";
 import CategoryButton from "@/app/_components/header/atoms/categoryButton/categoryButton";
 import SearchBar from "@/app/_components/header/atoms/searchBar/searchBar";
 import {useRouter} from "next/navigation";
-import {useCallback, useEffect, useState} from "react";
+import {useState} from "react";
 import classNames from "classnames";
 import {MdArrowBackIos} from "react-icons/md";
 
@@ -13,15 +12,15 @@ export default function Header() {
     const router = useRouter()
     const classname = isSearchMode? classNames(styles.header, styles.searchMode) : classNames(styles.header)
 
-    useEffect(() => {
-        const handleResize = () => {
-            setIsSearchMode(false)
-        }
-        window.addEventListener("resize", handleResize);
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        }
-    }, []);
+    // useEffect(() => {
+    //     const handleResize = () => {
+    //         setIsSearchMode(false)
+    //     }
+    //     window.addEventListener("resize", handleResize);
+    //     return () => {
+    //         window.removeEventListener('resize', handleResize);
+    //     }
+    // }, []);
 
 
     const clickEventHandler_pushToRoot = () => {

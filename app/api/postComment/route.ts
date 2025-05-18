@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
-import {prisma} from "@/lib-server/prisma";
-import {replaceAllDatesToIsoString} from "@/lib-server/processing";
+import {prisma} from "@/lib/lib-server/prisma";
+import {replaceAllDatesToIsoString} from "@/lib/lib-server/processing";
 
 export async function POST(req: NextRequest) {
     const body = await req.json()
@@ -13,6 +13,7 @@ export async function POST(req: NextRequest) {
                 contents: body.contents as string,
             },
             include: {
+                likes: true,
                 userProfile: true
             }
         })

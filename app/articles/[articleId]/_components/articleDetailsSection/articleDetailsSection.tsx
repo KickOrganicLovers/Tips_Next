@@ -1,46 +1,28 @@
 import styles from './articleDetailsSection.module.css'
-import {ArticleScheme, CategoryScheme, FollowScheme, LoginStatusScheme, UserProfileScheme} from "@/types";
-import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, RootState} from "@/redux/store";
-import {postDataToServerWithJson} from "@/lib-client/fetch";
-import {Dispatch, SetStateAction, useEffect, useState} from "react";
+import {ArticleScheme, FollowScheme, LoginStatusScheme} from "@/types";
+import {Dispatch, SetStateAction} from "react";
 import classNames from "classnames";
-import {editFollowings} from "@/redux/slices/loginStatusSlice";
 import {useRouter} from "next/navigation";
 import TotalFollowCard from "@/app/_components/common/totalFollowCard/totalFollowCard";
-import {findCategoryById} from "@/lib-client/processing";
+import {findCategoryById} from "@/lib/lib-client/processing";
+import loginStatusStore from "@/lib/lib-client/stores/loginStatusStore";
+import useCategoriesStore from "@/lib/lib-client/stores/categoriesStore";
 
 interface props {
     article: ArticleScheme
+    setArticle: Dispatch<SetStateAction<ArticleScheme>>
     loginStatus: LoginStatusScheme
     follow: FollowScheme | undefined
-    setFollow: Dispatch<SetStateAction<FollowScheme | undefined>>
 }
 
 export default function ArticleDetailsSection(props: props) {
-    const Categories = useSelector<RootState, RootState['Categories']>(state => state.Categories)
-    const dispatch = useDispatch<AppDispatch>();
+    const categories = useCategoriesStore(state => state.categories)
+    const postFollowing = loginStatusStore((state) => state.postFollowing)
     const router = useRouter();
 
 
-    const postFollow = async () =>{
-        return await postDataToServerWithJson<{follow: FollowScheme, error: string}>('/api/postFollow', {following: props.article.authorId, follower: props.loginStatus.userProfile.userId, follow: props.follow})
-    }
-
-    const clickEventHandler_postFollow = () => {
-        if(props.follow){
-            postFollow().then(json => {
-                if(json.follow && !json.error){
-                    dispatch(editFollowings({following: json.follow, remove: true}))
-                }
-            })
-        }else {
-            postFollow().then(json => {
-                if(json.follow && !json.error){
-                    dispatch(editFollowings({following: json.follow, remove: false}))
-                }
-            })
-        }
+    const clickEventHandler_postFollowing = () => {
+        postFollowing(props.article.authorId, props.follow, props.setArticle)
     }
 
     const clickEventHandler_pushToAuthorProfilePage = () => {
@@ -56,7 +38,10 @@ export default function ArticleDetailsSection(props: props) {
     return (
         <div className={styles.div_0}>
             <div className={styles.div_1}>
-                <p className={styles.p_1}><a className={styles.a_0}>{findCategoryById(Categories, findCategoryById(Categories, props.article.categoryId)?.parentId as string)?.categoryName}</a>{' > '}<a className={styles.a_0}>{findCategoryById(Categories, props.article.categoryId)?.categoryName}</a></p>
+                <p className={styles.p_1}><a
+                    className={styles.a_0}>{findCategoryById(categories, findCategoryById(categories, props.article.categoryId)?.parentId as string)?.categoryName}</a>{' > '}<a
+                    className={styles.a_0}>{findCategoryById(categories, props.article.categoryId)?.categoryName}</a>
+                </p>
             </div>
             <div className={styles.div_2}>
                 <p className={styles.p_0}>この記事の作成者</p>
@@ -66,7 +51,7 @@ export default function ArticleDetailsSection(props: props) {
                 <p className={styles.p_2}>{props.article.authorProfile.introduction}</p>
                 {(() => props.loginStatus.isLoggedIn ? <button
                     className={(() => !!props.follow ? classNames(styles.button_0, styles.active) : classNames(styles.button_0))()}
-                    onClick={clickEventHandler_postFollow}>{(() => !!props.follow ? 'フォロー済み' : 'フォロー')()}</button> : null)()}
+                    onClick={clickEventHandler_postFollowing}>{(() => !!props.follow ? 'フォロー済み' : 'フォロー')()}</button> : null)()}
             </div>
             <div className={styles.div_3}>
                 {props.article.tags.map((tag, index) =>

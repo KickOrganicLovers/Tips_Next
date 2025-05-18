@@ -1,14 +1,16 @@
-import {ReactNode, useState} from "react";
-import {CategoryScheme} from "@/types";
-import {useSelector} from "react-redux";
+import {Dispatch, SetStateAction, useState} from "react";
 import styles from './categoryCard.module.css'
-import {RootState} from "@/redux/store";
 import {useRouter} from "next/navigation";
+import useCategoriesStore from "@/lib/lib-client/stores/categoriesStore";
 
-export default function CategoryCard() {
+interface props {
+    setSideBarStatus: Dispatch<SetStateAction<{ isActive: boolean }>>
+}
+
+export default function CategoryCard(props: props) {
     const [isActive, setIsActive] = useState(false)
     const className = isActive ? `${styles['div_3']} ${styles['active']}` : styles['div_3']
-    const Categories = useSelector<RootState, RootState['Categories']>((state) => state.Categories)
+    const categories = useCategoriesStore(state => state.categories)
     const router = useRouter()
 
 
@@ -19,14 +21,17 @@ export default function CategoryCard() {
     return (
         <div className={styles.div_0}>
             <div className={styles.div_1}>カテゴリーで探す</div>
-            {Categories.map((category, index) => (
+            {categories.map((category, index) => (
                 <div className={styles.div_2} key={index}>
                     <div className={className} onClick={() => {setIsActive(!isActive)}}>
                         {category.categoryName}
                     </div>
                     <ul className={styles.ul_0} style={{height: isActive && category.children ? `${category.children.length * 36}px` : '0'}}>
                         {category.children?.map((children, i) => (
-                            <li className={styles.li_0} key={i} onClick={() => {router.push(`/categories/${children.id}`)}}>{children.categoryName}</li>
+                            <li className={styles.li_0} key={i} onClick={() => {
+                                router.push(`/categories/${children.id}`);
+                                props.setSideBarStatus({isActive: false})
+                            }}>{children.categoryName}</li>
                         ))}
                     </ul>
                 </div>

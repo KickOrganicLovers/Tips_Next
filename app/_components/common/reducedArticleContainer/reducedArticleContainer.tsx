@@ -3,7 +3,7 @@ import {ArticleScheme} from "@/types";
 import {IoHeart} from "react-icons/io5";
 import {LuEye} from "react-icons/lu";
 import {MdCategory} from "react-icons/md";
-import {stripTags} from "@/lib-client/processing";
+import {stripTags} from "@/lib/lib-client/processing";
 import {useRouter} from "next/navigation";
 
 interface props {
@@ -27,9 +27,9 @@ export default function ReducedArticleContainer(props: props) {
                         <p className={styles.p_1}>{props.article.authorProfile.username}</p>
                     </div>
                     <div className={styles.div_4}>
-                        <div className={styles.div_5}><IoHeart/>{props.article.likes.length}</div>
-                        <div className={styles.div_5}><LuEye/>{props.article.watchHistories.length}</div>
-                        <div className={styles.div_5}><MdCategory/>{props.article.category.categoryName}</div>
+                        <div className={styles.div_5}><IoHeart/>{props.article.likes?.length}</div>
+                        <div className={styles.div_5}><LuEye/>{props.article.watchHistories?.length}</div>
+                        <div className={styles.div_5}><MdCategory/>{props.article.category?.categoryName}</div>
                     </div>
                     <div className={styles.div_6}>
                         {stripTags(props.article.contents)}

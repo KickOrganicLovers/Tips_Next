@@ -1,5 +1,7 @@
 .div_0 {
-    width: 90%;
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
 }
 
 .div_1 {

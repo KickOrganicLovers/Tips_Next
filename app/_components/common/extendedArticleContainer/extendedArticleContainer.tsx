@@ -2,8 +2,6 @@ import styles from './extendedArticleContainer.module.css'
 import {ArticleScheme} from "@/types";
 import {IoHeart} from "react-icons/io5";
 import {MdCategory} from "react-icons/md";
-import {useSelector} from "react-redux";
-import {RootState} from "@/redux/store";
 import {useRouter} from "next/navigation";
 
 interface props {

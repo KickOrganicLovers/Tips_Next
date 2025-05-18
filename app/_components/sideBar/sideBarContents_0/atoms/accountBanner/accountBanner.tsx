@@ -1,37 +1,38 @@
-import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, RootState} from "@/redux/store";
 import {AiOutlinePlusCircle} from "react-icons/ai";
 import styles from './accountBanner.module.css'
 import {useRouter} from "next/navigation";
-import {disable} from "@/redux/slices/sideBarStatusSlice";
 import {LoginStatusScheme} from "@/types";
+import {Dispatch, SetStateAction} from "react";
+import {sideBarStatusAtom} from "@/lib/lib-client/atoms";
+import {useAtom} from "jotai";
 
 interface props {
     loginStatus: LoginStatusScheme
+    setSideBarStatus: Dispatch<SetStateAction<{ isActive: boolean }>>
 }
 export default function AccountBanner(props: props) {
-    const dispatch = useDispatch<AppDispatch>();
+    const [sideBarStatus, setSideBarStatus] = useAtom(sideBarStatusAtom)
     const router = useRouter()
 
 
     const clickEventHandler_navigateToLogin = () => {
         router.push('/login')
-        dispatch(disable())
+        setSideBarStatus({isActive: false})
     }
 
     const clickEventHandler_navigateToSignup = () => {
         router.push('/signup')
-        dispatch(disable())
+        setSideBarStatus({isActive: false})
     }
 
     const clickEventHandler_navigateToCreateArticle = () => {
         router.push('/createArticle')
-        dispatch(disable())
+        setSideBarStatus({isActive: false})
     }
 
     const clickEventHandler_navigateToUserProfile = () => {
         router.push('/userProfile/me')
-        dispatch(disable())
+        setSideBarStatus({isActive: false})
     }
 
 

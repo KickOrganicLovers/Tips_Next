@@ -1,0 +1,30 @@
+.div_0 {
+    width: 75%;
+
+    @media screen and (max-width: 768px) {
+        width: 100%;
+    }
+}
+
+.h2_0 {
+    padding-left: 20px;
+    width: 100%;
+    text-align: left;
+}
+
+.div_1 {
+    width: 100%;
+    height: fit-content;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+    gap: 2vh;
+    box-sizing: border-box;
+    background-color: var(--bg-color-2);
+}
+
+.div_2{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}

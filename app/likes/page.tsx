@@ -1,22 +1,19 @@
 'use client'
 
 import styles from './likes.module.css'
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "@/redux/store";
-import {applyWhereIam} from "@/redux/slices/whereIamSlice";
 import {useEffect} from "react";
-import {ArticleScheme, LikeScheme} from "@/types";
-import ExtendedArticleContainer from "@/app/_components/common/extendedArticleContainer/extendedArticleContainer";
-import {useRouter} from "next/navigation";
+import {ArticleScheme, LikeForArticleScheme} from "@/types";
 import ReducedArticleContainer from "@/app/_components/common/reducedArticleContainer/reducedArticleContainer";
+import loginStatusStore from "@/lib/lib-client/stores/loginStatusStore";
+import useWhereIamStore from "@/lib/lib-client/stores/whereIamStore";
 
 export default function Page () {
-    const dispatch = useDispatch()
-    const LoginStatus = useSelector<RootState, RootState['LoginStatus']>((state) => state.LoginStatus)
+    const applyWhereIam = useWhereIamStore(state => state.applyWhereIam)
+    const loginStatus = loginStatusStore(state => state.loginStatus)
 
     useEffect(() => {
-        dispatch(applyWhereIam('likes'))
-    }, [LoginStatus])
+        applyWhereIam('likes')
+    }, [loginStatus])
 
 
 
@@ -32,8 +29,9 @@ export default function Page () {
             </div>
             <div className={styles.div_3}>
                 {(() => {
-                    const likes = [...LoginStatus.userProfile.likes].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-                    return likes.map((like: LikeScheme, index: number) => <ReducedArticleContainer article={like.article as ArticleScheme} key={index}/>)
+                    const likes = [...loginStatus.userProfile.likesForArticle].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+                    return likes.map((like: LikeForArticleScheme, index: number) => <ReducedArticleContainer
+                        article={like.article as ArticleScheme} key={index}/>)
                 })()}
             </div>
         </div>

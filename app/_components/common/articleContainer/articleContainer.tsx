@@ -1,8 +1,6 @@
 import {ArticleScheme, CategoryScheme, UserProfileScheme} from "@/types";
 import {useEffect, useState} from "react";
 import styles from './articleContainer.module.css'
-import {useSelector} from "react-redux";
-import {RootState} from "@/redux/store";
 import {MdCategory} from "react-icons/md";
 import {useRouter} from "next/navigation";
 import {IoHeart} from "react-icons/io5";

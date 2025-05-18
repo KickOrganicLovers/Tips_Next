@@ -1,27 +1,21 @@
 'use client'
 
-import {ReactNode, useEffect} from "react";
+import {ReactNode, useEffect, useState} from "react";
 import Header from "@/app/_components/header/header";
 import styles from './app.module.css'
-import store, {AppDispatch, RootState} from "@/redux/store";
-import {Provider, useDispatch, useSelector} from "react-redux";
 import Main from "@/app/_components/main/main";
 import './globals.css'
 import {Noto_Sans_JP} from "next/font/google"
-import {usePathname, useRouter} from "next/navigation";
+import {useRouter} from "next/navigation";
 import SideBar from "@/app/_components/sideBar/sideBar";
 import 'dotenv/config'
-import {json} from "node:stream/consumers";
-import {setCategories} from "@/redux/slices/categoriesSlice";
 
-import { SessionProvider, useSession } from "next-auth/react"
-import { getServerSession } from "next-auth/next"
-import { authOptions } from "@/lib-server/auth";
-import { useState } from "react";
-import { Session } from "next-auth";
+import {SessionProvider} from "next-auth/react"
+import {getServerSession} from "next-auth/next"
+import {authOptions} from "@/lib/lib-server/auth";
+import {Session} from "next-auth";
 import {ThemeProvider} from "@/app/_components/themeProvider";
-
-
+import ViewportHeightSetter from "@/app/_components/viewportHeightSetter";
 
 
 const noto_sans_jp = Noto_Sans_JP({
@@ -50,15 +44,14 @@ export default  function RootLayout({children}: { children: ReactNode }) {
             <title>Tips</title>
         </head>
         <body className={styles.body}>
+        <ViewportHeightSetter/>
         <SessionProvider session={session}>
             <ThemeProvider>
-                <Provider store={store}>
-                    <Header/>
-                    <div className={styles.wrapper}>
-                        <Main children={children}/>
-                        <SideBar/>
-                    </div>
-                </Provider>
+                <Header/>
+                <div className={styles.wrapper}>
+                    <Main children={children}/>
+                    <SideBar/>
+                </div>
             </ThemeProvider>
         </SessionProvider>
         </body>

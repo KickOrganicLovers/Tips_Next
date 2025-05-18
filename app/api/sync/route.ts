@@ -1,6 +1,6 @@
-import {NextRequest, NextResponse} from "next/server";
-import {prisma} from "@/lib-server/prisma";
-import {meili} from "@/lib-server/meili";
+import {NextResponse} from "next/server";
+import {prisma} from "@/lib/lib-server/prisma";
+import {meili} from "@/lib/lib-server/meili";
 
 export async function GET() {
     const index = meili.index('articles')
@@ -10,6 +10,7 @@ export async function GET() {
                 likes: true,
                 watchHistories: true,
                 category: true,
+                tags: true,
             }
         })
 
@@ -18,7 +19,7 @@ export async function GET() {
             title: article.title,
             contents: article.contents,
             category: article.category.categoryName,
-            tags: article.tags,
+            tags: article.tags.map((tag) => tag.tagName),
             likes: article.likes.length,
             watchHistories: article.watchHistories.length
         }))

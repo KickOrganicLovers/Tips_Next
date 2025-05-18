@@ -5,7 +5,7 @@
     background-color: var(--bg-color-1);
     box-sizing: border-box;
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: hidden;
     @media screen and (max-width: 1024px) {
         position: absolute;
         right: 0;
@@ -22,7 +22,7 @@
     @media screen and (max-width: 1024px) {
         width: 40vw;
     }
-    @media screen and (max-width: 512px) {
+    @media screen and (max-width: 768px) {
         width: 60vw;
     }
 }
@@ -42,7 +42,7 @@
     @media screen and (max-width: 1024px) {
         left: -40vw;
     }
-    @media screen and (max-width: 1024px) {
+    @media screen and (max-width: 768px) {
         left: -60vw;
     }
 }

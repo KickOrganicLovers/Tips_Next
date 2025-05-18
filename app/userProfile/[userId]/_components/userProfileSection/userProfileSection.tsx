@@ -1,5 +1,4 @@
 import styles from './userProfileSection.module.css'
-import {getDataFromServerWithJson} from "@/lib-client/fetch";
 import {FollowScheme, LoginStatusScheme, UserProfileScheme} from "@/types";
 import TotalFollowCard from "@/app/_components/common/totalFollowCard/totalFollowCard";
 import PostFollowCard from "@/app/_components/common/postFollowCard/postFollowCard";

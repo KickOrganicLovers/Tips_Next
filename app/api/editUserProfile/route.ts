@@ -1,11 +1,9 @@
-import {PrismaClient} from "@prisma/client";
 import {NextRequest, NextResponse} from "next/server";
-import {prisma} from "@/lib-server/prisma";
-import {replaceAllDatesToIsoString} from "@/lib-server/processing";
+import {prisma} from "@/lib/lib-server/prisma";
+import {replaceAllDatesToIsoString} from "@/lib/lib-server/processing";
 
 export async function POST(req: NextRequest) {
     const body = await req.json()
-
 
     try {
         const updatedUserProfile = await prisma.userProfile.update({
@@ -19,7 +17,7 @@ export async function POST(req: NextRequest) {
                 ...(body.profileImageUrl !== undefined && {profileImageUrl: body.profileImageUrl}),
             },
             include: {
-                likes: {
+                likesForArticle: {
                     include: {
                         article: {
                             include: {
@@ -30,10 +28,13 @@ export async function POST(req: NextRequest) {
                                     }
                                 },
                                 likes: true,
+                                watchHistories: true,
+                                category: true,
                             }
                         }
                     }
                 },
+                likesForComment: true,
                 followers: true,
                 followings: {
                     include: {
@@ -51,6 +52,8 @@ export async function POST(req: NextRequest) {
                                     }
                                 },
                                 likes: true,
+                                watchHistories: true,
+                                category: true,
                             }
                         }
                     }

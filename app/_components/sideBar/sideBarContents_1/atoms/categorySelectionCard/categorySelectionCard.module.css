@@ -1,0 +1,101 @@
+.div_0 {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    container-type: inline-size;
+
+
+    @media screen and (max-width: 1024px) {
+        width: calc(40vw - 40px);
+    }
+    @media screen and (max-width: 768px) {
+        width: calc(60vw - 40px);
+    }
+}
+
+.div_1 {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+.div_2 {
+    position: absolute;
+    width: 200%;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+    transition: left 0.25s ease;
+}
+
+.shifted {
+    left: calc(-20vw + 40px);
+    @media screen and (max-width: 1024px) {
+        left: calc(-40vw + 40px);
+    }
+    @media screen and (max-width: 768px) {
+        left: calc(-60vw + 40px);
+    }
+}
+
+
+.div_3 {
+    width: 50%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    /*box-sizing: border-box;*/
+    /*border: 2px solid var(--border-color-1);*/
+}
+
+
+.p_0 {
+    padding: 0 0.5vw 1vh 0.5vw;
+    margin: 0;
+    color: var(--text-color-2);
+    font-size: clamp(0.6rem, 7cqw, 1.2rem);
+    height: fit-content;
+}
+
+.mark_0 {
+    background: none;
+    color: var(--text-color-1);
+    padding-left: 1vw;
+}
+
+.div_4 {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 10px;
+    border-left: 2px solid var(--bg-color-1);
+    transition: border-color 0.2s ease;
+    &:hover{
+        border-color: var(--border-color-1);
+    }
+}
+
+.div_5 {
+    width: fit-content;
+    height: fit-content;
+    font-size: 1.2rem;
+    color: var(--text-color-2);
+}
+
+.MdArrowForwardIos {
+    width: fit-content;
+    height: fit-content;
+    font-size: 1.2rem;
+}
+
+.AiOutlinePlus {
+    width: fit-content;
+    height: fit-content;
+    font-size: 1.2rem;
+}

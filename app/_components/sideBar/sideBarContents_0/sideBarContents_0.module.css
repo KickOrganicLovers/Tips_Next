@@ -3,7 +3,8 @@
     height: 100%;
     position: absolute;
     left: 0;
-    overflow: visible;
+    overflow-x: hidden;
+    overflow-y: scroll;
     text-wrap: nowrap;
 }
 

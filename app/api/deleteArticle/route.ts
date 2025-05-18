@@ -1,9 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
-import {deleteImage, extractBase64Images, extractImageUrls, extractKeyFromUrl} from "@/lib-server/processing";
-import {prisma} from "@/lib-server/prisma";
-import {DeleteObjectCommand, S3Client} from "@aws-sdk/client-s3";
-import {s3} from "@/lib-server/s3";
-
+import {deleteImage, extractImageUrls, extractKeyFromUrl} from "@/lib/lib-server/processing";
+import {prisma} from "@/lib/lib-server/prisma";
 
 
 export async function POST(req: NextRequest) {

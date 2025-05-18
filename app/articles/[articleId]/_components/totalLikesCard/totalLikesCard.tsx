@@ -2,12 +2,11 @@
 
 import styles from './totalLikesCard.module.css'
 import {IoHeart} from "react-icons/io5";
-import {LikeScheme} from "@/types";
-import {useEffect, useRef, useState} from "react";
+import {LikeForArticleScheme} from "@/types";
 
 interface props {
-    likes: LikeScheme[]
-    like: LikeScheme | undefined
+    likes: LikeForArticleScheme[]
+    like: LikeForArticleScheme | undefined
 }
 export default function TotalLikesCard(props: props) {
     const className = props.like? `${styles['div_1']} ${styles['active']}` : styles['div_1']

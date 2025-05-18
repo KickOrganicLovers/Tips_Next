@@ -1,7 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
-import {prisma} from "@/lib-server/prisma";
-import {meili} from "@/lib-server/meili";
-import bcrypt from "bcrypt";
+import {prisma} from "@/lib/lib-server/prisma";
+import {meili} from "@/lib/lib-server/meili";
 import crypto from 'crypto'
 
 export async function POST(req: NextRequest){
