@@ -4,7 +4,8 @@ import {LuEye} from "react-icons/lu";
 import styles from './totalLikesAndViews.module.css'
 import {Dispatch, SetStateAction} from "react";
 import {useDispatch} from "react-redux";
-import useLoginStatusStore from "@/lib/lib-client/stores/loginStatusStore";
+import {useUserProfileStore} from "@/lib/lib-client/stores/userProfileStore";
+import {useSession} from "next-auth/react";
 
 interface props {
     article: ArticleScheme,
@@ -12,11 +13,12 @@ interface props {
     setArticle: Dispatch<SetStateAction<ArticleScheme>>
 }
 export default function TotalLikesAndViewsCard(props: props) {
-    const postLikeForArticle = useLoginStatusStore(state => state.postLikeForArticle)
+    const postLikeForArticle = useUserProfileStore(state => state.postLikeForArticle)
     const className = props.like? `${styles['div_1']} ${styles['active']}` : styles['div_1']
+    const session = useSession();
 
     const clickEventHandler = () => {
-        postLikeForArticle(props.article.id, props.like, props.setArticle)
+        postLikeForArticle(session, props.article.id, props.like, props.setArticle)
     }
 
     return (

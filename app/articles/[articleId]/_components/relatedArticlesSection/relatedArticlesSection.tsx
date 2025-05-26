@@ -1,13 +1,13 @@
 import styles from './relatedArticlesSection.module.css'
 import {useEffect, useState} from "react";
-import {ArticleScheme, LoginStatusScheme} from "@/types";
+import {ArticleScheme, LoginStatusScheme, UserProfileScheme} from "@/types";
 import {getDataFromServerWithJson} from "@/lib/lib-client/fetch";
 import ReducedArticleContainer from "@/app/_components/common/reducedArticleContainer/reducedArticleContainer";
 import ArticleContainer from "@/app/_components/common/articleContainer/articleContainer";
 
 interface props {
     isMobile: boolean;
-    loginStatus: LoginStatusScheme
+    userProfile: UserProfileScheme
 }
 
 export default function RelatedArticlesSection(props: props) {

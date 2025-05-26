@@ -1,17 +1,16 @@
 'use client'
 
 import styles from './tags.module.css'
-import {useDispatch} from "react-redux";
 import {useEffect, useState} from "react";
 import {ArticleScheme} from "@/types";
 import {useParams, useRouter} from "next/navigation";
 import {getDataFromServerWithJson} from "@/lib/lib-client/fetch";
 import ArticleContainer from "@/app/_components/common/articleContainer/articleContainer";
+import {useWhereIamStore} from "@/lib/lib-client/stores/whereIamStore";
 
 export default function Page () {
+    const applyWhereIam = useWhereIamStore(state => state.applyWhereIam)
     const [articles, setArticles] = useState<ArticleScheme[]>([]);
-    const router = useRouter();
-    const dispatch = useDispatch()
     const {tagName} = useParams<{tagName: string}>()
 
 
@@ -24,6 +23,7 @@ export default function Page () {
         getArticlesWithTag(tagName).then((json) => {
             if(!json.error){
                 setArticles(json.articles)
+                applyWhereIam(`tagName-${tagName}`)
             }
         })
     }, [tagName]);

@@ -7,7 +7,7 @@ interface StoreConfig {
     getRecommendArticles: () => void,
 }
 
-const useArticlesStore = create<StoreConfig>((set, get) => ({
+export const useArticlesStore = create<StoreConfig>((set, get) => ({
     articles: [],
     getRecommendArticles: () => {
         try {
@@ -22,4 +22,3 @@ const useArticlesStore = create<StoreConfig>((set, get) => ({
     }
 }))
 
-export default useArticlesStore

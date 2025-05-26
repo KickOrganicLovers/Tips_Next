@@ -4,8 +4,8 @@ import styles from './app.module.css'
 import {useEffect} from "react";
 import ArticleContainer from "@/app/_components/common/articleContainer/articleContainer";
 import {ArticleScheme} from "@/types";
-import useArticlesStore from "@/lib/lib-client/stores/articlesStore";
-import useWhereIamStore from "@/lib/lib-client/stores/whereIamStore";
+import {useWhereIamStore} from "@/lib/lib-client/stores/whereIamStore";
+import {useArticlesStore} from "@/lib/lib-client/stores/articlesStore";
 
 export default function Page() {
     const applyWhereIam = useWhereIamStore(state => state.applyWhereIam)

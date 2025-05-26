@@ -1,13 +1,15 @@
 'use client'
 
 import {redirect} from "next/navigation";
-import LoginStatusStore from "@/lib/lib-client/stores/loginStatusStore";
+import {useUserProfileStore} from "@/lib/lib-client/stores/userProfileStore";
+import {useSession} from "next-auth/react";
 
 export default function Page() {
-    const loginStatus = LoginStatusStore((state) => state.loginStatus)
+    const userProfile = useUserProfileStore(state => state.userProfile);
+    const session = useSession();
 
-    if (loginStatus.userProfile.userId) {
-        redirect(`/userProfile/${loginStatus.userProfile.userId}`);
+    if (session.status ==='authenticated' && userProfile.userId) {
+        redirect(`/userProfile/${userProfile.userId}`);
     }else {
         redirect('/login');
     }

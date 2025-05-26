@@ -21,7 +21,7 @@ model User {
 }
 
 model UserProfile {
-  userId           String           @id
+  userId           String           @id @unique
   username         String?
   profileImageUrl  String?
   introduction     String?

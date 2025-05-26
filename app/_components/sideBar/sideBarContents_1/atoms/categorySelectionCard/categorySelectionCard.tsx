@@ -3,7 +3,7 @@ import styles from './categorySelectionCard.module.css'
 import {ArticleSchemeWithPrefix, CategoryScheme} from "@/types";
 import {MdArrowForwardIos} from "react-icons/md";
 import {AiOutlinePlus} from "react-icons/ai";
-import useCategoriesStore from "@/lib/lib-client/stores/categoriesStore";
+import {useCategoriesStore} from "@/lib/lib-client/stores/categoriesStore";
 
 interface props{
     category?: CategoryScheme,

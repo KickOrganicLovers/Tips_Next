@@ -7,8 +7,8 @@ import {useParams, useRouter} from "next/navigation";
 import {getDataFromServerWithJson} from "@/lib/lib-client/fetch";
 import ArticleContainer from "@/app/_components/common/articleContainer/articleContainer";
 import {findCategoryById} from "@/lib/lib-client/processing";
-import useWhereIamStore from "@/lib/lib-client/stores/whereIamStore";
-import useCategoriesStore from "@/lib/lib-client/stores/categoriesStore";
+import {useWhereIamStore} from "@/lib/lib-client/stores/whereIamStore";
+import {useCategoriesStore} from "@/lib/lib-client/stores/categoriesStore";
 
 export default function Page () {
     const applyWhereIam = useWhereIamStore(state => state.applyWhereIam)

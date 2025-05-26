@@ -4,7 +4,6 @@
     flex-direction: column;
     container-type: inline-size;
 
-
     @media screen and (max-width: 1024px) {
         width: calc(40vw - 40px);
     }
@@ -28,17 +27,13 @@
     left: 0;
     display: flex;
     flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
     transition: left 0.25s ease;
 }
 
 .shifted {
-    left: calc(-20vw + 40px);
-    @media screen and (max-width: 1024px) {
-        left: calc(-40vw + 40px);
-    }
-    @media screen and (max-width: 768px) {
-        left: calc(-60vw + 40px);
-    }
+    left: -100%;
 }
 
 

@@ -1,4 +1,5 @@
 .button_0 {
+    cursor: pointer;
     border: none;
     font-size: 1.5vh;
     outline: 2px solid deepskyblue;

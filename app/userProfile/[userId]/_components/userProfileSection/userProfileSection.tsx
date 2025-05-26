@@ -2,13 +2,17 @@ import styles from './userProfileSection.module.css'
 import {FollowScheme, LoginStatusScheme, UserProfileScheme} from "@/types";
 import TotalFollowCard from "@/app/_components/common/totalFollowCard/totalFollowCard";
 import PostFollowCard from "@/app/_components/common/postFollowCard/postFollowCard";
+import {useSession} from "next-auth/react";
+import {Dispatch, SetStateAction} from "react";
 
 interface props {
+    userProfile_myOwn: UserProfileScheme
     userProfile: UserProfileScheme
-    loginStatus: LoginStatusScheme
+    setUserProfile: Dispatch<SetStateAction<UserProfileScheme>>
     follow: FollowScheme
 }
 export default function UserProfileSection(props: props) {
+    const session = useSession();
 
     return (
         <div className={styles.div_0}>
@@ -22,7 +26,7 @@ export default function UserProfileSection(props: props) {
                     <div className={styles.div_1}>{props.userProfile?.introduction}</div>
                 </div>
             </div>
-            {(() => !!props.loginStatus && props.loginStatus.isLoggedIn ? <PostFollowCard follow={props.follow} userProfile={props.userProfile} loginStatus={props.loginStatus} />: null )()}
+            {(() => session.status === 'authenticated' ? <PostFollowCard follow={props.follow} userProfile={props.userProfile} setUserProfile={props.setUserProfile}/>: null )()}
         </div>
     )
 

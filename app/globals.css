@@ -1,4 +1,5 @@
 @import "normalize.css";
+@import 'nprogress/nprogress.css';
 
 html {
     background-color: var(--bg-color-2);
@@ -52,9 +53,9 @@ input {
     --border-color-2: black;
     --border-color-3: lightgray;
     --text-color-1: black;
-    --text-color-2: #373737;
+    --text-color-2: #4c4c4c;
     --text-color-3: white;
-    --shadow-color: darkgray;
+    --shadow-color: #bdbdbd;
 }
 
 :root.dark {
@@ -68,5 +69,25 @@ input {
     --text-color-1: white;
     --text-color-2: darkgray;
     --text-color-3: #373737;
-    --shadow-color: black;
+    --shadow-color: #131313;
 }
+
+
+#nprogress {
+    pointer-events: none;
+}
+
+#nprogress .bar {
+    background: linear-gradient(217deg, #71dcff, #fbb8dc);
+    height: 3px;              /* バーの高さ */
+    position: absolute;       /* ← ポイント：ヘッダーの中に置くため absolute */
+    top: calc(100% - 3px);                /* ← ヘッダーの下に表示 */
+    left: 0;
+    width: 100%;
+    z-index: 1031;
+}
+
+#nprogress .peg {
+    display: none;            /* スパーク効果を消す（好み） */
+}
+

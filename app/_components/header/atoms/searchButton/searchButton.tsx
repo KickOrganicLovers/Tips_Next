@@ -1,9 +1,9 @@
 import {AiOutlineSearch} from "react-icons/ai";
 import styles from './searchButton.module.css'
 import {Dispatch, SetStateAction} from "react";
-import useWhereIamStore from "@/lib/lib-client/stores/whereIamStore";
 import {sideBarStatusAtom} from "@/lib/lib-client/atoms";
 import {useAtom} from "jotai";
+import {useWhereIamStore} from "@/lib/lib-client/stores/whereIamStore";
 
 interface props {
     setIsSearchMode: Dispatch<SetStateAction<boolean>>

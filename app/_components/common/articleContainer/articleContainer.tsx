@@ -19,9 +19,7 @@ export default function ArticleContainer(props: props) {
     const clickEventHandler = () => {
         router.push(`/articles/${props.article.id}`)
     }
-
-
-
+    
 
     useEffect(() => {
         setIsMounted(true)

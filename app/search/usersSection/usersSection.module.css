@@ -1,0 +1,6 @@
+.div_0 {
+    display: grid;
+    place-items: center;
+    padding: 60px;
+    box-sizing: border-box;
+}

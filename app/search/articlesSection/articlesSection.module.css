@@ -1,0 +1,12 @@
+.div_0 {
+    width: 100%;
+    height: fit-content;
+    box-sizing: border-box;
+    padding: 4vh 2vw 4vh 2vw;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(820px, 1fr));
+    gap: 2vw;
+    place-items: center;
+    overflow-y: visible;
+}
+

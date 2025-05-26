@@ -5,11 +5,14 @@ import {useEffect} from "react";
 import {useRouter} from "next/navigation";
 import {ArticleScheme, WatchHistoryScheme} from "@/types";
 import ReducedArticleContainer from "@/app/_components/common/reducedArticleContainer/reducedArticleContainer";
-import loginStatusStore from "@/lib/lib-client/stores/loginStatusStore";
+import {useUserProfileStore} from "@/lib/lib-client/stores/userProfileStore";
+import {useSession} from "next-auth/react";
+
 
 export default function Page () {
     const router = useRouter();
-    const loginStatus = loginStatusStore(state => state.loginStatus)
+    const userProfile = useUserProfileStore(state => state.userProfile)
+    const session = useSession();
 
     const classifyWatchHistories = (watchHistories: WatchHistoryScheme[]) => {
         return watchHistories.reduce((acc, watchHistory) => {
@@ -24,13 +27,6 @@ export default function Page () {
 
 
 
-    useEffect(() => {
-        if (loginStatus.isLoggedIn) {
-
-        }else {
-            router.push('/login')
-        }
-    }, [loginStatus])
 
 
     return (
@@ -44,7 +40,7 @@ export default function Page () {
             </div>
             <div className={styles.div_3}>
                 {(() => {
-                    const watchHistories = classifyWatchHistories(loginStatus.userProfile.watchHistories)
+                    const watchHistories = classifyWatchHistories(userProfile.watchHistories)
                     return Object.entries(watchHistories).sort((a, b) => new Date(b[0]).getTime() - new Date(a[0]).getTime()).map(([date,watchHistories], index) => (
                         <div className={styles.div_4} key={index}>
                             <h2 className={styles.h2_0}>{`${date} に閲覧`}</h2>

@@ -6,22 +6,12 @@ import {useRouter} from "next/navigation";
 import {useState} from "react";
 import classNames from "classnames";
 import {MdArrowBackIos} from "react-icons/md";
+import RouteProgress from "@/app/_components/header/atoms/routeProgress/routeProgress";
 
 export default function Header() {
     const [isSearchMode, setIsSearchMode] = useState(false);
     const router = useRouter()
     const classname = isSearchMode? classNames(styles.header, styles.searchMode) : classNames(styles.header)
-
-    // useEffect(() => {
-    //     const handleResize = () => {
-    //         setIsSearchMode(false)
-    //     }
-    //     window.addEventListener("resize", handleResize);
-    //     return () => {
-    //         window.removeEventListener('resize', handleResize);
-    //     }
-    // }, []);
-
 
     const clickEventHandler_pushToRoot = () => {
         router.push("/")
@@ -44,6 +34,7 @@ export default function Header() {
                 <li className={styles.li}><SearchButton setIsSearchMode={setIsSearchMode}/></li>
                 <li className={`${styles['li']} ${styles['li_category']}`}><CategoryButton/></li>
             </ul>
+            <RouteProgress/>
         </header>
     )
 }

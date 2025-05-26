@@ -8,10 +8,11 @@ import {postDataToServerWithJson} from "@/lib/lib-client/fetch";
 import {ArticleEditorStatusScheme, ArticleScheme} from "@/types";
 import ErrorsCard from "@/app/createArticle/_components/errorsCard/errorsCard";
 import ToolBar from "@/app/createArticle/_components/toolBar/toolBar";
-import useLoginStatusStore from "@/lib/lib-client/stores/loginStatusStore";
-import useWhereIamStore from "@/lib/lib-client/stores/whereIamStore";
 import {useAtom} from "jotai";
 import {articleEditorStatusAtom, articleOnEditAtom} from "@/lib/lib-client/atoms";
+import {useWhereIamStore} from "@/lib/lib-client/stores/whereIamStore";
+import {useUserProfileStore} from "@/lib/lib-client/stores/userProfileStore";
+import {useSession} from "next-auth/react";
 
 type editorMode = 'toolBar' | 'both'
 
@@ -83,10 +84,11 @@ const initialArticleEditorStatus: ArticleEditorStatusScheme = {
 }
 
 export default function Page() {
-    const loginStatus = useLoginStatusStore(state => state.loginStatus)
+    const userProfile = useUserProfileStore(state => state.userProfile)
     const applyWhereIam = useWhereIamStore(state => state.applyWhereIam)
     const [articleOnEdit, setArticleOnEdit] = useAtom(articleOnEditAtom)
     const [articleEditorStatus, setArticleEditorStatus] = useAtom(articleEditorStatusAtom)
+    const session = useSession()
 
     const hasMounted = useRef(true);
     const router = useRouter();
@@ -122,7 +124,7 @@ export default function Page() {
     }
 
     useEffect(() => {
-        if (loginStatus.isLoggedIn) {
+        if (session.status ==='authenticated') {
             setArticleEditorStatus(initialArticleEditorStatus)
             applyWhereIam('createArticle')
             if (hasMounted.current) {
@@ -151,10 +153,10 @@ export default function Page() {
 
     //toolbarのuploadボタンが押されたときに発火する
     useEffect(() => {
-        if (loginStatus.isLoggedIn) {
+        if (session.status ==='authenticated') {
             setArticleOnEdit((prevState) => ({
                 ...prevState,
-                authorId: loginStatus.userProfile.userId
+                authorId: userProfile.userId
             }))
             if (!hasMounted.current) {
                 if (checkErrors().length === 0) {

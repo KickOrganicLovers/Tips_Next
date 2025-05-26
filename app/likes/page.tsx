@@ -4,16 +4,16 @@ import styles from './likes.module.css'
 import {useEffect} from "react";
 import {ArticleScheme, LikeForArticleScheme} from "@/types";
 import ReducedArticleContainer from "@/app/_components/common/reducedArticleContainer/reducedArticleContainer";
-import loginStatusStore from "@/lib/lib-client/stores/loginStatusStore";
-import useWhereIamStore from "@/lib/lib-client/stores/whereIamStore";
+import {useWhereIamStore} from "@/lib/lib-client/stores/whereIamStore";
+import {useUserProfileStore} from "@/lib/lib-client/stores/userProfileStore";
 
 export default function Page () {
     const applyWhereIam = useWhereIamStore(state => state.applyWhereIam)
-    const loginStatus = loginStatusStore(state => state.loginStatus)
+    const userProfile = useUserProfileStore(state => state.userProfile)
 
     useEffect(() => {
         applyWhereIam('likes')
-    }, [loginStatus])
+    }, [userProfile.likesForArticle])
 
 
 
@@ -29,7 +29,7 @@ export default function Page () {
             </div>
             <div className={styles.div_3}>
                 {(() => {
-                    const likes = [...loginStatus.userProfile.likesForArticle].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+                    const likes = [...userProfile.likesForArticle].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
                     return likes.map((like: LikeForArticleScheme, index: number) => <ReducedArticleContainer
                         article={like.article as ArticleScheme} key={index}/>)
                 })()}

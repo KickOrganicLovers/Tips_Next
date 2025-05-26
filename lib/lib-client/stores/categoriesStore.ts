@@ -7,7 +7,7 @@ interface StoreConfig {
     getCategories: () => void;
 }
 
-const useCategoriesStore = create<StoreConfig>((set) => ({
+export const useCategoriesStore = create<StoreConfig>((set) => ({
     categories: [],
     getCategories: () => {
         getDataFromServerWithJson<{
@@ -25,4 +25,3 @@ const useCategoriesStore = create<StoreConfig>((set) => ({
     }
 }))
 
-export default useCategoriesStore;

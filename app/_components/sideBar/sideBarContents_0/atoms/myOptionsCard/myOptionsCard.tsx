@@ -5,8 +5,8 @@ import {IoHeartOutline} from "react-icons/io5";
 import {MdHistory, MdOutlineRecommend} from "react-icons/md";
 import {useRouter} from "next/navigation";
 import classNames from "classnames";
-import useWhereIamStore from "@/lib/lib-client/stores/whereIamStore";
 import {Dispatch, SetStateAction} from "react";
+import {useWhereIamStore} from "@/lib/lib-client/stores/whereIamStore";
 
 interface props {
     setSideBarStatus: Dispatch<SetStateAction<{ isActive: boolean }>>;

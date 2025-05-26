@@ -1,18 +1,20 @@
 import {AiOutlinePlusCircle} from "react-icons/ai";
 import styles from './accountBanner.module.css'
 import {useRouter} from "next/navigation";
-import {LoginStatusScheme} from "@/types";
+import {LoginStatusScheme, UserProfileScheme} from "@/types";
 import {Dispatch, SetStateAction} from "react";
 import {sideBarStatusAtom} from "@/lib/lib-client/atoms";
 import {useAtom} from "jotai";
+import {useSession} from "next-auth/react";
 
 interface props {
-    loginStatus: LoginStatusScheme
+    userProfile: UserProfileScheme
     setSideBarStatus: Dispatch<SetStateAction<{ isActive: boolean }>>
 }
 export default function AccountBanner(props: props) {
     const [sideBarStatus, setSideBarStatus] = useAtom(sideBarStatusAtom)
     const router = useRouter()
+    const session = useSession()
 
 
     const clickEventHandler_navigateToLogin = () => {
@@ -39,16 +41,16 @@ export default function AccountBanner(props: props) {
     return (
         <div className={styles.div_0}>
             <div className={styles.div_1}>
-                <img className={styles.img_0} src={props.loginStatus.userProfile?.profileImageUrl} alt='profileimage'/>
-                {(() => props.loginStatus.isLoggedIn ? (
+                <img className={styles.img_0} src={props.userProfile?.profileImageUrl} alt='profileimage'/>
+                {(() => session.status === 'authenticated' ? (
                     <p className={styles.p_1}
-                       onClick={clickEventHandler_navigateToUserProfile}>{props.loginStatus.userProfile?.username}</p>
+                       onClick={clickEventHandler_navigateToUserProfile}>{props.userProfile?.username}</p>
                 ) : (
                     <p className={styles.p_1} onClick={clickEventHandler_navigateToLogin}>ログイン</p>
                 ))()}
             </div>
             <div className={styles.div_2}>
-                {(() => props.loginStatus.isLoggedIn ? (
+                {(() => session.status === 'authenticated' ? (
                     <div className={styles.div_3}>
                         <AiOutlinePlusCircle className={styles.AiOutlinePlusCircle}
                                              onClick={clickEventHandler_navigateToCreateArticle}/>

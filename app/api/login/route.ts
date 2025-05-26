@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
     // クエリパラメータ "id" を取得
     const session = await getServerSession(authOptions);
 
-    if(!session || !session.user.id) return NextResponse.json({isLoggedIn: false, error: 'session not found', userProfile: undefined });
+    if(!session || !session.user.id) return NextResponse.json({userProfile: undefined});
 
 
     try {
@@ -65,19 +65,17 @@ export async function GET(req: NextRequest) {
 
         if (userProfile) {
                 return NextResponse.json({
-                    isLoggedIn: true,
-                    error: undefined,
-                    userProfile: replaceAllDatesToIsoString(userProfile)
+                    userProfile: replaceAllDatesToIsoString(userProfile),
+                    error: null
                 }, {status: 200})
 
         } else {
             return NextResponse.json({
-                isLoggedIn: false,
+                userProfile: undefined,
                 error: 'email is incorrect',
-                userProfile: undefined
             }, {status: 403})
         }
-    } catch (err) {
-        return NextResponse.json({isLoggedIn: false, error: err, userProfile: undefined}, {status: 403})
+    } catch (error) {
+        return NextResponse.json({userProfile: undefined, error: error}, {status: 403})
     }
 }

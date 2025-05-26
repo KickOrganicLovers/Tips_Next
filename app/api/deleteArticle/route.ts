@@ -38,6 +38,8 @@ export async function POST(req: NextRequest) {
             where: { id: body.id },
         });
 
+        //write process to delete document from meili
+
         return NextResponse.json({isDeleted: true, error: ''}, { status: 200 });
 
     } catch (error) {

@@ -4,8 +4,8 @@ import styles from './trending.module.css'
 import {ArticleScheme} from "@/types";
 import {useEffect} from "react";
 import ExtendedArticleContainer from "@/app/_components/common/extendedArticleContainer/extendedArticleContainer";
-import useWhereIamStore from "@/lib/lib-client/stores/whereIamStore";
-import useArticlesStore from "@/lib/lib-client/stores/articlesStore";
+import {useWhereIamStore} from "@/lib/lib-client/stores/whereIamStore";
+import {useArticlesStore} from "@/lib/lib-client/stores/articlesStore";
 
 export default function Page () {
     const applyWhereIam = useWhereIamStore(state => state.applyWhereIam)

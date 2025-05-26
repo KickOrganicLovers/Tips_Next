@@ -1,10 +1,12 @@
 import {NextRequest, NextResponse} from "next/server";
 import bcrypt from "bcryptjs";
 import {prisma} from "@/lib/lib-server/prisma";
+import {meili} from "@/lib/lib-server/meili";
 
 export async function POST(req: NextRequest) {
     const body = await req.json()
 
+    const index = meili.index('users')
     const email = body !== undefined && body.email !== undefined && typeof body.email === 'string' ? body.email as string : ''
     const username = body !== undefined && body.username !== undefined && typeof body.username === 'string' ? body.username as string : ''
     const password = body !== undefined && body.password !== undefined && typeof body.password === 'string' ? body.password as string : ''
@@ -25,6 +27,14 @@ export async function POST(req: NextRequest) {
                     introduction: '',
                 },
             });
+
+            const document = {
+                id: newProfile.userId,
+                username: newProfile.username,
+                introduction: newProfile.introduction
+            }
+
+            try{await index.addDocuments([document])}catch(err){console.log(err)}
 
             return {newUser, newProfile};
         })

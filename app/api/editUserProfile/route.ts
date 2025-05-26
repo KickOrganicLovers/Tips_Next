@@ -1,9 +1,12 @@
 import {NextRequest, NextResponse} from "next/server";
 import {prisma} from "@/lib/lib-server/prisma";
 import {replaceAllDatesToIsoString} from "@/lib/lib-server/processing";
+import {meili} from "@/lib/lib-server/meili";
 
 export async function POST(req: NextRequest) {
     const body = await req.json()
+    console.log(body)
+    const index = meili.index('users')
 
     try {
         const updatedUserProfile = await prisma.userProfile.update({
@@ -14,7 +17,6 @@ export async function POST(req: NextRequest) {
                 username: body.username,
                 profileImageUrl: body.profileImageUrl,
                 introduction: body.introduction,
-                ...(body.profileImageUrl !== undefined && {profileImageUrl: body.profileImageUrl}),
             },
             include: {
                 likesForArticle: {
@@ -62,6 +64,17 @@ export async function POST(req: NextRequest) {
         })
 
         if (updatedUserProfile) {
+
+
+            const document = {
+                id: updatedUserProfile.userId,
+                username: updatedUserProfile.username,
+                introduction: updatedUserProfile.introduction
+            }
+            console.log(document)
+            try{await index.addDocuments([document])}catch(err){console.log(err)}
+
+
             return NextResponse.json({updatedUserProfile: replaceAllDatesToIsoString(updatedUserProfile), error: undefined}, {status: 200})
         } else {
             return NextResponse.json({updatedUserProfile: undefined, error: 'user not found'}, {status: 400})

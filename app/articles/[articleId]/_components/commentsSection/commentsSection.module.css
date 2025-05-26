@@ -1,7 +1,7 @@
 .div_0 {
     width: 75%;
     height: fit-content;
-    margin-bottom: 5vh;
+    margin-bottom: 40px;
     @media screen and (max-width: 768px) {
         width: 100%;
         padding: 0 20px;
@@ -62,5 +62,9 @@
     &:hover{
         color: deepskyblue;
     }
+}
+
+.div_4 {
+    box-shadow: 4px 4px 10px var(--shadow-color);
 }
 

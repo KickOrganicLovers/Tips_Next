@@ -16,6 +16,7 @@ import {authOptions} from "@/lib/lib-server/auth";
 import {Session} from "next-auth";
 import {ThemeProvider} from "@/app/_components/themeProvider";
 import ViewportHeightSetter from "@/app/_components/viewportHeightSetter";
+import RouteProgress from "@/app/_components/header/atoms/routeProgress/routeProgress";
 
 
 const noto_sans_jp = Noto_Sans_JP({

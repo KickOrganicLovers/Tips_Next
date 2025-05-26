@@ -6,25 +6,23 @@ import MyPageOptionsCard from "@/app/_components/sideBar/sideBarContents_0/atoms
 import FollowingAccountCard
     from "@/app/_components/sideBar/sideBarContents_0/atoms/followingAccountCard/followingAccountCard";
 import {useTheme} from "@/app/_components/themeProvider";
-import useLoginStatusStore from "@/lib/lib-client/stores/loginStatusStore";
 import {sideBarStatusAtom} from "@/lib/lib-client/atoms";
 import {useAtom} from "jotai";
+import {useUserProfileStore} from "@/lib/lib-client/stores/userProfileStore";
 
 export default function SideBarContents_0() {
     const {toggleTheme} = useTheme()
-    const loginStatus = useLoginStatusStore((state) => state.loginStatus)
+    const userProfile = useUserProfileStore(state => state.userProfile)
     const [sideBarStatus, setSideBarStatus] = useAtom(sideBarStatusAtom)
 
-    useEffect(() => {
-    }, [loginStatus]);
 
     return (
         <div className={styles.div_0}>
-            <AccountBanner loginStatus={loginStatus} setSideBarStatus={setSideBarStatus}/>
+            <AccountBanner userProfile={userProfile} setSideBarStatus={setSideBarStatus}/>
             <MyPageOptionsCard setSideBarStatus={setSideBarStatus}/>
-            <FollowingAccountCard loginStatus={loginStatus} setSideBarStatus={setSideBarStatus}/>
+            <FollowingAccountCard userProfile={userProfile} setSideBarStatus={setSideBarStatus}/>
             <CategoryCard setSideBarStatus={setSideBarStatus}/>
-            <button onClick={toggleTheme} type="button">テーマ切り替え</button>
+            <button onClick={toggleTheme} type="button" className={styles.button}>テーマ切り替え</button>
         </div>
     )
 }

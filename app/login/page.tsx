@@ -2,8 +2,8 @@
 
 import styles from './login.module.css'
 import LoginCard from "@/app/login/_components/loginCard/loginCard";
-import useWhereIamStore from "@/lib/lib-client/stores/whereIamStore";
 import {useEffect} from "react";
+import {useWhereIamStore} from "@/lib/lib-client/stores/whereIamStore";
 
 export default function Page() {
     const applyWhereIam = useWhereIamStore(state => state.applyWhereIam)

@@ -4,6 +4,7 @@
     min-height: 60px;
     background-color: var(--bg-color-1);
     position: relative;
+    z-index: 1030;
 }
 
 .div_0 {

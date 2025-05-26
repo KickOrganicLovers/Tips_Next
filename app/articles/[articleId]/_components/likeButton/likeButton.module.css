@@ -19,6 +19,7 @@
     color: gray;
     border: gray solid 3px;
     pointer-events: auto;
+    box-shadow: 4px 4px 10px var(--shadow-color);
 
     @media screen and (max-width: 768px) {
         font-size: 50px;

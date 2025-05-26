@@ -1,9 +1,9 @@
 import styles from './sideBar.module.css'
 import SideBarContents_0 from "@/app/_components/sideBar/sideBarContents_0/sideBarContents_0";
 import SideBarContents_1 from "@/app/_components/sideBar/sideBarContents_1/sideBarContents_1";
-import useWhereIamStore from "@/lib/lib-client/stores/whereIamStore";
 import {sideBarStatusAtom} from "@/lib/lib-client/atoms";
 import {useAtom} from "jotai";
+import {useWhereIamStore} from "@/lib/lib-client/stores/whereIamStore";
 
 export default function sideBar() {
     const [sideBarStatus, setSideBarStatus] = useAtom(sideBarStatusAtom)

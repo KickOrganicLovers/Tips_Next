@@ -2,7 +2,8 @@ import {IoHeart} from "react-icons/io5";
 import styles from './likeButton.module.css'
 import {Dispatch, SetStateAction} from "react";
 import {ArticleScheme, LikeForArticleScheme} from "@/types";
-import useLoginStatusStore from "@/lib/lib-client/stores/loginStatusStore";
+import {useUserProfileStore} from "@/lib/lib-client/stores/userProfileStore";
+import {useSession} from "next-auth/react";
 
 interface props {
     isLoggedIn: boolean,
@@ -12,12 +13,13 @@ interface props {
 }
 
 export default function LikeButton(props: props) {
-    const postLikeForArticle = useLoginStatusStore((state) => state.postLikeForArticle)
+    const postLikeForArticle = useUserProfileStore((state) => state.postLikeForArticle)
+    const session = useSession();
     const className = props.like? `${styles['IoHeart']} ${styles['active']}` : styles['IoHeart']
 
 
     const clickEventHandler = () => {
-        postLikeForArticle(props.articleId, props.like, props.setArticle)
+        postLikeForArticle(session, props.articleId, props.like, props.setArticle)
     }
 
     return (

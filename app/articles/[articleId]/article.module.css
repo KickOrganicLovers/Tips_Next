@@ -38,10 +38,13 @@
     padding: 2vw;
     box-sizing: border-box;
     background-color: var(--bg-color-1);
+    box-shadow: 4px 4px 10px var(--shadow-color);
     /*border-radius: 3vw;*/
     @media screen and (max-width: 768px) {
         width: 100%;
         padding: 0 20px;
+        overflow: hidden;
+        box-sizing: border-box;
     }
 }
 .div_2 img {

@@ -5,6 +5,8 @@ import {LuEye} from "react-icons/lu";
 import {MdCategory} from "react-icons/md";
 import {stripTags} from "@/lib/lib-client/processing";
 import {useRouter} from "next/navigation";
+import {useEffect, useState} from "react";
+import classNames from "classnames";
 
 interface props {
     article: ArticleScheme;
@@ -12,13 +14,20 @@ interface props {
 
 export default function ReducedArticleContainer(props: props) {
     const router = useRouter();
+    const [isMounted, setIsMounted] = useState(false);
+    const className = isMounted? classNames(styles.div_0, styles.active) : classNames(styles.div_0)
 
     const clickEventHandler = () => {
         router.push(`/articles/${props.article.id}`)
     }
+
+    useEffect(() => {
+        setIsMounted(true)
+    })
+
     return (
         <div className={styles.virtual_wrapper}>
-            <div className={styles.div_0} onClick={clickEventHandler}>
+            <div className={className} onClick={clickEventHandler}>
                 <img src={props.article.thumbnailImageUrl} alt='thumbnail' className={styles.img_0}/>
                 <div className={styles.div_2}>
                     <p className={styles.p_0}>{props.article.title}</p>

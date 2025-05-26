@@ -5,11 +5,10 @@ interface StoreConfig {
     applyWhereIam: (whereIam: string) => void
 }
 
-const useWhereIamStore = create<StoreConfig>((set, get) => ({
+export const useWhereIamStore = create<StoreConfig>((set, get) => ({
     whereIam: 'root',
     applyWhereIam: (whereIam: string) => {
         set({whereIam})
     }
 }))
 
-export default useWhereIamStore;

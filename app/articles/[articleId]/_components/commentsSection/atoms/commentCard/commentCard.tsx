@@ -1,23 +1,25 @@
 import styles from './commentCard.module.css'
-import {ArticleScheme, CommentScheme, LikeForCommentScheme, LoginStatusScheme} from "@/types";
+import {ArticleScheme, CommentScheme, LikeForCommentScheme, LoginStatusScheme, UserProfileScheme} from "@/types";
 import {IoHeart} from "react-icons/io5";
 import {Dispatch, SetStateAction, useEffect, useState} from "react";
-import loginStatusStore from "@/lib/lib-client/stores/loginStatusStore";
 import classNames from "classnames";
+import {useUserProfileStore} from "@/lib/lib-client/stores/userProfileStore";
+import {useSession} from "next-auth/react";
 
 interface props {
-    loginStatus: LoginStatusScheme
+    userProfile: UserProfileScheme
     comment: CommentScheme
     setArticle: Dispatch<SetStateAction<ArticleScheme>>
 }
 export default function CommentCard(props: props) {
     const [like, setLike] = useState<LikeForCommentScheme | undefined>()
-    const postLikeForComment = loginStatusStore(state => state.postLikeForComment)
+    const session = useSession()
+    const postLikeForComment = useUserProfileStore(state => state.postLikeForComment)
     const className = !!like ? classNames(styles.div_2, styles.active) : classNames(styles.div_2)
 
 
     const checkIsLiked = (likes: LikeForCommentScheme[]) => {
-        const like = likes.filter((like) => like.userId === props.loginStatus.userProfile.userId)
+        const like = likes.filter((like) => like.userId === props.userProfile.userId)
         if(like.length > 0){
             setLike(like[0]);
         }else {
@@ -26,7 +28,7 @@ export default function CommentCard(props: props) {
     }
 
     const clickEventHandler = () => {
-        postLikeForComment(props.comment.id, like, props.setArticle)
+        postLikeForComment(session, props.comment.id, like, props.setArticle)
     }
 
     useEffect(() => {

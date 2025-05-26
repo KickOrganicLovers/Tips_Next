@@ -18,3 +18,9 @@
     list-style: none;
     background-color: #2d2d2d;
 }
+
+.button {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
