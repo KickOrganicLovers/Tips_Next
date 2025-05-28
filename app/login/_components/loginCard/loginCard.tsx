@@ -47,10 +47,10 @@ export default function LoginCard() {
                 <p className={styles.p_0}>または、以下のサービスでログイン</p>
                 <div className={styles.div_2}>
                     <div className={styles.div_3}>
-                        <img src={'/images/logos/apple.png'} alt={'logoGoogle'} className={styles.img_0}/>
+                        <img src={'/images/logos/apple.png'} alt={'logoApple'} className={styles.img_0}/>
                     </div>3
-                    <div className={styles.div_3} onClick={() => {signIn('google')}}>
-                        <img src={'/images/logos/google.png'} alt={'logoApple'} className={styles.img_0}/>
+                    <div className={styles.div_3} onClick={() => {signIn('google', {callbackUrl: '/'})}}>
+                        <img src={'/images/logos/google.png'} alt={'logoGoogle'} className={styles.img_0}/>
                     </div>
                 </div>
             </div>

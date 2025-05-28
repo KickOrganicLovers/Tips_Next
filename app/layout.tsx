@@ -35,6 +35,7 @@ export default  function RootLayout({children}: { children: ReactNode }) {
             console.log('fuck')
             if(!!session){
                 setSession(session)
+                
                 router.push('/')
             }}
         )}, [])

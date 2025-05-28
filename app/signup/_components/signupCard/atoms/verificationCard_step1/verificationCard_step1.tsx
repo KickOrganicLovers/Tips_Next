@@ -40,7 +40,7 @@ export default function VerificationCard_Step1(props: props) {
                     <div className={styles.div_4}>
                         <img src={'/images/logos/google.png'} alt={'logoGoogle'} className={styles.img_0}
                              onClick={() => {
-                                 signIn('google')
+                                 signIn('google', {callbackUrl: '/'});
                              }}/>
                     </div>
                     <div className={styles.div_4}>
