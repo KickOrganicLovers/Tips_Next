@@ -12,6 +12,7 @@ interface props {
 export default function SearchBar(props: props) {
     const [searchQuery, setSearchQuery] = useState('');
     const [suggestions, setSuggestions] = useState<string[]>([])
+    const [isInputFocused, setIsInputFocused] = useState<boolean>(false)
     const [isTag, setIsTag] = useState(false)
     const router = useRouter();
     const className_0 = searchQuery === ''? classNames(styles.AiOutlineSearch) : classNames(styles.AiOutlineSearch, styles.active)
@@ -71,16 +72,20 @@ export default function SearchBar(props: props) {
     return (
         <div className={className_1}>
             <div className={styles.div_1}>
-                <input type={"text"} className={styles.input_0} placeholder={'記事を検索'} value={searchQuery}
-                       onChange={(e) => changeEventHandler(e)} onKeyDown={keyDownEventHandler}/>
+                <input type={"text"} className={styles.input_0} placeholder={'検索'} value={searchQuery}
+                       onChange={(e) => changeEventHandler(e)} onKeyDown={keyDownEventHandler}  onFocus={() => setIsInputFocused(true)} onBlur={() => {
+                    setTimeout(() => setIsInputFocused(false), 100)
+                }}/>
                 <AiOutlineSearch className={className_0} onClick={clickEventHandler_searchWithQuery}/>
             </div>
             <div className={styles.div_4}>
-                <div className={styles.div_2}>
-                    {suggestions.map((suggestion, i) => <div className={styles.div_3} key={i} onClick={() => {
-                        clickEventHandler_searchWithSuggestion(suggestion, isTag)
-                    }}>{isTag ? `# ${suggestion}` : suggestion}</div>)}
-                </div>
+                {isInputFocused ?
+                    <div className={styles.div_2}>
+                        {suggestions.map((suggestion, i) => <div className={styles.div_3} key={i} onClick={() => {
+                            clickEventHandler_searchWithSuggestion(suggestion, isTag)
+                        }}>{isTag ? `# ${suggestion}` : suggestion}</div>)}
+                    </div>
+                    : undefined}
             </div>
         </div>
     )

@@ -21,6 +21,7 @@ interface StoreConfig {
     postLikeForComment: (session: SessionContextValue, commentId: string, like?: LikeForCommentScheme, setArticle?: Dispatch<SetStateAction<ArticleScheme>>) => void;
     postFollowing: (session: SessionContextValue, authorId: string, follow?: FollowScheme, setUserProfile?: Dispatch<SetStateAction<UserProfileScheme>>) => void;
     appendWatchHistories: (session: SessionContextValue, articleId: string) => void;
+    applyArticleChanges: (session: SessionContextValue, updatedArticle: ArticleScheme) => void;
 }
 
 const initialStatus: UserProfileScheme = {
@@ -253,6 +254,10 @@ export const useUserProfileStore = create<StoreConfig>((set, get) => ({
             })
         }
     },
+
+    applyArticleChanges(session: SessionContextValue, updatedArticle: ArticleScheme ){
+
+    }
 }))
 
 
