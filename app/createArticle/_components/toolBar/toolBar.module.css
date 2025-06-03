@@ -1,43 +1,42 @@
 .div_0 {
     background-color: var(--bg-color-1);
+
     width: 10%;
     min-width: fit-content;
     height: 100%;
+
     transition: width 0.2s, height 0.2s;
+
     display: flex;
-    flex-shrink: 0;
     flex-direction: column;
     align-items: center;
-    padding: 20px 20px;
+    padding: 20px;
     gap: 20px;
-    box-sizing: border-box;
     overflow-y: scroll;
+    overflow-x: hidden;
+
+    box-sizing: border-box;
+
     @media screen and (max-width: 1024px) {
         padding: 20px 1.25vw;
     }
 
     @media screen and (max-width: 768px) {
-        padding: 10px 20px;
-        gap: 10px;
         width: 100%;
-        min-height: fit-content;
         height: 8%;
+        min-height: fit-content;
+        min-width: 0;
         display: flex;
         flex-direction: row;
+        padding: 10px 20px;
+        gap: 10px;
+        overflow-y: hidden;
         overflow-x: scroll;
     }
 }
 
-.div_0::-webkit-scrollbar {
-    display: none;
-    background-color: black;
-}
-
-.div_0::-webkit-scrollbar-thumb {
-    background-color: darkgray;
-}
-
 .div_0.both {
+
 }
 
 .div_0.toolBar {
@@ -53,9 +52,31 @@
     }
 }
 
+.div_0.both::-webkit-scrollbar {
+    @media screen and (max-width: 768px) {
+        display: block;
+        background-color: var(--bg-color-1);
+        height: 10px;
+    }
+}
+
+.div_0::-webkit-scrollbar-thumb {
+    background-color: darkgray;
+    border-radius: 10px;
+}
+
+
+.div_1 {
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .div_0.toolBar .div_1 {
     justify-content: flex-end;
     box-sizing: border-box;
+    width: 100%;
 
     @media screen and (max-width: 768px) {
         width: fit-content;
@@ -63,46 +84,19 @@
     }
 }
 
-
-.div_1 {
-    width: 100%;
-    height: fit-content;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.MdArrowIos {
-    font-size: 2rem;
-    color: var(--text-color-2);
-
-    @media screen and (max-width: 768px) {
-        transform: rotate(90deg);
-    }
-}
-
-.div_0.toolBar .MdArrowIos {
-
-    @media screen and (max-width: 768px) {
-        position: absolute;
-        left: 20px;
-        top: 0;
-        bottom: 0;
-        margin: auto;
-    }
-}
-
 .div_2 {
     width: 100%;
+    height: auto;
     display: flex;
     flex-direction: column;
     gap: 10px;
 
     @media screen and (max-width: 768px) {
+        width: fit-content;
         display: flex;
         flex-direction: row;
-        justify-content: center;
-        align-items: center;
+
+        height: fit-content;
     }
 }
 
@@ -119,33 +113,29 @@
 }
 
 
-.div_0.toolBar .div_3 {
-
-}
-
-.div_0.toolBar .div_4 {
-    display: flex;
-    flex-direction: row;
-    width: fit-content;
-    gap: 25px;
-}
-
-.div_0.toolBar .h2_0 {
-    display: inherit;
-}
-
 .div_3 {
     width: 100%;
     display: flex;
     flex-direction: column;
+    flex-wrap: nowrap;
+
+
+    @media screen and (max-width: 768px) {
+        width: fit-content;
+    }
 }
 
-.div_4 {
+.div_0.toolBar .div_3 {
     width: 100%;
-    height: fit-content;
+}
+
+
+
+
+
+.div_4 {
     display: grid;
-    place-items: start;
-    grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(55px, 1fr));
     gap: 10px;
 
     @media screen and (max-width: 768px) {
@@ -154,15 +144,16 @@
     }
 }
 
-.h2_0 {
-    width: 100%;
-    font-size: 1rem;
-    border-bottom: 2px solid var(--border-color-1);
-    padding: 10px 5px;
-    box-sizing: border-box;
-    @media screen and (max-width: 1024px) {
-        display: none;
-    }
+.div_0.both .div_4 {
+}
+
+
+
+.div_0.toolBar .div_4 {
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    gap: 25px;
 }
 
 .div_5 {
@@ -174,6 +165,7 @@
     @media screen and (max-width: 768px) {
         display: flex;
         flex-direction: row;
+        height: fit-content;
     }
 }
 
@@ -199,5 +191,44 @@
     @media screen and (max-width: 768px) {
         display: flex;
         flex-direction: column;
+    }
+}
+
+
+.h2_0 {
+    width: 100%;
+    font-size: 1rem;
+    border-bottom: 2px solid var(--border-color-1);
+    padding: 10px 5px;
+    box-sizing: border-box;
+    @media screen and (max-width: 1024px) {
+        display: none;
+    }
+}
+
+.div_0.toolBar .h2_0 {
+    display: inherit;
+}
+
+
+
+
+.MdArrowIos {
+    font-size: 2rem;
+    color: var(--text-color-2);
+
+    @media screen and (max-width: 768px) {
+        transform: rotate(90deg);
+    }
+}
+
+.div_0.toolBar .MdArrowIos {
+
+    @media screen and (max-width: 768px) {
+        position: absolute;
+        left: 20px;
+        top: 0;
+        bottom: 0;
+        margin: auto;
     }
 }

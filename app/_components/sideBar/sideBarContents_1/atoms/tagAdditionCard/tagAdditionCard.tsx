@@ -2,11 +2,12 @@ import styles from './tagAdditionCard.module.css'
 import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import Tag from "@/app/_components/sideBar/sideBarContents_1/atoms/tagAdditionCard/atoms/tag";
 import {getDataFromServerWithJson} from "@/lib/lib-client/fetch";
-import {ArticleSchemeWithPrefix} from "@/types";
+import {ArticleEditorStatusScheme, ArticleSchemeWithPrefix} from "@/types";
 
 interface props {
     tags: string[]
     setArticleOnEdit: Dispatch<SetStateAction<ArticleSchemeWithPrefix>>
+    articleEditorStatus: ArticleEditorStatusScheme
 }
 
 export default function TagAdditionCard(props: props) {
@@ -45,6 +46,11 @@ export default function TagAdditionCard(props: props) {
             }
         })
     }, [inputValue]);
+
+    useEffect(() => {
+        setInputValue('')
+    }, [props.articleEditorStatus.controls.cancel, props.articleEditorStatus.controls.upload]);
+
 
 
     return (

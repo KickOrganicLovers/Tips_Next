@@ -17,6 +17,7 @@
 }
 
 .p_0 {
+    text-wrap: nowrap;
     margin: 0;
     padding: 0;
     color: gray;
@@ -24,6 +25,7 @@
 }
 
 .p_1 {
+    text-wrap: nowrap;
     margin: 0;
     padding: 0;
     color: gray;

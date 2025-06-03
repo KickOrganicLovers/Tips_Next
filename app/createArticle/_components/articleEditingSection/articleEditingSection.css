@@ -35,3 +35,14 @@
     display: block;
     margin: auto;
 }
+
+.tiptap pre {
+    background-color: var(--bg-color-2);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.tiptap mark {
+    color: deepskyblue;
+    background: none;
+}

@@ -111,72 +111,76 @@ export interface WatchHistoryScheme{
 }
 
 export interface ArticleEditorStatusScheme {
-    bold: {
-        isActive: boolean
-        variable: boolean
+    decorations : {
+        bold: {
+            isActive: boolean
+            variable: boolean
+        }
+        underline: {
+            isActive: boolean
+            variable: boolean
+        }
+        italic: {
+            isActive: boolean
+            variable: boolean
+        }
+        strike: {
+            isActive: boolean
+            variable: boolean
+        }
+        heading_1: {
+            isActive: boolean
+            variable: boolean
+        }
+        heading_2: {
+            isActive: boolean
+            variable: boolean
+        }
+        highlight: {
+            isActive: boolean
+            variable: boolean
+        }
+        codeBlock: {
+            isActive: boolean
+            variable: boolean
+        }
+        bulletList: {
+            isActive: boolean
+            variable: boolean
+        }
+        orderedList: {
+            isActive: boolean
+            variable: boolean
+        },
+        textAlign_left: {
+            isActive: boolean
+            variable: boolean
+        }
+        textAlign_center: {
+            isActive: boolean
+            variable: boolean
+        }
+        textAlign_right: {
+            isActive: boolean
+            variable: boolean
+        }
     }
-    underline: {
-        isActive: boolean
-        variable: boolean
-    }
-    italic: {
-        isActive: boolean
-        variable: boolean
-    }
-    strike: {
-        isActive: boolean
-        variable: boolean
-    }
-    heading_1: {
-        isActive: boolean
-        variable: boolean
-    }
-    heading_2: {
-        isActive: boolean
-        variable: boolean
-    }
-    highlight: {
-        isActive: boolean
-        variable: boolean
-    }
-    codeBlock: {
-        isActive: boolean
-        variable: boolean
-    }
-    bulletList: {
-        isActive: boolean
-        variable: boolean
-    }
-    orderedList: {
-        isActive: boolean
-        variable: boolean
-    },
-    textAlign_left: {
-        isActive: boolean
-        variable: boolean
-    }
-    textAlign_center: {
-        isActive: boolean
-        variable: boolean
-    }
-    textAlign_right: {
-        isActive: boolean
-        variable: boolean
-    }
-    image: {
-        isActive?: boolean
-        variable: boolean
-    }
-    settings: {
-        isActive?: boolean
-        variable: boolean
-    }
-    upload: {
-        isActive?: boolean
-        variable: boolean
-    }
-    cancel: {
-        isActive?: boolean
-        variable: boolean
+    controls: {
+        image: {
+            isActive?: boolean
+            variable: boolean
+        }
+        settings: {
+            isActive?: boolean
+            variable: boolean
+        }
+        upload: {
+            isActive?: boolean
+            variable: boolean
+        }
+        cancel: {
+            isActive?: boolean
+            variable: boolean
+        }
     }
 }

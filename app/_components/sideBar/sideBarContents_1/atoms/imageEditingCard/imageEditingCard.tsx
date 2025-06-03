@@ -2,11 +2,12 @@ import Cropper, {Area, CropperProps, Point} from "react-easy-crop";
 import React, {Dispatch, SetStateAction, useCallback, useEffect, useRef, useState} from "react";
 import styles from './imageEditingCard.module.css'
 import {AiOutlineCheck, AiOutlineClose} from "react-icons/ai";
-import {ArticleSchemeWithPrefix} from "@/types";
+import {ArticleEditorStatusScheme, ArticleSchemeWithPrefix} from "@/types";
 
 interface props {
     thumbnailImageUrl?: string,
     setArticleOnEdit: Dispatch<SetStateAction<ArticleSchemeWithPrefix>>
+    articleEditorStatus: ArticleEditorStatusScheme
 }
 
 export default function ImageEditingCard(props: props) {
@@ -224,6 +225,9 @@ export default function ImageEditingCard(props: props) {
         }
     }, [props.thumbnailImageUrl]);
 
+    useEffect(() => {
+        setImage('/images/noImage.png')
+    }, [props.articleEditorStatus.controls.cancel, props.articleEditorStatus.controls.upload]);
 
     return (
         <div className={styles.div_0}>

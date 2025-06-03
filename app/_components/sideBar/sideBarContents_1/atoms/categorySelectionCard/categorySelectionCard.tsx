@@ -1,13 +1,15 @@
 import {Dispatch, SetStateAction, useEffect, useState} from "react";
 import styles from './categorySelectionCard.module.css'
-import {ArticleSchemeWithPrefix, CategoryScheme} from "@/types";
+import {ArticleEditorStatusScheme, ArticleSchemeWithPrefix, CategoryScheme} from "@/types";
 import {MdArrowForwardIos} from "react-icons/md";
 import {AiOutlinePlus} from "react-icons/ai";
 import {useCategoriesStore} from "@/lib/lib-client/stores/categoriesStore";
+import {articleEditorStatusAtom} from "@/lib/lib-client/atoms";
 
 interface props{
     category?: CategoryScheme,
     setArticleOnEdit: Dispatch<SetStateAction<ArticleSchemeWithPrefix>>
+    articleEditorStatus: ArticleEditorStatusScheme
 }
 export default function CategorySelectionCard(props: props) {
     const categories = useCategoriesStore(state => state.categories);
@@ -17,7 +19,12 @@ export default function CategorySelectionCard(props: props) {
 
     useEffect(() => {
         if (!!props.category) setCategoryName(props.category?.categoryName);
-    }, [props]);
+    }, [props.category]);
+
+    useEffect(() => {
+        setParentCategoryIdOnFocus('')
+        setCategoryName('');
+    }, [props.articleEditorStatus.controls.upload, props.articleEditorStatus.controls.cancel]);
 
     return (
         <div className={styles.div_0}>

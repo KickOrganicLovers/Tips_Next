@@ -64,156 +64,186 @@ export default function ArticleEditingSection(props: props) {
         if (!hasMounted.current) {
             editor?.chain().focus().toggleBold().run()
         }
-    }, [props.articleEditorStatus.bold.variable])
+    }, [props.articleEditorStatus.decorations.bold.variable])
 
     useEffect(() => {
         if (!hasMounted.current) {
             editor?.chain().focus().toggleUnderline().run()
         }
-    }, [props.articleEditorStatus.underline.variable])
+    }, [props.articleEditorStatus.decorations.underline.variable])
 
     useEffect(() => {
         if (!hasMounted.current) {
             editor?.chain().focus().toggleItalic().run()
         }
-    }, [props.articleEditorStatus.italic.variable])
+    }, [props.articleEditorStatus.decorations.italic.variable])
 
     useEffect(() => {
         if (!hasMounted.current) {
             editor?.chain().focus().toggleStrike().run()
         }
-    }, [props.articleEditorStatus.strike.variable])
+    }, [props.articleEditorStatus.decorations.strike.variable])
 
     useEffect(() => {
         if (!hasMounted.current) {
             editor?.chain().focus().toggleHeading({level: 2}).run()
         }
-    }, [props.articleEditorStatus.heading_1.variable])
+    }, [props.articleEditorStatus.decorations.heading_1.variable])
 
     useEffect(() => {
         if (!hasMounted.current) {
             editor?.chain().focus().toggleHeading({level: 3}).run()
         }
 
-    }, [props.articleEditorStatus.heading_2.variable])
+    }, [props.articleEditorStatus.decorations.heading_2.variable])
 
     useEffect(() => {
         if (!hasMounted.current) {
             editor?.chain().focus().toggleHighlight().run()
         }
-    }, [props.articleEditorStatus.highlight.variable])
+    }, [props.articleEditorStatus.decorations.highlight.variable])
 
     useEffect(() => {
         if (!hasMounted.current) {
             editor?.chain().focus().toggleCodeBlock().run()
         }
-    }, [props.articleEditorStatus.codeBlock.variable])
+    }, [props.articleEditorStatus.decorations.codeBlock.variable])
 
     useEffect(() => {
         if (!hasMounted.current) {
             editor?.chain().focus().toggleBulletList().run()
         }
-    }, [props.articleEditorStatus.bulletList.variable])
+    }, [props.articleEditorStatus.decorations.bulletList.variable])
 
     useEffect(() => {
         if (!hasMounted.current) {
             editor?.chain().focus().toggleOrderedList().run()
         }
-    }, [props.articleEditorStatus.orderedList.variable])
+    }, [props.articleEditorStatus.decorations.orderedList.variable])
 
     useEffect(() => {
         if (!hasMounted.current) {
             editor?.chain().focus().setTextAlign('left').run()
         }
-    }, [props.articleEditorStatus.textAlign_left.variable])
+    }, [props.articleEditorStatus.decorations.textAlign_left.variable])
 
     useEffect(() => {
         if (!hasMounted.current) {
             editor?.chain().focus().setTextAlign('center').run()
         }
-    }, [props.articleEditorStatus.textAlign_center.variable])
+    }, [props.articleEditorStatus.decorations.textAlign_center.variable])
 
     useEffect(() => {
         if (!hasMounted.current) {
             editor?.chain().focus().setTextAlign('right').run()
         }
-    }, [props.articleEditorStatus.textAlign_right.variable])
+    }, [props.articleEditorStatus.decorations.textAlign_right.variable])
 
 
     useEffect(() => {
         if (!hasMounted.current) {
             inputImageRef.current?.click()
         }
-    }, [props.articleEditorStatus.image.variable]);
+    }, [props.articleEditorStatus.controls.image.variable]);
 
 
     useEffect(() => {
         props.setArticleEditorStatus((prevState) => ({
             ...prevState,
-            bold: {...prevState.bold, isActive: editor?.isActive('bold') as boolean}
+            decorations: {
+                ...prevState.decorations,
+                bold: {...prevState.decorations.bold, isActive: editor?.isActive('bold') as boolean}
+            }
         }))
     }, [editor?.isActive('bold')])
 
     useEffect(() => {
         props.setArticleEditorStatus((prevState) => ({
             ...prevState,
-            underline: {...prevState.underline, isActive: editor?.isActive('underline') as boolean}
+            decorations: {
+                ...prevState.decorations,
+                underline: {...prevState.decorations.underline, isActive: editor?.isActive('underline') as boolean}
+            }
         }))
     }, [editor?.isActive('underline')])
 
     useEffect(() => {
         props.setArticleEditorStatus((prevState) => ({
             ...prevState,
-            italic: {...prevState.italic, isActive: editor?.isActive('italic') as boolean}
+            decorations: {
+                ...prevState.decorations,
+                italic: {...prevState.decorations.italic, isActive: editor?.isActive('italic') as boolean}
+            }
         }))
     }, [editor?.isActive('italic')])
 
     useEffect(() => {
         props.setArticleEditorStatus((prevState) => ({
             ...prevState,
-            strike: {...prevState.strike, isActive: editor?.isActive('strike') as boolean}
+            decorations: {
+                ...prevState.decorations,
+                strike: {...prevState.decorations.strike, isActive: editor?.isActive('strike') as boolean}
+            }
         }))
     }, [editor?.isActive('strike')])
 
     useEffect(() => {
         props.setArticleEditorStatus((prevState) => ({
             ...prevState,
-            heading_1: {...prevState.heading_1, isActive: editor?.isActive('heading', {level: 2}) as boolean}
+            decorations: {
+                ...prevState.decorations,
+                heading_1: {...prevState.decorations.heading_1, isActive: editor?.isActive('heading', {level: 2}) as boolean}
+            }
         }))
     }, [editor?.isActive('heading', {level: 2})])
 
     useEffect(() => {
         props.setArticleEditorStatus((prevState) => ({
             ...prevState,
-            heading_2: {...prevState.heading_2, isActive: editor?.isActive('heading', {level: 3}) as boolean}
+            decorations: {
+                ...prevState.decorations,
+                heading_2: {...prevState.decorations.heading_2, isActive: editor?.isActive('heading', {level: 3}) as boolean}
+            }
         }))
     }, [editor?.isActive('heading', {level: 3})])
 
     useEffect(() => {
         props.setArticleEditorStatus((prevState) => ({
             ...prevState,
-            highlight: {...prevState.highlight, isActive: editor?.isActive('highlight') as boolean}
+            decorations: {
+                ...prevState.decorations,
+                highlight: {...prevState.decorations.highlight, isActive: editor?.isActive('highlight') as boolean}
+            }
         }))
     }, [editor?.isActive('highlight')])
 
     useEffect(() => {
         props.setArticleEditorStatus((prevState) => ({
             ...prevState,
-            codeBlock: {...prevState.codeBlock, isActive: editor?.isActive('codeBlock') as boolean}
+            decorations: {
+                ...prevState.decorations,
+                codeBlock: {...prevState.decorations.codeBlock, isActive: editor?.isActive('codeBlock') as boolean}
+            }
         }))
     }, [editor?.isActive('codeBlock')])
 
     useEffect(() => {
         props.setArticleEditorStatus((prevState) => ({
             ...prevState,
-            bulletList: {...prevState.bulletList, isActive: editor?.isActive('bulletList') as boolean}
+            decorations: {
+                ...prevState.decorations,
+                bulletList: {...prevState.decorations.bulletList, isActive: editor?.isActive('bulletList') as boolean}
+            }
         }))
     }, [editor?.isActive('bulletList')])
 
     useEffect(() => {
         props.setArticleEditorStatus((prevState) => ({
             ...prevState,
-            orderedList: {...prevState.orderedList, isActive: editor?.isActive('orderedList') as boolean}
+            decorations: {
+                ...prevState.decorations,
+                orderedList: {...prevState.decorations.orderedList, isActive: editor?.isActive('orderedList') as boolean}
+            }
         }))
     }, [editor?.isActive('orderedList')])
 
@@ -221,16 +251,22 @@ export default function ArticleEditingSection(props: props) {
     useEffect(() => {
         props.setArticleEditorStatus((prevState) => ({
             ...prevState,
-            textAlign_left: {...prevState.textAlign_left, isActive: editor?.isActive({textAlign: 'left'}) as boolean}
+            decorations: {
+                ...prevState.decorations,
+                textAlign_left: {...prevState.decorations.textAlign_left, isActive: editor?.isActive({textAlign: 'left'}) as boolean}
+            }
         }))
     }, [editor?.isActive({textAlign: 'left'})])
 
     useEffect(() => {
         props.setArticleEditorStatus((prevState) => ({
             ...prevState,
-            textAlign_center: {
-                ...prevState.textAlign_center,
-                isActive: editor?.isActive({textAlign: 'center'}) as boolean
+            decorations: {
+                ...prevState.decorations,
+                textAlign_center: {
+                    ...prevState.decorations.textAlign_center,
+                    isActive: editor?.isActive({textAlign: 'center'}) as boolean
+                }
             }
         }))
     }, [editor?.isActive({textAlign: 'center'})])
@@ -238,9 +274,13 @@ export default function ArticleEditingSection(props: props) {
     useEffect(() => {
         props.setArticleEditorStatus((prevState) => ({
             ...prevState,
-            textAlign_right: {...prevState.textAlign_right, isActive: editor?.isActive({textAlign: 'right'}) as boolean}
+            decorations: {
+                ...prevState.decorations,
+                textAlign_right: {...prevState.decorations.textAlign_right, isActive: editor?.isActive({textAlign: 'right'}) as boolean}
+            }
         }))
     }, [editor?.isActive({textAlign: 'right'})])
+
 
 
     useEffect(() => {

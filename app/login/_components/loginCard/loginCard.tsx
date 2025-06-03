@@ -30,7 +30,7 @@ export default function LoginCard() {
 
     return (
         <div className={className}>
-            <img src='/images/PageIcon.svg' alt='PageIcon' className={styles.img}/>
+            <img src='/images/logoTitle.png' alt='PageIcon' className={styles.img}/>
             <h1 className={styles.h1}>Tipsにログイン</h1>
             <div className={styles.div_1}>
                 <input className={styles.input} type={`email`} name={'email'} value={email}
@@ -48,7 +48,7 @@ export default function LoginCard() {
                 <div className={styles.div_2}>
                     <div className={styles.div_3}>
                         <img src={'/images/logos/apple.png'} alt={'logoApple'} className={styles.img_0}/>
-                    </div>3
+                    </div>
                     <div className={styles.div_3} onClick={() => {signIn('google', {callbackUrl: '/'})}}>
                         <img src={'/images/logos/google.png'} alt={'logoGoogle'} className={styles.img_0}/>
                     </div>

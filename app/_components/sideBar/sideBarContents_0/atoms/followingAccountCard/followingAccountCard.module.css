@@ -59,9 +59,11 @@
 
 
 .p_0{
+    margin: 0;
     width: 100%;
-    margin: 1vh 0.25vw 1vh 0.25vw;
-    font-size: 1.5vh;
+    padding: 5px;
+    box-sizing: border-box;
+    font-size: 1rem;
 }
 
 

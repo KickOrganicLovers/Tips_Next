@@ -1,5 +1,5 @@
 import {
-    ArticleScheme, CommentScheme,
+    ArticleScheme, ArticleSchemeWithPrefix, CommentScheme,
     FollowScheme,
     LikeForArticleScheme, LikeForCommentScheme,
     LoginStatusScheme,
@@ -21,7 +21,7 @@ interface StoreConfig {
     postLikeForComment: (session: SessionContextValue, commentId: string, like?: LikeForCommentScheme, setArticle?: Dispatch<SetStateAction<ArticleScheme>>) => void;
     postFollowing: (session: SessionContextValue, authorId: string, follow?: FollowScheme, setUserProfile?: Dispatch<SetStateAction<UserProfileScheme>>) => void;
     appendWatchHistories: (session: SessionContextValue, articleId: string) => void;
-    applyArticleChanges: (session: SessionContextValue, updatedArticle: ArticleScheme) => void;
+    uploadArticle: (session: SessionContextValue, article: ArticleSchemeWithPrefix) => void;
 }
 
 const initialStatus: UserProfileScheme = {
@@ -255,8 +255,30 @@ export const useUserProfileStore = create<StoreConfig>((set, get) => ({
         }
     },
 
-    applyArticleChanges(session: SessionContextValue, updatedArticle: ArticleScheme ){
-
+    uploadArticle(session: SessionContextValue, article: ArticleSchemeWithPrefix ){
+        if (session.status === 'authenticated') {
+            postDataToServerWithJson<{article: ArticleScheme, isNew: boolean, error: string}>('/api/uploadArticle', {article: {...article, authorId: session.data.user.id}}).then(json => {
+                if(!json.error) {
+                    if(!json.isNew){
+                        set((state) => ({
+                            userProfile: {
+                                ...state.userProfile,
+                                watchHistories: state.userProfile.watchHistories.map((watchHistory) => {
+                                    if(!!watchHistory.article && watchHistory.articleId === json.article.id){
+                                        Object.assign(watchHistory.article, json.article)
+                                        return watchHistory
+                                    }else {
+                                        return watchHistory
+                                    }
+                                })
+                            }
+                        }))
+                    }
+                }else {
+                    console.log(json.error)
+                }
+            })
+        }
     }
 }))
 

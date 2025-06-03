@@ -80,7 +80,7 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    gap: 0.4vw;
+    gap: 10px;
     margin: 1vh 0 1vh 0;
     color: var(--text-color-2);
     font-size: 2.2cqw;

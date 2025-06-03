@@ -13,8 +13,7 @@ export async function POST(req: NextRequest) {
     const index = meili.index('articles')
 
     try {
-        await prisma.$transaction(async (tx) => {
-
+        const result = await prisma.$transaction(async (tx) => {
 
             const tagsPromise = body.article.tags.map(async (tag: string) => {
                 const existingTag = await tx.tag.findUnique({
@@ -57,19 +56,11 @@ export async function POST(req: NextRequest) {
                     }
                 })
 
-                const document = {
-                    id: article.id,
-                    title: article.title,
-                    contents: article.contents,
-                    category: article.category.categoryName,
-                    tags: article.tags.map((tag) => tag.tagName),
-                    likes: article.likes.length,
-                    watchHistories: article.watchHistories.length
-                }
-
-                await index.addDocuments([document])
+                return {article, isNew: true}
 
             }else {
+
+
                 const replacedContents = await replaceHtml(body.article.contents, body.article.id)
                 const thumbnailImageUrl = await uploadThumbnail(body.article.id, body.article.thumbnailImageAsBase64 as string)
                 await deleteUnusedImageTags(replacedContents, body.article.previousContents)
@@ -96,23 +87,27 @@ export async function POST(req: NextRequest) {
                     }
                 })
 
-                const document = {
-                    id: article.id,
-                    title: article.title,
-                    contents: article.contents,
-                    category: article.category.categoryName,
-                    tags: article.tags.map((tag) => tag.tagName),
-                    likes: article.likes.length,
-                    watchHistories: article.watchHistories.length
-                }
-                await index.addDocuments([document])
+                return {article, isNew: false}
             }
         })
 
-        return NextResponse.json({isCreated: true, error: undefined}, {status: 200})
+
+        const document = {
+            id: result.article.id,
+            title: result.article.title,
+            contents: result.article.contents,
+            category: result.article.category.categoryName,
+            tags: result.article.tags.map((tag) => tag.tagName),
+            likes: result.article.likes.length,
+            watchHistories: result.article.watchHistories.length
+        }
+
+        await index.addDocuments([document])
+
+        return NextResponse.json({article: result.article, isNew: result.isNew, error: undefined}, {status: 200})
     } catch (error) {
         console.log('error' + error)
-        return NextResponse.json({isCreated: false, error: error}, {status: 400})
+        return NextResponse.json({article: null, isNew: null, error: error}, {status: 400})
     }
 }
 

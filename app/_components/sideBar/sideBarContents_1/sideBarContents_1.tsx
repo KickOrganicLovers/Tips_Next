@@ -4,12 +4,15 @@ import CategorySelectionCard
     from "@/app/_components/sideBar/sideBarContents_1/atoms/categorySelectionCard/categorySelectionCard";
 import TagAdditionCard from "@/app/_components/sideBar/sideBarContents_1/atoms/tagAdditionCard/tagAdditionCard";
 import {MdArrowForwardIos} from "react-icons/md";
-import {articleOnEditAtom, sideBarStatusAtom} from "@/lib/lib-client/atoms";
+import {articleEditorStatusAtom, articleOnEditAtom, sideBarStatusAtom} from "@/lib/lib-client/atoms";
 import {useAtom} from "jotai";
 
 export default function SideBarContents_1() {
     const [sideBarStatus, setSideBarStatus] = useAtom(sideBarStatusAtom);
     const [articleOnEdit, setArticleOnEdit] = useAtom(articleOnEditAtom)
+    const [articleEditorStatus, setArticleEditorStatus] = useAtom(articleEditorStatusAtom)
+
+
     return (
         <div className={styles.div_0}>
             <div className={styles.div_1}>
@@ -21,15 +24,15 @@ export default function SideBarContents_1() {
             <div className={styles.div_2}>
                 <h2 className={styles.h2_0}>サムネイル画像</h2>
                 <ImageEditingCard thumbnailImageUrl={articleOnEdit.thumbnailImageUrl}
-                                  setArticleOnEdit={setArticleOnEdit}/>
+                                  setArticleOnEdit={setArticleOnEdit} articleEditorStatus={articleEditorStatus}/>
             </div>
             <div className={styles.div_2}>
                 <h2 className={styles.h2_0}>タグ</h2>
-                <TagAdditionCard tags={articleOnEdit.tags} setArticleOnEdit={setArticleOnEdit}/>
+                <TagAdditionCard tags={articleOnEdit.tags} setArticleOnEdit={setArticleOnEdit} articleEditorStatus={articleEditorStatus}/>
             </div>
             <div className={styles.div_2}>
                 <h2 className={styles.h2_0}>カテゴリー</h2>
-                <CategorySelectionCard category={articleOnEdit.category} setArticleOnEdit={setArticleOnEdit}/>
+                <CategorySelectionCard category={articleOnEdit.category} setArticleOnEdit={setArticleOnEdit} articleEditorStatus={articleEditorStatus}/>
             </div>
         </div>
     )

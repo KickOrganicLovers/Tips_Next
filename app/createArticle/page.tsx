@@ -5,7 +5,7 @@ import styles from './createArticle.module.css'
 import {useEffect, useRef, useState} from "react";
 import {useRouter} from "next/navigation";
 import {postDataToServerWithJson} from "@/lib/lib-client/fetch";
-import {ArticleEditorStatusScheme, ArticleScheme} from "@/types";
+import {ArticleEditorStatusScheme, ArticleScheme, ArticleSchemeWithPrefix} from "@/types";
 import ErrorsCard from "@/app/createArticle/_components/errorsCard/errorsCard";
 import ToolBar from "@/app/createArticle/_components/toolBar/toolBar";
 import {useAtom} from "jotai";
@@ -16,7 +16,7 @@ import {useSession} from "next-auth/react";
 
 type editorMode = 'toolBar' | 'both'
 
-const initialArticleEditorStatus: ArticleEditorStatusScheme = {
+const initialArticleEditorDecorations = {
     bold: {
         isActive: false,
         variable: false
@@ -69,39 +69,33 @@ const initialArticleEditorStatus: ArticleEditorStatusScheme = {
         isActive: false,
         variable: false
     },
-    image: {
-        variable: false,
-    },
-    settings: {
-        variable: false,
-    },
-    upload: {
-        variable: false
-    },
-    cancel: {
-        variable: false
-    }
 }
 
+const initialArticleOnEdit: ArticleSchemeWithPrefix = {
+    title: '',
+    thumbnailImageAsBase64: '',
+    thumbnailImageUrl: '',
+    contents: '',
+    tags: [],
+    categoryId: '',
+    authorId: ''
+}
+
+
 export default function Page() {
-    const userProfile = useUserProfileStore(state => state.userProfile)
     const applyWhereIam = useWhereIamStore(state => state.applyWhereIam)
     const [articleOnEdit, setArticleOnEdit] = useAtom(articleOnEditAtom)
     const [articleEditorStatus, setArticleEditorStatus] = useAtom(articleEditorStatusAtom)
+    const [previousArticle, setPreviousArticle] = useState<ArticleSchemeWithPrefix>()
+    const [hasMounted, setHasMounted] = useState(true)
     const session = useSession()
+    const uploadArticle = useUserProfileStore(state => state.uploadArticle)
 
-    const hasMounted = useRef(true);
     const router = useRouter();
 
     const [editorMode, setEditorMode] = useState<editorMode>('both')
     const [errors, setErrors] = useState<string[]>([]);
 
-    const postArticleDataToServer = async () => {
-        return await postDataToServerWithJson<{
-            isCreated: boolean,
-            error: string
-        }>('api/uploadArticle', {article: articleOnEdit});
-    }
 
     const checkErrors = () => {
         const errors: string[] = [];
@@ -111,7 +105,7 @@ export default function Page() {
         if (!articleOnEdit.contents) {
             errors.push('記事が空白です。')
         }
-        if (!articleOnEdit.thumbnailImageAsBase64) {
+        if (!articleOnEdit.thumbnailImageAsBase64 && !articleOnEdit.thumbnailImageUrl) {
             errors.push('サムネイル画像を選択してください。')
         }
         if (!articleOnEdit.categoryId) {
@@ -125,9 +119,8 @@ export default function Page() {
 
     useEffect(() => {
         if (session.status ==='authenticated') {
-            setArticleEditorStatus(initialArticleEditorStatus)
             applyWhereIam('createArticle')
-            if (hasMounted.current) {
+            if (hasMounted) {
                 const articleToEditAsString = sessionStorage.getItem('articleToEdit');
                 if (articleToEditAsString) {
                     const articleToEdit: ArticleScheme = JSON.parse(articleToEditAsString)
@@ -143,6 +136,18 @@ export default function Page() {
                         previousContents: articleToEdit.contents,
                         authorId: articleToEdit.authorId,
                     })
+                    setPreviousArticle({
+                        id: articleToEdit.id,
+                        title: articleToEdit.title,
+                        contents: articleToEdit.contents,
+                        thumbnailImageUrl: articleToEdit.thumbnailImageUrl,
+                        tags: articleToEdit.tags.map(tag => tag.tagName),
+                        categoryId: articleToEdit.categoryId,
+                        category: articleToEdit.category,
+                        previousContents: articleToEdit.contents,
+                        authorId: articleToEdit.authorId,
+                    })
+
                     sessionStorage.removeItem('articleToEdit');
                 }
             }
@@ -153,52 +158,35 @@ export default function Page() {
 
     //toolbarのuploadボタンが押されたときに発火する
     useEffect(() => {
-        if (session.status ==='authenticated') {
-            setArticleOnEdit((prevState) => ({
-                ...prevState,
-                authorId: userProfile.userId
-            }))
-            if (!hasMounted.current) {
-                if (checkErrors().length === 0) {
-                    postArticleDataToServer().then((json) => {
-                        console.log(json.error);
-                        if (!json.error) {
-                            setArticleOnEdit({
-                                title: '',
-                                thumbnailImageAsBase64: '',
-                                contents: '',
-                                tags: [],
-                                categoryId: '',
-                                authorId: ''
-                            })
-                            router.push('/')
-                        }
-                    })
-                } else {
-                    setErrors(checkErrors())
-                }
+        if (!hasMounted && session.status ==='authenticated') {
+            if (checkErrors().length === 0) {
+                uploadArticle(session, articleOnEdit)
+                router.push('/')
+                setArticleEditorStatus((prevState) => ({
+                    ...prevState,
+                    decorations: initialArticleEditorDecorations
+                }))
+                setArticleOnEdit(initialArticleOnEdit)
+            } else {
+                setErrors(checkErrors())
             }
+        }else {
+            setHasMounted(false)
         }
-    }, [articleEditorStatus.upload.variable]);
+    }, [articleEditorStatus.controls.upload.variable]);
 
     useEffect(() => {
-        if (!hasMounted.current) {
-            setArticleOnEdit({
-                title: '',
-                thumbnailImageAsBase64: '',
-                contents: '',
-                tags: [],
-                categoryId: '',
-                authorId: ''
-            })
+        if (!hasMounted) {
             router.push('/')
+            setArticleEditorStatus((prevState) => ({
+                ...prevState,
+                decorations: initialArticleEditorDecorations
+            }))
+            setArticleOnEdit(initialArticleOnEdit)
         }
-    }, [articleEditorStatus.cancel.variable]);
+    }, [articleEditorStatus.controls.cancel.variable]);
 
 
-    useEffect(() => {
-        hasMounted.current = false;
-    }, []);
 
 
     return (
@@ -208,7 +196,8 @@ export default function Page() {
             <ArticleEditingSection title={articleOnEdit.title} contents={articleOnEdit.contents} editorMode={editorMode}
                                    setEditorMode={setEditorMode} setArticleOnEdit={setArticleOnEdit}
                                    articleEditorStatus={articleEditorStatus}
-                                   setArticleEditorStatus={setArticleEditorStatus}/>
+                                   setArticleEditorStatus={setArticleEditorStatus}
+            />
 
             {(() => {
                 if(!!errors && errors.length > 0){

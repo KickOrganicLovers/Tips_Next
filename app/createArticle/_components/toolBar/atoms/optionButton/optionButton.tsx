@@ -45,7 +45,10 @@ export default function OptionButton(props: props) {
                                 <div className={styles.div_2}><IoImage className={styles.icon} onClick={() => {
                                     props.setArticleEditorStatus((prevState) => ({
                                         ...prevState,
-                                        image: {variable: !prevState.image.variable}
+                                        controls: {
+                                            ...prevState.controls,
+                                            image: {variable: !prevState.controls.image.variable}
+                                        }
                                     }))
                                 }}/></div>
                             )
@@ -54,7 +57,10 @@ export default function OptionButton(props: props) {
                                 <div className={styles.div_1} onClick={() => {
                                     props.setArticleEditorStatus((prevState) => ({
                                         ...prevState,
-                                        image: {variable: !prevState.image.variable}
+                                        controls: {
+                                            ...prevState.controls,
+                                            image: {variable: !prevState.controls.image.variable}
+                                        }
                                     }))
                                 }}>画像を挿入</div>
                             )
@@ -81,7 +87,10 @@ export default function OptionButton(props: props) {
                                 <div className={styles.div_2}><AiOutlineClose className={styles.icon} onClick={() => {
                                     props.setArticleEditorStatus((prevState) => ({
                                         ...prevState,
-                                        cancel: {variable: !prevState.cancel.variable}
+                                        controls: {
+                                            ...prevState.controls,
+                                            cancel: {variable: !prevState.controls.cancel.variable}
+                                        }
                                     }))
                                 }}/></div>
                             )
@@ -90,7 +99,10 @@ export default function OptionButton(props: props) {
                                 <div className={styles.div_1} onClick={() => {
                                     props.setArticleEditorStatus((prevState) => ({
                                         ...prevState,
-                                        cancel: {variable: !prevState.cancel.variable}
+                                        controls: {
+                                            ...prevState.controls,
+                                            cancel: {variable: !prevState.controls.cancel.variable}
+                                        }
                                     }))
                                 }}>キャンセル</div>
                             )
@@ -101,7 +113,10 @@ export default function OptionButton(props: props) {
                                 <div className={styles.div_2}><MdFileUpload className={styles.icon} onClick={() => {
                                     props.setArticleEditorStatus((prevState) => ({
                                         ...prevState,
-                                        upload: {variable: !prevState.upload.variable}
+                                        controls: {
+                                            ...prevState.controls,
+                                            upload: {variable: !prevState.controls.upload.variable}
+                                        }
                                     }))
                                 }}/></div>
                             )
@@ -110,7 +125,10 @@ export default function OptionButton(props: props) {
                                 <div className={styles.div_1} onClick={() => {
                                     props.setArticleEditorStatus((prevState) => ({
                                         ...prevState,
-                                        upload: {variable: !prevState.upload.variable}
+                                        controls: {
+                                            ...prevState.controls,
+                                            upload: {variable: !prevState.controls.upload.variable}
+                                        }
                                     }))
                                 }}>記事を投稿</div>
                             )

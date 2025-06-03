@@ -23,7 +23,7 @@ export default function SignupCard() {
 
     return (
         <div className={className_div_0}>
-            <img src='/images/PageIcon.svg' alt='PageIcon' className={styles.img}/>
+            <img src='/images/logoTitle.png' alt='PageIcon' className={styles.img}/>
             <h1 className={styles.h1}>Tipsにサインアップ</h1>
             <div className={className_div_1}>
                 <VerificationCard_Step1 setVerificationCardStatus={setVerificationCardStatus} email={email}
