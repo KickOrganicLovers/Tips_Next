@@ -45,7 +45,7 @@ input {
 }
 
 :root {
-    --bg-color-1: white;
+    --bg-color-1: #ffffff;
     --bg-color-2: #f3f3f3;
     --bg-color-3: #373737;
     --bg-color-4: black;
@@ -56,22 +56,21 @@ input {
     --text-color-2: #4c4c4c;
     --text-color-3: white;
     --shadow-color: #bdbdbd;
-}
 
-:root.dark {
-    --bg-color-1: #272727;
-    --bg-color-2: #373737;
-    --bg-color-3: #e1e1e1;
-    --bg-color-4: white;
-    --border-color-1: #b1b1b1;
-    --border-color-2: white;
-    --border-color-3: darkgray;
-    --text-color-1: white;
-    --text-color-2: darkgray;
-    --text-color-3: #373737;
-    --shadow-color: #131313;
+    @media (prefers-color-scheme: dark) {
+        --bg-color-1: #272727;
+        --bg-color-2: #373737;
+        --bg-color-3: #e1e1e1;
+        --bg-color-4: white;
+        --border-color-1: #b1b1b1;
+        --border-color-2: white;
+        --border-color-3: darkgray;
+        --text-color-1: white;
+        --text-color-2: darkgray;
+        --text-color-3: #373737;
+        --shadow-color: #131313;
+    }
 }
-
 
 #nprogress {
     pointer-events: none;

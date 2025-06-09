@@ -56,6 +56,33 @@
     }
 }
 
+.div_4 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2vh;
+    @media screen  and (max-width: 768px){
+        height: auto;
+    }
+}
+
+.h2_0 {
+    text-align: center;
+    font-size: clamp(1.5rem, 2vw, 2.5rem);
+    margin: 0;
+    color: var(--bg-color-3);
+}
+
+.h3_0 {
+    text-align: center;
+    font-size: clamp(1rem, 1.5vw, 2rem);
+    margin: 0;
+    color: var(--text-color-2);
+}
+
 
 .img_0 {
     width: 50%;
@@ -72,6 +99,7 @@
 }
 
 
+
 .h1_0 {
     margin: 0;
     @media screen  and (max-width: 768px){
@@ -85,9 +113,27 @@
     width: 75%;
     text-align: center;
     font-size: clamp(0.8rem, 2vw, 1.2rem);
+    white-space: normal;
+    word-break: keep-all;
+    overflow-wrap: normal;
     @media screen  and (max-width: 768px){
         width: auto;
         max-width: 200px;
         font-size: 0.8rem;
     }
+}
+
+.GirlWithBalloon {
+    width: 40%;
+    aspect-ratio: 1;
+    min-width: 400px;
+    color: var(--bg-color-3);
+}
+
+.p_1 {
+    font-size: 1.2rem;
+}
+
+.Link {
+    color: deepskyblue;
 }

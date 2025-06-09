@@ -6,7 +6,7 @@ import {NextRequest, NextResponse} from "next/server";
 export async function GET(req: NextRequest){
     const session = await getServerSession()
 
-    await meili.deleteIndex('users')
+    // await meili.deleteIndex('users')
     await meili.deleteIndex('articles')
     await meili.deleteIndex('tags')
     await meili.deleteIndex('search_history')

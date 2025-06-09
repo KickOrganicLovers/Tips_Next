@@ -8,7 +8,7 @@ export async function POST(req: NextRequest){
 
     if(!!body.userId && !!body.searchQuery){
         try{
-            await prisma.searchHistory.upsert({
+            const searchHistory = await prisma.searchHistory.upsert({
                 where: {
                     userId_searchQuery: {
                         userId: body.userId as string,
@@ -36,10 +36,9 @@ export async function POST(req: NextRequest){
 
             // await meili.index('search_history').updateFilterableAttributes(['query', 'popularity'])
 
-            const hashed = crypto.createHash("sha256").update(body.searchQuery).digest("hex").slice(0, 32);
             const document = {
-                id: hashed,
-                query: body.searchQuery as string,
+                id: searchHistory.id,
+                query: searchHistory.searchQuery,
                 popularity: recentCount,
             }
 

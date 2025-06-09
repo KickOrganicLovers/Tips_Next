@@ -56,6 +56,27 @@
     }
 }
 
+.div_4 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2vh;
+    @media screen  and (max-width: 768px){
+        height: auto;
+    }
+}
+
+.div_5 {
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 4vh;
+}
+
 
 .img_0 {
     width: 50%;
@@ -79,12 +100,36 @@
     }
 }
 
+
+.h2_0 {
+    text-align: left;
+    padding-left: 20px;
+}
+
+
+.h2_1 {
+    text-align: center;
+    font-size: clamp(1.5rem, 2vw, 2.5rem);
+    margin: 0;
+    color: var(--bg-color-3);
+}
+
+.h3_0 {
+    text-align: center;
+    font-size: clamp(1rem, 1.5vw, 2rem);
+    margin: 0;
+    color: var(--text-color-2);
+}
+
 .p_0 {
     margin: 0;
     color: var(--text-color-2);
     width: 75%;
     text-align: center;
     font-size: clamp(0.8rem, 2vw, 1.2rem);
+    white-space: normal;
+    word-break: keep-all;
+    overflow-wrap: normal;
     @media screen  and (max-width: 768px){
         width: auto;
         max-width: 200px;
@@ -93,18 +138,18 @@
 }
 
 
-.div_4 {
+.GirlWithBalloon {
+    width: 40%;
+    aspect-ratio: 1;
+    min-width: 400px;
+    color: var(--bg-color-3);
 }
 
-.div_5 {
-    width: fit-content;
-    height: fit-content;
-    display: flex;
-    flex-direction: column;
-    gap: 4vh;
+.p_1 {
+    font-size: 1.2rem;
 }
 
-.h2_0 {
-    padding-left: 20px;
+.Link {
+    color: deepskyblue;
 }
 

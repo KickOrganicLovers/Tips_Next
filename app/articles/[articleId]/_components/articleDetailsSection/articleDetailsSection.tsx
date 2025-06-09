@@ -8,6 +8,7 @@ import {findCategoryById} from "@/lib/lib-client/processing";
 import {useCategoriesStore} from "@/lib/lib-client/stores/categoriesStore";
 import {useUserProfileStore} from "@/lib/lib-client/stores/userProfileStore";
 import {useSession} from "next-auth/react";
+import Link from "next/link";
 
 interface props {
     article: ArticleScheme
@@ -57,9 +58,9 @@ export default function ArticleDetailsSection(props: props) {
     return (
         <div className={styles.div_0}>
             <div className={styles.div_1}>
-                <p className={styles.p_1}><a
-                    className={styles.a_0}>{findCategoryById(categories, findCategoryById(categories, props.article.categoryId)?.parentId as string)?.categoryName}</a>{' > '}<a
-                    className={styles.a_0}>{findCategoryById(categories, props.article.categoryId)?.categoryName}</a>
+                <p className={styles.p_1}>
+                    {findCategoryById(categories, findCategoryById(categories, props.article.categoryId)?.parentId as string)?.categoryName}{' > '}
+                    <Link href={`/categories/${findCategoryById(categories, props.article.categoryId)?.id}`} className={styles.Link_0}>{findCategoryById(categories, props.article.categoryId)?.categoryName}</Link>
                 </p>
             </div>
             <div className={styles.div_2}>

@@ -84,6 +84,9 @@
     width: 75%;
     text-align: center;
     font-size: clamp(0.8rem, 2vw, 1.2rem);
+    white-space: normal;
+    word-break: keep-all;
+    overflow-wrap: normal;
     @media screen  and (max-width: 768px){
         width: auto;
         max-width: 200px;

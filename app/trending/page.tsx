@@ -24,7 +24,7 @@ export default function Page () {
                 <img src='/images/logoFire.png' alt='fire' className={styles.img_0}/>
                 <div className={styles.div_2}>
                     <h1 className={styles.h1_0}>Trending</h1>
-                    <p className={styles.p_0}>今トレンドの記事が表示されます</p>
+                    <p className={styles.p_0}>今トレンドの記事が<wbr/>表示されます</p>
                 </div>
             </div>
             <div className={styles.div_3}>

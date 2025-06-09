@@ -2,6 +2,9 @@
     width: 75%;
     height: 100%;
     overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     @media screen and (max-width: 768px) {
         overflow-y: visible;
@@ -14,15 +17,21 @@
 }
 
 .div_1 {
+    flex: 1;
     width: 100%;
     height: fit-content;
     padding: 20px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+    grid-template-columns: repeat(auto-fit, 400px);
+    justify-content: center;
     gap: 2vh;
     box-sizing: border-box;
     overflow-y: scroll;
     background-color: var(--bg-color-2);
+
+    @media screen and (max-width: 1536px) {
+        grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+    }
 
 
     @media screen and (max-width: 768px) {
@@ -30,4 +39,53 @@
         grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
     }
 
+}
+
+.div_2 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2vh;
+    @media screen  and (max-width: 768px){
+        height: auto;
+    }
+}
+
+.h2_1 {
+    text-align: center;
+    font-size: clamp(1.5rem, 2vw, 2.5rem);
+    margin: 0;
+    color: var(--bg-color-3);
+}
+
+.h3_0 {
+    text-align: center;
+    font-size: clamp(1.2rem, 1.5vw, 2rem);
+    margin: 0;
+    color: var(--text-color-2);
+}
+
+
+.GirlWithBook {
+    width: 25%;
+    aspect-ratio: 1;
+    min-width: 300px;
+    color: var(--bg-color-3);
+}
+
+.p_0 {
+    font-size: clamp(0.9rem, 1vw, 1.2rem);
+}
+
+.Link {
+    color: var(--text-color-2);
+    text-decoration: none;
+    transition: 0.25s;
+
+    &:hover{
+        color: deepskyblue;
+    }
 }

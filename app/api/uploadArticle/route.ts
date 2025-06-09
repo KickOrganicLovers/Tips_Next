@@ -4,31 +4,35 @@ import {prisma} from "@/lib/lib-server/prisma";
 import {meili} from "@/lib/lib-server/meili";
 import cuid from "cuid";
 import {ArticleSchemeWithPrefix} from "@/types";
+import crypto from "crypto";
 
 
 export async function POST(req: NextRequest) {
     const body: {article: ArticleSchemeWithPrefix}  = await req.json()
     console.log(body)
 
-    const index = meili.index('articles')
+    const index_articles = meili.index('articles')
+    const index_tags = meili.index('tags')
 
     try {
         const result = await prisma.$transaction(async (tx) => {
 
             const tagsPromise = body.article.tags.map(async (tag: string) => {
                 const existingTag = await tx.tag.findUnique({
-                    where: {tagName: tag}
+                    where: {tagName: tag},
                 })
                 if(!!existingTag){
                     return existingTag
                 }else {
                     return tx.tag.create({
                         data: {
-                            tagName: tag
+                            tagName: tag,
                         }
                     })
                 }
             })
+
+            const tags = await Promise.all(tagsPromise)
 
 
             if(!body.article.id || !body.article.previousContents){
@@ -45,13 +49,17 @@ export async function POST(req: NextRequest) {
                         authorId: body.article.authorId,
                         categoryId: body.article.categoryId,
                         tags: {
-                            connect: await Promise.all(tagsPromise)
+                            connect: tags
                         }
                     },
                     include: {
                         likes: true,
                         category: true,
-                        tags: true,
+                        tags: {
+                            include: {
+                                articles: true
+                            }
+                        },
                         watchHistories: true,
                     }
                 })
@@ -76,13 +84,17 @@ export async function POST(req: NextRequest) {
                         authorId: body.article.authorId,
                         categoryId: body.article.categoryId,
                         tags: {
-                            connect: await Promise.all(tagsPromise)
+                            connect: tags
                         }
                     },
                     include: {
                         likes: true,
                         category: true,
-                        tags: true,
+                        tags: {
+                            include: {
+                                articles: true,
+                            }
+                        },
                         watchHistories: true,
                     }
                 })
@@ -92,7 +104,7 @@ export async function POST(req: NextRequest) {
         })
 
 
-        const document = {
+        const document_article = {
             id: result.article.id,
             title: result.article.title,
             contents: result.article.contents,
@@ -102,7 +114,15 @@ export async function POST(req: NextRequest) {
             watchHistories: result.article.watchHistories.length
         }
 
-        await index.addDocuments([document])
+        const document_tag = result.article.tags.map((tag) => ({
+            id: tag.id,
+            name: tag.tagName,
+            popularity: tag.articles.length,
+        }))
+
+
+        await index_articles.addDocuments([document_article])
+        await index_tags.addDocuments(document_tag)
 
         return NextResponse.json({article: result.article, isNew: result.isNew, error: undefined}, {status: 200})
     } catch (error) {

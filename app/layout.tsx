@@ -35,7 +35,7 @@ export default  function RootLayout({children}: { children: ReactNode }) {
             console.log('fuck')
             if(!!session){
                 setSession(session)
-                
+
                 router.push('/')
             }}
         )}, [])
@@ -48,13 +48,11 @@ export default  function RootLayout({children}: { children: ReactNode }) {
         <body className={styles.body}>
         <ViewportHeightSetter/>
         <SessionProvider session={session}>
-            <ThemeProvider>
-                <Header/>
-                <div className={styles.wrapper}>
-                    <Main children={children}/>
-                    <SideBar/>
-                </div>
-            </ThemeProvider>
+            <Header/>
+            <div className={styles.wrapper}>
+                <Main children={children}/>
+                <SideBar/>
+            </div>
         </SessionProvider>
         </body>
         </html>

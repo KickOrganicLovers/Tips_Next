@@ -1,12 +1,13 @@
 'use client'
 
 import styles from './tags.module.css'
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {ArticleScheme} from "@/types";
 import {useParams, useRouter} from "next/navigation";
 import {getDataFromServerWithJson} from "@/lib/lib-client/fetch";
 import ArticleContainer from "@/app/_components/common/articleContainer/articleContainer";
 import {useWhereIamStore} from "@/lib/lib-client/stores/whereIamStore";
+import BoyWithCompass from "@/app/_components/common/boyWithCompass/boyWithCompass";
 
 export default function Page () {
     const applyWhereIam = useWhereIamStore(state => state.applyWhereIam)
@@ -40,6 +41,15 @@ export default function Page () {
             </div>
             <div className={styles.div_3}>
                 {articles.map((article: ArticleScheme, index: number) => <ArticleContainer article= {article} key={index}/>)}
+                {articles.length === 0?
+                    <div className={styles.div_4}>
+                        <BoyWithCompass className={styles.BoyWithCompass}/>
+                        <h2 className={styles.h2_0}>記事が見つかりませんでした</h2>
+                        <h3 className={styles.h3_0}>No articles found</h3>
+                    </div>
+                    :
+                    undefined
+                }
             </div>
         </div>
     )

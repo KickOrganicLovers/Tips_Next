@@ -1,16 +1,18 @@
 'use client'
 
 import styles from './watchHistory.module.css'
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 import {useRouter} from "next/navigation";
 import {ArticleScheme, WatchHistoryScheme} from "@/types";
 import ReducedArticleContainer from "@/app/_components/common/reducedArticleContainer/reducedArticleContainer";
 import {useUserProfileStore} from "@/lib/lib-client/stores/userProfileStore";
 import {useSession} from "next-auth/react";
+import GirlWithBalloon from "@/public/images/girlWithBalloon.svg";
+import Link from "next/link";
 
 
 export default function Page () {
-    const router = useRouter();
+
     const userProfile = useUserProfileStore(state => state.userProfile)
     const session = useSession();
 
@@ -26,16 +28,13 @@ export default function Page () {
     }
 
 
-
-
-
     return (
         <div className={styles.div_0}>
             <div className={styles.div_1}>
                 <img src='/images/logoHistory.png' alt='history' className={styles.img_0}/>
                 <div className={styles.div_2}>
                     <h1 className={styles.h1_0}>History</h1>
-                    <p className={styles.p_0}>視聴履歴が表示されます</p>
+                    <p className={styles.p_0}>過去視聴した記事が<wbr/>表示されます</p>
                 </div>
             </div>
             <div className={styles.div_3}>
@@ -50,7 +49,21 @@ export default function Page () {
                         </div>
                     ))
                 })()}
-                {/*{loginStatus.userProfile.watchHistories.map((watchHistory: WatchHistoryScheme, index: number) => <div><ExtendedArticleContainer article={watchHistory.article as ArticleScheme}/></div>)}*/}
+
+                {userProfile.watchHistories.length === 0?
+                    <div className={styles.div_4}>
+                        <GirlWithBalloon className={styles.GirlWithBalloon}/>
+                        <h2 className={styles.h2_1}>ここにはまだ何もありません...</h2>
+                        <h3 className={styles.h3_0}>There is nothing here...</h3>
+                        {session.status === 'authenticated' ?
+                            undefined
+                            :
+                            <p className={styles.p_1}>視聴履歴を表示するには<Link className={styles.Link} href={'/login'}>ログイン</Link></p>
+                        }
+                    </div>
+                    :
+                    undefined
+                }
             </div>
         </div>
     )
