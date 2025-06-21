@@ -4,12 +4,12 @@ import {useSession} from "next-auth/react";
 import {useAtom} from "jotai";
 import {sideBarStatusAtom} from "@/lib/lib-client/atoms";
 import {useCategoriesStore} from "@/lib/lib-client/stores/categoriesStore";
-import {useUserProfileStore} from "@/lib/lib-client/stores/userProfileStore";
+import {useUserStore} from "@/lib/lib-client/stores/userStore";
 
 export default function Main({children}: { children: ReactNode }) {
     const [sideBarStatus, setSideBarStatus] = useAtom(sideBarStatusAtom)
     const className = sideBarStatus.isActive ? `${styles['fadeLayer']} ${styles['active']}` : `${styles['fadeLayer']}`
-    const tryToLogin = useUserProfileStore((state) => state.tryToLogin)
+    const tryToLogin = useUserStore((state) => state.tryToLogin)
     const getCategories = useCategoriesStore(state => state.getCategories)
     const session = useSession()
 

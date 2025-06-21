@@ -13,8 +13,8 @@ export async function POST(req: NextRequest) {
                 contents: body.contents as string,
             },
             include: {
+                user: true,
                 likes: true,
-                userProfile: true
             }
         })
 

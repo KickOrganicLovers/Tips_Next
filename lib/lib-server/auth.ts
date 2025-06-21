@@ -28,7 +28,6 @@ export const authOptions: NextAuthOptions = {
             async authorize(credentials) {
                 const user = await prisma.user.findUnique({
                     where: { email: credentials?.email },
-                    include: { profile: true },
                 });
 
                 if (!user) throw new Error("メールアドレスが間違っています");
@@ -78,60 +77,6 @@ export const authOptions: NextAuthOptions = {
         },
 
         async session({ session, token }) {
-
-            const userProfile = await prisma.user.findUnique({
-                where: {
-                    id: token.id
-                },
-
-                include: {
-                    profile: {
-                        include: {
-                            likesForArticle: {
-                                include: {
-                                    article: {
-                                        include: {
-                                            authorProfile: {
-                                                include: {
-                                                    followers: true,
-                                                    followings: true
-                                                }
-                                            },
-                                            likes: true,
-                                            watchHistories: true,
-                                            category: true
-                                        }
-                                    }
-                                }
-                            },
-                            likesForComment: true,
-                            followings: {
-                                include: {
-                                    followingWithProfile: true,
-                                }
-                            },
-                            followers: true,
-                            watchHistories: {
-                                include: {
-                                    article: {
-                                        include: {
-                                            authorProfile: {
-                                                include: {
-                                                    followers: true,
-                                                    followings: true
-                                                }
-                                            },
-                                            likes: true,
-                                            watchHistories: true,
-                                            category: true
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            })
 
             if (session.user) {
                 session.user.id = token.id as string; // セッションにユーザーIDを追加

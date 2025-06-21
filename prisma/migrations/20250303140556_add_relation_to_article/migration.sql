@@ -16,4 +16,4 @@ ALTER COLUMN "categoryId" SET NOT NULL,
 ALTER COLUMN "authorId" SET NOT NULL;
 
 -- AddForeignKey
-ALTER TABLE "Article" ADD CONSTRAINT "Article_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "UserProfile"("userId") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Article" ADD CONSTRAINT "Article_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "user"("userId") ON DELETE RESTRICT ON UPDATE CASCADE;

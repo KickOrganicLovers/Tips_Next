@@ -11,4 +11,4 @@ CREATE TABLE "SearchHistory" (
 CREATE UNIQUE INDEX "SearchHistory_userId_searchQuery_key" ON "SearchHistory"("userId", "searchQuery");
 
 -- AddForeignKey
-ALTER TABLE "SearchHistory" ADD CONSTRAINT "SearchHistory_userId_fkey" FOREIGN KEY ("userId") REFERENCES "UserProfile"("userId") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "SearchHistory" ADD CONSTRAINT "SearchHistory_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("userId") ON DELETE CASCADE ON UPDATE CASCADE;

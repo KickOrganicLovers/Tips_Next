@@ -46,9 +46,9 @@ export default function ExtendedArticleContainer(props: props) {
                         <p className={styles.p_0}>{props.article.title}</p>
                         <div className={styles.div_5}>
                             <div className={styles.div_6}>
-                                <img className={styles.img_1} src={props.article.authorProfile.profileImageUrl}
+                                <img className={styles.img_1} src={props.article.author.image}
                                      alt={'author-img'}/>
-                                <p className={styles.p_1}>{props.article.authorProfile.username}</p>
+                                <p className={styles.p_1}>{props.article.author.name}</p>
                             </div>
                             <div className={styles.div_6}>
                                 <MdCategory className={styles.MdCategory}/>

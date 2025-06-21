@@ -1,24 +1,24 @@
-import {FollowScheme, LoginStatusScheme, UserProfileScheme} from "@/types";
+import {FollowScheme, UserScheme} from "@/types";
 import classNames from "classnames";
 import styles from './postFollowCard.module.css'
-import {useUserProfileStore} from "@/lib/lib-client/stores/userProfileStore";
+import {useUserStore} from "@/lib/lib-client/stores/userStore";
 import {useSession} from "next-auth/react";
 import {Dispatch, SetStateAction} from "react";
 
 interface props {
     follow: FollowScheme;
-    userProfile: UserProfileScheme;
-    setUserProfile: Dispatch<SetStateAction<UserProfileScheme>>;
+    user: UserScheme;
+    setUser: Dispatch<SetStateAction<UserScheme>>;
 }
 
 export default function PostFollowCard(props: props) {
-    const postFollowing = useUserProfileStore(state => state.postFollowing)
+    const postFollowing = useUserStore(state => state.postFollowing)
     const session = useSession()
 
     const clickEventHandler = () => {
         console.log('呼び出されました')
-        console.log(!!props.setUserProfile)
-        postFollowing(session, props.userProfile.userId, props.follow, props.setUserProfile)
+        console.log(!!props.setUser)
+        postFollowing(session, props.user.id, props.follow, props.setUser)
     }
 
     return (

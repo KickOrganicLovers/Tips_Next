@@ -6,8 +6,10 @@ import {ArticleEditorStatusScheme, ArticleSchemeWithPrefix} from "@/types";
 
 interface props {
     thumbnailImageUrl?: string,
-    setArticleOnEdit: Dispatch<SetStateAction<ArticleSchemeWithPrefix>>
-    articleEditorStatus: ArticleEditorStatusScheme
+    setArticleOnEdit: Dispatch<SetStateAction<ArticleSchemeWithPrefix>>,
+    articleEditorStatus: ArticleEditorStatusScheme,
+    loadedImage?: string,
+    setIsCropperOpen?: (value: (((prevState: boolean) => boolean) | boolean)) => void
 }
 
 export default function ImageEditingCard(props: props) {
@@ -26,7 +28,7 @@ export default function ImageEditingCard(props: props) {
             crop,
             zoom,
             rotation,
-            aspect: 3/2,
+            aspect: 3 / 2,
             minZoom: 0.1,
             maxZoom: 3,
             cropShape: "rect",
@@ -177,8 +179,6 @@ export default function ImageEditingCard(props: props) {
     const onCropComplete = useCallback((croppedArea: Area, croppedAreaPixels: Area) => {
         setCroppedAreaPixels(croppedAreaPixels)
     }, [])
-
-
 
 
     const onCropFinished = () => {

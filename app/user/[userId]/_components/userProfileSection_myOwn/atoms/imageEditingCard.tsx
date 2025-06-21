@@ -2,13 +2,13 @@ import React, {Dispatch, SetStateAction, useCallback, useEffect, useState} from 
 import Cropper, {Area, CropperProps, Point} from "react-easy-crop";
 import styles from './imageEditingCard.module.css'
 import {AiOutlineCheck, AiOutlineClose} from "react-icons/ai";
-import {UserProfileScheme} from "@/types";
+import {UserScheme} from "@/types";
 
 interface props {
     loadedImage: string
     setIsCropperOpen: Dispatch<SetStateAction<boolean>>
     setProfileImageAsBase64: Dispatch<SetStateAction<string>>
-    userProfile: UserProfileScheme
+    user: UserScheme
 }
 
 export default function ImageEditingCard(props: props) {

@@ -27,7 +27,7 @@ CREATE TABLE "WatchHistory" (
 CREATE UNIQUE INDEX "WatchHistory_userId_articleId_key" ON "WatchHistory"("userId", "articleId");
 
 -- AddForeignKey
-ALTER TABLE "WatchHistory" ADD CONSTRAINT "WatchHistory_userId_fkey" FOREIGN KEY ("userId") REFERENCES "UserProfile"("userId") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "WatchHistory" ADD CONSTRAINT "WatchHistory_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("userId") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "WatchHistory" ADD CONSTRAINT "WatchHistory_articleId_fkey" FOREIGN KEY ("articleId") REFERENCES "Article"("id") ON DELETE CASCADE ON UPDATE CASCADE;

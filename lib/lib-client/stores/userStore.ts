@@ -1,9 +1,7 @@
 import {
     ArticleScheme, ArticleSchemeWithPrefix, CommentScheme,
     FollowScheme,
-    LikeForArticleScheme, LikeForCommentScheme,
-    LoginStatusScheme,
-    UserProfileScheme,
+    LikeForArticleScheme, LikeForCommentScheme, UserScheme,
     WatchHistoryScheme
 } from "@/types";
 import {create} from "zustand/react";
@@ -13,21 +11,22 @@ import {Dispatch, SetStateAction} from "react";
 import {isToday} from "@/lib/lib-client/processing";
 
 interface StoreConfig {
-    userProfile: UserProfileScheme;
+    user: UserScheme;
     resetLoginStatus: () => void;
     tryToLogin: (session: SessionContextValue) => void;
-    applyUserProfileChanges: (session: SessionContextValue, username: string, introduction: string, profileImageUrl: string) => void;
+    applyUserChanges: (session: SessionContextValue, username: string, introduction: string, profileImageUrl: string) => void;
+    postComment: (session: SessionContextValue, articleId: string, contents: string, setArticle?: Dispatch<SetStateAction<ArticleScheme>>) => void;
     postLikeForArticle: (session: SessionContextValue, articleId: string, like?: LikeForArticleScheme, setArticle?: Dispatch<SetStateAction<ArticleScheme>>) => void;
     postLikeForComment: (session: SessionContextValue, commentId: string, like?: LikeForCommentScheme, setArticle?: Dispatch<SetStateAction<ArticleScheme>>) => void;
-    postFollowing: (session: SessionContextValue, authorId: string, follow?: FollowScheme, setUserProfile?: Dispatch<SetStateAction<UserProfileScheme>>) => void;
+    postFollowing: (session: SessionContextValue, authorId: string, follow?: FollowScheme, setUser?: Dispatch<SetStateAction<UserScheme>>) => void;
     appendWatchHistories: (session: SessionContextValue, articleId: string) => void;
     uploadArticle: (session: SessionContextValue, article: ArticleSchemeWithPrefix) => void;
 }
 
-const initialStatus: UserProfileScheme = {
-    userId: '',
-    username: '',
-    profileImageUrl: 'https://tipsimgcontainer.s3.ap-northeast-1.amazonaws.com/notLoggedIn-profile.jpeg',
+const initialStatus: UserScheme = {
+    id: '',
+    name: '',
+    image: 'https://tipsimgcontainer.s3.ap-northeast-1.amazonaws.com/notLoggedIn-profile.jpeg',
     introduction: '',
     articleCreatedBy: [],
     likesForArticle: [],
@@ -38,17 +37,17 @@ const initialStatus: UserProfileScheme = {
     createdAt: '',
 }
 
-export const useUserProfileStore = create<StoreConfig>((set, get) => ({
-    userProfile: initialStatus,
-    resetLoginStatus: () => set({userProfile: initialStatus}),
+export const useUserStore = create<StoreConfig>((set, get) => ({
+    user: initialStatus,
+    resetLoginStatus: () => set({user: initialStatus}),
 
     tryToLogin: (session: SessionContextValue) => {
         if (!!session) {
             if (session.status === 'authenticated') {
-                getDataFromServerWithJson<{userProfile: UserProfileScheme, error: string}>(`/api/login?userId=${session.data.user.id}`).then((json) => {
+                getDataFromServerWithJson<{user: UserScheme, error: string}>(`/api/login?userId=${session.data.user.id}`).then((json) => {
                     if (!json.error) {
                         set({
-                            userProfile: json.userProfile
+                            user: json.user
                         })
                     } else {
 
@@ -59,21 +58,21 @@ export const useUserProfileStore = create<StoreConfig>((set, get) => ({
         }
     },
 
-    applyUserProfileChanges: (session: SessionContextValue, username: string, introduction: string, profileImageUrl: string) => {
-        const current = get().userProfile
+    applyUserChanges: (session: SessionContextValue, name: string, introduction: string, image: string) => {
+        const current = get().user
         if (session.status === 'authenticated') {
             postDataToServerWithJson<{
-                updatedUserProfile: UserProfileScheme,
+                updatedUser: UserScheme,
                 error: string
             }>('/api/editUserProfile', {
-                userId: current.userId,
-                username,
+                id: current.id,
+                name,
                 introduction,
-                profileImageUrl
+                image
             }).then((json) => {
                 if (!json.error) {
                     set((state) => ({
-                        userProfile: json.updatedUserProfile
+                        user: json.updatedUser
                     }))
                 } else {
 
@@ -84,17 +83,38 @@ export const useUserProfileStore = create<StoreConfig>((set, get) => ({
         }
     },
 
+    postComment: (session: SessionContextValue, articleId: string, contents: string, setArticle?: Dispatch<SetStateAction<ArticleScheme>> ) => {
+        if(session.status === 'authenticated') {
+            if(!!contents){
+                postDataToServerWithJson<{postedComment: CommentScheme, error: string}>('/api/postComment', {articleId, userId: session.data.user.id, contents}).then((json) => {
+                    if(json.postedComment && !json.error){
+                        if(!!setArticle){
+                            setArticle(prevState => ({
+                                ...prevState,
+                                comments: [...prevState.comments, json.postedComment]
+                            }))
+                        }
+                    }
+                }).catch((error) => {
+                    window.console.log(error)
+                })
+            }
+        }
+    },
+
+
+
     postLikeForArticle: (session: SessionContextValue, articleId: string, like?: LikeForArticleScheme, setArticle?: Dispatch<SetStateAction<ArticleScheme>>) => {
-        const current = get().userProfile
+        const current = get().user
         if (session.status === 'authenticated') {
             postDataToServerWithJson<{ like?: LikeForArticleScheme, error: string }>('/api/postLike', {
-                articleId, userId: current.userId, ...(like !== undefined && {like}), forWhat: 'article'}).then((json) => {
+                articleId, userId: current.id, ...(like !== undefined && {like}), forWhat: 'article'}).then((json) => {
                 if (!json.error) {
                     if (!json.like) {
                         set((state) => ({
-                            userProfile: {
-                                ...state.userProfile,
-                                likesForArticle: state.userProfile.likesForArticle.filter(likeForArticle => likeForArticle.id !== like?.id)
+                            user: {
+                                ...state.user,
+                                likesForArticle: state.user.likesForArticle.filter(likeForArticle => likeForArticle.id !== like?.id)
                             }
                         }))
                         if (!!setArticle) {
@@ -107,10 +127,10 @@ export const useUserProfileStore = create<StoreConfig>((set, get) => ({
                     } else {
                         if (!current.likesForArticle.some(likeForArticle => likeForArticle.id === json.like?.id)) {
                             set((state) => ({
-                                userProfile: {
-                                    ...state.userProfile,
+                                user: {
+                                    ...state.user,
                                     likesForArticle: [
-                                        ...state.userProfile.likesForArticle,
+                                        ...state.user.likesForArticle,
                                         json.like as LikeForArticleScheme
                                     ]
                                 }
@@ -130,17 +150,17 @@ export const useUserProfileStore = create<StoreConfig>((set, get) => ({
     },
 
     postLikeForComment: (session: SessionContextValue, commentId: string, like?: LikeForCommentScheme, setArticle?: Dispatch<SetStateAction<ArticleScheme>>) => {
-        const current = get().userProfile
+        const current = get().user
         if(session.status === 'authenticated') {
             postDataToServerWithJson<{like?: LikeForCommentScheme, error?: string}>('/api/postLike', {
-                commentId, userId: current.userId, ...(like !== undefined && {like}), forWhat: 'comment'
+                commentId, userId: current.id, ...(like !== undefined && {like}), forWhat: 'comment'
             }).then((json) => {
                 if (!json.error) {
                     if(!json.like) {
                         set((state) => ({
-                            userProfile: {
-                                ...state.userProfile,
-                                likesForComment: state.userProfile.likesForComment.filter(likeForComment => likeForComment.id !== like?.id)
+                            user: {
+                                ...state.user,
+                                likesForComment: state.user.likesForComment.filter(likeForComment => likeForComment.id !== like?.id)
                             }
                         }))
                         if(!!setArticle) {
@@ -156,9 +176,9 @@ export const useUserProfileStore = create<StoreConfig>((set, get) => ({
                         }
                     }else {
                         set((state) => ({
-                            userProfile: {
-                                ...state.userProfile,
-                                likesForComment: [...state.userProfile.likesForComment, json.like as LikeForCommentScheme]
+                            user: {
+                                ...state.user,
+                                likesForComment: [...state.user.likesForComment, json.like as LikeForCommentScheme]
                             }
                         }))
                         if(!!setArticle){
@@ -182,23 +202,22 @@ export const useUserProfileStore = create<StoreConfig>((set, get) => ({
         }
     },
 
-    postFollowing: (session: SessionContextValue, authorId: string, follow?: FollowScheme, setUserProfile?) => {
-        const current = get().userProfile
+    postFollowing: (session: SessionContextValue, authorId: string, follow?: FollowScheme, setUser?) => {
         if (session.status === 'authenticated') {
             postDataToServerWithJson<{ follow?: FollowScheme, error: string }>('/api/postFollow', {
-                following: authorId,
-                follower: current.userId, ...(!!follow !== undefined && {follow})
+                followingId: authorId,
+                followerId: session.data.user.id, ...(!!follow !== undefined && {follow})
             }).then((json) => {
                 if (!json.error) {
                     if (!!json.follow) {
                         set((state) => ({
-                            userProfile: {
-                                ...state.userProfile,
-                                followings: [...state.userProfile.followings, json.follow as FollowScheme]
+                            user: {
+                                ...state.user,
+                                followings: [...state.user.followings, json.follow as FollowScheme]
                             }
                         }))
-                        if (!!setUserProfile) {
-                            setUserProfile((prevState) =>
+                        if (!!setUser) {
+                            setUser((prevState) =>
                                 ({
                                     ...prevState,
                                     followers: [...prevState.followers, json.follow as FollowScheme]
@@ -206,13 +225,13 @@ export const useUserProfileStore = create<StoreConfig>((set, get) => ({
                         }
                     } else {
                         set((state) => ({
-                            userProfile: {
-                                ...state.userProfile,
-                                followings: state.userProfile.followings.filter((following) => following.id !== follow?.id)
+                            user: {
+                                ...state.user,
+                                followings: state.user.followings.filter((following) => following?.id !== follow?.id)
                             }
                         }))
-                        if (!!setUserProfile) {
-                            setUserProfile((prevState) =>
+                        if (!!setUser) {
+                            setUser((prevState) =>
                                 ({
                                     ...prevState,
                                     ...(!!prevState.followers.filter(prevFollow => prevFollow.id !== follow?.id) && {followers: prevState.followers.filter(prevFollow => prevFollow.id !== follow?.id)})
@@ -227,26 +246,26 @@ export const useUserProfileStore = create<StoreConfig>((set, get) => ({
     },
 
     appendWatchHistories: (session: SessionContextValue, articleId: string) => {
-        const current = get().userProfile
+        const current = get().user
         if (session.status === 'authenticated') {
             postDataToServerWithJson<{
                 watchHistory: WatchHistoryScheme,
                 error: string
-            }>('/api/postWatchHistory', {articleId, userId: current.userId}).then((json) => {
+            }>('/api/postWatchHistory', {articleId, userId: current.id}).then((json) => {
                 if (!json.error && !!json.watchHistory) {
                     const previousWatchHistory = current.watchHistories.filter((watchHistory) => watchHistory.userId === json.watchHistory.userId && watchHistory.articleId === json.watchHistory.articleId && isToday(watchHistory.createdAt))
                     if (previousWatchHistory && previousWatchHistory.length > 0) {
                         set((state) => ({
-                            userProfile: {
-                                ...state.userProfile,
-                                watchHistories: [...state.userProfile.watchHistories.filter((watchHistory) => watchHistory.userId !== json.watchHistory.userId || watchHistory.articleId !== json.watchHistory.articleId || !isToday(watchHistory.createdAt)), json.watchHistory as WatchHistoryScheme]
+                            user: {
+                                ...state.user,
+                                watchHistories: [...state.user.watchHistories.filter((watchHistory) => watchHistory.userId !== json.watchHistory.userId || watchHistory.articleId !== json.watchHistory.articleId || !isToday(watchHistory.createdAt)), json.watchHistory as WatchHistoryScheme]
                             }
                         }))
                     } else {
                         set((state) => ({
-                            userProfile: {
-                                ...state.userProfile,
-                                watchHistories: [...state.userProfile.watchHistories, json.watchHistory]
+                            user: {
+                                ...state.user,
+                                watchHistories: [...state.user.watchHistories, json.watchHistory]
                             }
                         }))
                     }
@@ -261,9 +280,9 @@ export const useUserProfileStore = create<StoreConfig>((set, get) => ({
                 if(!json.error) {
                     if(!json.isNew){
                         set((state) => ({
-                            userProfile: {
-                                ...state.userProfile,
-                                watchHistories: state.userProfile.watchHistories.map((watchHistory) => {
+                            user: {
+                                ...state.user,
+                                watchHistories: state.user.watchHistories.map((watchHistory) => {
                                     if(!!watchHistory.article && watchHistory.articleId === json.article.id){
                                         Object.assign(watchHistory.article, json.article)
                                         return watchHistory

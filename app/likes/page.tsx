@@ -5,19 +5,19 @@ import React, {useEffect} from "react";
 import {ArticleScheme, LikeForArticleScheme} from "@/types";
 import ReducedArticleContainer from "@/app/_components/common/reducedArticleContainer/reducedArticleContainer";
 import {useWhereIamStore} from "@/lib/lib-client/stores/whereIamStore";
-import {useUserProfileStore} from "@/lib/lib-client/stores/userProfileStore";
+import {useUserStore} from "@/lib/lib-client/stores/userStore";
 import GirlWithBalloon from '@/public/images/girlWithBalloon.svg'
 import Link from "next/link";
 import {useSession} from "next-auth/react";
 
 export default function Page () {
     const applyWhereIam = useWhereIamStore(state => state.applyWhereIam)
-    const userProfile = useUserProfileStore(state => state.userProfile)
+    const user = useUserStore(state => state.user)
     const session = useSession();
 
     useEffect(() => {
         applyWhereIam('likes')
-    }, [userProfile.likesForArticle])
+    }, [user.likesForArticle])
 
 
 
@@ -33,12 +33,12 @@ export default function Page () {
             </div>
             <div className={styles.div_3}>
                 {(() => {
-                    const likes = [...userProfile.likesForArticle].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+                    const likes = [...user.likesForArticle].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
                     return likes.map((like: LikeForArticleScheme, index:number) => <ReducedArticleContainer
                         article={like.article as ArticleScheme} key={index}/>)
                 })()}
 
-                {userProfile.likesForArticle.length === 0?
+                {user.likesForArticle.length === 0?
                     <div className={styles.div_4}>
                         <GirlWithBalloon className={styles.GirlWithBalloon}/>
                         <h2 className={styles.h2_0}>ここにはまだ何もありません...</h2>

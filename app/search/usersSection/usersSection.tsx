@@ -1,13 +1,13 @@
 import styles from './usersSection.module.css'
-import {UserProfileScheme} from "@/types";
+import {UserScheme} from "@/types";
 import UserContainer from "@/app/_components/common/userContainer/userContainer";
 import React, {Dispatch, SetStateAction} from "react";
 import {useDispatch} from "react-redux";
 import BoyWithCompass from "@/app/_components/common/boyWithCompass/boyWithCompass";
 
 interface props {
-    users: UserProfileScheme[]
-    setUsers: Dispatch<SetStateAction<UserProfileScheme[]>>
+    users: UserScheme[]
+    setUsers: Dispatch<SetStateAction<UserScheme[]>>
     pageMode: 'articles' | 'users'
 }
 
@@ -15,8 +15,8 @@ export default function UsersSection(props: props) {
 
     return (
         <div className={styles.div_0} style={props.pageMode !== 'users' ? {display: "none"} : {}}>
-            {props.users.map((user: UserProfileScheme, index: number) =>
-                <UserContainer userProfile={user} setUsers={props.setUsers} key={index}/>
+            {props.users.map((user: UserScheme, index: number) =>
+                <UserContainer user={user} setUsers={props.setUsers} key={index}/>
             )}
             {props.users.length === 0?
                 <div className={styles.div_1}>

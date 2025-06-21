@@ -9,11 +9,16 @@ export async function GET(req: NextRequest) {
     const userId = searchParams.get("userId");
 
     try {
-        const userProfile = await prisma.userProfile.findUnique({
+        const user = await prisma.user.findUnique({
             where: {
-                userId: userId as string,
+                id: userId as string,
             },
-            include: {
+            select: {
+                id: true,
+                name: true,
+                image: true,
+                introduction: true,
+                comments: true,
                 likesForArticle: true,
                 followers: true,
                 followings: true,
@@ -21,14 +26,14 @@ export async function GET(req: NextRequest) {
                 articleCreatedBy: {
                     include: {
                         likes: true,
-                        authorProfile: true,
+                        author: true,
                         category: true,
                     }
                 }
             }
         })
-        return NextResponse.json({userProfile: replaceAllDatesToIsoString(userProfile), error: undefined}, {status: 200})
+        return NextResponse.json({user: replaceAllDatesToIsoString(user), error: undefined}, {status: 200})
     }catch (error){
-        return NextResponse.json({userProfile: undefined, error: error}, {status: 400})
+        return NextResponse.json({user: undefined, error: error}, {status: 400})
     }
 }

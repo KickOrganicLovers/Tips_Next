@@ -32,8 +32,8 @@ export default function ReducedArticleContainer(props: props) {
                 <div className={styles.div_2}>
                     <p className={styles.p_0}>{props.article.title}</p>
                     <div className={styles.div_3}>
-                        <img src={props.article.authorProfile.profileImageUrl} alt='profile' className={styles.img_1}/>
-                        <p className={styles.p_1}>{props.article.authorProfile.username}</p>
+                        <img src={props.article.author.image} alt='profile' className={styles.img_1}/>
+                        <p className={styles.p_1}>{props.article.author.name}</p>
                     </div>
                     <div className={styles.div_4}>
                         <div className={styles.div_5}><IoHeart/>{props.article.likes?.length}</div>

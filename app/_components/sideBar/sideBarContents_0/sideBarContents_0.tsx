@@ -7,18 +7,18 @@ import FollowingAccountCard
     from "@/app/_components/sideBar/sideBarContents_0/atoms/followingAccountCard/followingAccountCard";
 import {sideBarStatusAtom} from "@/lib/lib-client/atoms";
 import {useAtom} from "jotai";
-import {useUserProfileStore} from "@/lib/lib-client/stores/userProfileStore";
+import {useUserStore} from "@/lib/lib-client/stores/userStore";
 
 export default function SideBarContents_0() {
-    const userProfile = useUserProfileStore(state => state.userProfile)
+    const user = useUserStore(state => state.user)
     const [sideBarStatus, setSideBarStatus] = useAtom(sideBarStatusAtom)
 
 
     return (
         <div className={styles.div_0}>
-            <AccountBanner userProfile={userProfile} setSideBarStatus={setSideBarStatus}/>
+            <AccountBanner user={user} setSideBarStatus={setSideBarStatus}/>
             <MyPageOptionsCard setSideBarStatus={setSideBarStatus}/>
-            <FollowingAccountCard userProfile={userProfile} setSideBarStatus={setSideBarStatus}/>
+            <FollowingAccountCard user={user} setSideBarStatus={setSideBarStatus}/>
             <CategoryCard setSideBarStatus={setSideBarStatus}/>
         </div>
     )

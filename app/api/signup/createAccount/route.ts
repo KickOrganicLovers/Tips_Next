@@ -2,6 +2,7 @@ import {NextRequest, NextResponse} from "next/server";
 import bcrypt from "bcryptjs";
 import {prisma} from "@/lib/lib-server/prisma";
 import {meili} from "@/lib/lib-server/meili";
+import {now} from "next-auth/client/_utils";
 
 export async function POST(req: NextRequest) {
     const body = await req.json()
@@ -16,36 +17,31 @@ export async function POST(req: NextRequest) {
                 data: {
                     email: email,
                     password: bcrypt.hashSync(password, Number(process.env["BCRYPT_SALT_ROUNDS"])),
+                    name: username,
+                    image: 'https://tipsimgcontainer.s3.ap-northeast-1.amazonaws.com/initial-profile.jpeg',
+                    introduction: '',
+                    accounts: {
+                        create: {
+                            type: 'credentials',
+                            provider: 'credentials',
+                            providerAccountId: email,
+                        }
+                    }
                 },
             });
 
-            const newProfile = await tx.userProfile.create({
-                data: {
-                    userId: newUser.id, // ✅ newUser が定義された後なのでエラーにならない
-                    username: username,
-                    profileImageUrl: 'https://tipsimgcontainer.s3.ap-northeast-1.amazonaws.com/initial-profile.jpeg',
-                    introduction: '',
-                },
-            });
 
             const document = {
-                id: newProfile.userId,
-                username: newProfile.username,
-                introduction: newProfile.introduction
+                id: newUser.id,
+                username: newUser.name,
+                introduction: newUser.introduction
             }
 
             try{await index.addDocuments([document])}catch(err){console.log(err)}
 
-            return {newUser, newProfile};
+            return newUser;
         })
-        // await prisma.user.create({
-        //     data:{
-        //         username: username,
-        //         email: email,
-        //         password: bcrypt.hashSync(password, Number(process.env.BCRYPT_SALT_ROUNDS)),
-        //         profileImageUrl: 'https://tipsimgcontainer.s3.ap-northeast-1.amazonaws.com/initial-profile.jpeg'
-        //     }
-        // })
+
         return NextResponse.json({isCreated: true, error: undefined}, {status: 200})
     } catch (err) {
         return NextResponse.json({isCreated: false, error: err}, {status: 403})

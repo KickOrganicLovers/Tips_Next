@@ -1,15 +1,8 @@
 
-
-export interface LoginStatusScheme{
-    isLoggedIn: boolean
-    error: string
-    userProfile: UserProfileScheme
-}
-
-export interface UserProfileScheme{
-    userId: string
-    username: string
-    profileImageUrl: string
+export interface UserScheme{
+    id: string
+    name: string
+    image: string
     introduction: string
     likesForArticle: LikeForArticleScheme[]
     likesForComment: LikeForCommentScheme[]
@@ -29,7 +22,7 @@ export interface ArticleScheme{
     tags: TagScheme[]
     categoryId: string
     authorId: string
-    authorProfile: UserProfileScheme
+    author: UserScheme
     likes: LikeForArticleScheme[]
     comments: CommentScheme[]
     watchHistories: WatchHistoryScheme[]
@@ -65,7 +58,7 @@ export interface CategoryScheme{
 export interface LikeForArticleScheme {
     id: string
     userId: string
-    userProfile?: UserProfileScheme
+    user?: UserScheme
     articleId: string
     article?: ArticleScheme
     createdAt: string
@@ -74,7 +67,7 @@ export interface LikeForArticleScheme {
 export interface LikeForCommentScheme {
     id: string
     userId: string
-    userProfile?: UserProfileScheme
+    user?: UserScheme
     commentId: string
     comment?: CommentScheme
     createdAt: string
@@ -83,7 +76,7 @@ export interface LikeForCommentScheme {
 export interface CommentScheme{
     id: string
     userId: string
-    userProfile?: UserProfileScheme
+    user?: UserScheme
     articleId: string
     article?: ArticleScheme
     contents: string
@@ -93,17 +86,17 @@ export interface CommentScheme{
 
 export interface FollowScheme{
     id: string,
-    following: string,
-    followingWithProfile?: UserProfileScheme
-    follower: string,
-    followerWithProfile?: UserProfileScheme
+    followingId: string,
+    following?: UserScheme
+    followerId: string,
+    follower?: UserScheme
     createdAt: string
 }
 
 export interface WatchHistoryScheme{
     id: string
     userId: string
-    userProfile?: UserProfileScheme
+    user?: UserScheme
     articleId: string
     article?: ArticleScheme
     contents: string

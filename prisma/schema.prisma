@@ -12,32 +12,30 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
 // likesとかはnext-authの基本的なテーブルのカラムに追加できるけど、明示的に取得しなくてはならない
 // ので、独自のテーブルを作成している
 // NextAuthの基本的なテーブル
 
-
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String  @map("user_id")
-  type               String
-  provider           String
-  providerAccountId  String  @map("provider_account_id")
-  refresh_token      String? @db.Text
-  access_token       String? @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String? @db.Text
-  session_state      String?
- 
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   @@unique([provider, providerAccountId])
   @@map("accounts")
 }
-
-
 
 model Session {
   id           String   @id @default(cuid())
@@ -45,54 +43,44 @@ model Session {
   userId       String   @map("user_id")
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   @@map("sessions")
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String   @unique
-  emailVerified DateTime?
-  image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  password      String?
-  profile  UserProfile? @relation()
-  accounts      Account[]
-  sessions      Session[]
+  id               String           @id @default(cuid())
+  name             String?
+  email            String           @unique
+  emailVerified    DateTime?
+  image            String?
+  introduction     String?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  password         String?
+  accounts         Account[]
+  sessions         Session[]
+  likesForArticle  LikeForArticle[]
+  likesForComment  LikeForComment[]
+  articleCreatedBy Article[]
+  comments         Comment[]
+  //フォロー元が自分のidのものがfollowingに
+  followings       Follow[]         @relation("follower")
+  //フォロー先が自分のidのもとがfollowerに
+  followers        Follow[]         @relation("following")
+  watchHistories   WatchHistory[]
+  searchHistories  SearchHistory[]
 }
 
 model VerificationToken {
   identifier String
   token      String
   expires    DateTime
- 
+
   @@unique([identifier, token])
   @@map("verification_tokens")
 }
 
 // ↑next-authの基本的なテーブル
-
-// 以下は独自のテーブル
-// login時にすべての情報を取得していたけど、login時はnext-authのUserテーブルだけを取得して、
-// 必要な情報はその都度取得するように変更した
-model UserProfile {
-  userId           String           @id @unique
-  username         String?
-  profileImageUrl  String?
-  introduction     String?
-  user             User             @relation(fields: [userId], references: [id])
-  likesForArticle  LikeForArticle[]
-  likesForComment  LikeForComment[]
-  articleCreatedBy Article[]
-  comments         Comment[]
-  followings       Follow[]         @relation("following")
-  followers        Follow[]         @relation("follower")
-  watchHistories   WatchHistory[]
-  createdAt        DateTime         @default(now())
-  searchHistories  SearchHistory[]
-}
 
 model EmailOnVerifying {
   email       String   @unique
@@ -110,7 +98,7 @@ model Article {
   categoryId        String
   category          Category         @relation(fields: [categoryId], references: [id])
   authorId          String
-  authorProfile     UserProfile      @relation(fields: [authorId], references: [userId])
+  author            User             @relation(fields: [authorId], references: [id])
   likes             LikeForArticle[]
   comments          Comment[]
   watchHistories    WatchHistory[]
@@ -133,62 +121,62 @@ model Tag {
 }
 
 model LikeForArticle {
-  id        String      @id @default(cuid())
-  user      UserProfile @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
-  article   Article     @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
   articleId String
-  createdAt DateTime    @default(now())
+  createdAt DateTime @default(now())
 
   @@unique([userId, articleId]) // 同じユーザーが同じ記事に対して1回だけいいねできるようにする
 }
 
 model Comment {
-  id          String           @id @default(cuid())
-  contents    String
-  userProfile UserProfile      @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  userId      String
-  article     Article          @relation(fields: [articleId], references: [id], onDelete: Cascade)
-  articleId   String
-  likes       LikeForComment[]
-  createdAt   DateTime         @default(now())
+  id        String           @id @default(cuid())
+  contents  String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  article   Article          @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  articleId String
+  likes     LikeForComment[]
+  createdAt DateTime         @default(now())
 }
 
 model LikeForComment {
-  id        String      @id @default(cuid())
-  user      UserProfile @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
-  comment   Comment     @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
   commentId String
-  createdAt DateTime    @default(now())
+  createdAt DateTime @default(now())
 
   @@unique([userId, commentId])
 }
 
 model Follow {
-  id                   String      @id @default(cuid())
-  following            String
-  followingWithProfile UserProfile @relation("following", fields: [following], references: [userId])
-  follower             String
-  followerWithProfile  UserProfile @relation("follower", fields: [follower], references: [userId])
-  createdAt            DateTime    @default(now())
+  id          String   @id @default(cuid())
+  followingId String
+  following   User     @relation("following", fields: [followingId], references: [id])
+  followerId  String
+  follower    User     @relation("follower", fields: [followerId], references: [id])
+  createdAt   DateTime @default(now())
 
-  @@unique([following, follower])
+  @@unique([followingId, followerId])
 }
 
 model WatchHistory {
-  id        String      @id @default(cuid())
-  user      UserProfile @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
-  article   Article     @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
   articleId String
-  createdAt DateTime    @default(now())
+  createdAt DateTime @default(now())
 }
 
 model SearchHistory {
-  id          String      @id @default(cuid())
+  id          String @id @default(cuid())
   userId      String
-  userProfile UserProfile @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   searchQuery String
 
   createdAt DateTime @default(now())

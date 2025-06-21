@@ -1,4 +1,4 @@
-import {ArticleScheme, FollowScheme, LoginStatusScheme, UserProfileScheme} from "@/types";
+import {ArticleScheme, FollowScheme, UserScheme} from "@/types";
 import styles from './reducedArticleDetailsSection.module.css'
 import {MdCategory} from "react-icons/md";
 import classNames from "classnames";
@@ -6,32 +6,31 @@ import {Dispatch, SetStateAction} from "react";
 import {useDispatch} from "react-redux";
 import {useRouter} from "next/navigation";
 import {useSession} from "next-auth/react";
-import {useUserProfileStore} from "@/lib/lib-client/stores/userProfileStore";
+import {useUserStore} from "@/lib/lib-client/stores/userStore";
 
 interface props {
     article: ArticleScheme
     setArticle: Dispatch<SetStateAction<ArticleScheme>>
-    userProfile: UserProfileScheme
     follow: FollowScheme | undefined
 }
 
 export default function ReducedArticleDetailsSection(props: props) {
-    const postFollowing = useUserProfileStore(state => state.postFollowing)
+    const postFollowing = useUserStore(state => state.postFollowing)
     const session = useSession()
     const router = useRouter();
 
-    const setUserProfile: Dispatch<SetStateAction<UserProfileScheme>> = (newUserProfileOrAdapter) => {
+    const setUser: Dispatch<SetStateAction<UserScheme>> = (newUserOrAdapter) => {
         props.setArticle((prevState) => {
-            if(typeof newUserProfileOrAdapter === "function"){
-                const updater = newUserProfileOrAdapter as (prevState: UserProfileScheme) => UserProfileScheme;
+            if(typeof newUserOrAdapter === "function"){
+                const updater = newUserOrAdapter as (prevState: UserScheme) => UserScheme;
                 return {
                     ...prevState,
-                    authorProfile: updater(prevState.authorProfile),
+                    author: updater(prevState.author),
                 }
             }else {
                 return {
                     ...prevState,
-                    authorProfile: newUserProfileOrAdapter
+                    author: newUserOrAdapter
                 }
             }
         })
@@ -39,11 +38,11 @@ export default function ReducedArticleDetailsSection(props: props) {
 
 
     const clickEventHandler_postFollow = () => {
-        postFollowing(session, props.article.authorId, props.follow, setUserProfile)
+        postFollowing(session, props.article.authorId, props.follow, setUser)
     }
 
-    const clickEventHandler_pushToAuthorProfilePage = () => {
-        router.push(`/userProfile/${props.article.authorId}`)
+    const clickEventHandler_pushToauthorPage = () => {
+        router.push(`/user/${props.article.authorId}`)
     }
 
     const clickEventHandler_pushToTagPage = (tagName: string) => {
@@ -56,12 +55,12 @@ export default function ReducedArticleDetailsSection(props: props) {
             <h2>記事の情報</h2>
             <div className={styles.div_8}>
                 <div className={styles.div_1}>
-                    <img src={props.article.authorProfile.profileImageUrl} alt={'authorProfile'}
+                    <img src={props.article.author.image} alt={'author'}
                          className={styles.img_0}/>
                     <div className={styles.div_2}>
                         <div className={styles.div_3}
-                             onClick={clickEventHandler_pushToAuthorProfilePage}>{props.article.authorProfile.username}</div>
-                        <div className={styles.div_4}>{props.article.authorProfile.followers.length}フォロワー</div>
+                             onClick={clickEventHandler_pushToauthorPage}>{props.article.author.name}</div>
+                        <div className={styles.div_4}>{props.article.author.followers.length}フォロワー</div>
                     </div>
                     {(() => session.status === 'authenticated'? <button
                         className={(() => !!props.follow ? classNames(styles.button_0, styles.active) : classNames(styles.button_0))()}

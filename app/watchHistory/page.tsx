@@ -5,7 +5,7 @@ import React, {useEffect} from "react";
 import {useRouter} from "next/navigation";
 import {ArticleScheme, WatchHistoryScheme} from "@/types";
 import ReducedArticleContainer from "@/app/_components/common/reducedArticleContainer/reducedArticleContainer";
-import {useUserProfileStore} from "@/lib/lib-client/stores/userProfileStore";
+import {useUserStore} from "@/lib/lib-client/stores/userStore";
 import {useSession} from "next-auth/react";
 import GirlWithBalloon from "@/public/images/girlWithBalloon.svg";
 import Link from "next/link";
@@ -13,7 +13,7 @@ import Link from "next/link";
 
 export default function Page () {
 
-    const userProfile = useUserProfileStore(state => state.userProfile)
+    const user = useUserStore(state => state.user)
     const session = useSession();
 
     const classifyWatchHistories = (watchHistories: WatchHistoryScheme[]) => {
@@ -39,7 +39,7 @@ export default function Page () {
             </div>
             <div className={styles.div_3}>
                 {(() => {
-                    const watchHistories = classifyWatchHistories(userProfile.watchHistories)
+                    const watchHistories = classifyWatchHistories(user.watchHistories)
                     return Object.entries(watchHistories).sort((a, b) => new Date(b[0]).getTime() - new Date(a[0]).getTime()).map(([date,watchHistories], index) => (
                         <div className={styles.div_4} key={index}>
                             <h2 className={styles.h2_0}>{`${date} に閲覧`}</h2>
@@ -50,7 +50,7 @@ export default function Page () {
                     ))
                 })()}
 
-                {userProfile.watchHistories.length === 0?
+                {user.watchHistories.length === 0?
                     <div className={styles.div_4}>
                         <GirlWithBalloon className={styles.GirlWithBalloon}/>
                         <h2 className={styles.h2_1}>ここにはまだ何もありません...</h2>

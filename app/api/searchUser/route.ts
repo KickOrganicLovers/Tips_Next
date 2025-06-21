@@ -22,11 +22,15 @@ export async function GET (req: NextRequest) {
         console.log(userIds.length)
         console.log(userIds)
 
-        const users = await prisma.userProfile.findMany({
+        const users = await prisma.user.findMany({
             where: {
-                userId: {in: userIds}
+                id: {in: userIds}
             },
-            include: {
+            select: {
+                id: true,
+                name: true,
+                image: true,
+                introduction: true,
                 followers: true,
                 followings: true,
             }

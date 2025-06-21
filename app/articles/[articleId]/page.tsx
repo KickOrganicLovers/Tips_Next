@@ -17,13 +17,12 @@ import TotalLikesAndViewsCard
 import RelatedArticlesSection
     from "@/app/articles/[articleId]/_components/relatedArticlesSection/relatedArticlesSection";
 import {useWhereIamStore} from "@/lib/lib-client/stores/whereIamStore";
-import {useUserProfileStore} from "@/lib/lib-client/stores/userProfileStore";
+import {useUserStore} from "@/lib/lib-client/stores/userStore";
 import {useSession} from "next-auth/react";
 
 export default function Page() {
-    const userProfile = useUserProfileStore((state) => state.userProfile);
     const applyWhereIam = useWhereIamStore(state => state.applyWhereIam)
-    const appendWatchHistories = useUserProfileStore((state) => state.appendWatchHistories)
+    const appendWatchHistories = useUserStore((state) => state.appendWatchHistories)
     const [article, setArticle] = useState<ArticleScheme | undefined>();
     const [like, setLike] = useState<LikeForArticleScheme | undefined>(undefined);
     const [follow, setFollow] = useState<FollowScheme | undefined>(undefined);
@@ -36,7 +35,7 @@ export default function Page() {
 
 
     const checkIsLiked = (likes: LikeForArticleScheme[]) => {
-        const like = likes.filter((like: LikeForArticleScheme) => like.userId === userProfile.userId)
+        const like = likes.filter((like: LikeForArticleScheme) => like.userId === session.data?.user.id)
         if(like.length > 0){
             setLike(like[0]);
         }else {
@@ -45,7 +44,7 @@ export default function Page() {
     }
 
     const checkIsFollowed = (follows: FollowScheme[]) => {
-        const follow =  follows.filter((follow: FollowScheme) => follow.following === article?.authorId)
+        const follow =  follows.filter((follow: FollowScheme) => follow.followerId === session.data?.user.id)
         if(follow.length > 0){
             setFollow(follow[0])
         }else {
@@ -90,12 +89,12 @@ export default function Page() {
             contentRef.current.appendChild(frag);
             appendWatchHistories(session, articleId)
         }
-    }, [article]); // `article` が変更されるたびに再実行
+    }, [article?.id]); // `article` が変更されるたびに再実行
 
     useEffect(() => {
         if(article){
             checkIsLiked(article.likes)
-            checkIsFollowed(article.authorProfile.followers)
+            checkIsFollowed(article.author.followers)
         }
     }, [article]);
 
@@ -122,25 +121,25 @@ export default function Page() {
     return (
         //マジで改善の余地あり、これだとisMedia切り替え時に再レンダリング走る
         <div className={styles.div_0}>
-            {(() => !isMobile ? <ArticleDetailsSection article={article} userProfile={userProfile} follow={follow}
+            {(() => !isMobile ? <ArticleDetailsSection article={article} follow={follow}
                                                        setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>}/> : null)()}
             {(() => session.status ==='authenticated' && !isMobile ?
                 <LikeButton isLoggedIn={session.status === 'authenticated'} articleId={article.id} like={like}
                             setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>}/> : null)()}
             <div className={styles.div_1}>
-                {(() => article.authorProfile.userId === session.data?.user.id ?
+                {(() => article.author.id === session.data?.user.id ?
                     <ArticleManagementCard article={article}/> : undefined)()}
                 <TotalLikesAndViewsCard article={article} like={like}
                                         setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>}/>
                 <h1 className={styles.h1_0}>{article.title}</h1>
                 <div ref={contentRef} className={styles.div_2}/>
-                {(() => !isMobile ? <CommentsSection article={article} userProfile={userProfile} setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>}/> : null)()}
-                {(() => !isMobile ? <RelatedArticlesSection userProfile={userProfile} isMobile={isMobile}/> : null)()}
+                {(() => !isMobile ? <CommentsSection article={article} setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>}/> : null)()}
+                {(() => !isMobile ? <RelatedArticlesSection isMobile={isMobile}/> : null)()}
             </div>
-            {(() => isMobile ? <ReducedArticleDetailsSection article={article} userProfile={userProfile} follow={follow}
+            {(() => isMobile ? <ReducedArticleDetailsSection article={article} follow={follow}
                                                              setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>}/> : null)()}
-            {(() => isMobile ? <CommentsSection article={article} userProfile={userProfile} setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>}/> : null)()}
-            {(() => isMobile ? <RelatedArticlesSection userProfile={userProfile} isMobile={isMobile}/> : null)()}
+            {(() => isMobile ? <CommentsSection article={article} setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>}/> : null)()}
+            {(() => isMobile ? <RelatedArticlesSection isMobile={isMobile}/> : null)()}
         </div>
     )
 }

@@ -2,28 +2,38 @@ import {NextRequest, NextResponse} from "next/server";
 import {prisma} from "@/lib/lib-server/prisma";
 import {replaceAllDatesToIsoString} from "@/lib/lib-server/processing";
 import {meili} from "@/lib/lib-server/meili";
+import {getServerSession} from "next-auth/next";
+import {authOptions} from "@/lib/lib-server/auth";
 
 export async function POST(req: NextRequest) {
     const body = await req.json()
     console.log(body)
     const index = meili.index('users')
 
+    const session = await getServerSession(authOptions)
+    if(!session || !session.user.id) return NextResponse.json({updatedUser: undefined, error: 'You must authenticate yourself before update profile'});
+
     try {
-        const updatedUserProfile = await prisma.userProfile.update({
+        const updatedUser = await prisma.user.update({
             where: {
-                userId: body.userId,
+                id: session.user.id
             },
             data: {
-                username: body.username,
-                profileImageUrl: body.profileImageUrl,
+                name: body.username,
+                image: body.image,
                 introduction: body.introduction,
             },
-            include: {
+            select: {
+                id: true,
+                name: true,
+                image: true,
+                introduction: true,
+                comments: true,
                 likesForArticle: {
                     include: {
                         article: {
                             include: {
-                                authorProfile: {
+                                author: {
                                     include: {
                                         followers: true,
                                         followings: true
@@ -40,14 +50,14 @@ export async function POST(req: NextRequest) {
                 followers: true,
                 followings: {
                     include: {
-                        followingWithProfile: true
+                        following: true
                     }
                 },
                 watchHistories: {
                     include: {
                         article: {
                             include: {
-                                authorProfile: {
+                                author: {
                                     include: {
                                         followers: true,
                                         followings: true
@@ -63,27 +73,27 @@ export async function POST(req: NextRequest) {
             }
         })
 
-        if (updatedUserProfile) {
+        if (updatedUser) {
 
 
             const document = {
-                id: updatedUserProfile.userId,
-                username: updatedUserProfile.username,
-                introduction: updatedUserProfile.introduction
+                id: updatedUser.id,
+                username: updatedUser.name,
+                introduction: updatedUser.introduction
             }
             console.log(document)
             try{await index.addDocuments([document])}catch(err){console.log(err)}
 
 
-            return NextResponse.json({updatedUserProfile: replaceAllDatesToIsoString(updatedUserProfile), error: undefined}, {status: 200})
+            return NextResponse.json({updatedUser: replaceAllDatesToIsoString(updatedUser), error: undefined}, {status: 200})
         } else {
-            return NextResponse.json({updatedUserProfile: undefined, error: 'user not found'}, {status: 400})
+            return NextResponse.json({updatedUser: undefined, error: 'user not found'}, {status: 400})
         }
 
 
     } catch (error) {
         console.error(error)
-        return NextResponse.json({updatedUserProfile: undefined, error: error}, {status: 500})
+        return NextResponse.json({updatedUser: undefined, error: error}, {status: 500})
     }
 
 }

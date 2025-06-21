@@ -4,12 +4,12 @@ import {useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 import {useSearchParams} from "next/navigation";
 import {getDataFromServerWithJson, postDataToServerWithJson} from "@/lib/lib-client/fetch";
-import {ArticleScheme, UserProfileScheme} from "@/types";
+import {ArticleScheme, UserScheme} from "@/types";
 import ReducedArticleContainer from "@/app/_components/common/reducedArticleContainer/reducedArticleContainer";
 import styles from './search.module.css'
 import ArticlesSection from "@/app/search/articlesSection/articlesSection";
 import classNames from "classnames";
-import {useUserProfileStore} from "@/lib/lib-client/stores/userProfileStore";
+import {useUserStore} from "@/lib/lib-client/stores/userStore";
 import {useSession} from "next-auth/react";
 import UsersSection from "@/app/search/usersSection/usersSection";
 
@@ -17,10 +17,10 @@ import UsersSection from "@/app/search/usersSection/usersSection";
 
 export default function Page() {
     const [articles, setArticles] = useState<ArticleScheme[]>([]);
-    const [users, setUsers] = useState<UserProfileScheme[]>([])
+    const [users, setUsers] = useState<UserScheme[]>([])
     const [pageMode, setPageMode] = useState<'articles' | 'users'>('articles')
 
-    const userProfile = useUserProfileStore((state) => state.userProfile)
+    const user = useUserStore((state) => state.user)
     const session = useSession();
     const searchParams = useSearchParams();
     const search_query = decodeURIComponent(searchParams.get('search_query') as string)
@@ -33,7 +33,7 @@ export default function Page() {
     }
 
     const searchUsers = async (query: string) => {
-        return getDataFromServerWithJson<{users: UserProfileScheme[], error: string}>(`/api/searchUser?search_query=${query}`)
+        return getDataFromServerWithJson<{users: UserScheme[], error: string}>(`/api/searchUser?search_query=${query}`)
     }
 
     const postSearchHistory = (query: string, userId: string)=> {
@@ -47,7 +47,7 @@ export default function Page() {
             if(!json.error){
                 setArticles(json.articles)
                 if (session.status === 'authenticated') {
-                    postSearchHistory(search_query, userProfile.userId).then((json) => {
+                    postSearchHistory(search_query, user.id).then((json) => {
                         if(!!json.error){
                             console.error(json.error)
                         }

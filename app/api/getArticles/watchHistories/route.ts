@@ -16,7 +16,7 @@ export async function GET(req: NextRequest){
             include: {
                 article: {
                     include: {
-                        authorProfile: {
+                        author: {
                             include: {
                                 followers: true,
                                 followings: true

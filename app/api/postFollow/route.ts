@@ -9,12 +9,12 @@ export async function POST(req: NextRequest){
         if(!body.follow){
             const follow = await prisma.follow.create({
                 data: {
-                    following: body.following as string,
-                    follower: body.follower as string,
+                    followingId: body.followingId as string,
+                    followerId: body.followerId as string,
                 },
                 include: {
-                    followingWithProfile: true,
-                    followerWithProfile: true,
+                    following: true,
+                    follower: true,
                 }
             })
             return NextResponse.json({follow: replaceAllDatesToIsoString(follow), error: null}, {status: 200})

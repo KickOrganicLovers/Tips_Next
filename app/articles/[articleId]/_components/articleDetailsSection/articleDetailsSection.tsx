@@ -1,40 +1,39 @@
 import styles from './articleDetailsSection.module.css'
-import {ArticleScheme, FollowScheme, LoginStatusScheme, UserProfileScheme} from "@/types";
+import {ArticleScheme, FollowScheme, UserScheme} from "@/types";
 import {Dispatch, SetStateAction} from "react";
 import classNames from "classnames";
 import {useRouter} from "next/navigation";
 import TotalFollowCard from "@/app/_components/common/totalFollowCard/totalFollowCard";
 import {findCategoryById} from "@/lib/lib-client/processing";
 import {useCategoriesStore} from "@/lib/lib-client/stores/categoriesStore";
-import {useUserProfileStore} from "@/lib/lib-client/stores/userProfileStore";
+import {useUserStore} from "@/lib/lib-client/stores/userStore";
 import {useSession} from "next-auth/react";
 import Link from "next/link";
 
 interface props {
     article: ArticleScheme
     setArticle: Dispatch<SetStateAction<ArticleScheme>>
-    userProfile: UserProfileScheme
     follow: FollowScheme | undefined
 }
 
 export default function ArticleDetailsSection(props: props) {
     const categories = useCategoriesStore(state => state.categories)
-    const postFollowing = useUserProfileStore((state) => state.postFollowing)
+    const postFollowing = useUserStore((state) => state.postFollowing)
     const session = useSession()
     const router = useRouter();
 
-    const setUserProfile: Dispatch<SetStateAction<UserProfileScheme>> = (newUserProfileOrAdapter) => {
+    const setUser: Dispatch<SetStateAction<UserScheme>> = (newUserOrAdapter) => {
         props.setArticle((prevState) => {
-            if(typeof newUserProfileOrAdapter === "function"){
-                const updater = newUserProfileOrAdapter as (prevState: UserProfileScheme) => UserProfileScheme;
+            if(typeof newUserOrAdapter === "function"){
+                const updater = newUserOrAdapter as (prevState: UserScheme) => UserScheme;
                 return {
                     ...prevState,
-                    authorProfile: updater(prevState.authorProfile),
+                    author: updater(prevState.author),
                 }
             }else {
                 return {
                     ...prevState,
-                    authorProfile: newUserProfileOrAdapter
+                    author: newUserOrAdapter
                 }
             }
         })
@@ -42,11 +41,11 @@ export default function ArticleDetailsSection(props: props) {
 
 
     const clickEventHandler_postFollowing = () => {
-        postFollowing(session, props.article.authorId, props.follow, setUserProfile)
+        postFollowing(session, props.article.authorId, props.follow, setUser)
     }
 
-    const clickEventHandler_pushToAuthorProfilePage = () => {
-        router.push(`/userProfile/${props.article.authorId}`)
+    const clickEventHandler_pushToAuthorPage = () => {
+        router.push(`/user/${props.article.authorId}`)
     }
 
     const clickEventHandler_pushToTagPage = (tagName: string) => {
@@ -65,10 +64,10 @@ export default function ArticleDetailsSection(props: props) {
             </div>
             <div className={styles.div_2}>
                 <p className={styles.p_0}>この記事の作成者</p>
-                <img src={props.article.authorProfile.profileImageUrl} className={styles.img_0} alt={'authorProfile'}/>
-                <h2 className={styles.h2_0} onClick={clickEventHandler_pushToAuthorProfilePage}>{props.article.authorProfile.username}</h2>
-                <TotalFollowCard userProfile={props.article.authorProfile}/>
-                <p className={styles.p_2}>{props.article.authorProfile.introduction}</p>
+                <img src={props.article.author.image} className={styles.img_0} alt={'author'}/>
+                <h2 className={styles.h2_0} onClick={clickEventHandler_pushToAuthorPage}>{props.article.author.name}</h2>
+                <TotalFollowCard user={props.article.author}/>
+                <p className={styles.p_2}>{props.article.author.introduction}</p>
                 {(() => session.status === 'authenticated'? <button
                     className={(() => !!props.follow ? classNames(styles.button_0, styles.active) : classNames(styles.button_0))()}
                     onClick={clickEventHandler_postFollowing}>{(() => !!props.follow ? 'フォロー済み' : 'フォロー')()}</button> : null)()}

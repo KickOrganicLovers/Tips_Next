@@ -9,21 +9,25 @@ export async function GET(req: NextRequest) {
     // クエリパラメータ "id" を取得
     const session = await getServerSession(authOptions);
 
-    if(!session || !session.user.id) return NextResponse.json({userProfile: undefined});
+    if(!session || !session.user.id) return NextResponse.json({user: undefined});
 
 
     try {
-        const userProfile = await prisma.userProfile.findUnique({
+        const user = await prisma.user.findUnique({
             where: {
-                userId: session?.user.id
+                id: session?.user.id
             },
-
-            include: {
+            select: {
+                id: true,
+                name: true,
+                image: true,
+                introduction: true,
+                comments: true,
                 likesForArticle: {
                     include: {
                         article: {
                             include: {
-                                authorProfile: {
+                                author: {
                                     include: {
                                         followers: true,
                                         followings: true
@@ -39,7 +43,7 @@ export async function GET(req: NextRequest) {
                 likesForComment: true,
                 followings: {
                     include: {
-                        followingWithProfile: true,
+                        following: true,
                     }
                 },
                 followers: true,
@@ -47,7 +51,7 @@ export async function GET(req: NextRequest) {
                     include: {
                         article: {
                             include: {
-                                authorProfile: {
+                                author: {
                                     include: {
                                         followers: true,
                                         followings: true
@@ -63,19 +67,19 @@ export async function GET(req: NextRequest) {
             }
         })
 
-        if (userProfile) {
+        if (user) {
                 return NextResponse.json({
-                    userProfile: replaceAllDatesToIsoString(userProfile),
+                    user: replaceAllDatesToIsoString(user),
                     error: null
                 }, {status: 200})
 
         } else {
             return NextResponse.json({
-                userProfile: undefined,
+                user: undefined,
                 error: 'email is incorrect',
             }, {status: 403})
         }
     } catch (error) {
-        return NextResponse.json({userProfile: undefined, error: error}, {status: 403})
+        return NextResponse.json({user: undefined, error: error}, {status: 403})
     }
 }

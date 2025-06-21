@@ -20,7 +20,7 @@ export async function GET(req: NextRequest){
                 id: {in: articleIds},
             },
             include: {
-                authorProfile: true,
+                author: true,
                 likes: true,
                 watchHistories: true,
                 category: true

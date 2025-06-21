@@ -2,7 +2,7 @@ import {IoHeart} from "react-icons/io5";
 import styles from './likeButton.module.css'
 import {Dispatch, SetStateAction} from "react";
 import {ArticleScheme, LikeForArticleScheme} from "@/types";
-import {useUserProfileStore} from "@/lib/lib-client/stores/userProfileStore";
+import {useUserStore} from "@/lib/lib-client/stores/userStore";
 import {useSession} from "next-auth/react";
 
 interface props {
@@ -13,7 +13,7 @@ interface props {
 }
 
 export default function LikeButton(props: props) {
-    const postLikeForArticle = useUserProfileStore((state) => state.postLikeForArticle)
+    const postLikeForArticle = useUserStore((state) => state.postLikeForArticle)
     const session = useSession();
     const className = props.like? `${styles['IoHeart']} ${styles['active']}` : styles['IoHeart']
 

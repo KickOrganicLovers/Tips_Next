@@ -2,22 +2,22 @@ import styles from './userProfileSection_myOwn.module.css'
 import {FiPlus} from "react-icons/fi";
 import {AiOutlineCheck, AiOutlineClose, AiOutlineEdit} from "react-icons/ai";
 import React, {useEffect, useRef, useState} from "react";
-import {LoginStatusScheme, UserProfileScheme} from "@/types";
-import ImageEditingCard from "@/app/userProfile/[userId]/_components/userProfileSection_myOwn/atoms/imageEditingCard";
+import {UserScheme} from "@/types";
 import {redirect} from "next/navigation";
 import TotalFollowCard from "@/app/_components/common/totalFollowCard/totalFollowCard";
 import {postDataToServerWithJson} from "@/lib/lib-client/fetch";
-import {useUserProfileStore} from "@/lib/lib-client/stores/userProfileStore";
+import {useUserStore} from "@/lib/lib-client/stores/userStore";
 import {useSession} from "next-auth/react";
+import ImageEditingCard from "@/app/user/[userId]/_components/userProfileSection_myOwn/atoms/imageEditingCard";
 
 interface props {
-    userProfile: UserProfileScheme
+    user: UserScheme
 }
 
 export default function UserProfileSection_MyOwn(props: props) {
-    const [username, setUsername] = useState(props.userProfile.username);
-    const [profileImageUrl, setProfileImageUrl] = useState(props.userProfile.profileImageUrl);
-    const [introduction, setIntroduction] = useState(props.userProfile.introduction);
+    const [username, setUsername] = useState(props.user.name);
+    const [profileImageUrl, setProfileImageUrl] = useState(props.user.image);
+    const [introduction, setIntroduction] = useState(props.user.introduction);
     const session = useSession()
 
     const [isEditingMode, setIsEditingMode] = useState<boolean>(false);
@@ -26,7 +26,7 @@ export default function UserProfileSection_MyOwn(props: props) {
     const [profileImageAsBase64, setProfileImageAsBase64] = useState<string>('')
 
     const inputImageRef = useRef<HTMLInputElement>(null);
-    const applyUserProfileChanges = useUserProfileStore((state) => state.applyUserProfileChanges)
+    const applyUserChanges = useUserStore((state) => state.applyUserChanges)
 
     const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
@@ -50,23 +50,23 @@ export default function UserProfileSection_MyOwn(props: props) {
 
     const onEditComplete = () => {
         if (profileImageAsBase64 !== '') {
-            postImageToServer(profileImageAsBase64, props.userProfile.userId).then((json) => {
+            postImageToServer(profileImageAsBase64, props.user.id).then((json) => {
                 if (!!json.profileImageUrl && !json.error) {
                     console.log(json.profileImageUrl)
-                    applyUserProfileChanges(session, username, introduction, json.profileImageUrl)
+                    applyUserChanges(session, username, introduction, json.profileImageUrl)
                     setIsEditingMode(false)
                 }
             })
         } else {
-            applyUserProfileChanges(session, username, introduction, profileImageUrl)
+            applyUserChanges(session, username, introduction, profileImageUrl)
             setIsEditingMode(false)
         }
     }
 
     const onEditCancel = () => {
         setProfileImageAsBase64('')
-        setUsername(props.userProfile.username)
-        setIntroduction(props.userProfile.introduction)
+        setUsername(props.user.name)
+        setIntroduction(props.user.introduction)
         setIsEditingMode(false)
     }
 
@@ -92,17 +92,17 @@ export default function UserProfileSection_MyOwn(props: props) {
                     {(() => isEditingMode ?
                         <input type={"text"} className={styles.input_0} value={username} onChange={(e) => {
                             setUsername(e.target.value)
-                        }}/> : <h1 className={styles.h1_0}>{props.userProfile.username}</h1>)()}
+                        }}/> : <h1 className={styles.h1_0}>{props.user.name}</h1>)()}
                 </div>
 
                 <div className={styles.div_6}>
-                    {(() => isEditingMode ? null : <TotalFollowCard userProfile={props.userProfile}/>)()}
+                    {(() => isEditingMode ? null : <TotalFollowCard user={props.user}/>)()}
 
 
                     {(() => isEditingMode ?
                         <textarea className={styles.textarea_0} value={introduction} onChange={(e) => {
                             setIntroduction(e.target.value)
-                        }}/> : <div className={styles.div_2}>{props.userProfile.introduction}</div>)()}
+                        }}/> : <div className={styles.div_2}>{props.user.introduction}</div>)()}
                 </div>
             </div>
             {(() => isEditingMode ?
@@ -119,7 +119,7 @@ export default function UserProfileSection_MyOwn(props: props) {
 
 
             {(() => isCropperOpen ? <ImageEditingCard loadedImage={loadedImage} setIsCropperOpen={setIsCropperOpen}
-                                                      userProfile={props.userProfile}
+                                                      user={props.user}
                                                       setProfileImageAsBase64={setProfileImageAsBase64}/> : undefined)()}
             {(() => isCropperOpen ? <div className={styles.FadeLayer}></div> : undefined)()}
             <input type={'file'} accept={'image/*'} className={styles.input_1} onChange={onFileChange}

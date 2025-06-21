@@ -8,13 +8,13 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
-CREATE TABLE "UserProfile" (
+CREATE TABLE "user" (
     "userId" INTEGER NOT NULL,
     "username" TEXT,
     "profileImageUrl" TEXT,
     "introduction" TEXT,
 
-    CONSTRAINT "UserProfile_pkey" PRIMARY KEY ("userId")
+    CONSTRAINT "user_pkey" PRIMARY KEY ("userId")
 );
 
 -- CreateTable
@@ -41,7 +41,7 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 CREATE UNIQUE INDEX "EmailOnVerifying_email_key" ON "EmailOnVerifying"("email");
 
 -- AddForeignKey
-ALTER TABLE "UserProfile" ADD CONSTRAINT "UserProfile_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "user" ADD CONSTRAINT "user_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Categories" ADD CONSTRAINT "Categories_parentId_fkey" FOREIGN KEY ("parentId") REFERENCES "Categories"("id") ON DELETE SET NULL ON UPDATE CASCADE;

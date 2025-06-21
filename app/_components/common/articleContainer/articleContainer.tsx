@@ -1,4 +1,4 @@
-import {ArticleScheme, CategoryScheme, UserProfileScheme} from "@/types";
+import {ArticleScheme, CategoryScheme, UserScheme} from "@/types";
 import {useEffect, useState} from "react";
 import styles from './articleContainer.module.css'
 import {MdCategory} from "react-icons/md";
@@ -19,7 +19,7 @@ export default function ArticleContainer(props: props) {
     const clickEventHandler = () => {
         router.push(`/articles/${props.article.id}`)
     }
-    
+
 
     useEffect(() => {
         setIsMounted(true)
@@ -37,8 +37,8 @@ export default function ArticleContainer(props: props) {
                 <p className={styles.p_0}>{props.article.title}</p>
                 <div className={styles.div_3}>
                     <div className={styles.div_4}>
-                        <img className={styles.img_1} src={props.article.authorProfile.profileImageUrl} alt={'author-img'}/>
-                        <p className={styles.p_1}>{props.article.authorProfile.username}</p>
+                        <img className={styles.img_1} src={props.article.author.image} alt={'author-img'}/>
+                        <p className={styles.p_1}>{props.article.author.name}</p>
                     </div>
                     <div className={styles.div_4}>
                         <MdCategory className={styles.MdCategory}/>

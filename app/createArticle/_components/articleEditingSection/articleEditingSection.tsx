@@ -29,7 +29,7 @@ import {Blockquote} from "@tiptap/extension-blockquote";
 import {useAtom} from "jotai/index";
 import {articleEditorStatusAtom, articleOnEditAtom} from "@/lib/lib-client/atoms";
 import {useSession} from "next-auth/react";
-import {useUserProfileStore} from "@/lib/lib-client/stores/userProfileStore";
+import {useUserStore} from "@/lib/lib-client/stores/userStore";
 import {useRouter} from "next/navigation";
 import ErrorsCard from "@/app/createArticle/_components/errorsCard/errorsCard";
 import {UrlInsertingCard} from "@/app/createArticle/_components/urlInsertingCard/urlInsertingCard";
@@ -71,7 +71,7 @@ export default function ArticleEditingSection(props: props) {
 
 
     const session = useSession()
-    const uploadArticle = useUserProfileStore(state => state.uploadArticle)
+    const uploadArticle = useUserStore(state => state.uploadArticle)
 
 
     const editor = useEditor({

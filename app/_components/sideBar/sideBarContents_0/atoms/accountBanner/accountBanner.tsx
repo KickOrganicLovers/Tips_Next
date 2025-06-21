@@ -1,14 +1,14 @@
 import {AiOutlinePlusCircle} from "react-icons/ai";
 import styles from './accountBanner.module.css'
 import {useRouter} from "next/navigation";
-import {LoginStatusScheme, UserProfileScheme} from "@/types";
+import {UserScheme} from "@/types";
 import {Dispatch, SetStateAction} from "react";
 import {sideBarStatusAtom} from "@/lib/lib-client/atoms";
 import {useAtom} from "jotai";
 import {useSession} from "next-auth/react";
 
 interface props {
-    userProfile: UserProfileScheme
+    user: UserScheme
     setSideBarStatus: Dispatch<SetStateAction<{ isActive: boolean }>>
 }
 export default function AccountBanner(props: props) {
@@ -32,8 +32,8 @@ export default function AccountBanner(props: props) {
         setSideBarStatus({isActive: false})
     }
 
-    const clickEventHandler_navigateToUserProfile = () => {
-        router.push('/userProfile/me')
+    const clickEventHandler_navigateTouser = () => {
+        router.push('/user/me')
         setSideBarStatus({isActive: false})
     }
 
@@ -41,10 +41,10 @@ export default function AccountBanner(props: props) {
     return (
         <div className={styles.div_0}>
             <div className={styles.div_1}>
-                <img className={styles.img_0} src={props.userProfile?.profileImageUrl} alt='profileimage'/>
+                <img className={styles.img_0} src={props.user?.image} alt='profileimage'/>
                 {(() => session.status === 'authenticated' ? (
                     <p className={styles.p_1}
-                       onClick={clickEventHandler_navigateToUserProfile}>{props.userProfile?.username}</p>
+                       onClick={clickEventHandler_navigateTouser}>{props.user?.name}</p>
                 ) : (
                     <p className={styles.p_1} onClick={clickEventHandler_navigateToLogin}>ログイン</p>
                 ))()}
