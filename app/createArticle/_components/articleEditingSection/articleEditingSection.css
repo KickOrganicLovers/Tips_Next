@@ -13,6 +13,7 @@
     word-wrap: break-word;
     background-color: var(--bg-color-1);
     margin: 0;
+    box-shadow: 5px 5px 5px var(--shadow-color);
     &:focus {
         outline: 2px solid darkgray;
     }
@@ -45,4 +46,26 @@
 .tiptap mark {
     color: deepskyblue;
     background: none;
+}
+
+.tiptap blockquote {
+    position: relative;
+    box-sizing: border-box;
+    color: var(--text-color-1);
+    background-color: var(--bg-color-2);
+    margin: 0;
+    padding: 1px 20px;
+    border-left: solid 3px var(--border-color-1);
+}
+.tiptap blockquote:before{
+    display: inline-block;
+    position: absolute;
+    top: 4px;
+    margin: auto;
+    right: 8px;
+    content: "’’";
+    color: #cfcfcf;
+    font-size: 28px;
+    line-height: 1;
+    font-weight: 900;
 }

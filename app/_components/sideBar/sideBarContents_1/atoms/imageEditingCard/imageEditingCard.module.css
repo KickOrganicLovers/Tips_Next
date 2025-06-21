@@ -43,7 +43,7 @@
 
 .button_0 {
     width: fit-content;
-    padding: 10px 10px;
+    padding: 8px 8px;
     height: fit-content;
     position: absolute;
     margin: auto;
@@ -55,12 +55,13 @@
     border-radius: 100px;
     background-color: var(--bg-color-1);
     color: var(--text-color-1);
-    border: 2px solid darkgray;
-    font-size: clamp(0.7rem, 6cqw, 1rem);
+    border: 2px solid var(--border-color-1);
+    font-size: clamp(0.6rem, 6cqw, 1rem);
 
     &:hover {
         background-color: var(--bg-color-3);
         color: var(--text-color-3);
+        border: 2px solid var(--bg-color-3);
         transition: 0.2s;
     }
 

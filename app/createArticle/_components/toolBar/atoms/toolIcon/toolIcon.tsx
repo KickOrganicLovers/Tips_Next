@@ -2,10 +2,12 @@ import styles from './toolIcon.module.css'
 import {AiOutlineBold, AiOutlineEdit, AiOutlineStrikethrough} from "react-icons/ai";
 import {LuAlignCenter, LuAlignLeft, LuAlignRight, LuHeading1, LuHeading2, LuItalic} from "react-icons/lu";
 import {MdFormatListNumbered, MdFormatUnderlined, MdOutlineFormatListBulleted} from "react-icons/md";
-import {IoCodeSlashOutline} from "react-icons/io5";
+import {IoCodeSlashOutline, IoImage} from "react-icons/io5";
 import classNames from "classnames";
 import {ArticleEditorStatusScheme} from "@/types";
-import {Dispatch, SetStateAction} from "react";
+import {Dispatch, SetStateAction, useRef} from "react";
+import {BsBlockquoteLeft} from "react-icons/bs";
+import {IoIosLink} from "react-icons/io";
 
 type editorMode = 'toolBar' | 'both'
 
@@ -18,6 +20,7 @@ interface props {
 
 export default function ToolIcon(props: props) {
     const classname = `${styles['div_0']} ${styles[props.editorMode]}`
+
     return (
         <div className={classname}>
             {(() => {
@@ -187,6 +190,42 @@ export default function ToolIcon(props: props) {
                                     }
                                 }))
                             }}><AiOutlineEdit className={styles.icon}/></div>)
+                    case 'blockQuote':
+                        return (<div
+                            className={props.articleEditorStatus.decorations.blockQuote.isActive ? classNames(styles.div_3, styles.active) : styles.div_3}
+                            onClick={() => {
+                                props.setArticleEditorStatus((prevState) => ({
+                                    ...prevState,
+                                    decorations: {
+                                        ...prevState.decorations,
+                                        blockQuote: {...prevState.decorations.blockQuote, variable: !prevState.decorations.blockQuote.variable}
+                                    }
+                                }))
+                            }}><BsBlockquoteLeft className={styles.icon}/></div>)
+                    case 'link':
+                        return (<div
+                            className={props.articleEditorStatus.controls.link.isActive ? classNames(styles.div_3, styles.active) : styles.div_3}
+                            onClick={() => {
+                                props.setArticleEditorStatus((prevState) => ({
+                                    ...prevState,
+                                    controls: {
+                                        ...prevState.controls,
+                                        link: {...prevState.controls.link, variable: !prevState.controls.link.variable}
+                                    }
+                                }))
+                            }}><IoIosLink className={styles.icon}/></div>)
+                    case 'image':
+                        return (<div
+                            className={props.articleEditorStatus.controls.image.isActive ? classNames(styles.div_3, styles.active) : styles.div_3}
+                            onClick={() => {
+                                props.setArticleEditorStatus((prevState) => ({
+                                    ...prevState,
+                                    controls: {
+                                        ...prevState.controls,
+                                        image: {...prevState.controls.image, variable: !prevState.controls.image.variable}
+                                    }
+                                }))
+                            }}><IoImage className={styles.icon}/></div>)
                 }
             })()}
             <div className={styles.div_2}>
@@ -218,6 +257,12 @@ export default function ToolIcon(props: props) {
                             return <div className={styles.div_1}>マーク</div>
                         case 'codeBlock':
                             return <div className={styles.div_1}>コード</div>
+                        case 'blockQuote':
+                            return <div className={styles.div_1}>段落</div>
+                        case 'link':
+                            return <div className={styles.div_1}>リンク</div>
+                        case 'image':
+                            return <div className={styles.div_1}>画像</div>
                     }
                 })()}
             </div>

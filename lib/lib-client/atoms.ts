@@ -68,10 +68,19 @@ export const articleEditorStatusAtom = atom<ArticleEditorStatusScheme>({
             isActive: false,
             variable: false
         },
+        blockQuote: {
+            isActive: false,
+            variable: false
+        },
     },
     controls: {
         image: {
+            isActive: false,
             variable: false,
+        },
+        link: {
+            isActive: false,
+            variable: false
         },
         settings: {
             variable: false,
@@ -81,7 +90,7 @@ export const articleEditorStatusAtom = atom<ArticleEditorStatusScheme>({
         },
         cancel: {
             variable: false
-        }
+        },
     }
 })
 

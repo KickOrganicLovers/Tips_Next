@@ -39,32 +39,6 @@ export default function OptionButton(props: props) {
         <div className={className}>
             {(() => {
                 switch (props.buttonOption) {
-                    case 'insertImage':
-                        if (isMedia && props.editorMode === 'both') {
-                            return (
-                                <div className={styles.div_2}><IoImage className={styles.icon} onClick={() => {
-                                    props.setArticleEditorStatus((prevState) => ({
-                                        ...prevState,
-                                        controls: {
-                                            ...prevState.controls,
-                                            image: {variable: !prevState.controls.image.variable}
-                                        }
-                                    }))
-                                }}/></div>
-                            )
-                        } else {
-                            return (
-                                <div className={styles.div_1} onClick={() => {
-                                    props.setArticleEditorStatus((prevState) => ({
-                                        ...prevState,
-                                        controls: {
-                                            ...prevState.controls,
-                                            image: {variable: !prevState.controls.image.variable}
-                                        }
-                                    }))
-                                }}>画像を挿入</div>
-                            )
-                        }
                     case 'setInfo':
                         if (isMedia && props.editorMode === 'both') {
                             return (

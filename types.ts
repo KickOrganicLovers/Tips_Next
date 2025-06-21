@@ -164,9 +164,17 @@ export interface ArticleEditorStatusScheme {
             isActive: boolean
             variable: boolean
         }
+        blockQuote: {
+            isActive: boolean
+            variable: boolean
+        }
     }
     controls: {
         image: {
+            isActive?: boolean
+            variable: boolean
+        }
+        link: {
             isActive?: boolean
             variable: boolean
         }
@@ -182,5 +190,6 @@ export interface ArticleEditorStatusScheme {
             isActive?: boolean
             variable: boolean
         }
+
     }
 }

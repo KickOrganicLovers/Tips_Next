@@ -44,14 +44,23 @@ export default function ToolBar(props: props) {
             </div>
             <div className={styles.div_2}>
                 <div className={styles.div_5}>
-                    <OptionButton buttonOption={'insertImage'} editorMode={props.editorMode}
-                                  setArticleEditorStatus={props.setArticleEditorStatus}/>
                     <OptionButton buttonOption={'setInfo'} editorMode={props.editorMode}
                                   setArticleEditorStatus={props.setArticleEditorStatus}/>
                     <OptionButton buttonOption={'upload'} editorMode={props.editorMode}
                                   setArticleEditorStatus={props.setArticleEditorStatus}/>
                     <OptionButton buttonOption={'cancel'} editorMode={props.editorMode}
                                   setArticleEditorStatus={props.setArticleEditorStatus}/>
+                </div>
+                <div className={styles.div_3}>
+                    <h2 className={styles.h2_0}>挿入</h2>
+                    <div className={styles.div_4}>
+                        <ToolIcon extension={'image'} editorMode={props.editorMode}
+                                  articleEditorStatus={props.articleEditorStatus}
+                                  setArticleEditorStatus={props.setArticleEditorStatus}/>
+                        <ToolIcon extension={'link'} editorMode={props.editorMode}
+                                  articleEditorStatus={props.articleEditorStatus}
+                                  setArticleEditorStatus={props.setArticleEditorStatus}/>
+                    </div>
                 </div>
                 <div className={styles.div_3}>
                     <h2 className={styles.h2_0}>見出し</h2>
@@ -83,6 +92,9 @@ export default function ToolBar(props: props) {
                                   articleEditorStatus={props.articleEditorStatus}
                                   setArticleEditorStatus={props.setArticleEditorStatus}/>
                         <ToolIcon extension={'highlight'} editorMode={props.editorMode}
+                                  articleEditorStatus={props.articleEditorStatus}
+                                  setArticleEditorStatus={props.setArticleEditorStatus}/>
+                        <ToolIcon extension={'blockQuote'} editorMode={props.editorMode}
                                   articleEditorStatus={props.articleEditorStatus}
                                   setArticleEditorStatus={props.setArticleEditorStatus}/>
                     </div>
