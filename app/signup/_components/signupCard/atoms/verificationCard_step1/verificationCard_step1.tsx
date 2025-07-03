@@ -1,7 +1,8 @@
-import {Dispatch, SetStateAction} from "react";
+import {Dispatch, SetStateAction, useState} from "react";
 import styles from './verificationCard_step1.module.css'
 import {postDataToServerWithJson} from "@/lib/lib-client/fetch";
 import {signIn} from "next-auth/react";
+import {FiAlertCircle} from "react-icons/fi";
 
 interface props {
     setVerificationCardStatus: Dispatch<SetStateAction<string>>
@@ -10,18 +11,20 @@ interface props {
 }
 
 export default function VerificationCard_Step1(props: props) {
+    const [error, setError] = useState<string>();
 
     const verifyEmail_step1 = async () => {
-        return await postDataToServerWithJson<{isVerified: boolean, error: string}>('/api/signup/verifyEmail/step1', {email: props.email})
+        return await postDataToServerWithJson('/api/signup/verifyEmail/step1', {email: props.email})
     }
+
+
     const clickEventHandler = () => {
-        verifyEmail_step1().then(data => {
-            if (data.isVerified) {
-                props.setVerificationCardStatus('verifying_step2')
-            } else {
-                console.log(data.error)
-            }
-        }).catch(err => console.log(err))
+        verifyEmail_step1().then(() => {
+            setError('')
+            props.setVerificationCardStatus('verifying_step2')
+        }).catch(error => {
+            setError(error.message)
+        })
     }
 
     return (
@@ -34,6 +37,7 @@ export default function VerificationCard_Step1(props: props) {
                        }}/>
                 <button className={styles.button_0} onClick={clickEventHandler}>送信</button>
             </div>
+            {error && <p className={styles.p_1}><FiAlertCircle className={styles.FiAlertCircle}/>{error}</p>}
             <div className={styles.div_2}>
                 <p className={styles.p_0}>または、以下のサービスで登録</p>
                 <div className={styles.div_3}>

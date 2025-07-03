@@ -83,10 +83,14 @@ model VerificationToken {
 // ↑next-authの基本的なテーブル
 
 model EmailOnVerifying {
-  email       String   @unique
+  usedBy      String
+  email       String
   hashedToken String
   expiration  DateTime
   createdAt   DateTime @default(now())
+  verified    Boolean  @default(false)
+
+  @@unique([usedBy, email])
 }
 
 model Article {
@@ -96,9 +100,9 @@ model Article {
   contents          String
   tags              Tag[]            @relation("ArticleTags")
   categoryId        String
-  category          Category         @relation(fields: [categoryId], references: [id])
+  category          Category         @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   authorId          String
-  author            User             @relation(fields: [authorId], references: [id])
+  author            User             @relation(fields: [authorId], references: [id], onDelete: Cascade)
   likes             LikeForArticle[]
   comments          Comment[]
   watchHistories    WatchHistory[]
@@ -156,9 +160,9 @@ model LikeForComment {
 model Follow {
   id          String   @id @default(cuid())
   followingId String
-  following   User     @relation("following", fields: [followingId], references: [id])
+  following   User     @relation("following", fields: [followingId], references: [id], onDelete: Cascade)
   followerId  String
-  follower    User     @relation("follower", fields: [followerId], references: [id])
+  follower    User     @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
 
   @@unique([followingId, followerId])

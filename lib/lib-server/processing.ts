@@ -3,6 +3,9 @@ import cuid from "cuid";
 import {Upload} from "@aws-sdk/lib-storage";
 import {s3} from "@/lib/lib-server/s3";
 import {DeleteObjectCommand} from "@aws-sdk/client-s3";
+import { Prisma } from "@prisma/client";
+import { NextResponse } from "next/server";
+import {MeiliSearchApiError} from "meilisearch";
 
 
 export function extractBase64Images(html: string) {
@@ -176,3 +179,50 @@ export async function deleteUnusedImageTags(newHTML: string, previousHTML: strin
 
     await Promise.all(promise)
 }
+
+export function handleServerError(error: unknown) {
+    // Prismaのユニーク制約違反
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002') {
+            return NextResponse.json({
+                error: { message: '既に登録済みのデータです', code: 'PRISMA_UNIQUE_CONSTRAINT' }
+            }, { status: 400 });
+        }
+        return NextResponse.json({
+            error: { message: 'Prismaのリクエストエラー', code: 'PRISMA_KNOWN_ERROR' }
+        }, { status: 400 });
+    }
+
+    // Prismaのバリデーションエラー
+    if (error instanceof Prisma.PrismaClientValidationError) {
+        return NextResponse.json({
+            error: { message: 'Prismaのバリデーションエラー', code: 'PRISMA_VALIDATION_ERROR' }
+        }, { status: 400 });
+    }
+
+    // Meilisearchのエラー
+    if (error instanceof MeiliSearchApiError) {
+        return NextResponse.json({
+            error: { message: error.message, code: 'MEILI_API_ERROR' }
+        }, { status: 400 });
+    }
+
+    // if (error instanceof ResendApiError) {
+    //     return NextResponse.json({
+    //         error: { message: error.message, code: 'RESEND_API_ERROR' }
+    //     }, { status: 400 });
+    // }
+
+    // TypeError (fetchのネットワークエラーなど)
+    if (error instanceof TypeError) {
+        return NextResponse.json({
+            error: { message: 'ネットワークエラーが発生しました', code: 'NETWORK_ERROR' }
+        }, { status: 503 });
+    }
+
+    // その他の予期しないエラー
+    return NextResponse.json({
+        error: { message: 'サーバー内部エラー', code: 'INTERNAL_SERVER_ERROR' }
+    }, { status: 500 });
+}
+

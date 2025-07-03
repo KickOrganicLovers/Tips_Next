@@ -1,5 +1,7 @@
 .div_0 {
     width: 20vw;
+    min-width: 300px;
+    max-width: 400px;
     height: 100%;
     position: relative;
     background-color: var(--bg-color-1);
@@ -11,8 +13,8 @@
         right: 0;
         bottom: 0;
         padding: 0;
-        min-width: 0px;
-        width: 0px;
+        min-width: 0;
+        width: 0;
         transition: width 0.5s;
         z-index: 50;
     }
@@ -20,31 +22,36 @@
 
 .div_0.active {
     @media screen and (max-width: 1024px) {
-        width: 40vw;
-    }
-    @media screen and (max-width: 768px) {
-        width: 60vw;
+        width: 350px;
     }
 }
 
 
 .div_1 {
-    width: 200%;
+    width: 60vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    min-width: 900px;
+    max-width: 1200px;
     height: 100%;
     position: absolute;
-    left: 0;
+    right: -100%;
     top: 0;
-    transition: left 0.5s ease;
+    transition: right 0.5s;
+    @media screen and (max-width: 1024px) {
+        width: 1050px;
+        right: -350px;
+    }
 }
 
 .div_1.createArticle {
-    left: -20vw;
-    @media screen and (max-width: 1024px) {
-        left: -40vw;
-    }
-    @media screen and (max-width: 768px) {
-        left: -60vw;
-    }
+    right: 0;
 }
 
-
+.div_1.settings {
+    right: -200%;
+    @media screen and (max-width: 1024px) {
+        right: -700px;
+    }
+}

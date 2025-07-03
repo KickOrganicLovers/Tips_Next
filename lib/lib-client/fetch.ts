@@ -1,37 +1,67 @@
+import {ErrorScheme} from "@/types";
 
-export async function postDataToServerWithJson<T>(url: string, obj: object): Promise<T> {
+export async function postDataToServerWithJson<T>(url: string, obj: object): Promise<T | void> {
     const params = {
         method: 'POST',
-        contentType: 'application/json',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(obj)
     }
     try {
         const res = await fetch(url, params)
+        let json
         try{
-            return await res.json() as T
+            json = await res.json()
+        }catch{
+            throw {message: '無効なJSONデータです。', code: 'INVALID_JSON'}
         }
-        catch(err){
-            return {error: err as string} as T
+        if(!res.ok){
+            throw {message: json.error?.message || '不明なエラー', code: json.error?.code || 'UNKNOWN_ERROR' }
         }
-    }catch (err) {
-        return {error: err as string} as T
+
+        console.log('wtf')
+
+        if(!!json){
+            const {error, ...jsonWithOutError} = json
+            return jsonWithOutError as T
+        }
+
+    }catch (error) {
+        if (error instanceof TypeError) {
+            console.log(error)
+            throw { message: 'ネットワークエラーが発生しました。', code: 'NETWORK_ERROR' } as ErrorScheme
+        }
+        throw error as ErrorScheme
     }
 }
 
-export async function getDataFromServerWithJson<T>(url: string): Promise<T> {
+export async function getDataFromServerWithJson<T>(url: string): Promise<T | void> {
     const params = {
         method: 'GET',
-        contentType: 'application/json',
+        headers: { 'Content-Type': 'application/json' },
     }
     try {
         const res = await fetch(url, params)
+        let json
         try{
-            return await res.json() as T
+            json = await res.json()
+        }catch{
+            throw {message: '無効なJSONデータです。', code: 'INVALID_JSON'}
         }
-        catch(err){
-            return {error: err as string} as T
+        if(!res.ok){
+            throw {message: json.error?.message || '不明なエラー', code: json.error?.code || 'UNKNOWN_ERROR' }
         }
-    }catch (err) {
-        return {error: err as string} as T
+
+
+        if(!!json){
+            const {error, ...jsonWithOutError} = json
+            return jsonWithOutError as T
+        }
+
+    }catch (error) {
+        if (error instanceof TypeError) {
+            console.log(error)
+            throw { message: 'ネットワークエラーが発生しました。', code: 'NETWORK_ERROR' } as ErrorScheme
+        }
+        throw error as ErrorScheme
     }
 }

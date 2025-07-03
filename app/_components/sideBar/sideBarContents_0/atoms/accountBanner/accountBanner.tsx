@@ -6,13 +6,14 @@ import {Dispatch, SetStateAction} from "react";
 import {sideBarStatusAtom} from "@/lib/lib-client/atoms";
 import {useAtom} from "jotai";
 import {useSession} from "next-auth/react";
+import {useUserStore} from "@/lib/lib-client/stores/userStore";
 
 interface props {
-    user: UserScheme
     setSideBarStatus: Dispatch<SetStateAction<{ isActive: boolean }>>
 }
 export default function AccountBanner(props: props) {
     const [sideBarStatus, setSideBarStatus] = useAtom(sideBarStatusAtom)
+    const user = useUserStore(state => state.user)
     const router = useRouter()
     const session = useSession()
 
@@ -41,10 +42,10 @@ export default function AccountBanner(props: props) {
     return (
         <div className={styles.div_0}>
             <div className={styles.div_1}>
-                <img className={styles.img_0} src={props.user?.image} alt='profileimage'/>
+                <img className={styles.img_0} src={user.image as string} alt='profileimage'/>
                 {(() => session.status === 'authenticated' ? (
                     <p className={styles.p_1}
-                       onClick={clickEventHandler_navigateTouser}>{props.user?.name}</p>
+                       onClick={clickEventHandler_navigateTouser}>{user.name as string}</p>
                 ) : (
                     <p className={styles.p_1} onClick={clickEventHandler_navigateToLogin}>ログイン</p>
                 ))()}

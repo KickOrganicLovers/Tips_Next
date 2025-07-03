@@ -1,7 +1,5 @@
 .div_0 {
     height: fit-content;
-    /*background-image: url('../../../../../../public/images/AccountBanner.png');*/
-    /*background-size: 100% 100%;*/
     background-color: var(--bg-color-3);
     color: var(--text-color-3);
     box-sizing: border-box;

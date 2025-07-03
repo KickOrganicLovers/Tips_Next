@@ -54,7 +54,7 @@ export default function Page() {
 
 
     const getArticle = async (articleId: string): Promise<ArticleScheme> => {
-        const json = await getDataFromServerWithJson<{articles: ArticleScheme[], error: string}>(`/api/getArticles?articleId=${articleId}`);
+        const json = await getDataFromServerWithJson<{articles: ArticleScheme[]}>(`/api/getArticles?articleId=${articleId}`);
         return json.articles[0]// 必要な記事を取得
     };
 

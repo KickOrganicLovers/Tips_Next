@@ -28,7 +28,7 @@ export default function Page() {
 
     const checkIsFollowed = (follows: FollowScheme[]) => {
         if(!!follows){
-            const follow = follows.filter((follow: FollowScheme) => follow.followingId === user_myOwn.id)
+            const follow = follows.filter((follow: FollowScheme) => follow.followerId === user_myOwn.id)
             if(follow.length > 0){
                 setFollow(follow[0])
             }else {
@@ -54,7 +54,7 @@ export default function Page() {
         }else {
             setIsOwner(false)
         }
-        checkIsFollowed(user?.followings as FollowScheme[])
+        checkIsFollowed(user?.followers as FollowScheme[])
     }, [userId, user]);
 
     return (

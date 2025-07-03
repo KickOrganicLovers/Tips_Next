@@ -16,7 +16,7 @@ export default function SideBarContents_0() {
 
     return (
         <div className={styles.div_0}>
-            <AccountBanner user={user} setSideBarStatus={setSideBarStatus}/>
+            <AccountBanner setSideBarStatus={setSideBarStatus}/>
             <MyPageOptionsCard setSideBarStatus={setSideBarStatus}/>
             <FollowingAccountCard user={user} setSideBarStatus={setSideBarStatus}/>
             <CategoryCard setSideBarStatus={setSideBarStatus}/>

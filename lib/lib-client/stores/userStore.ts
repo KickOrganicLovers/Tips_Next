@@ -9,6 +9,7 @@ import {SessionContextValue} from "next-auth/react";
 import {getDataFromServerWithJson, postDataToServerWithJson} from "@/lib/lib-client/fetch";
 import {Dispatch, SetStateAction} from "react";
 import {isToday} from "@/lib/lib-client/processing";
+import {useErrorStore} from "@/lib/lib-client/stores/errorsStore";
 
 interface StoreConfig {
     user: UserScheme;
@@ -37,57 +38,55 @@ const initialStatus: UserScheme = {
     createdAt: '',
 }
 
+
 export const useUserStore = create<StoreConfig>((set, get) => ({
     user: initialStatus,
     resetLoginStatus: () => set({user: initialStatus}),
 
     tryToLogin: (session: SessionContextValue) => {
+        const appendError = useErrorStore(state => state.appendError)
         if (!!session) {
             if (session.status === 'authenticated') {
-                getDataFromServerWithJson<{user: UserScheme, error: string}>(`/api/login?userId=${session.data.user.id}`).then((json) => {
-                    if (!json.error) {
+                getDataFromServerWithJson<{user: UserScheme}>(`/api/login`).then((json) => {
+                    if (!!json) {
                         set({
                             user: json.user
                         })
-                    } else {
-
                     }
                 }).catch((error) => {
+                    appendError(error)
                 })
             }
         }
     },
 
     applyUserChanges: (session: SessionContextValue, name: string, introduction: string, image: string) => {
-        const current = get().user
+        const appendError = useErrorStore(state => state.appendError)
         if (session.status === 'authenticated') {
             postDataToServerWithJson<{
                 updatedUser: UserScheme,
-                error: string
             }>('/api/editUserProfile', {
-                id: current.id,
                 name,
                 introduction,
                 image
             }).then((json) => {
-                if (!json.error) {
-                    set((state) => ({
+                if (!!json) {
+                    set({
                         user: json.updatedUser
-                    }))
-                } else {
-
+                    })
                 }
             }).catch((error) => {
-
+                appendError(error)
             })
         }
     },
 
     postComment: (session: SessionContextValue, articleId: string, contents: string, setArticle?: Dispatch<SetStateAction<ArticleScheme>> ) => {
+        const appendError = useErrorStore(state => state.appendError)
         if(session.status === 'authenticated') {
             if(!!contents){
-                postDataToServerWithJson<{postedComment: CommentScheme, error: string}>('/api/postComment', {articleId, userId: session.data.user.id, contents}).then((json) => {
-                    if(json.postedComment && !json.error){
+                postDataToServerWithJson<{postedComment: CommentScheme}>('/api/postComment', {articleId, contents}).then((json) => {
+                    if(!!json){
                         if(!!setArticle){
                             setArticle(prevState => ({
                                 ...prevState,
@@ -96,7 +95,7 @@ export const useUserStore = create<StoreConfig>((set, get) => ({
                         }
                     }
                 }).catch((error) => {
-                    window.console.log(error)
+                    appendError(error)
                 })
             }
         }
@@ -105,11 +104,12 @@ export const useUserStore = create<StoreConfig>((set, get) => ({
 
 
     postLikeForArticle: (session: SessionContextValue, articleId: string, like?: LikeForArticleScheme, setArticle?: Dispatch<SetStateAction<ArticleScheme>>) => {
+        const appendError = useErrorStore(state => state.appendError)
         const current = get().user
         if (session.status === 'authenticated') {
-            postDataToServerWithJson<{ like?: LikeForArticleScheme, error: string }>('/api/postLike', {
-                articleId, userId: current.id, ...(like !== undefined && {like}), forWhat: 'article'}).then((json) => {
-                if (!json.error) {
+            postDataToServerWithJson<{ like?: LikeForArticleScheme}>('/api/postLike', {
+                articleId, ...(like !== undefined && {like}), forWhat: 'article'}).then((json) => {
+                if (!!json) {
                     if (!json.like) {
                         set((state) => ({
                             user: {
@@ -145,17 +145,18 @@ export const useUserStore = create<StoreConfig>((set, get) => ({
                     }
                 }
             }).catch((error) => {
+                appendError(error)
             })
         }
     },
 
     postLikeForComment: (session: SessionContextValue, commentId: string, like?: LikeForCommentScheme, setArticle?: Dispatch<SetStateAction<ArticleScheme>>) => {
-        const current = get().user
+        const appendError = useErrorStore(state => state.appendError)
         if(session.status === 'authenticated') {
-            postDataToServerWithJson<{like?: LikeForCommentScheme, error?: string}>('/api/postLike', {
-                commentId, userId: current.id, ...(like !== undefined && {like}), forWhat: 'comment'
+            postDataToServerWithJson<{like?: LikeForCommentScheme}>('/api/postLike', {
+                commentId, ...(like !== undefined && {like}), forWhat: 'comment'
             }).then((json) => {
-                if (!json.error) {
+                if (!!json) {
                     if(!json.like) {
                         set((state) => ({
                             user: {
@@ -193,22 +194,21 @@ export const useUserStore = create<StoreConfig>((set, get) => ({
                             }))
                         }
                     }
-                }else {
-
                 }
             }).catch((error) => {
-
+                appendError(error)
             })
         }
     },
 
     postFollowing: (session: SessionContextValue, authorId: string, follow?: FollowScheme, setUser?) => {
+        const appendError = useErrorStore(state => state.appendError)
         if (session.status === 'authenticated') {
-            postDataToServerWithJson<{ follow?: FollowScheme, error: string }>('/api/postFollow', {
+            postDataToServerWithJson<{follow?: FollowScheme}>('/api/postFollow', {
                 followingId: authorId,
-                followerId: session.data.user.id, ...(!!follow !== undefined && {follow})
+                ...(!!follow !== undefined && {follow})
             }).then((json) => {
-                if (!json.error) {
+                if (!!json) {
                     if (!!json.follow) {
                         set((state) => ({
                             user: {
@@ -240,19 +240,19 @@ export const useUserStore = create<StoreConfig>((set, get) => ({
                     }
                 }
             }).catch((error) => {
-
+                appendError(error)
             })
         }
     },
 
     appendWatchHistories: (session: SessionContextValue, articleId: string) => {
+        const appendError = useErrorStore(state => state.appendError)
         const current = get().user
         if (session.status === 'authenticated') {
             postDataToServerWithJson<{
                 watchHistory: WatchHistoryScheme,
-                error: string
-            }>('/api/postWatchHistory', {articleId, userId: current.id}).then((json) => {
-                if (!json.error && !!json.watchHistory) {
+            }>('/api/postWatchHistory', {articleId}).then((json) => {
+                if (!!json) {
                     const previousWatchHistory = current.watchHistories.filter((watchHistory) => watchHistory.userId === json.watchHistory.userId && watchHistory.articleId === json.watchHistory.articleId && isToday(watchHistory.createdAt))
                     if (previousWatchHistory && previousWatchHistory.length > 0) {
                         set((state) => ({
@@ -270,14 +270,17 @@ export const useUserStore = create<StoreConfig>((set, get) => ({
                         }))
                     }
                 }
+            }).catch(error => {
+                appendError(error)
             })
         }
     },
 
     uploadArticle(session: SessionContextValue, article: ArticleSchemeWithPrefix ){
+        const appendError = useErrorStore(state => state.appendError)
         if (session.status === 'authenticated') {
-            postDataToServerWithJson<{article: ArticleScheme, isNew: boolean, error: string}>('/api/uploadArticle', {article: {...article, authorId: session.data.user.id}}).then(json => {
-                if(!json.error) {
+            postDataToServerWithJson<{article: ArticleScheme, isNew: boolean}>('/api/uploadArticle', {article}).then(json => {
+                if(!!json) {
                     if(!json.isNew){
                         set((state) => ({
                             user: {
@@ -293,9 +296,9 @@ export const useUserStore = create<StoreConfig>((set, get) => ({
                             }
                         }))
                     }
-                }else {
-                    console.log(json.error)
                 }
+            }).catch(error => {
+                appendError(error)
             })
         }
     }

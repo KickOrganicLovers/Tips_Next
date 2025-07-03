@@ -1,15 +1,16 @@
-import {NextRequest, NextResponse} from "next/server";
+import {NextResponse} from "next/server";
 import {prisma} from "@/lib/lib-server/prisma";
-import {replaceAllDatesToIsoString} from "@/lib/lib-server/processing";
+import {handleServerError, replaceAllDatesToIsoString} from "@/lib/lib-server/processing";
 import {getServerSession} from "next-auth/next";
 import {authOptions} from "@/lib/lib-server/auth";
 
-export async function GET(req: NextRequest) {
-    const { searchParams } = new URL(req.url);
-    // クエリパラメータ "id" を取得
+export async function GET() {
     const session = await getServerSession(authOptions);
 
-    if(!session || !session.user.id) return NextResponse.json({user: undefined});
+    if (!session || !session.user.id) return NextResponse.json(
+        {error: {message: "ログインされていません。",code: 'UNAUTHORIZED'}},
+        {status: 400}
+    );
 
 
     try {
@@ -68,18 +69,19 @@ export async function GET(req: NextRequest) {
         })
 
         if (user) {
-                return NextResponse.json({
-                    user: replaceAllDatesToIsoString(user),
-                    error: null
-                }, {status: 200})
+            return NextResponse.json({
+                user: replaceAllDatesToIsoString(user),
+            }, {status: 200})
 
         } else {
             return NextResponse.json({
-                user: undefined,
-                error: 'email is incorrect',
+                error: {
+                    message: 'ユーザーが見つかりませんでした。',
+                    code: 'USER_NOT_FOUND',
+                }
             }, {status: 403})
         }
     } catch (error) {
-        return NextResponse.json({user: undefined, error: error}, {status: 403})
+        return handleServerError(error)
     }
 }

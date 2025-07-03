@@ -103,6 +103,11 @@ export interface WatchHistoryScheme{
     createdAt: string
 }
 
+export interface ErrorScheme {
+    message: string,
+    code: string
+}
+
 export interface ArticleEditorStatusScheme {
     decorations : {
         bold: {
@@ -186,3 +191,5 @@ export interface ArticleEditorStatusScheme {
 
     }
 }
+
+export type SettingsMode = 'default' | 'logout' | 'changeTheme' | 'deleteAccount'

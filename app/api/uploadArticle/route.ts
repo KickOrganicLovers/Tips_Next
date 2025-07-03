@@ -1,15 +1,24 @@
 import {NextRequest, NextResponse} from "next/server";
-import {deleteUnusedImageTags, replaceHtml, uploadThumbnail} from "@/lib/lib-server/processing";
+import {deleteUnusedImageTags, handleServerError, replaceHtml, uploadThumbnail} from "@/lib/lib-server/processing";
 import {prisma} from "@/lib/lib-server/prisma";
 import {meili} from "@/lib/lib-server/meili";
 import cuid from "cuid";
 import {ArticleSchemeWithPrefix} from "@/types";
 import crypto from "crypto";
+import {getServerSession} from "next-auth/next";
+import {authOptions} from "@/lib/lib-server/auth";
 
 
 export async function POST(req: NextRequest) {
     const body: {article: ArticleSchemeWithPrefix}  = await req.json()
-    console.log(body)
+    const session = await getServerSession(authOptions)
+
+    if (!session || !session.user.id) return NextResponse.json(
+        {error: {message: "ログインされていません。",code: 'UNAUTHORIZED'}},
+        {status: 400}
+    );
+
+    const article = {...body.article, authorId: session.user.id}
 
     const index_articles = meili.index('articles')
     const index_tags = meili.index('tags')
@@ -17,7 +26,7 @@ export async function POST(req: NextRequest) {
     try {
         const result = await prisma.$transaction(async (tx) => {
 
-            const tagsPromise = body.article.tags.map(async (tag: string) => {
+            const tagsPromise = article.tags.map(async (tag: string) => {
                 const existingTag = await tx.tag.findUnique({
                     where: {tagName: tag},
                 })
@@ -124,10 +133,9 @@ export async function POST(req: NextRequest) {
         await index_articles.addDocuments([document_article])
         await index_tags.addDocuments(document_tag)
 
-        return NextResponse.json({article: result.article, isNew: result.isNew, error: undefined}, {status: 200})
+        return NextResponse.json({article: result.article, isNew: result.isNew}, {status: 200})
     } catch (error) {
-        console.log('error' + error)
-        return NextResponse.json({article: null, isNew: null, error: error}, {status: 400})
+        handleServerError(error)
     }
 }
 

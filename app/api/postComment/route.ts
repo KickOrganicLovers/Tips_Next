@@ -1,14 +1,22 @@
 import {NextRequest, NextResponse} from "next/server";
 import {prisma} from "@/lib/lib-server/prisma";
-import {replaceAllDatesToIsoString} from "@/lib/lib-server/processing";
+import {handleServerError, replaceAllDatesToIsoString} from "@/lib/lib-server/processing";
+import {getServerSession} from "next-auth/next";
+import {authOptions} from "@/lib/lib-server/auth";
 
 export async function POST(req: NextRequest) {
     const body = await req.json()
+    const session = await getServerSession(authOptions)
+
+    if (!session || !session.user.id) return NextResponse.json(
+        {error: {message: "ログインされていません。", code: 'UNAUTHORIZED'}},
+        {status: 400}
+    );
 
     try {
         const postedComment = await prisma.comment.create({
             data: {
-                userId: body.userId as string,
+                userId: session.user.id as string,
                 articleId: body.articleId as string,
                 contents: body.contents as string,
             },
@@ -18,8 +26,9 @@ export async function POST(req: NextRequest) {
             }
         })
 
-        return NextResponse.json({postedComment: replaceAllDatesToIsoString(postedComment), error: undefined}, {status: 200})
+        return NextResponse.json({postedComment: replaceAllDatesToIsoString(postedComment)}, {status: 200})
+
     }catch (error){
-        return NextResponse.json({postedComment: undefined, error: error}, {status: 400})
+        return handleServerError(error)
     }
 }

@@ -1,9 +1,18 @@
 import {NextRequest, NextResponse} from "next/server";
 import {prisma} from "@/lib/lib-server/prisma";
-import {replaceAllDatesToIsoString} from "@/lib/lib-server/processing";
+import {handleServerError, replaceAllDatesToIsoString} from "@/lib/lib-server/processing";
+import {getServerSession} from "next-auth/next";
+import {authOptions} from "@/lib/lib-server/auth";
 
 export async function POST(req: NextRequest) {
     const body =  await req.json()
+    const session = await getServerSession(authOptions)
+
+    if (!session || !session.user.id) return NextResponse.json(
+        {error: {message: "ログインされていません。", code: 'UNAUTHORIZED'}},
+        {status: 400}
+    );
+
 
     try {
         const startOfDay = new Date()
@@ -17,7 +26,7 @@ export async function POST(req: NextRequest) {
             const previousWatchHistory = await tx.watchHistory.findMany({
                 where: {
                     articleId: body.articleId,
-                    userId: body.userId,
+                    userId: session.user.id,
                     createdAt: {
                         gte: startOfDay,
                         lte: endOfDay,
@@ -55,7 +64,7 @@ export async function POST(req: NextRequest) {
                 return tx.watchHistory.create({
                     data: {
                         articleId: body.articleId,
-                        userId: body.userId,
+                        userId: session.user.id,
                     },
                     include: {
                         article: {
@@ -76,8 +85,8 @@ export async function POST(req: NextRequest) {
             }
         })
 
-        return NextResponse.json({watchHistory: replaceAllDatesToIsoString(watchHistory), error: undefined}, {status: 200})
+        return NextResponse.json({watchHistory: replaceAllDatesToIsoString(watchHistory)}, {status: 200})
     }catch (error){
-        return NextResponse.json({watchHistory: undefined, error: error}, {status: 400})
+        return handleServerError(error)
     }
 }

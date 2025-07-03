@@ -1,7 +1,7 @@
 .div_0 {
     position: absolute;
     box-sizing: border-box;
-    width: 500px;
+    width: 33.3%;
     height: 100%;
     left: 0;
     display: flex;
@@ -9,6 +9,7 @@
     justify-content: flex-start;
     align-items: center;
     gap: 40px;
+    padding-top: 10px;
     @media screen and (max-width: 512px) {
         width: 90vw;
     }
@@ -113,6 +114,17 @@
 }
 
 
+.p_1{
+    color: hotpink;
+    padding: 0;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
 
+.FiAlertCircle {
+    font-size: 1.5rem;
+}
 
 

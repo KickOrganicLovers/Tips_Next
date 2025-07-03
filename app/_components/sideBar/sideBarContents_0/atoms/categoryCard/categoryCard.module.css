@@ -25,18 +25,12 @@
 
 .div_2 {
     width: 100%;
+
     height: 200px;
     position: relative;
     text-wrap: nowrap;
     white-space: nowrap;
     overflow: visible;
-
-    @media screen and (max-width: 1024px) {
-        width: calc(40vw - 20px);
-    }
-    @media screen and (max-width: 768px) {
-        width: calc(60vw - 20px);
-    }
 }
 
 .div_3 {

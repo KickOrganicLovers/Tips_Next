@@ -1,18 +1,16 @@
 .div_0 {
-    width: 50%;
+    width: 33.3%;
     height: 100%;
-    position: absolute;
-    left: 20vw;
+    /*position: absolute;*/
+    /*left: 33.3%;*/
     padding: 0 20px;
     box-sizing: border-box;
     overflow-x: hidden;
     overflow-y: scroll;
     text-wrap: nowrap;
+
     @media screen and (max-width: 1024px) {
-        left: 40vw;
-    }
-    @media screen and (max-width: 768px) {
-        left: 60vw;
+        width: 350px;
     }
 }
 

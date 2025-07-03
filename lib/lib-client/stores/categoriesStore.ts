@@ -12,12 +12,9 @@ export const useCategoriesStore = create<StoreConfig>((set) => ({
     getCategories: () => {
         getDataFromServerWithJson<{
             categories: CategoryScheme[];
-            error: string
         }>('/api/getCategories').then((json) => {
-            if (!json.error) {
+            if (!!json) {
                 set({categories: json.categories})
-            } else {
-                //write error handling
             }
         }).catch(error => {
             //write error handling

@@ -7,6 +7,7 @@ import {useState} from "react";
 import classNames from "classnames";
 import {MdArrowBackIos} from "react-icons/md";
 import RouteProgress from "@/app/_components/header/atoms/routeProgress/routeProgress";
+import SettingsButton from "@/app/_components/header/atoms/settingsButton/settingsButton";
 
 export default function Header() {
     const [isSearchMode, setIsSearchMode] = useState(false);
@@ -32,6 +33,7 @@ export default function Header() {
             <SearchBar isSearchMode={isSearchMode}/>
             <ul className={styles.ul}>
                 <li className={styles.li}><SearchButton setIsSearchMode={setIsSearchMode}/></li>
+                <li className={styles.li}><SettingsButton/></li>
                 <li className={`${styles['li']} ${styles['li_category']}`}><CategoryButton/></li>
             </ul>
             <RouteProgress/>

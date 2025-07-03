@@ -1,6 +1,7 @@
 import {ArticleScheme} from "@/types";
 import {create} from "zustand/react";
 import {getDataFromServerWithJson} from "@/lib/lib-client/fetch";
+import {useErrorStore} from "@/lib/lib-client/stores/errorsStore";
 
 interface StoreConfig {
     articles: ArticleScheme[],
@@ -10,15 +11,14 @@ interface StoreConfig {
 export const useArticlesStore = create<StoreConfig>((set, get) => ({
     articles: [],
     getRecommendArticles: () => {
-        try {
-            getDataFromServerWithJson<{ articles: ArticleScheme[], error: string }>('/api/getArticles').then((json) => {
-                if (!json.error) {
-                    set({articles: json.articles})
-                }
-            })
-        } catch (error) {
-            console.error(error)
-        }
+        const appendError = useErrorStore(state => state.appendError)
+        getDataFromServerWithJson<{articles: ArticleScheme[]}>('/api/getArticles').then((json) => {
+            if (!!json) {
+                set({articles: json.articles})
+            }
+        }).catch((error) => {
+            appendError(error)
+        })
     }
 }))
 

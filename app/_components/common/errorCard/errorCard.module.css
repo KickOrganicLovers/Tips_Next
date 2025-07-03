@@ -1,0 +1,61 @@
+.div_0 {
+    width: 200px;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-color-1);
+    padding: 30px 20px;
+    box-shadow: 2px 2px 5px var(--shadow-color);
+    gap: 20px;
+    position: relative;
+}
+
+.div_1 {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 5px;
+    color: hotpink;
+    font-size: 1.2rem;
+}
+
+.div_2 {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+}
+
+.p_0 {
+    padding: 0;
+    margin: 0;
+}
+
+.p_1 {
+    padding: 0;
+    margin: 0;
+    color: var(--text-color-2);
+}
+
+.FiAlertCircle {
+    font-size: 2rem;
+    height: fit-content;
+}
+
+.AiOutlineClose {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: var(--text-color-2);
+    border-radius: 100%;
+    border: 2px solid var(--text-color-2);
+    padding: 2px;
+    transition: 0.2s;
+
+    &:hover {
+        color: hotpink;
+        border-color: hotpink;
+    }
+}

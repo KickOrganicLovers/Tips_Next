@@ -5,22 +5,26 @@ import classNames from "classnames";
 import {ArticleScheme} from "@/types";
 import {postDataToServerWithJson} from "@/lib/lib-client/fetch";
 import {useRouter} from "next/navigation";
+import {useErrorStore} from "@/lib/lib-client/stores/errorsStore";
 
 interface props {
     article: ArticleScheme
 }
 
 export default function ArticleManagementCard(props: props) {
+    const appendError = useErrorStore(state => state.appendError)
     const router = useRouter()
 
     const clickEventHandler_deleteArticle = () => {
-        deleteArticle().then(
-            (json) => {
-                if(json.isDeleted && !json.error){
+        deleteArticle()
+            .then((json) => {
+                if(!!json){
                     router.push('/')
                 }
-            }
-        )
+            }).catch((error) => {
+                appendError(error)
+
+        })
     }
 
     const clickEventHandler_editArticle = () => {

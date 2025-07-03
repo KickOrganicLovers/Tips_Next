@@ -1,21 +1,25 @@
 import {NextRequest, NextResponse} from "next/server";
 import {Upload} from "@aws-sdk/lib-storage";
 import {s3} from "@/lib/lib-server/s3";
+import {getServerSession} from "next-auth/next";
+import {authOptions} from "@/lib/lib-server/auth";
+import {handleServerError} from "@/lib/lib-server/processing";
 
 export async function POST(req: NextRequest) {
-    console.log("this is from postuserImage");
-
     try {
         const body = await req.json();
+        const session = await getServerSession(authOptions)
 
-        if (!body.profileImageAsBase64 || !body.userId) {
-            return NextResponse.json({
-                profileImageUrl: undefined,
-                error: "Missing required fields",
-            }, {status: 400});
-        }
+        if(!session || !session.user.id) return NextResponse.json(
+            {error: {message: 'ログインされていません。', code: 'UNAUTHORIZED'}},
+            {status: 400});
 
-        const id = body.userId
+        if (!body.profileImageAsBase64) return NextResponse.json(
+            {error: {message: '画像が送信されていません。', code: 'MISSING_REQUIRED_FIELDS'}},
+            {status: 400});
+
+
+        const id = session.user.id;
         const imgAsBase64WithPrefix = body.profileImageAsBase64;
         const imgAsBase64 = imgAsBase64WithPrefix.replace(/^data:image\/\w+;base64,/, "");
         const imgAsBuffer = Buffer.from(imgAsBase64, "base64");
@@ -41,15 +45,9 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json({
             profileImageUrl: `${process.env.MINIO_BUCKET_LINK}/userImages/${id}-profile.jpeg?${new Date().toISOString()}`,
-            error: undefined,
-        });
+        }, {status: 200});
 
-    } catch (err) {
-        console.error("Error uploading file:", err);
-
-        return NextResponse.json({
-            profileImageUrl: undefined,
-            error: "Internal Server Error",
-        }, {status: 500});
+    } catch (error) {
+        return handleServerError(error);
     }
 }

@@ -9,6 +9,7 @@ import {postDataToServerWithJson} from "@/lib/lib-client/fetch";
 import {useUserStore} from "@/lib/lib-client/stores/userStore";
 import {useSession} from "next-auth/react";
 import ImageEditingCard from "@/app/user/[userId]/_components/userProfileSection_myOwn/atoms/imageEditingCard";
+import {useErrorStore} from "@/lib/lib-client/stores/errorsStore";
 
 interface props {
     user: UserScheme
@@ -27,6 +28,7 @@ export default function UserProfileSection_MyOwn(props: props) {
 
     const inputImageRef = useRef<HTMLInputElement>(null);
     const applyUserChanges = useUserStore((state) => state.applyUserChanges)
+    const appendError = useErrorStore(state => state.appendError)
 
     const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
@@ -43,19 +45,19 @@ export default function UserProfileSection_MyOwn(props: props) {
 
     const postImageToServer = async (profileImageAsBase64: string, userId: string) => {
         return await postDataToServerWithJson<{
-            profileImageUrl: string,
-            error: string
+            profileImageUrl: string
         }>('/api/editUserProfile/postUserProfileImage', {profileImageAsBase64, userId})
     }
 
     const onEditComplete = () => {
         if (profileImageAsBase64 !== '') {
             postImageToServer(profileImageAsBase64, props.user.id).then((json) => {
-                if (!!json.profileImageUrl && !json.error) {
-                    console.log(json.profileImageUrl)
+                if (!!json) {
                     applyUserChanges(session, username, introduction, json.profileImageUrl)
                     setIsEditingMode(false)
                 }
+            }).catch((error) => {
+                appendError(error)
             })
         } else {
             applyUserChanges(session, username, introduction, profileImageUrl)

@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
 import {prisma} from "@/lib/lib-server/prisma";
-import {replaceAllDatesToIsoString} from "@/lib/lib-server/processing";
+import {handleServerError, replaceAllDatesToIsoString} from "@/lib/lib-server/processing";
 import {meili} from "@/lib/lib-server/meili";
 import {getServerSession} from "next-auth/next";
 import {authOptions} from "@/lib/lib-server/auth";
@@ -11,7 +11,10 @@ export async function POST(req: NextRequest) {
     const index = meili.index('users')
 
     const session = await getServerSession(authOptions)
-    if(!session || !session.user.id) return NextResponse.json({updatedUser: undefined, error: 'You must authenticate yourself before update profile'});
+
+    if(!session || !session.user.id) return NextResponse.json(
+        {error: {message: 'ログインされていません。', code: 'UNAUTHORIZED'}},
+        {status: 400})
 
     try {
         const updatedUser = await prisma.user.update({
@@ -73,27 +76,21 @@ export async function POST(req: NextRequest) {
             }
         })
 
-        if (updatedUser) {
+        if (!updatedUser) return NextResponse.json(
+            {error: {message: '更新が完了しませんでした。', code: 'UPDATE_FAILED'}},
+            {status: 400})
 
-
-            const document = {
-                id: updatedUser.id,
-                username: updatedUser.name,
-                introduction: updatedUser.introduction
-            }
-            console.log(document)
-            try{await index.addDocuments([document])}catch(err){console.log(err)}
-
-
-            return NextResponse.json({updatedUser: replaceAllDatesToIsoString(updatedUser), error: undefined}, {status: 200})
-        } else {
-            return NextResponse.json({updatedUser: undefined, error: 'user not found'}, {status: 400})
+        const document = {
+            id: updatedUser.id,
+            username: updatedUser.name,
+            introduction: updatedUser.introduction
         }
 
+        await index.addDocuments([document])
+
+        return NextResponse.json({updatedUser: replaceAllDatesToIsoString(updatedUser)}, {status: 200})
 
     } catch (error) {
-        console.error(error)
-        return NextResponse.json({updatedUser: undefined, error: error}, {status: 500})
+        return handleServerError(error)
     }
-
 }

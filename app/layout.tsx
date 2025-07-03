@@ -48,11 +48,13 @@ export default  function RootLayout({children}: { children: ReactNode }) {
         <body className={styles.body}>
         <ViewportHeightSetter/>
         <SessionProvider session={session}>
-            <Header/>
-            <div className={styles.wrapper}>
-                <Main children={children}/>
-                <SideBar/>
-            </div>
+            <ThemeProvider>
+                <Header/>
+                <div className={styles.wrapper}>
+                    <Main children={children}/>
+                    <SideBar/>
+                </div>
+            </ThemeProvider>
         </SessionProvider>
         </body>
         </html>

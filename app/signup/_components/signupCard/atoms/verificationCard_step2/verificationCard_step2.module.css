@@ -1,6 +1,6 @@
 .div_0 {
     position: absolute;
-    width: 500px;
+    width: 33.3%;
     height: 100%;
     left: 500px;
     display: flex;
@@ -44,4 +44,17 @@
 .mark_0 {
     background: none;
     color: dodgerblue;
+}
+
+.p_1{
+    color: hotpink;
+    padding: 0;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.FiAlertCircle {
+    font-size: 1.5rem;
 }

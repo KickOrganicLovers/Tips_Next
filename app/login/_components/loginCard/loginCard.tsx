@@ -2,6 +2,8 @@ import styles from './loginCard.module.css'
 import {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
 import {signIn, useSession} from 'next-auth/react';
+import {CiCircleAlert} from "react-icons/ci";
+import {FiAlertCircle} from "react-icons/fi";
 
 export default function LoginCard() {
     const [isMounted, setIsMounted] = useState(false);
@@ -10,6 +12,32 @@ export default function LoginCard() {
     const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState<string>();
+
+
+    //ログインしsessionを更新する。エラーがある場合はエラーを分析してステートにセットする。セットされたステートはpタグを通して表示される。
+    const handleLogin = async (e: React.FormEvent) => {
+         e.preventDefault();
+         try{
+             const result = await signIn("credentials", {
+                 redirect: false,
+                 email,
+                 password,
+             });
+
+             if(!result){
+                 setError('サーバーとの通信に失敗しました');
+             }else if(!!result.error) {
+                 setError(result.error)
+             }
+         }catch (error){
+             if(error instanceof Error){
+                 setError(error.message)
+             }else {
+                setError('内部エラーが発生しました。しばらく待ってからもう一度お試しください。');
+             }
+         }
+    };
 
 
     useEffect(() => {
@@ -18,31 +46,24 @@ export default function LoginCard() {
         }
     }, [session.status]);
 
-
-    const handleLogin = async (e: React.FormEvent) => {
-         e.preventDefault();
-         const result = await signIn("credentials", {
-           redirect: false,
-           email,
-           password,
-         });
-    };
-
     return (
         <div className={className}>
             <img src='/images/logoTitle.png' alt='PageIcon' className={styles.img}/>
             <h1 className={styles.h1}>Tipsにログイン</h1>
             <div className={styles.div_1}>
-                <input className={styles.input} type={`email`} name={'email'} value={email}
+                <input className={styles.input_0} type={`email`} name={'email'} value={email}
                        placeholder={'メールアドレス'}
                        onChange={(e) => {
                            setEmail(e.target.value)
                        }}/>
-                <input className={styles.input} type={'password'} name={'password'} value={password}
+                <input className={styles.input_0} type={'password'} name={'password'} value={password}
                        placeholder={'パスワード'}
                        onChange={(e) => {
                            setPassword(e.target.value)
                        }}/>
+
+                {error && <p className={styles.p_1}><FiAlertCircle className={styles.FiAlertCircle}/>{error}</p>}
+
                 <button className={styles.button} onClick={handleLogin}>ログイン</button>
                 <p className={styles.p_0}>または、以下のサービスでログイン</p>
                 <div className={styles.div_2}>

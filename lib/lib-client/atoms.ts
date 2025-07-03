@@ -14,6 +14,10 @@ export const sideBarStatusAtom = atom<{ isActive: boolean }>({
     isActive: false,
 })
 
+export const settingsAtom = atom<{isActive: boolean}>({
+    isActive: false,
+})
+
 export const articleEditorStatusAtom = atom<ArticleEditorStatusScheme>({
     decorations:{
         bold: {

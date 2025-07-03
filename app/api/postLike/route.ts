@@ -1,10 +1,18 @@
 import {NextRequest, NextResponse} from "next/server";
 import {prisma} from "@/lib/lib-server/prisma";
-import {replaceAllDatesToIsoString} from "@/lib/lib-server/processing";
+import {handleServerError, replaceAllDatesToIsoString} from "@/lib/lib-server/processing";
+import {getServerSession} from "next-auth/next";
+import {authOptions} from "@/lib/lib-server/auth";
 
 export async function POST(req: NextRequest){
+    const session = await getServerSession(authOptions)
     const body = await req.json()
-    console.log('body' + body)
+
+    if (!session || !session.user.id) return NextResponse.json(
+        {error: {message: "ログインされていません。", code: 'UNAUTHORIZED'}},
+        {status: 400}
+    );
+
 
     if(body.forWhat === 'article'){
         try {
@@ -12,7 +20,7 @@ export async function POST(req: NextRequest){
                 const like = await prisma.likeForArticle.create({
                     data: {
                         articleId: body.articleId as string,
-                        userId: body.userId as string,
+                        userId: session.user.id as string,
                     },
                     include: {
                         article: {
@@ -29,17 +37,17 @@ export async function POST(req: NextRequest){
                         }
                     }
                 })
-                return NextResponse.json({like: replaceAllDatesToIsoString(like), error: null}, {status: 200})
+                return NextResponse.json({like: replaceAllDatesToIsoString(like)}, {status: 200})
             }else {
                 await prisma.likeForArticle.delete({
                     where: {
                         userId_articleId: {
-                            userId: body.userId as string,
+                            userId: session.user.id as string,
                             articleId: body.articleId as string,
                         }
                     }
                 })
-                return NextResponse.json({like: undefined, error: undefined}, {status: 200})
+                return NextResponse.json({like: null}, {status: 200})
             }
 
         }catch (error){
@@ -52,27 +60,26 @@ export async function POST(req: NextRequest){
                 const like = await prisma.likeForComment.create({
                     data: {
                         commentId: body.commentId as string,
-                        userId: body.userId as string,
+                        userId: session.user.id as string,
                     },
                     include: {
                         comment: true
                     }
                 })
-                return NextResponse.json({like: replaceAllDatesToIsoString(like), error: null}, {status: 200})
+                return NextResponse.json({like: replaceAllDatesToIsoString(like)}, {status: 200})
             }else {
                 await prisma.likeForComment.delete({
                     where: {
                         userId_commentId: {
                             commentId: body.commentId as string,
-                            userId: body.userId as string
+                            userId: session.user.id as string
                         }
                     }
                 })
-                return NextResponse.json({like: undefined, error: undefined}, {status: 200})
+                return NextResponse.json({like: null}, {status: 200})
             }
         }catch (error) {
-            console.error('prisma error' + error)
-            return NextResponse.json({like: undefined, error: error}, {status: 400})
+            handleServerError(error)
         }
     }
 }

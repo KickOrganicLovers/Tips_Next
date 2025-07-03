@@ -1,0 +1,12 @@
+.IoMdSettings{
+    width: auto;
+    height: 3vh;
+    min-height: 30px;
+    font-size: 60px;
+    color: var(--text-color-2);
+    cursor: pointer;
+}
+
+.active {
+     color: var(--text-color-1);
+}

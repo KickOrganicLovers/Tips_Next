@@ -4,7 +4,7 @@ import {prisma} from "@/lib/lib-server/prisma";
 
 
 export async function POST(req: NextRequest) {
-    console.log('this is delete article')
+
     try {
         const body = await req.json();
         console.log(body)
