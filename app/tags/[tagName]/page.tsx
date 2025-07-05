@@ -8,24 +8,28 @@ import {getDataFromServerWithJson} from "@/lib/lib-client/fetch";
 import ArticleContainer from "@/app/_components/common/articleContainer/articleContainer";
 import {useWhereIamStore} from "@/lib/lib-client/stores/whereIamStore";
 import BoyWithCompass from "@/app/_components/common/boyWithCompass/boyWithCompass";
+import {useErrorStore} from "@/lib/lib-client/stores/errorsStore";
 
 export default function Page () {
     const applyWhereIam = useWhereIamStore(state => state.applyWhereIam)
+    const appendError = useErrorStore(state => state.appendError)
     const [articles, setArticles] = useState<ArticleScheme[]>([]);
     const {tagName} = useParams<{tagName: string}>()
 
 
     const getArticlesWithTag = async (tag: string) => {
-        return await getDataFromServerWithJson<{articles: ArticleScheme[], error: string}>(`/api/getArticles?tagName=${tag}`)
+        return await getDataFromServerWithJson<{articles: ArticleScheme[]}>(`/api/getArticles?tagName=${tag}`)
     }
 
     useEffect(() => {
         console.log(tagName)
         getArticlesWithTag(tagName).then((json) => {
-            if(!json.error){
+            if(!!json){
                 setArticles(json.articles)
                 applyWhereIam(`tagName-${tagName}`)
             }
+        }).catch((error) => {
+            appendError(error)
         })
     }, [tagName]);
 

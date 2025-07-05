@@ -1,12 +1,16 @@
 import {NextRequest, NextResponse} from "next/server";
 import * as cheerio from 'cheerio';
+import {handleServerError} from "@/lib/lib-server/processing";
 
 export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
 
     const targetUrl = searchParams.get("targetUrl")
 
-    if(!targetUrl) return NextResponse.json({metadata: null, error: 'Missing URL'})
+    if(!targetUrl) return NextResponse.json(
+        {error: {message: 'URLが送信されていません。', code: 'URL_NOT_FOUND'}},
+        {status: 400}
+    )
 
     try {
         const res = await fetch(targetUrl, {
@@ -16,6 +20,11 @@ export async function GET(req: NextRequest) {
         });
 
         const html = await res.text()
+
+        if(!html) return NextResponse.json(
+            {error: {message: 'URLが存在しないか、指定したサイトに問題があります。'}, code: 'URL_NOT_FOUND'},
+            {status: 400}
+        )
         const $ = cheerio.load(html);
 
         const getMeta = (name: string) =>
@@ -33,7 +42,7 @@ export async function GET(req: NextRequest) {
         })
 
 
-    }catch(err){
-        return NextResponse.json({metadata: null, error: 'Invalid URL'})
+    }catch(error){
+        return handleServerError(error)
     }
 }

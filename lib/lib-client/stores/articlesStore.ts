@@ -11,7 +11,7 @@ interface StoreConfig {
 export const useArticlesStore = create<StoreConfig>((set, get) => ({
     articles: [],
     getRecommendArticles: () => {
-        const appendError = useErrorStore(state => state.appendError)
+        const appendError = useErrorStore.getState().appendError
         getDataFromServerWithJson<{articles: ArticleScheme[]}>('/api/getArticles').then((json) => {
             if (!!json) {
                 set({articles: json.articles})

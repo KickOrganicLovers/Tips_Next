@@ -3,6 +3,7 @@ import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import Tag from "@/app/_components/sideBar/sideBarContents_1/atoms/tagAdditionCard/atoms/tag";
 import {getDataFromServerWithJson} from "@/lib/lib-client/fetch";
 import {ArticleEditorStatusScheme, ArticleSchemeWithPrefix} from "@/types";
+import {useErrorStore} from "@/lib/lib-client/stores/errorsStore";
 
 interface props {
     tags: string[]
@@ -15,6 +16,7 @@ export default function TagAdditionCard(props: props) {
     const [error, setError] = useState<string>('')
     const [suggestions, setSuggestions] = useState<string[]>([])
     const [isInputFocused, setIsInputFocused] = useState<boolean>(true)
+    const appendError = useErrorStore(state => state.appendError)
 
 
     const setTag = (tag: string) => {
@@ -34,16 +36,17 @@ export default function TagAdditionCard(props: props) {
         return await getDataFromServerWithJson<{
             suggestions: string[],
             isTag: boolean,
-            error: string
         }>(`/api/getSuggestions?search_query=${encodeURIComponent('#' + search_query)}`)
     }
 
 
     useEffect(() => {
         getSuggestions(inputValue).then((json) => {
-            if (json.isTag) {
+            if (!!json) {
                 setSuggestions(json.suggestions)
             }
+        }).catch(error => {
+            appendError(error)
         })
     }, [inputValue]);
 

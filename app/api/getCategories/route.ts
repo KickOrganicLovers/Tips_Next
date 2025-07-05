@@ -1,9 +1,8 @@
 import {NextResponse} from "next/server";
 import {prisma} from "@/lib/lib-server/prisma";
+import {handleServerError} from "@/lib/lib-server/processing";
 
 export async function GET() {
-
-
     try {
         const categories = await prisma.category.findMany({
                 where: {
@@ -14,8 +13,8 @@ export async function GET() {
                 }
             }
         )
-        return NextResponse.json({categories: categories, error: undefined}, {status: 200})
+        return NextResponse.json({categories: categories}, {status: 200})
     } catch (error) {
-        return NextResponse.json({categories: undefined, error: error}, {status: 400})
+        return handleServerError(error)
     }
 }

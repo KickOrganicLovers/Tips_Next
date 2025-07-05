@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
 import {prisma} from "@/lib/lib-server/prisma";
-import {replaceAllDatesToIsoString} from "@/lib/lib-server/processing";
+import {handleServerError, replaceAllDatesToIsoString} from "@/lib/lib-server/processing";
 
 export async function GET(req: NextRequest) {
 
@@ -18,11 +18,8 @@ export async function GET(req: NextRequest) {
                 name: true,
                 image: true,
                 introduction: true,
-                comments: true,
-                likesForArticle: true,
                 followers: true,
                 followings: true,
-                watchHistories: true,
                 articleCreatedBy: {
                     include: {
                         likes: true,
@@ -32,8 +29,13 @@ export async function GET(req: NextRequest) {
                 }
             }
         })
-        return NextResponse.json({user: replaceAllDatesToIsoString(user), error: undefined}, {status: 200})
+
+        if(!user) return NextResponse.json(
+            {error: {message: 'ユーザーが見つかりませんでした。', code: 'USER_NOT_FOUND'}},
+            {status: 400}
+        )
+        return NextResponse.json({user: replaceAllDatesToIsoString(user)}, {status: 200})
     }catch (error){
-        return NextResponse.json({user: undefined, error: error}, {status: 400})
+        return handleServerError(error)
     }
 }

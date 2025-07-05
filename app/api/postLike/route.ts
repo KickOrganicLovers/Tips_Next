@@ -51,8 +51,7 @@ export async function POST(req: NextRequest){
             }
 
         }catch (error){
-            console.error('prisma error' + error)
-            return NextResponse.json({like: undefined, error: error}, {status: 400})
+            return handleServerError(error)
         }
     }else if(body.forWhat === 'comment'){
         try {

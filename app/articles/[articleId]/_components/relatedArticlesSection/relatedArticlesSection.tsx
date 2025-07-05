@@ -13,8 +13,8 @@ export default function RelatedArticlesSection(props: props) {
     const [relatedArticles, setRelatedArticles] = useState<ArticleScheme[]>([])
 
     const getRelatedArticles = () => {
-        getDataFromServerWithJson<{articles: ArticleScheme[], error: string}>('/api/getArticles').then((json) => {
-            if(!json.error && json.articles.length > 0) {
+        getDataFromServerWithJson<{articles: ArticleScheme[]}>('/api/getArticles').then((json) => {
+            if(!!json && json.articles.length > 0) {
                 setRelatedArticles(json.articles);
             }
         })

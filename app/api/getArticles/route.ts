@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
 import {prisma} from "@/lib/lib-server/prisma";
-import {replaceAllDatesToIsoString} from "@/lib/lib-server/processing";
+import {handleServerError, replaceAllDatesToIsoString} from "@/lib/lib-server/processing";
 
 export async function GET (req: NextRequest){
 
@@ -44,9 +44,9 @@ export async function GET (req: NextRequest){
             }
         })
 
-        return NextResponse.json({articles: replaceAllDatesToIsoString(articles), error: undefined}, {status: 200})
+        return NextResponse.json({articles: replaceAllDatesToIsoString(articles)}, {status: 200})
     }catch (error){
-        return NextResponse.json({articles: undefined, error: error}, {status: 400})
+        return handleServerError(error)
     }
 
 

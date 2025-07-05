@@ -1,11 +1,10 @@
 import {NextResponse} from "next/server";
 import {meili} from "@/lib/lib-server/meili";
+import {handleServerError} from "@/lib/lib-server/processing";
 
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const query = decodeURIComponent(searchParams.get("search_query") as string) || "";
-
-    console.log(query);
 
 
     if(!query.startsWith('#')){
@@ -18,12 +17,11 @@ export async function GET(req: Request) {
 
             const suggestions = results_searchHistory.hits.map((hit) => hit.query);
 
-            // console.log(`suggestions: ${suggestions}`)
 
-            return NextResponse.json({suggestions, isTag: false, error: null}, {status: 200});
+            return NextResponse.json({suggestions, isTag: false}, {status: 200});
 
         }catch(error) {
-            return NextResponse.json({suggestions: null, error: error}, {status: 400})
+            return handleServerError(error)
         }
     }else{
         if (query.length < 2) return NextResponse.json({suggestions: []});
@@ -33,11 +31,10 @@ export async function GET(req: Request) {
             const results_tags = await index_tags.search(query.slice(1), {})
             const suggestions = results_tags.hits.map((hit) => hit.name);
             console.log(suggestions)
-            return NextResponse.json({suggestions, isTag: true, error: null}, {status: 200});
+            return NextResponse.json({suggestions, isTag: true}, {status: 200});
         }
         catch(error) {
-            console.log('error' + error)
-            return NextResponse.json({suggestions: null, error: error}, {status: 400})
+            return handleServerError(error)
         }
     }
 }

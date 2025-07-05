@@ -33,7 +33,7 @@ export default function ArticleManagementCard(props: props) {
     }
 
     const deleteArticle = async () => {
-        return await postDataToServerWithJson<{isDeleted: boolean, error: string}>('/api/deleteArticle', props.article)
+        return await postDataToServerWithJson<{isDeleted: boolean}>('/api/deleteArticle', props.article)
     }
 
     return (

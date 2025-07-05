@@ -32,7 +32,7 @@ export default function Page () {
             applyWhereIam(`category-${category.categoryName}`)
 
             getArticlesWithCategory(categoryId).then((json)=> {
-                if(!json.error){
+                if(!!json){
                     setArticles(json.articles)
                 }
             })

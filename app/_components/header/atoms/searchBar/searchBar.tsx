@@ -4,6 +4,7 @@ import {ChangeEvent, KeyboardEvent, useState} from "react";
 import {useRouter} from "next/navigation";
 import classNames from "classnames";
 import {getDataFromServerWithJson} from "@/lib/lib-client/fetch";
+import {useErrorStore} from "@/lib/lib-client/stores/errorsStore";
 
 interface props {
     isSearchMode: boolean;
@@ -15,24 +16,23 @@ export default function SearchBar(props: props) {
     const [isInputFocused, setIsInputFocused] = useState<boolean>(false)
     const [isTag, setIsTag] = useState(false)
     const router = useRouter();
+    const appendError = useErrorStore(state => state.appendError)
     const className_0 = searchQuery === ''? classNames(styles.AiOutlineSearch) : classNames(styles.AiOutlineSearch, styles.active)
     const className_1 = props.isSearchMode? classNames(styles.div_0, styles.searchMode) : classNames(styles.div_0)
 
     const getSuggestions = async (searchQuery: string) => {
-        return await getDataFromServerWithJson<{suggestions: string[], isTag: boolean, error: string}>(`/api/getSuggestions?search_query=${encodeURIComponent(searchQuery)}`)
+        return await getDataFromServerWithJson<{suggestions: string[], isTag: boolean}>(`/api/getSuggestions?search_query=${encodeURIComponent(searchQuery)}`)
     }
 
     const changeEventHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(e.target.value)
         getSuggestions(e.target.value).then((json) => {
-            console.log(json.suggestions)
-            if(!json.error){
-                console.log(json)
+            if(!!json) {
                 setIsTag(json.isTag)
                 setSuggestions(json.suggestions)
-            }else{
-                console.log(json.error)
             }
+        }).catch((error) => {
+            appendError(error)
         })
     }
 

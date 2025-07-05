@@ -23,7 +23,7 @@ export default function Page() {
     const session = useSession();
 
     const getUser = async () => {
-        return await getDataFromServerWithJson<{user: UserScheme, error: string}>(`/api/getUser?userId=${userId}`)
+        return await getDataFromServerWithJson<{user: UserScheme}>(`/api/getUser?userId=${userId}`)
     }
 
     const checkIsFollowed = (follows: FollowScheme[]) => {
@@ -39,8 +39,7 @@ export default function Page() {
 
     useEffect(() => {
         getUser().then((json) => {
-            console.log(json.user)
-            if(!!json.user && !json.error){
+            if(!!json){
                 setUser(json.user)
             }
         })

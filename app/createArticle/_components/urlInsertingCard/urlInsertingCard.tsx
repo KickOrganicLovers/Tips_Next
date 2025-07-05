@@ -5,6 +5,7 @@ import {IoIosLink} from "react-icons/io";
 import {ArticleEditorStatusScheme} from "@/types";
 import {getDataFromServerWithJson} from "@/lib/lib-client/fetch";
 import {Editor} from "@tiptap/core";
+import {useErrorStore} from "@/lib/lib-client/stores/errorsStore";
 
 interface props {
     setArticleEditorStatus: Dispatch<SetStateAction<ArticleEditorStatusScheme>>;
@@ -12,6 +13,7 @@ interface props {
 }
 
 export const UrlInsertingCard = (props: props) => {
+    const appendError = useErrorStore(state => state.appendError)
     const [targetUrl, setTargetUrl] = useState<string>('')
 
     const clickEventHandler_close = () => {
@@ -28,9 +30,8 @@ export const UrlInsertingCard = (props: props) => {
     }
 
     const clickEventHandler_insert = () => {
-        getDataFromServerWithJson<{metadata: {url: string, title: string, description: string, thumbnailImageUrl: string}, error: string}>(`/api/getMetaData?targetUrl=${targetUrl}}`).then((json) => {
-            console.log(json.metadata);
-            if(!!json.metadata && !json.error){
+        getDataFromServerWithJson<{metadata: {url: string, title: string, description: string, thumbnailImageUrl: string}}>(`/api/getMetaData?targetUrl=${targetUrl}}`).then((json) => {
+            if(!!json){
                 props.editor?.commands.insertOgpCard(json.metadata)
                 props.setArticleEditorStatus((prevState) => ({
                     ...prevState,
@@ -43,6 +44,8 @@ export const UrlInsertingCard = (props: props) => {
                     }
                 }))
             }
+        }).catch(error => {
+            appendError(error)
         })
     }
 

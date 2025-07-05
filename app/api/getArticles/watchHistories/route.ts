@@ -1,17 +1,22 @@
 import {NextRequest, NextResponse} from "next/server";
 import {prisma} from "@/lib/lib-server/prisma";
-import {replaceAllDatesToIsoString} from "@/lib/lib-server/processing";
+import {handleServerError, replaceAllDatesToIsoString} from "@/lib/lib-server/processing";
+import {getServerSession} from "next-auth/next";
+import {authOptions} from "@/lib/lib-server/auth";
 
 export async function GET(req: NextRequest){
 
-    const { searchParams } = new URL(req.url);
+    const session = await getServerSession(authOptions)
 
-    const userId = searchParams.get("userId");
+    if(!session || !session.user.id) return NextResponse.json(
+        {error: {message: 'ログインされていません。', code: 'UNAUTHORIZED'}},
+        {status: 400});
+
 
     try {
         const watchHistories = await prisma.watchHistory.findMany({
             where: {
-                userId: userId as string,
+                userId: session.user.id
             },
             include: {
                 article: {
@@ -27,9 +32,9 @@ export async function GET(req: NextRequest){
                 }
             }
         })
-        return NextResponse.json({watchHistories: replaceAllDatesToIsoString(watchHistories), error: null}, {status: 200})
+        return NextResponse.json({watchHistories: replaceAllDatesToIsoString(watchHistories)}, {status: 200})
     }catch (error){
-        return NextResponse.json({watchHistories: null, error: error}, {status: 400})
+        return handleServerError(error)
     }
 
 }

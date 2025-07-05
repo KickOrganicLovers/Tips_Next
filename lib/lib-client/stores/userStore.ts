@@ -44,7 +44,7 @@ export const useUserStore = create<StoreConfig>((set, get) => ({
     resetLoginStatus: () => set({user: initialStatus}),
 
     tryToLogin: (session: SessionContextValue) => {
-        const appendError = useErrorStore(state => state.appendError)
+        const appendError = useErrorStore.getState().appendError
         if (!!session) {
             if (session.status === 'authenticated') {
                 getDataFromServerWithJson<{user: UserScheme}>(`/api/login`).then((json) => {
@@ -61,7 +61,7 @@ export const useUserStore = create<StoreConfig>((set, get) => ({
     },
 
     applyUserChanges: (session: SessionContextValue, name: string, introduction: string, image: string) => {
-        const appendError = useErrorStore(state => state.appendError)
+        const appendError = useErrorStore.getState().appendError
         if (session.status === 'authenticated') {
             postDataToServerWithJson<{
                 updatedUser: UserScheme,
@@ -82,7 +82,7 @@ export const useUserStore = create<StoreConfig>((set, get) => ({
     },
 
     postComment: (session: SessionContextValue, articleId: string, contents: string, setArticle?: Dispatch<SetStateAction<ArticleScheme>> ) => {
-        const appendError = useErrorStore(state => state.appendError)
+        const appendError = useErrorStore.getState().appendError
         if(session.status === 'authenticated') {
             if(!!contents){
                 postDataToServerWithJson<{postedComment: CommentScheme}>('/api/postComment', {articleId, contents}).then((json) => {
@@ -104,7 +104,7 @@ export const useUserStore = create<StoreConfig>((set, get) => ({
 
 
     postLikeForArticle: (session: SessionContextValue, articleId: string, like?: LikeForArticleScheme, setArticle?: Dispatch<SetStateAction<ArticleScheme>>) => {
-        const appendError = useErrorStore(state => state.appendError)
+        const appendError = useErrorStore.getState().appendError
         const current = get().user
         if (session.status === 'authenticated') {
             postDataToServerWithJson<{ like?: LikeForArticleScheme}>('/api/postLike', {
@@ -151,7 +151,7 @@ export const useUserStore = create<StoreConfig>((set, get) => ({
     },
 
     postLikeForComment: (session: SessionContextValue, commentId: string, like?: LikeForCommentScheme, setArticle?: Dispatch<SetStateAction<ArticleScheme>>) => {
-        const appendError = useErrorStore(state => state.appendError)
+        const appendError = useErrorStore.getState().appendError
         if(session.status === 'authenticated') {
             postDataToServerWithJson<{like?: LikeForCommentScheme}>('/api/postLike', {
                 commentId, ...(like !== undefined && {like}), forWhat: 'comment'
@@ -202,7 +202,7 @@ export const useUserStore = create<StoreConfig>((set, get) => ({
     },
 
     postFollowing: (session: SessionContextValue, authorId: string, follow?: FollowScheme, setUser?) => {
-        const appendError = useErrorStore(state => state.appendError)
+        const appendError = useErrorStore.getState().appendError
         if (session.status === 'authenticated') {
             postDataToServerWithJson<{follow?: FollowScheme}>('/api/postFollow', {
                 followingId: authorId,
@@ -246,7 +246,7 @@ export const useUserStore = create<StoreConfig>((set, get) => ({
     },
 
     appendWatchHistories: (session: SessionContextValue, articleId: string) => {
-        const appendError = useErrorStore(state => state.appendError)
+        const appendError = useErrorStore.getState().appendError
         const current = get().user
         if (session.status === 'authenticated') {
             postDataToServerWithJson<{
@@ -277,7 +277,7 @@ export const useUserStore = create<StoreConfig>((set, get) => ({
     },
 
     uploadArticle(session: SessionContextValue, article: ArticleSchemeWithPrefix ){
-        const appendError = useErrorStore(state => state.appendError)
+        const appendError = useErrorStore.getState().appendError
         if (session.status === 'authenticated') {
             postDataToServerWithJson<{article: ArticleScheme, isNew: boolean}>('/api/uploadArticle', {article}).then(json => {
                 if(!!json) {

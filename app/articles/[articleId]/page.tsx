@@ -53,16 +53,15 @@ export default function Page() {
     }
 
 
-    const getArticle = async (articleId: string): Promise<ArticleScheme> => {
-        const json = await getDataFromServerWithJson<{articles: ArticleScheme[]}>(`/api/getArticles?articleId=${articleId}`);
-        return json.articles[0]// 必要な記事を取得
+    const getArticle = async (articleId: string) => {
+        return await getDataFromServerWithJson<{articles: ArticleScheme[]}>(`/api/getArticles?articleId=${articleId}`);
     };
 
 
     useEffect(() => {
-        getArticle(articleId).then((fetchedArticle) => {
-            if(!!fetchedArticle){
-                setArticle(fetchedArticle); // 非同期で取得した記事を状態にセット
+        getArticle(articleId).then((json) => {
+            if(!!json){
+                setArticle(json.articles[0]); // 非同期で取得した記事を状態にセット
             }else {
                 setHasError(true);
             }

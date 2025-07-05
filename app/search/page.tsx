@@ -12,6 +12,7 @@ import classNames from "classnames";
 import {useUserStore} from "@/lib/lib-client/stores/userStore";
 import {useSession} from "next-auth/react";
 import UsersSection from "@/app/search/usersSection/usersSection";
+import {useErrorStore} from "@/lib/lib-client/stores/errorsStore";
 
 
 
@@ -19,8 +20,8 @@ export default function Page() {
     const [articles, setArticles] = useState<ArticleScheme[]>([]);
     const [users, setUsers] = useState<UserScheme[]>([])
     const [pageMode, setPageMode] = useState<'articles' | 'users'>('articles')
+    const appendError = useErrorStore(state => state.appendError)
 
-    const user = useUserStore((state) => state.user)
     const session = useSession();
     const searchParams = useSearchParams();
     const search_query = decodeURIComponent(searchParams.get('search_query') as string)
@@ -29,41 +30,37 @@ export default function Page() {
 
 
     const searchArticles = async (query: string) => {
-        return getDataFromServerWithJson<{articles: ArticleScheme[], error: string}>(`/api/searchArticle?search_query=${query}`);
+        return getDataFromServerWithJson<{articles: ArticleScheme[]}>(`/api/searchArticle?search_query=${query}`);
     }
 
     const searchUsers = async (query: string) => {
-        return getDataFromServerWithJson<{users: UserScheme[], error: string}>(`/api/searchUser?search_query=${query}`)
+        return getDataFromServerWithJson<{users: UserScheme[]}>(`/api/searchUser?search_query=${query}`)
     }
 
     const postSearchHistory = (query: string, userId: string)=> {
-        return postDataToServerWithJson<{error: string}>('/api/postSearchHistory', {userId: userId, searchQuery: search_query})
+        return postDataToServerWithJson('/api/postSearchHistory', {userId: userId, searchQuery: search_query})
     }
 
 
 
     useEffect(() => {
         searchArticles(search_query).then((json) => {
-            if(!json.error){
+            if(!!json){
                 setArticles(json.articles)
-                if (session.status === 'authenticated') {
-                    postSearchHistory(search_query, user.id).then((json) => {
-                        if(!!json.error){
-                            console.error(json.error)
-                        }
-                    }).catch((error) => {
-                        console.error(error)
-                    })
-                }
             }
+        }).catch((error) => {
+            appendError(error)
         })
         searchUsers(search_query).then((json) => {
-            if(!json.error){
+            if(!!json){
                 setUsers(json.users)
-            }else {
-                console.log(json.error)
             }
+        }).catch((error) => {
+            appendError(error)
         })
+        if(session.status === 'authenticated'){
+            //postSearchHistory
+        }
     }, [search_query])
 
 

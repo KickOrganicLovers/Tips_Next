@@ -1,6 +1,7 @@
 import {NextRequest, NextResponse} from "next/server";
 import {meili} from "@/lib/lib-server/meili";
 import {prisma} from "@/lib/lib-server/prisma";
+import {handleServerError} from "@/lib/lib-server/processing";
 
 export async function GET(req: NextRequest){
     const searchParams = req.nextUrl.searchParams;
@@ -27,8 +28,8 @@ export async function GET(req: NextRequest){
             }
         })
 
-        return NextResponse.json({articles, error: null}, {status: 200})
+        return NextResponse.json({articles}, {status: 200})
     }catch (error){
-        return NextResponse.json({articles: null, error: error}, {status: 400})
+        return handleServerError(error)
     }
 }
