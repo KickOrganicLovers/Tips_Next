@@ -17,6 +17,7 @@ export default function CommentInsertionCard(props: props) {
     const [contents, setContents] = useState<string>('')
     const postComment = useUserStore(state => state.postComment)
     const session = useSession()
+    const user = useUserStore(state => state.user)
 
     const clickEventHandler_check = () => {
         postComment(session, props.article.id, contents, props.setArticle)
@@ -32,8 +33,8 @@ export default function CommentInsertionCard(props: props) {
 
     return (
         <div className={styles.div_0}>
-            <img src={session.data?.user.image as string} alt={'user'} className={styles.img_0}/>
-            <TextareaAutosize className={styles.textarea_0} value={contents} placeholder={session.data?.user.name + 'としてコメントを投稿'} onChange={(e) => {setContents(e.target.value)}}/>
+            <img src={user.image as string} alt={'user'} className={styles.img_0}/>
+            <TextareaAutosize className={styles.textarea_0} value={contents} placeholder={user.name + 'としてコメントを投稿'} onChange={(e) => {setContents(e.target.value)}}/>
             <div className={styles.div_1}>
                 <AiOutlineCheck className={(() => contents? classNames(styles.AiOutlineCheck, styles.active) : classNames(styles.AiOutlineCheck))()} onClick={clickEventHandler_check}/>
                 <AiOutlineClose className={(() => contents? classNames(styles.AiOutlineClose, styles.active) : classNames(styles.AiOutlineClose))()} onClick={clickEventHandler_close}/>

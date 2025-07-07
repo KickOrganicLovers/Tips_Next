@@ -7,9 +7,11 @@ import {LuEye} from "react-icons/lu";
 import {stripTags} from "@/lib/lib-client/processing";
 import {useEffect, useState} from "react";
 import classNames from "classnames";
+import {IoIosTrendingUp} from "react-icons/io";
 
 interface props {
     article: ArticleScheme
+    index: number
 }
 
 export default function ExtendedArticleContainer(props: props) {
@@ -26,7 +28,6 @@ export default function ExtendedArticleContainer(props: props) {
     })
 
     return (
-        <div className={styles.virtual_wrapper}>
             <div className={className} onClick={clickEventHandler}>
                 <div className={styles.div_1}>
                     <div className={styles.div_3}>
@@ -41,6 +42,7 @@ export default function ExtendedArticleContainer(props: props) {
                                 <p className={styles.p_3}>{props.article.watchHistories.length}</p>
                             </div>
                         </div>
+                        <div className={styles.div_15}><IoIosTrendingUp className={styles.IoIosTrendingUp}/>{props.index}位</div>
                     </div>
                     <div className={styles.div_4}>
                         <p className={styles.p_0}>{props.article.title}</p>
@@ -81,6 +83,5 @@ export default function ExtendedArticleContainer(props: props) {
                     </div>
                 </div>
             </div>
-        </div>
     )
 }

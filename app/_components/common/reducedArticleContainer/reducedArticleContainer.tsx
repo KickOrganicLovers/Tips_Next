@@ -26,7 +26,6 @@ export default function ReducedArticleContainer(props: props) {
     })
 
     return (
-        <div className={styles.virtual_wrapper}>
             <div className={className} onClick={clickEventHandler}>
                 <img src={props.article.thumbnailImageUrl} alt='thumbnail' className={styles.img_0}/>
                 <div className={styles.div_2}>
@@ -45,6 +44,5 @@ export default function ReducedArticleContainer(props: props) {
                     </div>
                 </div>
             </div>
-        </div>
     )
 }

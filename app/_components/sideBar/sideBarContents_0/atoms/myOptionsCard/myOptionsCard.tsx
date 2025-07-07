@@ -32,8 +32,8 @@ export default function MyOptionsCard(props: props) {
         props.setSideBarStatus({isActive: false})
     }
 
-    const onClick_pushToHistory = () => {
-        router.push('/watchHistory')
+    const onClick_pushToHistories = () => {
+        router.push('/watchHistories')
         props.setSideBarStatus({isActive: false})
     }
 
@@ -56,8 +56,8 @@ export default function MyOptionsCard(props: props) {
                     <IoHeartOutline className={styles.icons}/>
                     <p className={styles.p_0}>いいねした記事</p>
                 </li>
-                <li className={(() => whereIam === 'watchHistory' ? classNames(styles.li_0, styles.active) : classNames(styles.li_0))()}
-                    onClick={onClick_pushToHistory}>
+                <li className={(() => whereIam === 'watchHistories' ? classNames(styles.li_0, styles.active) : classNames(styles.li_0))()}
+                    onClick={onClick_pushToHistories}>
                     <MdHistory className={styles.icons}/>
                     <p className={styles.p_0}>閲覧履歴</p>
                 </li>

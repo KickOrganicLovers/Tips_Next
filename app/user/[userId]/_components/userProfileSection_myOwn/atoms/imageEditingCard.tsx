@@ -20,8 +20,8 @@ export default function ImageEditingCard(props: props) {
             zoom: 1,
             rotation: 0,
             aspect: 1,
-            minZoom: 1,
-            maxZoom: 1,
+            minZoom: 0.1,
+            maxZoom: 3,
             cropShape: "round",
             zoomSpeed: 1,
             onCropChange: (location: Point) => {
@@ -198,7 +198,7 @@ export default function ImageEditingCard(props: props) {
         <div className={styles.div_0}>
             <Cropper {...cropperProps} onCropComplete={onCropComplete}/>
             <div className={styles.div_1}>
-                <p className={styles.p_0}>Zoom</p>
+                <p className={styles.p_0}>ズーム</p>
                 <input
                     className={styles.input_0}
                     type='range'
@@ -213,7 +213,7 @@ export default function ImageEditingCard(props: props) {
                 />
             </div>
             <div className={styles.div_1}>
-                <p className={styles.p_0}>Rotation</p>
+                <p className={styles.p_0}>回転</p>
                 <input
                     className={styles.input_0}
                     type='range'

@@ -19,7 +19,7 @@ export const useErrorStore = create<StoreConfig>((set, get) => ({
     removeError: (index: number) => {
         const current = get().errors
         set({
-            errors: current.splice(index, 1)
+            errors: current.filter((_, i) => i !== index)
         })
     }
 }))

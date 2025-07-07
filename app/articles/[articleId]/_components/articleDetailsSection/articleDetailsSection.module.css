@@ -25,13 +25,16 @@
 }
 
 .div_1 {
-    width: 100%;
+    width: calc(100% - 40px);
+    box-sizing: border-box;
+    margin: 20px;
     position: absolute;
     text-align: left;
     top: 0;
     left: 0;
-    color: var(--text-color-3);
-    background-color: var(--bg-color-3);
+    color: var(--text-color-1);
+    background-color: var(--bg-color-1);
+    border-bottom: 1px solid var(--border-color-1);
 }
 
 .img_0 {
@@ -124,7 +127,7 @@
 }
 
 .Link_0 {
-    color: var(--text-color-3);
+    color: var(--text-color-1);
     transition: color 0.25s;
     text-decoration: none;
     &:hover {

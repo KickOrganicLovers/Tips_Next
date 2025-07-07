@@ -12,9 +12,14 @@
 }
 
 .div_1 {
-    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     width: 100%;
     height: 10%;
+    align-items: center;
+    padding: 0 20px;
+    box-sizing: border-box;
 }
 
 .div_2 {
@@ -51,25 +56,18 @@
 }
 
 .p_0 {
+    width: 35%;
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    position: absolute;
-    margin: 0;
-    padding: 0 0 0 2vw;
-    left: 0;
-    width: 25%;
     height: 100%;
     box-sizing: border-box;
+    font-size: 1.2rem;
     color: #676767;
 }
 
 .input_0 {
     width: 65%;
     height: 100%;
-    position: absolute;
-    top: 0;
-    right: 0;
     box-sizing: border-box;
-    margin: 0 2vw 0 2vw;
 }

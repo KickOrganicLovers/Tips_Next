@@ -1,13 +1,16 @@
 .div_0 {
     height: fit-content;
-    background-color: var(--bg-color-3);
-    color: var(--text-color-3);
+    background-color: var(--bg-color-2);
+    color: var(--text-color-1);
     box-sizing: border-box;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    gap: 5px;
-    padding: 10px;
+    gap: 10px;
+    padding: 10px 15px;
+    margin: 10px;
+    /*border-radius:15px;*/
+    box-shadow: 1px 1px 10px var(--shadow-color);
 }
 
 .div_1 {

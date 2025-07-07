@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
         {status: 400}
     );
 
-    const article = {...body.article, authorId: session.user.id}
+    const articleWithPrefix: ArticleSchemeWithPrefix = {...body.article, authorId: session.user.id}
 
     const index_articles = meili.index('articles')
     const index_tags = meili.index('tags')
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
     try {
         const result = await prisma.$transaction(async (tx) => {
 
-            const tagsPromise = article.tags.map(async (tag: string) => {
+            const tagsPromise = articleWithPrefix.tags.map(async (tag: string) => {
                 const existingTag = await tx.tag.findUnique({
                     where: {tagName: tag},
                 })
@@ -43,19 +43,19 @@ export async function POST(req: NextRequest) {
             const tags = await Promise.all(tagsPromise)
 
 
-            if(!body.article.id || !body.article.previousContents){
+            if(!articleWithPrefix.id || !articleWithPrefix.previousContents){
                 const articleId = cuid()
-                const replacedContents = await replaceHtml(body.article.contents, articleId)
-                const thumbnailImageUrl = !!body.article.thumbnailImageUrl && !body.article.thumbnailImageAsBase64 ? body.article.thumbnailImageUrl : await uploadThumbnail(articleId, body.article.thumbnailImageAsBase64 as string)
+                const replacedContents = await replaceHtml(articleWithPrefix.contents, articleId)
+                const thumbnailImageUrl = !!articleWithPrefix.thumbnailImageUrl && !articleWithPrefix.thumbnailImageAsBase64 ? articleWithPrefix.thumbnailImageUrl : await uploadThumbnail(articleId, articleWithPrefix.thumbnailImageAsBase64 as string)
 
                 const article = await tx.article.create({
                     data: {
                         id: articleId,
-                        title: body.article.title,
+                        title: articleWithPrefix.title,
                         contents: replacedContents,
                         thumbnailImageUrl: thumbnailImageUrl,
-                        authorId: body.article.authorId,
-                        categoryId: body.article.categoryId,
+                        authorId: articleWithPrefix.authorId,
+                        categoryId: articleWithPrefix.categoryId,
                         tags: {
                             connect: tags
                         }
@@ -77,20 +77,20 @@ export async function POST(req: NextRequest) {
             }else {
 
 
-                const replacedContents = await replaceHtml(body.article.contents, body.article.id)
-                const thumbnailImageUrl = await uploadThumbnail(body.article.id, body.article.thumbnailImageAsBase64 as string)
-                await deleteUnusedImageTags(replacedContents, body.article.previousContents)
+                const replacedContents = await replaceHtml(articleWithPrefix.contents, articleWithPrefix.id)
+                const thumbnailImageUrl = await uploadThumbnail(articleWithPrefix.id, articleWithPrefix.thumbnailImageAsBase64 as string)
+                await deleteUnusedImageTags(replacedContents, articleWithPrefix.previousContents)
 
                 const article = await tx.article.update({
                     where: {
-                        id: body.article.id
+                        id: articleWithPrefix.id
                     },
                     data: {
-                        title: body.article.title,
+                        title: articleWithPrefix.title,
                         contents: replacedContents,
                         thumbnailImageUrl: thumbnailImageUrl,
-                        authorId: body.article.authorId,
-                        categoryId: body.article.categoryId,
+                        authorId: articleWithPrefix.authorId,
+                        categoryId: articleWithPrefix.categoryId,
                         tags: {
                             connect: tags
                         }
@@ -134,7 +134,12 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json({article: result.article, isNew: result.isNew}, {status: 200})
     } catch (error) {
-        handleServerError(error)
+        if(error instanceof Error){
+            return NextResponse.json({error: {message: error.message, code: 'fuck'}},{status: 400})
+        }
+        else {
+            return NextResponse.json({error: {message: 'fuck', code: 'UNKNOWN'}},{status: 400})
+        }
     }
 }
 

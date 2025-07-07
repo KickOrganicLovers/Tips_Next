@@ -39,13 +39,35 @@ export const OgpCard = Node.create<OgpCardCommands>({
         return [{tag: 'div.ogp-card'}]
     },
 
-    renderHTML({HTMLAttributes}) {
-        return ['div', mergeAttributes(HTMLAttributes, {class: 'ogp-card'})]
+    renderHTML({node, HTMLAttributes}) {
+        const { url, title, description, thumbnailImageUrl } = node.attrs
+        return [
+            'div',
+            mergeAttributes(HTMLAttributes, { style: 'width: 100%;height: fit-content;box-sizing: border-box;border-radius: 20px;overflow: hidden;border: 2px solid var(--border-color-1);'}),
+            [
+                'a',
+                {
+                    href: url,
+                    target: '_blank',
+                    style: 'width: 100%;display: flex;flex-direction: row;text-decoration: none;'
+                },
+                [
+                    'div',
+                    {
+                        style: 'width: 30%;aspect-ratio: 1.91/1;'
+                    },
+                    ['img', { src: thumbnailImageUrl, alt: 'thumbnail', style: 'width: 100%;height: 100%;object-fit: cover;' }]
+                ],
+                [
+                    'div',
+                    { style: 'width: 70%;flex: 1;box-sizing: border-box;padding: 20px;display: flex;flex-direction: column;justify-content: space-around;gap: 20px;' },
+                    ['div', { style: 'color: var(--text-color-1);font-size: clamp(1rem, 1vw, 1.4rem);display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden;text-overflow: ellipsis;' }, title],
+                    ['div', { style: '    color: var(--text-color-2);font-size: clamp(0.8rem, 0.8vw, 1.2rem);display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;text-overflow: ellipsis;' }, description]
+                ]
+            ]
+        ]
     },
 
-    addNodeView() {
-        return ReactNodeViewRenderer(OgpCardComponent)
-    },
 
     addCommands() {
         return {
@@ -61,22 +83,3 @@ export const OgpCard = Node.create<OgpCardCommands>({
         }
     },
 })
-
-const OgpCardComponent = (props: any) => {
-    const {node} = props
-    const {url, title, description, thumbnailImageUrl} = node.attrs
-
-    return (
-        <NodeViewWrapper as='div' className={styles.div_0}>
-            <a href={url} target='_blank' className={styles.a_0}>
-                <div className={styles.div_1}>
-                    <img src={thumbnailImageUrl} alt={'thumbnail'} className={styles.img_0}/>
-                </div>
-                <div className={styles.div_2}>
-                    <div className={styles.div_3}>{title}</div>
-                    <div className={styles.div_4}>{description}</div>
-                </div>
-            </a>
-        </NodeViewWrapper>
-    )
-}

@@ -1,6 +1,6 @@
 'use client'
 
-import styles from './watchHistory.module.css'
+import styles from './watchHistories.module.css'
 import React, {useEffect} from "react";
 import {useRouter} from "next/navigation";
 import {ArticleScheme, WatchHistoryScheme} from "@/types";
@@ -9,12 +9,14 @@ import {useUserStore} from "@/lib/lib-client/stores/userStore";
 import {useSession} from "next-auth/react";
 import GirlWithBalloon from "@/public/images/girlWithBalloon.svg";
 import Link from "next/link";
+import {useWhereIamStore} from "@/lib/lib-client/stores/whereIamStore";
 
 
 export default function Page () {
-
+    const applyWhereIam = useWhereIamStore(state => state.applyWhereIam)
     const user = useUserStore(state => state.user)
     const session = useSession();
+
 
     const classifyWatchHistories = (watchHistories: WatchHistoryScheme[]) => {
         return watchHistories.reduce((acc, watchHistory) => {
@@ -26,6 +28,10 @@ export default function Page () {
             return acc;
         }, {} as Record<string, WatchHistoryScheme[]>)
     }
+
+    useEffect(() => {
+        applyWhereIam('watchHistories')
+    }, []);
 
 
     return (

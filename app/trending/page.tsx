@@ -28,8 +28,8 @@ export default function Page () {
                 </div>
             </div>
             <div className={styles.div_3}>
-                {articles.map((article: ArticleScheme, index: number) => <div key={index}><ExtendedArticleContainer
-                    article={article} key={index}/></div>)}
+                {articles.map((article: ArticleScheme, index: number) => <ExtendedArticleContainer
+                    article={article} key={index} index={index + 1}/>)}
             </div>
         </div>
     )

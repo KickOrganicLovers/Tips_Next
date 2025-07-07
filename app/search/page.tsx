@@ -13,6 +13,7 @@ import {useUserStore} from "@/lib/lib-client/stores/userStore";
 import {useSession} from "next-auth/react";
 import UsersSection from "@/app/search/usersSection/usersSection";
 import {useErrorStore} from "@/lib/lib-client/stores/errorsStore";
+import {useWhereIamStore} from "@/lib/lib-client/stores/whereIamStore";
 
 
 
@@ -21,6 +22,7 @@ export default function Page() {
     const [users, setUsers] = useState<UserScheme[]>([])
     const [pageMode, setPageMode] = useState<'articles' | 'users'>('articles')
     const appendError = useErrorStore(state => state.appendError)
+    const applyWhereIam = useWhereIamStore(state => state.applyWhereIam)
 
     const session = useSession();
     const searchParams = useSearchParams();
@@ -37,8 +39,8 @@ export default function Page() {
         return getDataFromServerWithJson<{users: UserScheme[]}>(`/api/searchUser?search_query=${query}`)
     }
 
-    const postSearchHistory = (query: string, userId: string)=> {
-        return postDataToServerWithJson('/api/postSearchHistory', {userId: userId, searchQuery: search_query})
+    const postSearchHistory = (query: string)=> {
+        return postDataToServerWithJson('/api/postSearchHistory', {searchQuery: search_query})
     }
 
 
@@ -59,8 +61,9 @@ export default function Page() {
             appendError(error)
         })
         if(session.status === 'authenticated'){
-            //postSearchHistory
+            postSearchHistory(search_query).catch(error => {appendError(error)})
         }
+        applyWhereIam(`search_?search_query=${search_query}`)
     }, [search_query])
 
 
