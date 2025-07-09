@@ -3,6 +3,7 @@ import AccountBanner from "@/app/_components/sideBar/sideBarContents_2/atoms/acc
 import {signOut, useSession} from "next-auth/react";
 import {Dispatch, SetStateAction} from "react";
 import {SettingsMode} from "@/types";
+import {useUserStore} from "@/lib/lib-client/stores/userStore";
 
 interface props {
     setSettingsMode: Dispatch<SetStateAction<SettingsMode>>
@@ -10,9 +11,10 @@ interface props {
 
 export default function LogoutCard (props: props) {
     const session = useSession();
+    const resetUserStatus = useUserStore(state => state.resetUserStatus);
 
     const clickEventHandler_logout = () => {
-        signOut({callbackUrl: '/'})
+        signOut({callbackUrl: '/'}).then(resetUserStatus)
     }
 
     const clickEventHandler_cancel = () => {

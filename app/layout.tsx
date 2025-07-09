@@ -10,7 +10,7 @@ import {useRouter} from "next/navigation";
 import SideBar from "@/app/_components/sideBar/sideBar";
 import 'dotenv/config'
 
-import {SessionProvider} from "next-auth/react"
+import {getSession, SessionProvider} from "next-auth/react"
 import {getServerSession} from "next-auth/next"
 import {authOptions} from "@/lib/lib-server/auth";
 import {Session} from "next-auth";
@@ -31,14 +31,14 @@ export default  function RootLayout({children}: { children: ReactNode }) {
     const router = useRouter();
 
     useEffect(() => {
-        getServerSession(authOptions).then((session) => {
-            console.log('fuck')
-            if(!!session){
-                setSession(session)
-
+        getSession().then((session) => {
+            if (session) {
                 router.push('/')
-            }}
-        )}, [])
+            }else{
+
+            }
+        })
+    }, [])
 
     return (
         <html lang='ja' className={noto_sans_jp.className}>

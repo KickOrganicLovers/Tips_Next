@@ -24,6 +24,15 @@ export async function GET() {
                 image: true,
                 introduction: true,
                 comments: true,
+                articleCreatedBy: {
+                    include: {
+                        author: true,
+                        likes: true,
+                        watchHistories: true,
+                        category: true,
+                        tags: true,
+                    }
+                },
                 likesForArticle: {
                     include: {
                         article: {

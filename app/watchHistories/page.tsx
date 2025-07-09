@@ -57,7 +57,7 @@ export default function Page () {
                 })()}
 
                 {user.watchHistories.length === 0?
-                    <div className={styles.div_4}>
+                    <div className={styles.div_6}>
                         <GirlWithBalloon className={styles.GirlWithBalloon}/>
                         <h2 className={styles.h2_1}>ここにはまだ何もありません...</h2>
                         <h3 className={styles.h3_0}>There is nothing here...</h3>

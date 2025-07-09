@@ -17,7 +17,6 @@ export default function Page() {
     const applyWhereIam = useWhereIamStore(state => state.applyWhereIam)
     const user_myOwn = useUserStore((state) => state.user)
     const {userId} = useParams<{userId: string}>();
-    const [isOwner, setIsOwner] = useState<boolean>(false);
     const [user, setUser] = useState<UserScheme>()
     const [follow, setFollow] = useState<FollowScheme>()
     const session = useSession();
@@ -38,30 +37,28 @@ export default function Page() {
     }
 
     useEffect(() => {
-        getUser().then((json) => {
-            if(!!json){
-                setUser(json.user)
-            }
-        })
-    }, [userId])
+        if(session.status !== 'authenticated' || session.data.user.id !== userId){
+            getUser().then((json) => {
+                if(!!json){
+                    setUser(json.user)
+                }
+            })
+        }else{
+            setUser(user_myOwn)
+        }
+    }, [userId, user_myOwn])
 
 
     useEffect(() => {
         applyWhereIam('user-' + userId)
-        if (session.status === 'authenticated' && session.data.user.id === userId) {
-            setIsOwner(true)
-        }else {
-            setIsOwner(false)
-        }
         checkIsFollowed(user?.followers as FollowScheme[])
     }, [userId, user]);
 
     return (
         <div className={styles.div_0}>
-            {(() => isOwner ? <UserProfileSection_MyOwn user={user_myOwn}/> :
-                <UserProfileSection user={user as UserScheme} user_myOwn={user_myOwn}
-                                    follow={follow as FollowScheme} setUser={setUser as Dispatch<SetStateAction<UserScheme>>}/>)()}
-            <ArticleByUserSection user={user}/>
+            {session.status === 'authenticated' && session.data.user.id === userId && user? <UserProfileSection_MyOwn user={user as UserScheme}/> :
+                <UserProfileSection user={user as UserScheme} follow={follow as FollowScheme} setUser={setUser as Dispatch<SetStateAction<UserScheme>>}/>}
+            {!!user && <ArticleByUserSection user={user}/>}
         </div>
     )
 }

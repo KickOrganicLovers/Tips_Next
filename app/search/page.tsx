@@ -1,7 +1,6 @@
 'use client'
 
 import {useEffect, useState} from "react";
-import {useDispatch} from "react-redux";
 import {useSearchParams} from "next/navigation";
 import {getDataFromServerWithJson, postDataToServerWithJson} from "@/lib/lib-client/fetch";
 import {ArticleScheme, UserScheme} from "@/types";
@@ -63,7 +62,7 @@ export default function Page() {
         if(session.status === 'authenticated'){
             postSearchHistory(search_query).catch(error => {appendError(error)})
         }
-        applyWhereIam(`search_?search_query=${search_query}`)
+        applyWhereIam(`search-${search_query}`)
     }, [search_query])
 
 

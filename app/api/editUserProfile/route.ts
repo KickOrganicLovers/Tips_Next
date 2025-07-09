@@ -32,6 +32,15 @@ export async function POST(req: NextRequest) {
                 image: true,
                 introduction: true,
                 comments: true,
+                articleCreatedBy: {
+                    include: {
+                        author: true,
+                        likes: true,
+                        watchHistories: true,
+                        category: true,
+                        tags: true,
+                    }
+                },
                 likesForArticle: {
                     include: {
                         article: {
@@ -91,6 +100,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({updatedUser: replaceAllDatesToIsoString(updatedUser)}, {status: 200})
 
     } catch (error) {
+        console.log(error)
         return handleServerError(error)
     }
 }

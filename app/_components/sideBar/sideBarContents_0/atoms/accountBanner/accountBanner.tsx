@@ -7,11 +7,13 @@ import {sideBarStatusAtom} from "@/lib/lib-client/atoms";
 import {useAtom} from "jotai";
 import {useSession} from "next-auth/react";
 import {useUserStore} from "@/lib/lib-client/stores/userStore";
+import {useWhereIamStore} from "@/lib/lib-client/stores/whereIamStore";
 
 interface props {
     setSideBarStatus: Dispatch<SetStateAction<{ isActive: boolean }>>
 }
 export default function AccountBanner(props: props) {
+    const whereIam = useWhereIamStore(state => state.whereIam);
     const [sideBarStatus, setSideBarStatus] = useAtom(sideBarStatusAtom)
     const user = useUserStore(state => state.user)
     const router = useRouter()
@@ -33,9 +35,11 @@ export default function AccountBanner(props: props) {
         setSideBarStatus({isActive: false})
     }
 
-    const clickEventHandler_navigateTouser = () => {
-        router.push('/user/me')
-        setSideBarStatus({isActive: false})
+    const clickEventHandler_navigateToUser = () => {
+        if(whereIam !== `user-${session.data?.user.id}`) {
+            router.push('/user/me')
+            setSideBarStatus({isActive: false})
+        }
     }
 
 
@@ -45,7 +49,7 @@ export default function AccountBanner(props: props) {
                 <img className={styles.img_0} src={user.image as string} alt='profileimage'/>
                 {(() => session.status === 'authenticated' ? (
                     <p className={styles.p_1}
-                       onClick={clickEventHandler_navigateTouser}>{user.name as string}</p>
+                       onClick={clickEventHandler_navigateToUser}>{user.name as string}</p>
                 ) : (
                     <p className={styles.p_1} onClick={clickEventHandler_navigateToLogin}>ログイン</p>
                 ))()}

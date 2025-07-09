@@ -13,7 +13,7 @@ import {useErrorStore} from "@/lib/lib-client/stores/errorsStore";
 
 interface StoreConfig {
     user: UserScheme;
-    resetLoginStatus: () => void;
+    resetUserStatus: () => void;
     tryToLogin: (session: SessionContextValue) => void;
     applyUserChanges: (session: SessionContextValue, username: string, introduction: string, profileImageUrl: string) => void;
     postComment: (session: SessionContextValue, articleId: string, contents: string, setArticle?: Dispatch<SetStateAction<ArticleScheme>>) => void;
@@ -41,7 +41,8 @@ const initialStatus: UserScheme = {
 
 export const useUserStore = create<StoreConfig>((set, get) => ({
     user: initialStatus,
-    resetLoginStatus: () => set({user: initialStatus}),
+
+    resetUserStatus: () => set({user: initialStatus}),
 
     tryToLogin: (session: SessionContextValue) => {
         const appendError = useErrorStore.getState().appendError
@@ -292,7 +293,22 @@ export const useUserStore = create<StoreConfig>((set, get) => ({
                                     }else {
                                         return watchHistory
                                     }
+                                }),
+                                likes: state.user.likesForArticle.map((likeForArticle) => {
+                                    if(!!likeForArticle.article && likeForArticle.articleId === json.article.id){
+                                        Object.assign(likeForArticle.article, json.article)
+                                        return likeForArticle
+                                    }else {
+                                        return likeForArticle
+                                    }
                                 })
+                            }
+                        }))
+                    }else {
+                        set((state) => ({
+                            user: {
+                                ...state.user,
+                                articleCreatedBy: [...state.user.articleCreatedBy, json.article]
                             }
                         }))
                     }

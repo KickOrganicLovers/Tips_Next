@@ -6,7 +6,6 @@ import {useSession} from "next-auth/react";
 import {Dispatch, SetStateAction} from "react";
 
 interface props {
-    user_myOwn: UserScheme
     user: UserScheme
     setUser: Dispatch<SetStateAction<UserScheme>>
     follow: FollowScheme

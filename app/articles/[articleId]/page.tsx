@@ -133,12 +133,12 @@ export default function Page() {
                 <h1 className={styles.h1_0}>{article.title}</h1>
                 <div ref={contentRef} className={styles.div_2}/>
                 {(() => !isMobile ? <CommentsSection article={article} setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>}/> : null)()}
-                {(() => !isMobile ? <RelatedArticlesSection isMobile={isMobile}/> : null)()}
+                {(() => !isMobile ? <RelatedArticlesSection isMobile={isMobile} articleId={articleId}/> : null)()}
             </div>
             {(() => isMobile ? <ReducedArticleDetailsSection article={article} follow={follow}
                                                              setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>}/> : null)()}
             {(() => isMobile ? <CommentsSection article={article} setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>}/> : null)()}
-            {(() => isMobile ? <RelatedArticlesSection isMobile={isMobile}/> : null)()}
+            {(() => isMobile ? <RelatedArticlesSection isMobile={isMobile} articleId={articleId}/> : null)()}
         </div>
     )
 }
