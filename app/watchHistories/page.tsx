@@ -64,7 +64,7 @@ export default function Page () {
                         {session.status === 'authenticated' ?
                             undefined
                             :
-                            <p className={styles.p_1}>視聴履歴を表示するには<Link className={styles.Link} href={'/login'}>ログイン</Link></p>
+                            <p className={styles.p_1}><Link className={styles.Link} href={'/login'}>ログイン</Link>すると視聴履歴が保存されます。</p>
                         }
                     </div>
                     :

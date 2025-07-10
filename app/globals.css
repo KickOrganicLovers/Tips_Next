@@ -5,6 +5,7 @@ html {
     background-color: var(--bg-color-2);
     overscroll-behavior: none;
     overflow: hidden;
+    font-size: 16px;
 }
 body {
     overscroll-behavior: none;

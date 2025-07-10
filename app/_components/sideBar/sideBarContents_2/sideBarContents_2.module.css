@@ -145,19 +145,19 @@
 
 .MdLogOut {
     box-sizing: border-box;
-    font-size: 2rem;
+    font-size: 1.6rem;
     flex-shrink: 0;
 }
 
 .MdOutlinePalette {
     box-sizing: border-box;
-    font-size: 2rem;
+    font-size: 1.6rem;
     flex-shrink: 0;
 }
 
 .MdArrowBackIos{
     padding-top: 2px;
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     color: var(--text-color-2);
     transition: color 0.2s ease;
     &:hover {
@@ -168,7 +168,7 @@
 .p_0 {
     margin: 0;
     padding: 0 0 4px 0;
-    font-size: 1.4rem;
+    font-size: 1.1rem;
 }
 
 

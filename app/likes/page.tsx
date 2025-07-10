@@ -46,7 +46,7 @@ export default function Page () {
                         {session.status === 'authenticated' ?
                             undefined
                             :
-                            <p　className={styles.p_1}>記事をいいねするには<Link className={styles.Link} href={'/login'}>ログイン</Link></p>
+                            <p　className={styles.p_1}><Link className={styles.Link} href={'/login'}>ログイン</Link>するとお気に入りの記事を登録できます。</p>
                         }
                     </div>
                     :

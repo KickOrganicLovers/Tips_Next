@@ -38,6 +38,8 @@ export default  function RootLayout({children}: { children: ReactNode }) {
 
             }
         })
+
+        
     }, [])
 
     return (
@@ -45,6 +47,8 @@ export default  function RootLayout({children}: { children: ReactNode }) {
         <head>
             <title>Tips</title>
         </head>
+        
+
         <body className={styles.body}>
         <ViewportHeightSetter/>
         <SessionProvider session={session}>
