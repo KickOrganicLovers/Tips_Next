@@ -25,7 +25,7 @@ export default function ArticleByUserSection(props: props) {
                 <h2 className={styles.h2_0}>作成した記事</h2>
             }
             <div className={styles.div_1}>
-                {props.user.articleCreatedBy.map((article: ArticleScheme, index) => <ArticleContainer article={article} key={index}/>)}
+                {props.user.articleCreatedBy.map((article: ArticleScheme, index) => <ArticleContainer article={article} key={index} isDummy={false} dummy_isFirst={false}/>)}
                 {props.user.articleCreatedBy.length === 0?
                     <div className={styles.div_2}>
                         <GirlWithBook className={styles.GirlWithBook}/>

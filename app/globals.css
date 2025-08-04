@@ -6,6 +6,10 @@ html {
     overscroll-behavior: none;
     overflow: hidden;
     font-size: 16px;
+
+    @media screen  and (max-width: 768px){
+        font-size: 14px;
+    }
 }
 body {
     overscroll-behavior: none;
@@ -75,7 +79,7 @@ input {
 
 :root.light {
     --bg-color-1: #ffffff;
-    --bg-color-2: #f3f3f3;
+    --bg-color-2: #ededed;
     --bg-color-3: #373737;
     --bg-color-4: black;
     --border-color-1: darkgray;

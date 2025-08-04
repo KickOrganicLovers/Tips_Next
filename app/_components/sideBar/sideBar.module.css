@@ -24,6 +24,10 @@
     @media screen and (max-width: 1024px) {
         width: 350px;
     }
+
+    @media screen and (max-width: 768px) {
+        width: 250px;
+    }
 }
 
 
@@ -40,8 +44,14 @@
     top: 0;
     transition: right 0.5s;
     @media screen and (max-width: 1024px) {
+        min-width: 0;
         width: 1050px;
         right: -350px;
+    }
+    @media screen and (max-width: 768px) {
+        min-width: 0;
+        width: 750px;
+        right: -250px;
     }
 }
 
@@ -53,5 +63,8 @@
     right: -200%;
     @media screen and (max-width: 1024px) {
         right: -700px;
+    }
+    @media screen and (max-width: 768px) {
+        right: -500px;
     }
 }

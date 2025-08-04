@@ -4,24 +4,38 @@ import styles from './category.module.css'
 import React, {useEffect, useState} from "react";
 import {ArticleScheme, CategoryScheme} from "@/types";
 import {useParams, useRouter} from "next/navigation";
-import {getDataFromServerWithJson} from "@/lib/lib-client/fetch";
+import {getDataFromServerWithJson, postDataToServerWithJson} from "@/lib/lib-client/fetch";
 import ArticleContainer from "@/app/_components/common/articleContainer/articleContainer";
 import {findCategoryById} from "@/lib/lib-client/processing";
 import {useWhereIamStore} from "@/lib/lib-client/stores/whereIamStore";
 import {useCategoriesStore} from "@/lib/lib-client/stores/categoriesStore";
 import BoyWithCompass from "@/app/_components/common/boyWithCompass/boyWithCompass";
+import {useErrorStore} from "@/lib/lib-client/stores/errorsStore";
 
 export default function Page () {
+    const appendError = useErrorStore(state => state.appendError);
     const applyWhereIam = useWhereIamStore(state => state.applyWhereIam)
-    const [articles, setArticles] = useState<ArticleScheme[]>([]);
+    const [viewingArticles, setViewingArticles] = useState<ArticleScheme[]>([]);
+    const [articleLength, setArticleLength] = useState(0);
     const [category, setCategory] = useState<CategoryScheme>();
     const router = useRouter();
     const {categoryId} = useParams<{categoryId: string}>()
     const categories = useCategoriesStore(state => state.categories)
+    const [isMax, setIsMax] = useState<boolean>(false);
 
 
-    const getArticlesWithCategory = async (id: string) => {
-        return await getDataFromServerWithJson<{articles: ArticleScheme[], error: string}>(`/api/getArticles?categoryId=${id}`)
+    const postArticlesWithCategory = async () => {
+        console.log(viewingArticles)
+        postDataToServerWithJson<{articles: ArticleScheme[], articleLength: number}>(`/api/getArticles/category`, {categoryId, viewingArticles}).then((json) => {
+            if(!!json){
+                console.log(json.articles)
+                setArticleLength(json.articleLength);
+                setViewingArticles((prevState) => [...prevState, ...json.articles]);
+                setIsMax(json.articles.length < 30)
+            }
+        }).catch((error) => {
+            appendError(error)
+        })
     }
 
 
@@ -30,13 +44,6 @@ export default function Page () {
         if(!!category){
             setCategory(category)
             applyWhereIam(`category-${category.categoryName}`)
-
-            getArticlesWithCategory(categoryId).then((json)=> {
-                if(!!json){
-                    setArticles(json.articles)
-                }
-            })
-
         }else {
             router.push('/')
         }
@@ -49,12 +56,17 @@ export default function Page () {
                 <img src='/images/logoCategory.png' alt='fire' className={styles.img_0}/>
                 <div className={styles.div_2}>
                     <h1 className={styles.h1_0}>{category?.categoryName}</h1>
-                    <p className={styles.p_0}>{`${articles.length}件の記事`}</p>
+                    <p className={styles.p_0}>{`${articleLength}件の記事`}</p>
                 </div>
             </div>
             <div className={styles.div_3}>
-                {articles.map((article: ArticleScheme, index: number) => <ArticleContainer article= {article} key={index}/>)}
-                {articles.length === 0?
+                {viewingArticles.map((article: ArticleScheme, index: number) => (
+                    <ArticleContainer article= {article} key={index} isDummy={false} isFirstDummy={false}/>
+                ))}
+                {!isMax && Array.from({length: 30}).map((_, index) => (
+                    <ArticleContainer isDummy={true} key ={index} isFirstDummy={index === 0} firstDummy_onVisible={postArticlesWithCategory}/>
+                ))}
+                {viewingArticles.length === 0?
                     <div className={styles.div_4}>
                         <BoyWithCompass className={styles.BoyWithCompass}/>
                         <h2 className={styles.h2_0}>記事が見つかりませんでした</h2>

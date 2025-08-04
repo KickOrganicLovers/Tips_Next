@@ -24,7 +24,7 @@
     @media screen and (max-width: 768px) {
         width: 100%;
         height: 8%;
-        min-height: fit-content;
+        min-height: 75px;
         min-width: 0;
         display: flex;
         flex-direction: row;
@@ -118,8 +118,6 @@
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-
-
     @media screen and (max-width: 768px) {
         width: fit-content;
     }
@@ -138,12 +136,12 @@
 
 
     @media screen and (max-width: 1024px) {
-        grid-template-columns: repeat(auto-fit, 55px);
+        grid-template-columns: repeat(auto-fit, 45px);
     }
 
     @media screen and (max-width: 768px) {
         grid-auto-flow: column;
-        grid-template-columns: repeat(auto-fit, 55px);
+        grid-template-columns: repeat(auto-fit, 45px);
     }
 }
 

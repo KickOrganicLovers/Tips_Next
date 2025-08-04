@@ -32,7 +32,7 @@ export default function RelatedArticlesSection(props: props) {
     return (
         <div className={styles.div_0}>
             <h2 className={styles.h2_0}>関連記事</h2>
-            {!props.isMobile? <div className={styles.div_1}>{relatedArticles.map((article: ArticleScheme, index) => <ArticleContainer article={article} key={index}/>)}</div> : null}
+            {!props.isMobile? <div className={styles.div_1}>{relatedArticles.map((article: ArticleScheme, index) => <ArticleContainer article={article} key={index} isDummy={false} dummy_isFirst={false}/>)}</div> : null}
             {props.isMobile? <div className={styles.div_2}>{relatedArticles.map((article: ArticleScheme, index) => <ReducedArticleContainer article={article} key={index}/>)}</div> : null}
         </div>
     )

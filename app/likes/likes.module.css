@@ -41,14 +41,14 @@
 .div_3 {
     width: 75%;
     height: 100%;
-    padding: 30px;
+    padding: 20px;
     box-sizing: border-box;
     overflow-y: scroll;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    gap: 30px;
+    gap: 3vh;
     @media screen  and (max-width: 768px){
         overflow-y: visible;
         width: 100%;
@@ -124,9 +124,9 @@
 }
 
 .GirlWithBalloon {
-    width: 25%;
+    width: 30%;
     aspect-ratio: 1;
-    min-width: 400px;
+    min-width: 200px;
     color: var(--bg-color-3);
 }
 

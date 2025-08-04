@@ -1,6 +1,7 @@
 .div_0 {
     aspect-ratio: 1;
-    position: relative;
+    display: flex;
+    flex-direction: column;
     cursor: pointer;
     container-type: inline-size;
     box-shadow: 4px 4px 10px var(--shadow-color);
@@ -11,17 +12,6 @@
     grid-row: span 2;
 }
 
-@keyframes fadeIn {
-    to {
-        opacity: 1;
-    }
-}
-
-.div_0.active {
-    opacity: 0;
-    animation: fadeIn 0.5s ease-in-out forwards;
-}
-
 .img_0 {
     width: 100%;
     height: 100%;
@@ -30,18 +20,14 @@
 
 
 .div_1 {
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: relative;
     width: 100%;
     height: 66.666%;
     background-color: lightgray;
     overflow: hidden;
 }
 .div_2 {
-    position: absolute;
-    bottom: 0;
-    left: 0;
+    position: relative;
     width: 100%;
     height: 33.333%;
     background-color: var(--bg-color-1);
@@ -113,21 +99,58 @@
     align-items: center;
     background-color: var(--bg-color-1);
     border-radius: 100px;
-    padding: 10px;
-    gap: 0.2vw;
+    padding: 4cqw;
+    gap: 2cqw;
     box-sizing: border-box;
 }
 
+.div_6 {
+    position: relative;
+    width: 100%;
+    height: 33.333%;
+    background-color: var(--bg-color-1);
+    box-sizing: border-box;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 7.5cqw;
+}
 .p_3 {
     padding: 0;
     margin: 0;
-    font-size: 5cqw;
+    font-size: 6cqw;
 }
 
 .IoHeart{
-    font-size: 5cqw;
+    font-size: 7cqw;
     height: 100%;
     aspect-ratio: 1;
     color: gray;
-    padding-top: 2px;
+    padding-top: 1cqw;
+}
+
+.shimmerBar {
+    width: 100%;
+    height: 16px;
+    background: linear-gradient(
+            -90deg,
+            var(--bg-color-2) 0%,
+            var(--bg-color-2) 50%,
+            var(--bg-color-1) 75%,
+            var(--bg-color-2) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 100px;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -100% 0;
+    }
+    100% {
+        background-position: 100% 0;
+    }
 }

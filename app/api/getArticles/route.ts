@@ -24,6 +24,7 @@ export async function GET (req: NextRequest){
                     }
                 }
             )(),
+            take: 30,
             include: {
                 author: {
                     include: {
@@ -50,13 +51,4 @@ export async function GET (req: NextRequest){
     }
 
 
-
-
-    // try{
-    //     const articles = await prisma.article.findMany()
-    //     console.log(articles)
-    //     return NextResponse.json({articles: articles, error: undefined}, {status: 200})
-    // }catch(error){
-    //     return NextResponse.json({articles: undefined, error: error}, {status: 400})
-    // }
 }

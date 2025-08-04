@@ -2,11 +2,12 @@ import { authOptions } from "@/lib/lib-server/auth";
 import { prisma } from "@/lib/lib-server/prisma";
 import { getServerSession } from "next-auth";
 import {shuffle} from '@/lib/lib-server/processing';
-import {NextResponse} from "next/server";
+import {NextRequest, NextResponse} from "next/server";
 import {handleServerError} from "@/lib/lib-server/processing";
 
-export async function GET (){
-
+export async function POST (req: NextRequest) {
+    const body: {viewingArticleIds: string[]} = await req.json()
+    const viewingArticleIds = body.viewingArticleIds || []
     const session = await getServerSession(authOptions)
 
     try {
@@ -54,9 +55,10 @@ export async function GET (){
                         {tags: {some: {id : {in: tagArray.map(tag => tag.tagId)}}}},
                         {categoryId: {in: categoryArray.map(category => category.categoryId)}}
                     ],
-                    NOT: {
-                        watchHistories: {some: {userId: session.user.id}}
-                    }
+                    NOT: [
+                        {watchHistories: {some: {userId: session.user.id}}},
+                        {id: {in: viewingArticleIds}}
+                    ]
                 },
                 orderBy: [
                     {likes: {_count: 'desc'}},
@@ -76,7 +78,7 @@ export async function GET (){
                 where :{
                     NOT : [
                         {watchHistories: {some: {userId: session.user.id}}},
-                        {id: {in: recommendedArticles.map(recommendedArticle => recommendedArticle.id)}}
+                        {id: {in: [...recommendedArticles.map(recommendedArticle => recommendedArticle.id), ...viewingArticleIds]}}
                     ]
                 },
                 orderBy: [
@@ -97,7 +99,7 @@ export async function GET (){
                 where :{
                     NOT : [
                         {watchHistories: {some: {userId: session.user.id}}},
-                        {id: {in: [...recommendedArticles.map(recommendedArticle => recommendedArticle.id), ...trendingArticles.map(trendingArticle => trendingArticle.id)]}}
+                        {id: {in: [...recommendedArticles.map(recommendedArticle => recommendedArticle.id), ...trendingArticles.map(trendingArticle => trendingArticle.id), ...viewingArticleIds]}}
                     ]
                 },
                 orderBy: {
@@ -117,6 +119,9 @@ export async function GET (){
 
             if(articlesToReturn.length < 30){
                 const additionalArticles = await prisma.article.findMany({
+                    where :{
+                        NOT : {id: {in: [...articlesToReturn.map(articleToReturn => articleToReturn.id), ...viewingArticleIds]}}
+                    },
                     orderBy: {
                         createdAt: 'desc',
                     },
@@ -138,6 +143,9 @@ export async function GET (){
         }else {
 
             const trendingArticles = await prisma.article.findMany({
+                where :{
+                    NOT : {id: {in: [...viewingArticleIds]}}
+                },
                 orderBy: [
                     {likes: {_count: 'desc'}},
                     {createdAt: 'desc'}
@@ -154,7 +162,7 @@ export async function GET (){
 
             const newArticles = await prisma.article.findMany({
                 where:{
-                    NOT: {id: {in: trendingArticles.map(trendingArticle => trendingArticle.id)}}
+                    NOT: {id: {in: [...trendingArticles.map(trendingArticle => trendingArticle.id), ...viewingArticleIds]}}
                 },
                 orderBy: {
                     createdAt: 'desc'

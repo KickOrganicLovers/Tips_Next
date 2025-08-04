@@ -12,6 +12,9 @@
     @media screen and (max-width: 1024px) {
         width: 350px;
     }
+    @media screen and (max-width: 768px) {
+        width: 250px;
+    }
 }
 
 .div_1 {
