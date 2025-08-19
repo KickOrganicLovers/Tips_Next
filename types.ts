@@ -108,87 +108,29 @@ export interface ErrorScheme {
     code: string
 }
 
-export interface ArticleEditorStatusScheme {
+export interface ToolButtonStatusScheme {
     decorations : {
-        bold: {
-            isActive: boolean
-            variable: boolean
-        }
-        underline: {
-            isActive: boolean
-            variable: boolean
-        }
-        italic: {
-            isActive: boolean
-            variable: boolean
-        }
-        strike: {
-            isActive: boolean
-            variable: boolean
-        }
-        heading_1: {
-            isActive: boolean
-            variable: boolean
-        }
-        heading_2: {
-            isActive: boolean
-            variable: boolean
-        }
-        highlight: {
-            isActive: boolean
-            variable: boolean
-        }
-        codeBlock: {
-            isActive: boolean
-            variable: boolean
-        }
-        bulletList: {
-            isActive: boolean
-            variable: boolean
-        }
-        orderedList: {
-            isActive: boolean
-            variable: boolean
-        },
-        textAlign_left: {
-            isActive: boolean
-            variable: boolean
-        }
-        textAlign_center: {
-            isActive: boolean
-            variable: boolean
-        }
-        textAlign_right: {
-            isActive: boolean
-            variable: boolean
-        }
-        blockQuote: {
-            isActive: boolean
-            variable: boolean
-        }
+        bold: boolean,
+        underline: boolean,
+        italic: boolean,
+        strike: boolean,
+        heading_1: boolean,
+        heading_2: boolean,
+        highlight: boolean,
+        codeBlock: boolean,
+        bulletList: boolean,
+        orderedList: boolean,
+        textAlign_left: boolean,
+        textAlign_center: boolean,
+        textAlign_right: boolean,
+        blockQuote: boolean,
     }
     controls: {
-        image: {
-            isActive?: boolean
-            variable: boolean
-        }
-        link: {
-            isActive?: boolean
-            variable: boolean
-        }
-        settings: {
-            isActive?: boolean
-            variable: boolean
-        }
-        upload: {
-            isActive?: boolean
-            variable: boolean
-        }
-        cancel: {
-            isActive?: boolean
-            variable: boolean
-        }
-
+        image: boolean,
+        link: boolean,
+        settings: boolean,
+        upload: boolean,
+        cancel: boolean,
     }
 }
 

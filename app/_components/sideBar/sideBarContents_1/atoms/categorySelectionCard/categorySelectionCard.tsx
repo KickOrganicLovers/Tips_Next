@@ -1,36 +1,33 @@
 import {Dispatch, SetStateAction, useEffect, useState} from "react";
 import styles from './categorySelectionCard.module.css'
-import {ArticleEditorStatusScheme, ArticleSchemeWithPrefix, CategoryScheme} from "@/types";
+import {ArticleSchemeWithPrefix, CategoryScheme} from "@/types";
 import {MdArrowForwardIos} from "react-icons/md";
 import {AiOutlinePlus} from "react-icons/ai";
 import {useCategoriesStore} from "@/lib/lib-client/stores/categoriesStore";
-import {articleEditorStatusAtom} from "@/lib/lib-client/atoms";
+import { useEventsStore } from "@/lib/lib-client/stores/eventsStore";
 
 interface props{
     category?: CategoryScheme,
     setArticleOnEdit: Dispatch<SetStateAction<ArticleSchemeWithPrefix>>
-    articleEditorStatus: ArticleEditorStatusScheme
 }
 export default function CategorySelectionCard(props: props) {
     const categories = useCategoriesStore(state => state.categories);
     const [parentCategoryIdOnFocus, setParentCategoryIdOnFocus] = useState<string>('');
     const [categoryName, setCategoryName] = useState<string>('');
     const className = !!parentCategoryIdOnFocus ? `${styles['div_2']} ${styles['shifted']}` : `${styles['div_2']}`
+    const editorEvent = useEventsStore(state => state.events.editorEvent)
 
-    useEffect(() => {
-        if (!!props.category) setCategoryName(props.category?.categoryName);
-    }, [props.category]);
 
     useEffect(() => {
         setParentCategoryIdOnFocus('')
         setCategoryName('');
-    }, [props.articleEditorStatus.controls.upload, props.articleEditorStatus.controls.cancel]);
+    }, [editorEvent?.payload.upload]);
 
     return (
         <div className={styles.div_0}>
             <p className={styles.p_0}>
                 選択したカテゴリー
-                <mark className={styles.mark_0}>{categoryName}</mark>
+                <mark className={styles.mark_0}>{!!categoryName ? categoryName : props.category?.categoryName}</mark>
             </p>
             <div className={styles.div_1}>
                 <div className={className}>

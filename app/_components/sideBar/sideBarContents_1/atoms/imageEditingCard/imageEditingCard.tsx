@@ -2,12 +2,12 @@ import Cropper, {Area, CropperProps, Point} from "react-easy-crop";
 import React, {Dispatch, SetStateAction, useCallback, useEffect, useRef, useState} from "react";
 import styles from './imageEditingCard.module.css'
 import {AiOutlineCheck, AiOutlineClose} from "react-icons/ai";
-import {ArticleEditorStatusScheme, ArticleSchemeWithPrefix} from "@/types";
+import {ArticleSchemeWithPrefix} from "@/types";
+import { useEventsStore } from "@/lib/lib-client/stores/eventsStore";
 
 interface props {
     thumbnailImageUrl?: string,
-    setArticleOnEdit: Dispatch<SetStateAction<ArticleSchemeWithPrefix>>,
-    articleEditorStatus: ArticleEditorStatusScheme,
+    setArticleOnEdit: Dispatch<SetStateAction<ArticleSchemeWithPrefix>>
     loadedImage?: string,
     setIsCropperOpen?: (value: (((prevState: boolean) => boolean) | boolean)) => void
 }
@@ -21,6 +21,8 @@ export default function ImageEditingCard(props: props) {
     const [crop, setCrop] = useState<Point>({x: 0, y: 0});
     const [zoom, setZoom] = useState<number>(1);
     const [rotation, setRotation] = useState<number>(0);
+
+    const editorEvent = useEventsStore(state => state.events.editorEvent)
 
     const cropperProps: CropperProps =
         {
@@ -227,7 +229,7 @@ export default function ImageEditingCard(props: props) {
 
     useEffect(() => {
         setImage('/images/noImage.png')
-    }, [props.articleEditorStatus.controls.cancel, props.articleEditorStatus.controls.upload]);
+    }, [editorEvent?.payload.upload]);
 
     return (
         <div className={styles.div_0}>

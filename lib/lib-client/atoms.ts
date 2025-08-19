@@ -1,4 +1,4 @@
-import {ArticleEditorStatusScheme, ArticleSchemeWithPrefix} from "@/types";
+import {ArticleSchemeWithPrefix, ToolButtonStatusScheme} from "@/types";
 import {atom} from "jotai";
 
 export const articleOnEditAtom = atom<ArticleSchemeWithPrefix>({
@@ -18,83 +18,29 @@ export const settingsAtom = atom<{isActive: boolean}>({
     isActive: false,
 })
 
-export const articleEditorStatusAtom = atom<ArticleEditorStatusScheme>({
+export const ToolButtonStatusAtom = atom<ToolButtonStatusScheme>({
     decorations:{
-        bold: {
-            isActive: false,
-            variable: false
-        },
-        underline: {
-            isActive: false,
-            variable: false
-        },
-        italic: {
-            isActive: false,
-            variable: false
-        },
-        strike: {
-            isActive: false,
-            variable: false
-        },
-        heading_1: {
-            isActive: false,
-            variable: false
-        },
-        heading_2: {
-            isActive: false,
-            variable: false
-        },
-        highlight: {
-            isActive: false,
-            variable: false
-        },
-        codeBlock: {
-            isActive: false,
-            variable: false
-        },
-        bulletList: {
-            isActive: false,
-            variable: false
-        },
-        orderedList: {
-            isActive: false,
-            variable: false
-        },
-        textAlign_left: {
-            isActive: false,
-            variable: false
-        },
-        textAlign_center: {
-            isActive: false,
-            variable: false
-        },
-        textAlign_right: {
-            isActive: false,
-            variable: false
-        },
-        blockQuote: {
-            isActive: false,
-            variable: false
-        },
+        bold: false,
+        underline: false,
+        italic: false,
+        strike: false,
+        heading_1: false,
+        heading_2: false,
+        highlight: false,
+        codeBlock: false,
+        bulletList: false,
+        orderedList: false,
+        textAlign_left: false,
+        textAlign_center: false,
+        textAlign_right: false,
+        blockQuote: false,
     },
     controls: {
-        image: {
-            isActive: false,
-            variable: false,
-        },
-        link: {
-            isActive: false,
-            variable: false
-        },
-        settings: {
-            variable: false,
-        },
-        upload: {
-            variable: false
-        },
-        cancel: {
-            variable: false
-        },
+        image: false,
+        link: false,
+        settings: false,
+        upload: false,
+        cancel: false,
     }
 })
 

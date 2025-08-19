@@ -2,13 +2,13 @@ import styles from './urlInsertingCard.module.css'
 import {Dispatch, SetStateAction, useState} from "react";
 import {AiOutlineClose} from "react-icons/ai";
 import {IoIosLink} from "react-icons/io";
-import {ArticleEditorStatusScheme} from "@/types";
 import {getDataFromServerWithJson} from "@/lib/lib-client/fetch";
 import {Editor} from "@tiptap/core";
 import {useErrorStore} from "@/lib/lib-client/stores/errorsStore";
+import { ToolButtonStatusScheme } from '@/types';
 
 interface props {
-    setArticleEditorStatus: Dispatch<SetStateAction<ArticleEditorStatusScheme>>;
+    setToolButtonStatus: Dispatch<SetStateAction<ToolButtonStatusScheme>>;
     editor: Editor
 }
 
@@ -17,14 +17,11 @@ export const UrlInsertingCard = (props: props) => {
     const [targetUrl, setTargetUrl] = useState<string>('')
 
     const clickEventHandler_close = () => {
-        props.setArticleEditorStatus((prevState) => ({
+        props.setToolButtonStatus((prevState) => ({
             ...prevState,
             controls: {
                 ...prevState.controls,
-                link: {
-                    ...prevState.controls.link,
-                    isActive: false,
-                }
+                link: false
             }
         }))
     }
@@ -33,14 +30,11 @@ export const UrlInsertingCard = (props: props) => {
         getDataFromServerWithJson<{metadata: {url: string, title: string, description: string, thumbnailImageUrl: string}}>(`/api/getMetaData?targetUrl=${targetUrl}}`).then((json) => {
             if(!!json){
                 props.editor?.commands.insertOgpCard(json.metadata)
-                props.setArticleEditorStatus((prevState) => ({
+                props.setToolButtonStatus((prevState) => ({
                     ...prevState,
                     controls: {
                         ...prevState.controls,
-                        link: {
-                            ...prevState.controls.link,
-                            isActive: false,
-                        }
+                        link: false
                     }
                 }))
             }

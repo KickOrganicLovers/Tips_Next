@@ -2,13 +2,13 @@ import styles from './tagAdditionCard.module.css'
 import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import Tag from "@/app/_components/sideBar/sideBarContents_1/atoms/tagAdditionCard/atoms/tag";
 import {getDataFromServerWithJson} from "@/lib/lib-client/fetch";
-import {ArticleEditorStatusScheme, ArticleSchemeWithPrefix} from "@/types";
+import {ArticleSchemeWithPrefix} from "@/types";
 import {useErrorStore} from "@/lib/lib-client/stores/errorsStore";
+import { useEventsStore } from '@/lib/lib-client/stores/eventsStore';
 
 interface props {
     tags: string[]
     setArticleOnEdit: Dispatch<SetStateAction<ArticleSchemeWithPrefix>>
-    articleEditorStatus: ArticleEditorStatusScheme
 }
 
 export default function TagAdditionCard(props: props) {
@@ -17,6 +17,8 @@ export default function TagAdditionCard(props: props) {
     const [suggestions, setSuggestions] = useState<string[]>([])
     const [isInputFocused, setIsInputFocused] = useState<boolean>(true)
     const appendError = useErrorStore(state => state.appendError)
+
+    const editorEvent = useEventsStore(state => state.events.editorEvent)
 
 
     const setTag = (tag: string) => {
@@ -52,7 +54,7 @@ export default function TagAdditionCard(props: props) {
 
     useEffect(() => {
         setInputValue('')
-    }, [props.articleEditorStatus.controls.cancel, props.articleEditorStatus.controls.upload]);
+    }, [editorEvent?.payload.upload]);
 
 
 

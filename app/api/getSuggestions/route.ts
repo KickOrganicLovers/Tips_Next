@@ -8,7 +8,7 @@ export async function GET(req: Request) {
 
 
     if(!query.startsWith('#')){
-        if (query.length < 1) return NextResponse.json({suggestions: []});
+        if (query.length < 1) return NextResponse.json({suggestions: []}, {status: 200});
         const index_searchHistory = meili.index("search_history")
         try{
             // 人気度順で検索
@@ -24,7 +24,7 @@ export async function GET(req: Request) {
             return handleServerError(error)
         }
     }else{
-        if (query.length < 2) return NextResponse.json({suggestions: []});
+        if (query.length < 2) return NextResponse.json({suggestions: []}, {status:200});
 
         const index_tags = meili.index("tags")
         try{

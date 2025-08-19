@@ -1,6 +1,6 @@
 'use client';
 
-import {EditorContent, useEditor} from "@tiptap/react";
+import {EditorContent, useEditor, useEditorState} from "@tiptap/react";
 import './articleEditingSection.css'
 import React, {Dispatch, SetStateAction, useEffect, useRef, useState} from "react";
 import TitleInputField
@@ -24,10 +24,10 @@ import {BulletList} from "@tiptap/extension-bullet-list";
 import {OrderedList} from "@tiptap/extension-ordered-list";
 import {Placeholder} from "@tiptap/extension-placeholder";
 import {Image as TipTapImage} from "@tiptap/extension-image";
-import {ArticleEditorStatusScheme, ArticleScheme, ArticleSchemeWithPrefix} from "@/types";
+import {ArticleScheme, ArticleSchemeWithPrefix, ToolButtonStatusScheme} from "@/types";
 import {Blockquote} from "@tiptap/extension-blockquote";
 import {useAtom} from "jotai/index";
-import {articleEditorStatusAtom, articleOnEditAtom} from "@/lib/lib-client/atoms";
+import {articleOnEditAtom} from "@/lib/lib-client/atoms";
 import {useSession} from "next-auth/react";
 import {useUserStore} from "@/lib/lib-client/stores/userStore";
 import {useRouter} from "next/navigation";
@@ -35,6 +35,9 @@ import ErrorsCard from "@/app/createArticle/_components/errorsCard/errorsCard";
 import {UrlInsertingCard} from "@/app/createArticle/_components/urlInsertingCard/urlInsertingCard";
 import {Editor} from "@tiptap/core";
 import {OgpCard} from "@/lib/lib-client/tiptapExtensions/ogpCard/ogpCard";
+import { useEventsStore } from "@/lib/lib-client/stores/eventsStore";
+import { stat } from "fs";
+import { emit } from "process";
 
 type editorMode = 'toolBar' | 'both'
 
@@ -51,8 +54,8 @@ const initialArticleOnEdit: ArticleSchemeWithPrefix = {
 interface props {
     editorMode: editorMode,
     setEditorMode: Dispatch<SetStateAction<editorMode>>
-    articleEditorStatus: ArticleEditorStatusScheme,
-    setArticleEditorStatus: Dispatch<SetStateAction<ArticleEditorStatusScheme>>
+    toolButtonStatus: ToolButtonStatusScheme,
+    setToolButtonStatus: Dispatch<SetStateAction<ToolButtonStatusScheme>>
 }
 
 
@@ -67,6 +70,9 @@ export default function ArticleEditingSection(props: props) {
 
     const [articleOnEdit, setArticleOnEdit] = useAtom(articleOnEditAtom)
     const [previousArticle, setPreviousArticle] = useState<ArticleSchemeWithPrefix>()
+
+    const editorEvent = useEventsStore(state => state.events.editorEvent)
+    const emit = useEventsStore(state => state.emit)
 
 
 
@@ -142,92 +148,37 @@ export default function ArticleEditingSection(props: props) {
         return errors
     }
 
-    const resetArticleEditorStatus = () => {
-        props.setArticleEditorStatus((prevState) => ({
-            ...prevState,
-            decorations: {
-                bold: {
-                    isActive: false,
-                    variable: false
-                },
-                underline: {
-                    isActive: false,
-                    variable: false
-                },
-                italic: {
-                    isActive: false,
-                    variable: false
-                },
-                strike: {
-                    isActive: false,
-                    variable: false
-                },
-                heading_1: {
-                    isActive: false,
-                    variable: false
-                },
-                heading_2: {
-                    isActive: false,
-                    variable: false
-                },
-                highlight: {
-                    isActive: false,
-                    variable: false
-                },
-                codeBlock: {
-                    isActive: false,
-                    variable: false
-                },
-                bulletList: {
-                    isActive: false,
-                    variable: false
-                },
-                orderedList: {
-                    isActive: false,
-                    variable: false
-                },
-                textAlign_left: {
-                    isActive: false,
-                    variable: false
-                },
-                textAlign_center: {
-                    isActive: false,
-                    variable: false
-                },
-                textAlign_right: {
-                    isActive: false,
-                    variable: false
-                },
-                blockQuote: {
-                    isActive: false,
-                    variable: false
-                },
-            }
-            ,
-            controls: {
-                image: {
-                    ...prevState.controls.image,
-                    isActive: false,
-                },
-                link: {
-                    ...prevState.controls.link,
-                    isActive: false,
-                },
-                settings: {
-                    ...prevState.controls.settings,
-                    isActive: false,
-                },
-                upload: {
-                    ...prevState.controls.upload,
-                    isActive: false,
-                },
-                cancel: {
-                    ...prevState.controls.cancel,
-                    isActive: false,
-                }
-            }
-        }))
+    const resetToolButtonStatus = () => {
+        props.setToolButtonStatus(
+            {
+                    decorations:{
+        bold: false,
+        underline: false,
+        italic: false,
+        strike: false,
+        heading_1: false,
+        heading_2: false,
+        highlight: false,
+        codeBlock: false,
+        bulletList: false,
+        orderedList: false,
+        textAlign_left: false,
+        textAlign_center: false,
+        textAlign_right: false,
+        blockQuote: false,
+    },
+    controls: {
+        image: false,
+        link: false,
+        settings: false,
+        upload: false,
+        cancel: false,
     }
+            }
+        )
+    }
+
+    
 
 
     useEffect(() => {
@@ -270,81 +221,147 @@ export default function ArticleEditingSection(props: props) {
 
     //toolbarのuploadボタンが押されたときに発火する
     useEffect(() => {
-        if (!hasMounted.current && session.status ==='authenticated') {
-            if (checkErrors().length === 0) {
-                uploadArticle(session, articleOnEdit)
-                router.push('/')
-                resetArticleEditorStatus()
-                setArticleOnEdit(initialArticleOnEdit)
-            } else {
-                setErrors(checkErrors())
+        if(!editor && !editorEvent) return
+        if(!!editorEvent?.payload.click?.decorations){
+            switch(editorEvent.payload.click.decorations){
+                case "bold":
+                    editor?.chain().focus().toggleBold().run()
+                    break;
+                case "underline":
+                    editor?.chain().focus().toggleUnderline().run()
+                    break;
+                case "italic":
+                    editor?.chain().focus().toggleItalic().run()
+                    break;
+                case "strike":
+                    editor?.chain().focus().toggleStrike().run()
+                    break;
+                case "heading_1":
+                    editor?.chain().focus().toggleHeading({level: 2}).run()
+                    break;
+                case "heading_2":
+                    editor?.chain().focus().toggleHeading({level: 3}).run()
+                    break;
+                case "highlight":
+                    editor?.chain().focus().toggleHighlight().run()
+                    break;
+                case "codeBlock":
+                    editor?.chain().focus().toggleCodeBlock().run()
+                    break;
+                case "bulletList":
+                    editor?.chain().focus().toggleBulletList().run()
+                    break;
+                case "orderedList":
+                    editor?.chain().focus().toggleOrderedList().run()
+                    break;
+                case "textAlign_left":
+                    editor?.chain().focus().setTextAlign('left').run()
+                    break;
+                case "textAlign_right":
+                    editor?.chain().focus().setTextAlign('right').run()
+                    break;
+                case "textAlign_center":
+                    editor?.chain().focus().setTextAlign('center').run()
+                    break;
+                case "blockQuote":
+                    editor?.chain().focus().toggleBlockquote().run()
+                    break;
             }
-        }else {
-        }
-    }, [props.articleEditorStatus.controls.upload.variable]);
-
-
-    useEffect(() => {
-        if (!hasMounted.current) {
-            router.push('/')
-            resetArticleEditorStatus()
-            setArticleOnEdit(initialArticleOnEdit)
-        }
-    }, [props.articleEditorStatus.controls.cancel.variable]);
-
-
-    useEffect(() => {
-        if (!hasMounted.current) {
-            props.setArticleEditorStatus((prevState) => ({
-                ...prevState,
-                controls: {
-                    ...prevState.controls,
-                    link: {
-                        ...prevState.controls.link,
-                        isActive: true,
-                    }
-                }
-            }))
-        }
-    }, [props.articleEditorStatus.controls.link.variable]);
-
-
-
-    useEffect(() => {
-        if (!hasMounted.current) {
-            props.setArticleEditorStatus((prevState) => ({
-                ...prevState,
-                controls: {
-                    ...prevState.controls,
-                    image: {
-                        ...prevState.controls.image,
-                        isActive: true,
-                    }
-                }
-            }))
-            inputImageRef.current?.click()
-
-            // フォーカスが戻ったときに「閉じた」とみなす
-            const handleWindowFocus = () => {
-                setTimeout(() => {
-                    console.log('📂 ファイルダイアログが閉じられました（選択 or キャンセル）');
-                    props.setArticleEditorStatus((prevState) => ({
+        }else if(editorEvent?.payload.click?.controls){
+            switch(editorEvent?.payload.click?.controls){
+                case "image":
+                    props.setToolButtonStatus((prevState) => ({
                         ...prevState,
                         controls: {
                             ...prevState.controls,
-                            image: {
-                                ...prevState.controls.image,
-                                isActive: false,
-                            }
-                        }
-                    }))
-                }, 200); // 適切な遅延（少し余裕を持たせて）
-            };
+                            image: true
+                        }}))
+                    inputImageRef.current?.click()
 
-            // フォーカス復帰を1回だけ検知
-            window.addEventListener('focus', handleWindowFocus, { once: false });
+                    // フォーカスが戻ったときに「閉じた」とみなす
+                    const handleWindowFocus = () => {
+                        setTimeout(() => {
+                            console.log('📂 ファイルダイアログが閉じられました（選択 or キャンセル）');
+                            props.setToolButtonStatus((prevState) => ({
+                                ...prevState,
+                                controls: {
+                                    ...prevState.controls,
+                                    image: false
+                                }
+                            }))
+                        }, 200); // 適切な遅延（少し余裕を持たせて）
+                    };
+
+                    // フォーカス復帰を1回だけ検知
+                    window.addEventListener('focus', handleWindowFocus, { once: false });
+                    break;
+                case "link":
+                    props.setToolButtonStatus((prevState) => ({
+                        ...prevState,
+                        controls: {
+                            ...prevState.controls,
+                            link: true
+                    }}))
+                    break;
+                case "settings":
+                case "upload":
+                    if (session.status ==='authenticated') {
+                        if (checkErrors().length === 0) {
+                            uploadArticle(session, articleOnEdit)
+                            router.push('/')
+                            resetToolButtonStatus()
+                            setArticleOnEdit(initialArticleOnEdit)
+                            emit('editorEvent', {upload: true})
+                        } else {
+                            setErrors(checkErrors())
+                        }
+                    }
+                    break;
+                case "cancel":
+                    router.push('/')
+                    resetToolButtonStatus()
+                    setArticleOnEdit(initialArticleOnEdit)
+                    emit('editorEvent', {upload: false})
+                    break;
+            }
         }
-    }, [props.articleEditorStatus.controls.image.variable]);
+
+ 
+    }, [editorEvent]);
+
+
+    // useEffect(() => {
+    //     if (!hasMounted.current) {
+    //         props.setToolButtonStatus((prevState) => ({
+    //             ...prevState,
+    //             controls: {
+    //                 ...prevState.controls,
+    //                 image: true
+    //             }
+    //         }))
+    //         inputImageRef.current?.click()
+
+    //         // フォーカスが戻ったときに「閉じた」とみなす
+    //         const handleWindowFocus = () => {
+    //             setTimeout(() => {
+    //                 console.log('📂 ファイルダイアログが閉じられました（選択 or キャンセル）');
+    //                 props.setArticleEditorStatus((prevState) => ({
+    //                     ...prevState,
+    //                     controls: {
+    //                         ...prevState.controls,
+    //                         image: {
+    //                             ...prevState.controls.image,
+    //                             isActive: false,
+    //                         }
+    //                     }
+    //                 }))
+    //             }, 200); // 適切な遅延（少し余裕を持たせて）
+    //         };
+
+    //         // フォーカス復帰を1回だけ検知
+    //         window.addEventListener('focus', handleWindowFocus, { once: false });
+    //     }
+    // }, [props.articleEditorStatus.controls.image.variable]);
 
 
     useEffect(() => {
@@ -354,234 +371,144 @@ export default function ArticleEditingSection(props: props) {
     }, [articleOnEdit.contents, editor]);
 
 
-    useEffect(() => {
-        if (!hasMounted.current) {
-            editor?.chain().focus().toggleBold().run()
-        }
-    }, [props.articleEditorStatus.decorations.bold.variable])
 
     useEffect(() => {
-        if (!hasMounted.current) {
-            editor?.chain().focus().toggleUnderline().run()
-        }
-    }, [props.articleEditorStatus.decorations.underline.variable])
-
-    useEffect(() => {
-        if (!hasMounted.current) {
-            editor?.chain().focus().toggleItalic().run()
-        }
-    }, [props.articleEditorStatus.decorations.italic.variable])
-
-    useEffect(() => {
-        if (!hasMounted.current) {
-            editor?.chain().focus().toggleStrike().run()
-        }
-    }, [props.articleEditorStatus.decorations.strike.variable])
-
-    useEffect(() => {
-        if (!hasMounted.current) {
-            editor?.chain().focus().toggleHeading({level: 2}).run()
-        }
-    }, [props.articleEditorStatus.decorations.heading_1.variable])
-
-    useEffect(() => {
-        if (!hasMounted.current) {
-            editor?.chain().focus().toggleHeading({level: 3}).run()
-        }
-
-    }, [props.articleEditorStatus.decorations.heading_2.variable])
-
-    useEffect(() => {
-        if (!hasMounted.current) {
-            editor?.chain().focus().toggleHighlight().run()
-        }
-    }, [props.articleEditorStatus.decorations.highlight.variable])
-
-    useEffect(() => {
-        if (!hasMounted.current) {
-            editor?.chain().focus().toggleCodeBlock().run()
-        }
-    }, [props.articleEditorStatus.decorations.codeBlock.variable])
-
-    useEffect(() => {
-        if (!hasMounted.current) {
-            editor?.chain().focus().toggleBulletList().run()
-        }
-    }, [props.articleEditorStatus.decorations.bulletList.variable])
-
-    useEffect(() => {
-        if (!hasMounted.current) {
-            editor?.chain().focus().toggleOrderedList().run()
-        }
-    }, [props.articleEditorStatus.decorations.orderedList.variable])
-
-    useEffect(() => {
-        if (!hasMounted.current) {
-            editor?.chain().focus().toggleBlockquote().run()
-        }
-    }, [props.articleEditorStatus.decorations.blockQuote.variable])
-
-    useEffect(() => {
-        if (!hasMounted.current) {
-            editor?.chain().focus().setTextAlign('left').run()
-        }
-    }, [props.articleEditorStatus.decorations.textAlign_left.variable])
-
-    useEffect(() => {
-        if (!hasMounted.current) {
-            editor?.chain().focus().setTextAlign('center').run()
-        }
-    }, [props.articleEditorStatus.decorations.textAlign_center.variable])
-
-    useEffect(() => {
-        if (!hasMounted.current) {
-            editor?.chain().focus().setTextAlign('right').run()
-        }
-    }, [props.articleEditorStatus.decorations.textAlign_right.variable])
-
-
-
-
-    useEffect(() => {
-        props.setArticleEditorStatus((prevState) => ({
+        props.setToolButtonStatus((prevState) => ({
             ...prevState,
             decorations: {
                 ...prevState.decorations,
-                bold: {...prevState.decorations.bold, isActive: editor?.isActive('bold') as boolean}
+                bold: editor?.isActive('bold') as boolean
             }
         }))
     }, [editor?.isActive('bold')])
 
     useEffect(() => {
-        props.setArticleEditorStatus((prevState) => ({
+        props.setToolButtonStatus((prevState) => ({
             ...prevState,
             decorations: {
                 ...prevState.decorations,
-                underline: {...prevState.decorations.underline, isActive: editor?.isActive('underline') as boolean}
+                underline: editor?.isActive('underline') as boolean
             }
         }))
     }, [editor?.isActive('underline')])
 
     useEffect(() => {
-        props.setArticleEditorStatus((prevState) => ({
+        props.setToolButtonStatus((prevState) => ({
             ...prevState,
             decorations: {
                 ...prevState.decorations,
-                italic: {...prevState.decorations.italic, isActive: editor?.isActive('italic') as boolean}
+                italic: editor?.isActive('italic') as boolean
             }
         }))
     }, [editor?.isActive('italic')])
 
     useEffect(() => {
-        props.setArticleEditorStatus((prevState) => ({
+        props.setToolButtonStatus((prevState) => ({
             ...prevState,
             decorations: {
                 ...prevState.decorations,
-                strike: {...prevState.decorations.strike, isActive: editor?.isActive('strike') as boolean}
+                strike: editor?.isActive('strike') as boolean
             }
         }))
     }, [editor?.isActive('strike')])
 
     useEffect(() => {
-        props.setArticleEditorStatus((prevState) => ({
+        props.setToolButtonStatus((prevState) => ({
             ...prevState,
             decorations: {
                 ...prevState.decorations,
-                heading_1: {...prevState.decorations.heading_1, isActive: editor?.isActive('heading', {level: 2}) as boolean}
+                heading_1: editor?.isActive('heading', {level: 2}) as boolean
             }
         }))
     }, [editor?.isActive('heading', {level: 2})])
 
     useEffect(() => {
-        props.setArticleEditorStatus((prevState) => ({
+        props.setToolButtonStatus((prevState) => ({
             ...prevState,
             decorations: {
                 ...prevState.decorations,
-                heading_2: {...prevState.decorations.heading_2, isActive: editor?.isActive('heading', {level: 3}) as boolean}
+                heading_2: editor?.isActive('heading', {level: 3}) as boolean
             }
         }))
     }, [editor?.isActive('heading', {level: 3})])
 
     useEffect(() => {
-        props.setArticleEditorStatus((prevState) => ({
+        props.setToolButtonStatus((prevState) => ({
             ...prevState,
             decorations: {
                 ...prevState.decorations,
-                highlight: {...prevState.decorations.highlight, isActive: editor?.isActive('highlight') as boolean}
+                highlight: editor?.isActive('highlight') as boolean
             }
         }))
     }, [editor?.isActive('highlight')])
 
     useEffect(() => {
-        props.setArticleEditorStatus((prevState) => ({
+        props.setToolButtonStatus((prevState) => ({
             ...prevState,
             decorations: {
                 ...prevState.decorations,
-                codeBlock: {...prevState.decorations.codeBlock, isActive: editor?.isActive('codeBlock') as boolean}
+                codeBlock: editor?.isActive('codeBlock') as boolean
             }
         }))
     }, [editor?.isActive('codeBlock')])
 
     useEffect(() => {
-        props.setArticleEditorStatus((prevState) => ({
+        props.setToolButtonStatus((prevState) => ({
             ...prevState,
             decorations: {
                 ...prevState.decorations,
-                bulletList: {...prevState.decorations.bulletList, isActive: editor?.isActive('bulletList') as boolean}
+                bulletList: editor?.isActive('bulletList') as boolean
             }
         }))
     }, [editor?.isActive('bulletList')])
 
     useEffect(() => {
-        props.setArticleEditorStatus((prevState) => ({
+        props.setToolButtonStatus((prevState) => ({
             ...prevState,
             decorations: {
                 ...prevState.decorations,
-                orderedList: {...prevState.decorations.orderedList, isActive: editor?.isActive('orderedList') as boolean}
+                orderedList: editor?.isActive('orderedList') as boolean
             }
         }))
     }, [editor?.isActive('orderedList')])
 
 
     useEffect(() => {
-        props.setArticleEditorStatus((prevState) => ({
+        props.setToolButtonStatus((prevState) => ({
             ...prevState,
             decorations: {
                 ...prevState.decorations,
-                textAlign_left: {...prevState.decorations.textAlign_left, isActive: editor?.isActive({textAlign: 'left'}) as boolean}
+                textAlign_left: editor?.isActive({textAlign: 'left'}) as boolean
             }
         }))
     }, [editor?.isActive({textAlign: 'left'})])
 
     useEffect(() => {
-        props.setArticleEditorStatus((prevState) => ({
+        props.setToolButtonStatus((prevState) => ({
             ...prevState,
             decorations: {
                 ...prevState.decorations,
-                textAlign_center: {
-                    ...prevState.decorations.textAlign_center,
-                    isActive: editor?.isActive({textAlign: 'center'}) as boolean
-                }
+                textAlign_center: editor?.isActive({textAlign: 'center'}) as boolean
             }
         }))
     }, [editor?.isActive({textAlign: 'center'})])
 
     useEffect(() => {
-        props.setArticleEditorStatus((prevState) => ({
+        props.setToolButtonStatus((prevState) => ({
             ...prevState,
             decorations: {
                 ...prevState.decorations,
-                textAlign_right: {...prevState.decorations.textAlign_right, isActive: editor?.isActive({textAlign: 'right'}) as boolean}
+                textAlign_right: editor?.isActive({textAlign: 'right'}) as boolean
             }
         }))
     }, [editor?.isActive({textAlign: 'right'})])
 
     useEffect(() => {
-        props.setArticleEditorStatus((prevState) => ({
+        props.setToolButtonStatus((prevState) => ({
             ...prevState,
             decorations: {
                 ...prevState.decorations,
-                blockQuote: {...prevState.decorations.blockQuote, isActive: editor?.isActive('blockquote') as boolean}
+                blockQuote: editor?.isActive('blockquote') as boolean
             }
         }))
     }, [editor?.isActive('blockquote')])
@@ -601,7 +528,7 @@ export default function ArticleEditingSection(props: props) {
             <input className={styles.input_0} type='file' accept='image/*' ref={inputImageRef} onChange={onFileChange}/>
 
             {(() => {
-                if((!!errors && errors.length > 0) || props.articleEditorStatus.controls.link.isActive){
+                if((!!errors && errors.length > 0) || props.toolButtonStatus.controls.link){
                     return <div className={styles.FadeLayer}></div>
                 }
             })()}
@@ -611,8 +538,8 @@ export default function ArticleEditingSection(props: props) {
                 }
             })()}
             {(() => {
-                if(props.articleEditorStatus.controls.link.isActive){
-                    return <UrlInsertingCard setArticleEditorStatus={props.setArticleEditorStatus} editor={editor as Editor}/>
+                if(props.toolButtonStatus.controls.link){
+                    return <UrlInsertingCard setToolButtonStatus={props.setToolButtonStatus} editor={editor as Editor}/>
                 }
             })()}
         </div>

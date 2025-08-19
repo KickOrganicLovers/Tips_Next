@@ -4,22 +4,23 @@ import {LuAlignCenter, LuAlignLeft, LuAlignRight, LuHeading1, LuHeading2, LuItal
 import {MdFormatListNumbered, MdFormatUnderlined, MdOutlineFormatListBulleted} from "react-icons/md";
 import {IoCodeSlashOutline, IoImage} from "react-icons/io5";
 import classNames from "classnames";
-import {ArticleEditorStatusScheme} from "@/types";
 import {Dispatch, SetStateAction, useRef} from "react";
 import {BsBlockquoteLeft} from "react-icons/bs";
 import {IoIosLink} from "react-icons/io";
+import { ToolButtonStatusScheme } from '@/types';
+import { useEventsStore } from '@/lib/lib-client/stores/eventsStore';
 
 type editorMode = 'toolBar' | 'both'
 
 interface props {
     editorMode: editorMode
     extension: string
-    setArticleEditorStatus: Dispatch<SetStateAction<ArticleEditorStatusScheme>>
-    articleEditorStatus: ArticleEditorStatusScheme
+    toolButtonStatus: ToolButtonStatusScheme
 }
 
 export default function ToolIcon(props: props) {
     const classname = `${styles['div_0']} ${styles[props.editorMode]}`
+    const emit = useEventsStore(state => state.emit)
 
     return (
         <div className={classname}>
@@ -27,204 +28,99 @@ export default function ToolIcon(props: props) {
                 switch (props.extension) {
                     case 'heading1':
                         return (<div
-                            className={props.articleEditorStatus.decorations.heading_1.isActive ? classNames(styles.div_3, styles.active) : styles.div_3}
+                            className={props.toolButtonStatus.decorations.heading_1 ? classNames(styles.div_3, styles.active) : styles.div_3}
                             onClick={() => {
-                                props.setArticleEditorStatus((prevState) => ({
-                                    ...prevState,
-                                    decorations: {
-                                        ...prevState.decorations,
-                                        heading_1: {...prevState.decorations.heading_1, variable: !prevState.decorations.heading_1.variable}
-                                    }
-                                }))
+                                emit('editorEvent', {click: {decorations: 'heading_1'}})
                             }}><LuHeading1 className={styles.icon}/></div>)
                     case 'heading2':
                         return (<div
-                            className={props.articleEditorStatus.decorations.heading_2.isActive ? classNames(styles.div_3, styles.active) : styles.div_3}
+                            className={props.toolButtonStatus.decorations.heading_2 ? classNames(styles.div_3, styles.active) : styles.div_3}
                             onClick={() => {
-                                props.setArticleEditorStatus((prevState) => ({
-                                    ...prevState,
-                                    decorations: {
-                                        ...prevState.decorations,
-                                        heading_2: {...prevState.decorations.heading_2, variable: !prevState.decorations.heading_2.variable}
-                                    }
-                                }))
+                                emit('editorEvent', {click: {decorations: 'heading_2'}})
                             }}><LuHeading2 className={styles.icon}/></div>)
                     case 'italic':
                         return (<div
-                            className={props.articleEditorStatus.decorations.italic.isActive ? classNames(styles.div_3, styles.active) : styles.div_3}
+                            className={props.toolButtonStatus.decorations.italic ? classNames(styles.div_3, styles.active) : styles.div_3}
                             onClick={() => {
-                                props.setArticleEditorStatus((prevState) => ({
-                                    ...prevState,
-                                    decorations: {
-                                        ...prevState.decorations,
-                                        italic: {...prevState.decorations.italic, variable: !prevState.decorations.italic.variable}
-                                    }
-                                }))
+                                emit('editorEvent', {click: {decorations: 'italic'}})
                             }}><LuItalic className={styles.icon}/></div>)
                     case 'underline':
                         return (<div
-                            className={props.articleEditorStatus.decorations.underline.isActive ? classNames(styles.div_3, styles.active) : styles.div_3}
+                            className={props.toolButtonStatus.decorations.underline ? classNames(styles.div_3, styles.active) : styles.div_3}
                             onClick={() => {
-                                props.setArticleEditorStatus((prevState) => ({
-                                    ...prevState,
-                                    decorations: {
-                                        ...prevState.decorations,
-                                        underline: {...prevState.decorations.underline, variable: !prevState.decorations.underline.variable}
-                                    }
-                                }))
+                                emit('editorEvent', {click: {decorations: 'underline'}})
                             }}><MdFormatUnderlined className={styles.icon}/></div>)
                     case 'bold':
                         return (<div
-                            className={props.articleEditorStatus.decorations.bold.isActive ? classNames(styles.div_3, styles.active) : styles.div_3}
+                            className={props.toolButtonStatus.decorations.bold ? classNames(styles.div_3, styles.active) : styles.div_3}
                             onClick={() => {
-                                props.setArticleEditorStatus((prevState) => ({
-                                    ...prevState,
-                                    decorations: {
-                                        ...prevState.decorations,
-                                        bold: {...prevState.decorations.bold, variable: !prevState.decorations.bold.variable}
-                                    }
-                                }))
+                                emit('editorEvent', {click: {decorations: 'bold'}})
                             }}><AiOutlineBold className={styles.icon}/></div>)
                     case 'strikeThrough':
                         return (<div
-                            className={props.articleEditorStatus.decorations.strike.isActive ? classNames(styles.div_3, styles.active) : styles.div_3}
+                            className={props.toolButtonStatus.decorations.strike ? classNames(styles.div_3, styles.active) : styles.div_3}
                             onClick={() => {
-                                props.setArticleEditorStatus((prevState) => ({
-                                    ...prevState,
-                                    decorations: {
-                                        ...prevState.decorations,
-                                        strike: {...prevState.decorations.strike, variable: !prevState.decorations.strike.variable}
-                                    }
-                                }))
+                                emit('editorEvent', {click: {decorations: 'strike'}})
                             }}><AiOutlineStrikethrough className={styles.icon}/></div>)
                     case 'alignLeft':
                         return (<div
-                            className={props.articleEditorStatus.decorations.textAlign_left.isActive ? classNames(styles.div_3, styles.active) : styles.div_3}
+                            className={props.toolButtonStatus.decorations.textAlign_left ? classNames(styles.div_3, styles.active) : styles.div_3}
                             onClick={() => {
-                                props.setArticleEditorStatus((prevState) => ({
-                                    ...prevState,
-                                    decorations: {
-                                        ...prevState.decorations,
-                                        textAlign_left: {
-                                            ...prevState.decorations.textAlign_left,
-                                            variable: !prevState.decorations.textAlign_left.variable
-                                        }
-                                    }
-                                }))
+                                emit('editorEvent', {click: {decorations: 'textAlign_left'}})
                             }}><LuAlignLeft className={styles.icon}/></div>)
                     case 'alignRight':
                         return (<div
-                            className={props.articleEditorStatus.decorations.textAlign_right.isActive ? classNames(styles.div_3, styles.active) : styles.div_3}
+                            className={props.toolButtonStatus.decorations.textAlign_right ? classNames(styles.div_3, styles.active) : styles.div_3}
                             onClick={() => {
-                                props.setArticleEditorStatus((prevState) => ({
-                                    ...prevState,
-                                    decorations: {
-                                        ...prevState.decorations,
-                                        textAlign_right: {
-                                            ...prevState.decorations.textAlign_right,
-                                            variable: !prevState.decorations.textAlign_right.variable
-                                        }
-                                    }
-                                }))
+                                emit('editorEvent', {click: {decorations: 'textAlign_right'}})
                             }}><LuAlignRight className={styles.icon}/></div>)
                     case 'alignCenter':
                         return (<div
-                            className={props.articleEditorStatus.decorations.textAlign_center.isActive ? classNames(styles.div_3, styles.active) : styles.div_3}
+                            className={props.toolButtonStatus.decorations.textAlign_center ? classNames(styles.div_3, styles.active) : styles.div_3}
                             onClick={() => {
-                                props.setArticleEditorStatus((prevState) => ({
-                                    ...prevState,
-                                    decorations: {
-                                        ...prevState.decorations,
-                                        textAlign_center: {
-                                            ...prevState.decorations.textAlign_center,
-                                            variable: !prevState.decorations.textAlign_center.variable
-                                        }
-                                    }
-                                }))
+                                emit('editorEvent', {click: {decorations: 'textAlign_center'}})
                             }}><LuAlignCenter className={styles.icon}/></div>)
                     case 'orderedList':
                         return (<div
-                            className={props.articleEditorStatus.decorations.orderedList.isActive ? classNames(styles.div_3, styles.active) : styles.div_3}
+                            className={props.toolButtonStatus.decorations.orderedList ? classNames(styles.div_3, styles.active) : styles.div_3}
                             onClick={() => {
-                                props.setArticleEditorStatus((prevState) => ({
-                                    ...prevState,
-                                    decorations: {
-                                        ...prevState.decorations,
-                                        orderedList: {...prevState.decorations.orderedList, variable: !prevState.decorations.orderedList.variable}
-                                    }
-                                }))
+                                emit('editorEvent', {click: {decorations: 'orderedList'}})
                             }}><MdFormatListNumbered className={styles.icon}/></div>)
                     case 'bulletList':
                         return (<div
-                            className={props.articleEditorStatus.decorations.bulletList.isActive ? classNames(styles.div_3, styles.active) : styles.div_3}
+                            className={props.toolButtonStatus.decorations.bulletList ? classNames(styles.div_3, styles.active) : styles.div_3}
                             onClick={() => {
-                                props.setArticleEditorStatus((prevState) => ({
-                                    ...prevState,
-                                    decorations: {
-                                        ...prevState.decorations,
-                                        bulletList: {...prevState.decorations.bulletList, variable: !prevState.decorations.bulletList.variable}
-                                    }
-                                }))
+                                emit('editorEvent', {click: {decorations: 'bulletList'}})
                             }}><MdOutlineFormatListBulleted className={styles.icon}/></div>)
                     case 'codeBlock':
                         return (<div
-                            className={props.articleEditorStatus.decorations.codeBlock.isActive ? classNames(styles.div_3, styles.active) : styles.div_3}
+                            className={props.toolButtonStatus.decorations.codeBlock ? classNames(styles.div_3, styles.active) : styles.div_3}
                             onClick={() => {
-                                props.setArticleEditorStatus((prevState) => ({
-                                    ...prevState,
-                                    decorations: {
-                                        ...prevState.decorations,
-                                        codeBlock: {...prevState.decorations.codeBlock, variable: !prevState.decorations.codeBlock.variable}
-                                    }
-                                }))
+                                emit('editorEvent', {click: {decorations: 'codeBlock'}})
                             }}><IoCodeSlashOutline className={styles.icon}/></div>)
                     case 'highlight':
                         return (<div
-                            className={props.articleEditorStatus.decorations.highlight.isActive ? classNames(styles.div_3, styles.active) : styles.div_3}
+                            className={props.toolButtonStatus.decorations.highlight ? classNames(styles.div_3, styles.active) : styles.div_3}
                             onClick={() => {
-                                props.setArticleEditorStatus((prevState) => ({
-                                    ...prevState,
-                                    decorations: {
-                                        ...prevState.decorations,
-                                        highlight: {...prevState.decorations.highlight, variable: !prevState.decorations.highlight.variable}
-                                    }
-                                }))
+                                emit('editorEvent', {click: {decorations: 'highlight'}})
                             }}><AiOutlineEdit className={styles.icon}/></div>)
                     case 'blockQuote':
                         return (<div
-                            className={props.articleEditorStatus.decorations.blockQuote.isActive ? classNames(styles.div_3, styles.active) : styles.div_3}
+                            className={props.toolButtonStatus.decorations.blockQuote ? classNames(styles.div_3, styles.active) : styles.div_3}
                             onClick={() => {
-                                props.setArticleEditorStatus((prevState) => ({
-                                    ...prevState,
-                                    decorations: {
-                                        ...prevState.decorations,
-                                        blockQuote: {...prevState.decorations.blockQuote, variable: !prevState.decorations.blockQuote.variable}
-                                    }
-                                }))
+                                emit('editorEvent', {click: {decorations: 'blockQuote'}})
                             }}><BsBlockquoteLeft className={styles.icon}/></div>)
                     case 'link':
                         return (<div
-                            className={props.articleEditorStatus.controls.link.isActive ? classNames(styles.div_3, styles.active) : styles.div_3}
+                            className={props.toolButtonStatus.controls.link ? classNames(styles.div_3, styles.active) : styles.div_3}
                             onClick={() => {
-                                props.setArticleEditorStatus((prevState) => ({
-                                    ...prevState,
-                                    controls: {
-                                        ...prevState.controls,
-                                        link: {...prevState.controls.link, variable: !prevState.controls.link.variable}
-                                    }
-                                }))
+                                emit('editorEvent', {click: {controls: 'link'}})
                             }}><IoIosLink className={styles.icon}/></div>)
                     case 'image':
                         return (<div
-                            className={props.articleEditorStatus.controls.image.isActive ? classNames(styles.div_3, styles.active) : styles.div_3}
+                            className={props.toolButtonStatus.controls.image ? classNames(styles.div_3, styles.active) : styles.div_3}
                             onClick={() => {
-                                props.setArticleEditorStatus((prevState) => ({
-                                    ...prevState,
-                                    controls: {
-                                        ...prevState.controls,
-                                        image: {...prevState.controls.image, variable: !prevState.controls.image.variable}
-                                    }
-                                }))
+                                emit('editorEvent', {click: {controls: 'image'}})
                             }}><IoImage className={styles.icon}/></div>)
                 }
             })()}

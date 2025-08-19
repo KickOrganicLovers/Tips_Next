@@ -6,20 +6,21 @@ import {TbTag} from "react-icons/tb";
 import {AiOutlineClose} from "react-icons/ai";
 import {sideBarStatusAtom} from "@/lib/lib-client/atoms";
 import {useAtom} from "jotai";
-import {ArticleEditorStatusScheme} from "@/types";
+import { useEventsStore } from '@/lib/lib-client/stores/eventsStore';
+import { stat } from 'fs';
 
 type editorMode = 'both' | 'toolBar'
 
 interface props {
-    buttonOption: 'insertImage' | 'setInfo' | 'upload' | 'cancel'
+    buttonOption: 'setInfo' | 'upload' | 'cancel'
     editorMode: editorMode
-    setArticleEditorStatus: Dispatch<SetStateAction<ArticleEditorStatusScheme>>
 }
 
 export default function OptionButton(props: props) {
     const className = `${styles['div_0']} ${styles[props.buttonOption]} ${styles[props.editorMode]}`
     const [sideBarStatus, setSideBarStatus] = useAtom(sideBarStatusAtom)
     const [isMedia, setIsMedia] = useState<boolean>(false)
+    const emit = useEventsStore(state => state.emit)
 
     useEffect(() => {
         const handleResize = () => {
@@ -59,25 +60,13 @@ export default function OptionButton(props: props) {
                         if (isMedia && props.editorMode === 'both') {
                             return (
                                 <div className={styles.div_2}><AiOutlineClose className={styles.icon} onClick={() => {
-                                    props.setArticleEditorStatus((prevState) => ({
-                                        ...prevState,
-                                        controls: {
-                                            ...prevState.controls,
-                                            cancel: {variable: !prevState.controls.cancel.variable}
-                                        }
-                                    }))
+                                    emit('editorEvent', {click: {controls: 'cancel'}})
                                 }}/></div>
                             )
                         } else {
                             return (
                                 <div className={styles.div_1} onClick={() => {
-                                    props.setArticleEditorStatus((prevState) => ({
-                                        ...prevState,
-                                        controls: {
-                                            ...prevState.controls,
-                                            cancel: {variable: !prevState.controls.cancel.variable}
-                                        }
-                                    }))
+                                    emit('editorEvent', {click: {controls: 'cancel'}})
                                 }}>キャンセル</div>
                             )
                         }
@@ -85,25 +74,13 @@ export default function OptionButton(props: props) {
                         if (isMedia && props.editorMode === 'both') {
                             return (
                                 <div className={styles.div_2}><MdFileUpload className={styles.icon} onClick={() => {
-                                    props.setArticleEditorStatus((prevState) => ({
-                                        ...prevState,
-                                        controls: {
-                                            ...prevState.controls,
-                                            upload: {variable: !prevState.controls.upload.variable}
-                                        }
-                                    }))
+                                    emit('editorEvent', {click: {controls: 'upload'}})
                                 }}/></div>
                             )
                         } else {
                             return (
                                 <div className={styles.div_1} onClick={() => {
-                                    props.setArticleEditorStatus((prevState) => ({
-                                        ...prevState,
-                                        controls: {
-                                            ...prevState.controls,
-                                            upload: {variable: !prevState.controls.upload.variable}
-                                        }
-                                    }))
+                                    emit('editorEvent', {click: {controls: 'upload'}})
                                 }}>記事を投稿</div>
                             )
                         }
