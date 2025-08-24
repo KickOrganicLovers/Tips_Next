@@ -20,7 +20,7 @@
     position: absolute;
     width: fit-content;
     height: fit-content;
-    top: 12px;
+    top: 16px;
     left: 0;
     bottom: 0;
     right: 0;
@@ -42,9 +42,19 @@
     border: 3px solid var(--border-color-1);
     color: var(--border-color-1);
 
-    @media (max-width: 768px) {
+    @media screen and (max-width: 768px) {
         width: 45px;
         height: 45px;
+    }
+}
+
+.div_0.inserting .div_3 {
+    background-color: var(--bg-color-3);
+    border: 3px solid var(--bg-color-3);
+    color: var(--bg-color-2);
+
+    &:hover {
+        color: var(--bg-color-1);
     }
 }
 

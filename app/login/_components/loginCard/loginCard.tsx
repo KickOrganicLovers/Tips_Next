@@ -4,6 +4,7 @@ import {useRouter} from "next/navigation";
 import {signIn, useSession} from 'next-auth/react';
 import {CiCircleAlert} from "react-icons/ci";
 import {FiAlertCircle} from "react-icons/fi";
+import {FaApple, FaGoogle} from "react-icons/fa";
 
 export default function LoginCard() {
     const [isMounted, setIsMounted] = useState(false);
@@ -68,10 +69,11 @@ export default function LoginCard() {
                 <p className={styles.p_0}>または、以下のサービスでログイン</p>
                 <div className={styles.div_2}>
                     <div className={styles.div_3}>
-                        <img src={'/images/logos/apple.png'} alt={'logoApple'} className={styles.img_0}/>
+                        <FaGoogle className={styles.FaGoogle}
+                                  onClick={() => {signIn('google', {callbackUrl: '/'});}}/>
                     </div>
-                    <div className={styles.div_3} onClick={() => {signIn('google', {callbackUrl: '/'})}}>
-                        <img src={'/images/logos/google.png'} alt={'logoGoogle'} className={styles.img_0}/>
+                    <div className={styles.div_3}>
+                        <FaApple className={styles.FaApple}/>
                     </div>
                 </div>
             </div>

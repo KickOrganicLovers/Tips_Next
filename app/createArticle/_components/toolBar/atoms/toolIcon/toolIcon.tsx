@@ -19,7 +19,8 @@ interface props {
 }
 
 export default function ToolIcon(props: props) {
-    const classname = `${styles['div_0']} ${styles[props.editorMode]}`
+    const isInserting = props.extension === 'image' || props.extension === 'link'
+    const classname = isInserting? `${styles['div_0']} ${styles[props.editorMode]} ${styles['inserting']} ` : `${styles['div_0']} ${styles[props.editorMode]}`
     const emit = useEventsStore(state => state.emit)
 
     return (

@@ -17,7 +17,6 @@ import {useWhereIamStore} from "@/lib/lib-client/stores/whereIamStore";
 
 
 export default function Page() {
-    const [articles, setArticles] = useState<ArticleScheme[]>([]);
     const [users, setUsers] = useState<UserScheme[]>([])
     const [pageMode, setPageMode] = useState<'articles' | 'users'>('articles')
     const appendError = useErrorStore(state => state.appendError)
@@ -30,13 +29,6 @@ export default function Page() {
     const className_p_0_users = pageMode === 'users'? classNames(styles.p_0, styles.active) : classNames(styles.p_0)
 
 
-    const searchArticles = async (query: string) => {
-        return getDataFromServerWithJson<{articles: ArticleScheme[]}>(`/api/searchArticle?search_query=${query}`);
-    }
-
-    const searchUsers = async (query: string) => {
-        return getDataFromServerWithJson<{users: UserScheme[]}>(`/api/searchUser?search_query=${query}`)
-    }
 
     const postSearchHistory = (query: string)=> {
         return postDataToServerWithJson('/api/postSearchHistory', {searchQuery: search_query})
@@ -45,20 +37,6 @@ export default function Page() {
 
 
     useEffect(() => {
-        searchArticles(search_query).then((json) => {
-            if(!!json){
-                setArticles(json.articles)
-            }
-        }).catch((error) => {
-            appendError(error)
-        })
-        searchUsers(search_query).then((json) => {
-            if(!!json){
-                setUsers(json.users)
-            }
-        }).catch((error) => {
-            appendError(error)
-        })
         if(session.status === 'authenticated'){
             postSearchHistory(search_query).catch(error => {appendError(error)})
         }
@@ -76,8 +54,8 @@ export default function Page() {
                 </div>
             </div>
             <div className={styles.div_2}>
-                <ArticlesSection articles={articles} pageMode={pageMode}/>
-                <UsersSection users={users} setUsers={setUsers} pageMode={pageMode}/>
+                <ArticlesSection query={search_query} pageMode={pageMode}/>
+                <UsersSection query={search_query} pageMode={pageMode}/>
             </div>
         </div>
     )

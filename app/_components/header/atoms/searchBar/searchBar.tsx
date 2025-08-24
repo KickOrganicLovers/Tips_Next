@@ -61,7 +61,7 @@ export default function SearchBar(props: props) {
             setSearchQuery(`#${suggestion}`)
             setSuggestions([])
         }else {
-            const params = new URLSearchParams({search_query: searchQuery});
+            const params = new URLSearchParams({search_query: suggestion});
             router.push(`/search?${params.toString()}`);
             setSearchQuery(suggestion)
             setSuggestions([])

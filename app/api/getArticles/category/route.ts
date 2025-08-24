@@ -4,9 +4,10 @@ import {handleServerError, replaceAllDatesToIsoString} from "@/lib/lib-server/pr
 import {ArticleScheme} from "@/types";
 
 export async function POST (req: NextRequest){
-    const body: {viewingArticles: ArticleScheme[], categoryId: string} = await req.json()
+    const body: {viewingArticleIds: string[], categoryId: string} = await req.json()
+    const categoryId = body.categoryId || ''
+    const viewingArticleIds = body.viewingArticleIds || []
 
-    console.log(body)
 
     if(!body.categoryId) return NextResponse.json(
         {error: {message: 'Category id is missing.', code: 'MISSING_CATEGORY_ID' }},
@@ -17,10 +18,10 @@ export async function POST (req: NextRequest){
         const articles = await prisma.article.findMany({
             where: {
                 OR: [
-                    {categoryId: body.categoryId}
+                    {categoryId: categoryId}
                 ],
                 NOT: [{
-                    id: {in: body.viewingArticles.map((viewingArticle) => viewingArticle.id)}
+                    id: {in: viewingArticleIds}
                 }]
             },
             take: 30,
@@ -46,7 +47,7 @@ export async function POST (req: NextRequest){
 
         const articleLength = await prisma.article.count({
             where: {
-                categoryId: body.categoryId,
+                categoryId: categoryId,
             }
         })
 

@@ -3,6 +3,7 @@ import styles from './verificationCard_step1.module.css'
 import {postDataToServerWithJson} from "@/lib/lib-client/fetch";
 import {signIn} from "next-auth/react";
 import {FiAlertCircle} from "react-icons/fi";
+import {FaApple, FaGoogle} from "react-icons/fa";
 
 interface props {
     setVerificationCardStatus: Dispatch<SetStateAction<string>>
@@ -42,13 +43,12 @@ export default function VerificationCard_Step1(props: props) {
                 <p className={styles.p_0}>または、以下のサービスで登録</p>
                 <div className={styles.div_3}>
                     <div className={styles.div_4}>
-                        <img src={'/images/logos/google.png'} alt={'logoGoogle'} className={styles.img_0}
-                             onClick={() => {
-                                 signIn('google', {callbackUrl: '/'});
-                             }}/>
+                        <FaGoogle className={styles.FaGoogle}
+                                  onClick={() => {signIn('google', {callbackUrl: '/'});
+                        }}/>
                     </div>
                     <div className={styles.div_4}>
-                        <img src={'/images/logos/apple.png'} alt={'logoApple'} className={styles.img_0}/>
+                        <FaApple className={styles.FaApple}/>
                     </div>
                 </div>
             </div>

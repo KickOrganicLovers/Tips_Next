@@ -1,6 +1,6 @@
 import {ErrorScheme} from "@/types";
 
-export async function postDataToServerWithJson<T>(url: string, obj: object): Promise<T | void> {
+export async function postDataToServerWithJson<T>(url: string, obj: object): Promise<T | null> {
     const params = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -24,7 +24,7 @@ export async function postDataToServerWithJson<T>(url: string, obj: object): Pro
             const {error, ...jsonWithOutError} = json
             return jsonWithOutError as T
         }
-
+        return null
     }catch (error) {
         if (error instanceof TypeError) {
             console.log(error)
@@ -34,7 +34,7 @@ export async function postDataToServerWithJson<T>(url: string, obj: object): Pro
     }
 }
 
-export async function getDataFromServerWithJson<T>(url: string): Promise<T | void> {
+export async function getDataFromServerWithJson<T>(url: string): Promise<T | null> {
     const params = {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
@@ -56,7 +56,7 @@ export async function getDataFromServerWithJson<T>(url: string): Promise<T | voi
             const {error, ...jsonWithOutError} = json
             return jsonWithOutError as T
         }
-
+        return null
     }catch (error) {
         if (error instanceof TypeError) {
             console.log(error)

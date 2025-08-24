@@ -15,7 +15,7 @@
     position: relative;
 
     @media screen and (max-width: 768px) {
-        height: auto;
+        height: fit-content;
         width: 100%;
     }
 }
@@ -52,12 +52,11 @@
 }
 
 .FadeLayer {
-    position: absolute;
-    top: 0;
-    left: 0;
+    height: 100vh;
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
     z-index: 0;
-    width: 100%;
-    height: 100%;
     background-color: black;
     opacity: 0.2;
 }

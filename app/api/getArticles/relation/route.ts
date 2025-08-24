@@ -42,7 +42,7 @@ export async function GET(req: NextRequest){
                     {categoryId: articleOnReading.categoryId}
                 ]
             },
-            take: 10,
+            take: 12,
             orderBy: [
                 {likes: {_count: 'desc'}},
                 {createdAt: 'desc'}
@@ -56,7 +56,7 @@ export async function GET(req: NextRequest){
             }
         })
 
-        if(relatedArticles.length < 10){
+        if(relatedArticles.length < 12){
             if(!!session && !!session.user.id){
                 const additionalRelatedArticles = await prisma.article.findMany({
                     where: {
@@ -66,7 +66,7 @@ export async function GET(req: NextRequest){
                             {categoryId: articleOnReading.categoryId}
                         ]
                     },
-                    take: 10 - relatedArticles.length,
+                    take: 12 - relatedArticles.length,
                     orderBy: [
                         {likes: {_count: 'desc'}},
                         {createdAt: 'asc'}
@@ -80,7 +80,7 @@ export async function GET(req: NextRequest){
                     }
                 })
 
-                if([...relatedArticles, ...additionalRelatedArticles].length < 10){
+                if([...relatedArticles, ...additionalRelatedArticles].length < 12){
                     const trendingArticles = await prisma.article.findMany({
                         where: {
                             NOT: { id: {in:[...articleId, ...relatedArticles.map(relatedArticle => relatedArticle.id), ...additionalRelatedArticles.map(additionalRelatedArticle => additionalRelatedArticle.id)]}},
@@ -89,7 +89,7 @@ export async function GET(req: NextRequest){
                             {likes: {_count: 'desc'}},
                             {createdAt: 'desc'}
                         ],
-                        take: 10 - [...relatedArticles, ...additionalRelatedArticles].length,
+                        take: 12 - [...relatedArticles, ...additionalRelatedArticles].length,
                         include: {
                             author: true,
                             category: true,
@@ -111,7 +111,7 @@ export async function GET(req: NextRequest){
                         {likes: {_count: 'desc'}},
                         {createdAt: 'desc'}
                     ],
-                    take: 10 - [...relatedArticles].length,
+                    take: 12 - [...relatedArticles].length,
                     include: {
                         author: true,
                         category: true,

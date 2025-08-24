@@ -39,19 +39,28 @@
 }
 
 .div_3 {
-    width: 75%;
-    height: 100%;
-    padding: 2vh 2vw 2vh 2vw;
-    box-sizing: border-box;
+    width: 100%;
+    height: fit-content;
+    max-height: 100%;
     overflow-y: scroll;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+    padding: 20px;
     gap: 2vh;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 300px);
+    justify-content: center;
+    box-sizing: border-box;
     background-color: var(--bg-color-2);
-    @media screen  and (max-width: 768px){
-        overflow-y: visible;
+
+    @media screen and (max-width: 768px) {
         width: 100%;
-        height: auto;
+        grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+    }
+
+
+    @media screen and (max-width: 512px) {
+        width: 100%;
+        overflow-y: visible;
+        grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
     }
 }
 

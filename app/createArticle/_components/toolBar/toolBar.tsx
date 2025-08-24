@@ -17,6 +17,7 @@ interface props {
 export default function ToolBar(props: props) {
     const classname = `${styles['div_0']} ${styles[props.editorMode]}`
     const clickEventHandler = () => {
+        console.log('fuck')
         switch (props.editorMode) {
             case 'both': {
                 props.setEditorMode('toolBar')

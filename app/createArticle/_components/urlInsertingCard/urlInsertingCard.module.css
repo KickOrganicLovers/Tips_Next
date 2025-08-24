@@ -1,9 +1,6 @@
 .div_0 {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    position: fixed;
+    inset: 0;
     margin: auto;
     width: fit-content;
     height: fit-content;
@@ -17,8 +14,10 @@
 }
 
 .div_1 {
-    width: 400px;
-    height: 50px;
+    aspect-ratio: 8/1;
+    width: 20vw;
+    min-width: 250px;
+    min-height: 40px;
     position: relative;
 }
 
@@ -36,6 +35,7 @@
 }
 
 .button_0 {
+    font-size: clamp(12px, 2vw, 16px);
     color: var(--text-color-1);
     position: absolute;
     width: fit-content;

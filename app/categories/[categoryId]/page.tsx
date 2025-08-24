@@ -24,11 +24,9 @@ export default function Page () {
     const [isMax, setIsMax] = useState<boolean>(false);
 
 
-    const postArticlesWithCategory = async () => {
-        console.log(viewingArticles)
-        postDataToServerWithJson<{articles: ArticleScheme[], articleLength: number}>(`/api/getArticles/category`, {categoryId, viewingArticles}).then((json) => {
+    const getArticlesWithCategory = async () => {
+        postDataToServerWithJson<{articles: ArticleScheme[], articleLength: number}>(`/api/getArticles/category`, {categoryId, viewingArticleIds: viewingArticles.map(viewingArticle => viewingArticle.id)}).then((json) => {
             if(!!json){
-                console.log(json.articles)
                 setArticleLength(json.articleLength);
                 setViewingArticles((prevState) => [...prevState, ...json.articles]);
                 setIsMax(json.articles.length < 30)
@@ -40,6 +38,8 @@ export default function Page () {
 
 
     useEffect(() => {
+        setIsMax(false)
+        setViewingArticles([])
         const category = findCategoryById(categories, categoryId)
         if(!!category){
             setCategory(category)
@@ -64,9 +64,9 @@ export default function Page () {
                     <ArticleContainer article= {article} key={index} isDummy={false} isFirstDummy={false}/>
                 ))}
                 {!isMax && Array.from({length: 30}).map((_, index) => (
-                    <ArticleContainer isDummy={true} key ={index} isFirstDummy={index === 0} firstDummy_onVisible={postArticlesWithCategory}/>
+                    <ArticleContainer isDummy={true} key ={index} isFirstDummy={index === 0} firstDummy_onVisible={getArticlesWithCategory}/>
                 ))}
-                {viewingArticles.length === 0?
+                {viewingArticles.length === 0 && isMax?
                     <div className={styles.div_4}>
                         <BoyWithCompass className={styles.BoyWithCompass}/>
                         <h2 className={styles.h2_0}>記事が見つかりませんでした</h2>

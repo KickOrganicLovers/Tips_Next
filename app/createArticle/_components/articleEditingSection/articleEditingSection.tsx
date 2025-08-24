@@ -178,7 +178,7 @@ export default function ArticleEditingSection(props: props) {
         )
     }
 
-    
+
 
 
     useEffect(() => {
@@ -326,42 +326,9 @@ export default function ArticleEditingSection(props: props) {
             }
         }
 
- 
+
     }, [editorEvent]);
 
-
-    // useEffect(() => {
-    //     if (!hasMounted.current) {
-    //         props.setToolButtonStatus((prevState) => ({
-    //             ...prevState,
-    //             controls: {
-    //                 ...prevState.controls,
-    //                 image: true
-    //             }
-    //         }))
-    //         inputImageRef.current?.click()
-
-    //         // フォーカスが戻ったときに「閉じた」とみなす
-    //         const handleWindowFocus = () => {
-    //             setTimeout(() => {
-    //                 console.log('📂 ファイルダイアログが閉じられました（選択 or キャンセル）');
-    //                 props.setArticleEditorStatus((prevState) => ({
-    //                     ...prevState,
-    //                     controls: {
-    //                         ...prevState.controls,
-    //                         image: {
-    //                             ...prevState.controls.image,
-    //                             isActive: false,
-    //                         }
-    //                     }
-    //                 }))
-    //             }, 200); // 適切な遅延（少し余裕を持たせて）
-    //         };
-
-    //         // フォーカス復帰を1回だけ検知
-    //         window.addEventListener('focus', handleWindowFocus, { once: false });
-    //     }
-    // }, [props.articleEditorStatus.controls.image.variable]);
 
 
     useEffect(() => {
@@ -529,7 +496,8 @@ export default function ArticleEditingSection(props: props) {
 
             {(() => {
                 if((!!errors && errors.length > 0) || props.toolButtonStatus.controls.link){
-                    return <div className={styles.FadeLayer}></div>
+                    return <div className={styles.FadeLayer}>
+                    </div>
                 }
             })()}
             {(() => {

@@ -17,8 +17,7 @@ interface props {
 export default function ArticleContainer(props: props) {
     const router = useRouter();
     const ref = useRef<HTMLDivElement | null>(null);
-    const [isFetching, setIsFetching] = useState(false);
-
+    const isFetchingRef = useRef(false);
 
     const clickEventHandler = () => {
         if(!!props.article && !props.isDummy) {
@@ -26,31 +25,27 @@ export default function ArticleContainer(props: props) {
         }
     }
 
+
     useEffect(() => {
         const target = ref?.current;
         if (!target || !props.isFirstDummy) return;
 
         const observer = new IntersectionObserver(
             ([entry]) => {
-                if (entry.isIntersecting && !isFetching) {
-                    setIsFetching(true);
+                if (entry.isIntersecting && !isFetchingRef.current) {
+                    isFetchingRef.current = true;
 
-                    if(!!props.firstDummy_onVisible){
-                        props.firstDummy_onVisible().then(() => {
-                            setIsFetching(false)
-                        })
-                    }
+                    props.firstDummy_onVisible?.().finally(() => {
+                        isFetchingRef.current = false;
+                    });
                 }
             },
             { threshold: 0.1 }
         );
 
         observer.observe(target);
-
-        return () => {
-            observer.disconnect(); // クリーンアップ
-        };
-    }, []);
+        return () => observer.disconnect();
+    }, [props.isFirstDummy, props.firstDummy_onVisible]);
 
 
     return (

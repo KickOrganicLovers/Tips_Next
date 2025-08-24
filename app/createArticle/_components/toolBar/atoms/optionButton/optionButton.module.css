@@ -49,13 +49,21 @@
     }
 }
 
+.div_0.setInfo .div_1 {
+    background-color: var(--bg-color-3);
+    border-color: var(--bg-color-3);
+    transition: border-color 0.1s;
+    color: var(--bg-color-1);
+
+    &:hover {
+        color: var(--bg-color-1);
+    }
+}
+
 
 .div_2 {
-    aspect-ratio: 1;
-    width: 100%;
-    max-width: 55px;
-    height: 100%;
-    max-height: 55px;
+    width: 45px;
+    height: 45px;
     padding: 10px;
     box-sizing: border-box;
     border-radius: 1000px;
@@ -63,10 +71,6 @@
     border: 3px solid var(--border-color-1);
     color: var(--border-color-1);
 
-    @media (max-width: 768px) {
-        width: 45px;
-        height: 45px;
-    }
 }
 
 .icon {
@@ -84,4 +88,13 @@
     background-color: hotpink;
     border-color: hotpink;
     color: white;
+}
+
+.div_0.setInfo .div_2 {
+    background-color: var(--bg-color-3);
+    border-color: var(--bg-color-3);
+    color: var(--bg-color-1);
+
+    &:hover {
+    }
 }

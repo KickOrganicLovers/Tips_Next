@@ -3,14 +3,15 @@ import {meili} from "@/lib/lib-server/meili";
 import {prisma} from "@/lib/lib-server/prisma";
 import {handleServerError} from "@/lib/lib-server/processing";
 
-export async function GET(req: NextRequest){
-    const searchParams = req.nextUrl.searchParams;
-    const query = searchParams.get('search_query') || '';
+export async function POST(req: NextRequest){
+    const body: {viewingArticleIds: string[], searchQuery: string} = await req.json()
+    const searchQuery = body.searchQuery || ''
+    const viewingArticleIds = body.viewingArticleIds || []
 
     try {
         const index = meili.index('articles')
 
-        const searchResults = await index.search(query, {
+        const searchResults = await index.search(searchQuery, {
             attributesToRetrieve: ['id']
         })
 
@@ -18,8 +19,14 @@ export async function GET(req: NextRequest){
 
         const articles = await prisma.article.findMany({
             where: {
-                id: {in: articleIds},
+                OR: [
+                    {id: {in: articleIds}}
+                ],
+                NOT: [{
+                    id: {in: viewingArticleIds}
+                }]
             },
+            take: 30,
             include: {
                 author: true,
                 likes: true,

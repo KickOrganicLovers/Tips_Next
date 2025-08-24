@@ -35,6 +35,7 @@
 .tiptap img {
     display: block;
     margin: auto;
+    width: 100%;
 }
 
 .tiptap pre {
