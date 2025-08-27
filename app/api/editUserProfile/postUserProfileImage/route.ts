@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
         const upload = new Upload({
             client: s3,
             params: {
-                Bucket: process.env.MINIO_BUCKET_NAME,
+                Bucket: process.env.AWS_BUCKET_NAME,
                 Key: `userImages/${id}-profile.jpeg`,
                 Body: imgAsBuffer,
                 ContentType: "image/jpeg",
@@ -44,10 +44,11 @@ export async function POST(req: NextRequest) {
         console.log("Upload done");
 
         return NextResponse.json({
-            profileImageUrl: `${process.env.MINIO_BUCKET_LINK}/userImages/${id}-profile.jpeg?${new Date().toISOString()}`,
+            profileImageUrl: `${process.env.AWS_ENDPOINT}/${process.env.AWS_BUCKET_NAME}/userImages/${id}-profile.jpeg?${new Date().toISOString()}`,
         }, {status: 200});
 
     } catch (error) {
+        console.log(error);
         return handleServerError(error);
     }
 }

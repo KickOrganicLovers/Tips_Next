@@ -47,9 +47,6 @@ export default function VerificationCard_Step1(props: props) {
                                   onClick={() => {signIn('google', {callbackUrl: '/'});
                         }}/>
                     </div>
-                    <div className={styles.div_4}>
-                        <FaApple className={styles.FaApple}/>
-                    </div>
                 </div>
             </div>
         </div>

@@ -20,13 +20,13 @@ export async function GET(req: NextRequest) {
                 introduction: true,
                 followers: true,
                 followings: true,
-                articleCreatedBy: {
-                    include: {
-                        likes: true,
-                        author: true,
-                        category: true,
-                    }
-                }
+                // articleCreatedBy: {
+                //     include: {
+                //         likes: true,
+                //         author: true,
+                //         category: true,
+                //     }
+                // }
             }
         })
 

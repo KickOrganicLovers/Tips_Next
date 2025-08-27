@@ -4,29 +4,32 @@ import {handleServerError} from "@/lib/lib-server/processing";
 
 export async function GET(){
     const now = new Date()
-    const startOfWeek = new Date(now)
-    startOfWeek.setDate(now.getDate() - now.getDay() + 1)
-    startOfWeek.setHours(0, 0, 0, 0)
+    const sevenDaysAgo = new Date(now)
+    sevenDaysAgo.setDate(now.getDate() - 3)
 
     try{
         const likeCountsThisWeek = await prisma.likeForArticle.groupBy({
             by: ['articleId'],
             where: {
-                createdAt: { gte: startOfWeek }
+                createdAt: { gte: sevenDaysAgo }
             },
-            _count: { articleId: true }
+            _count: true
         })
         const watchCountsThisWeek = await prisma.watchHistory.groupBy({
             by: ['articleId'],
             where: {
-                createdAt: { gte: startOfWeek }
+                createdAt: { gte: sevenDaysAgo }
             },
-            _count: { articleId: true }
+            _count: true
         })
 
+        console.log(likeCountsThisWeek)
 
-        const likeMap = Object.fromEntries(likeCountsThisWeek.map(item => [item.articleId, item._count.articleId]))
-        const watchMap = Object.fromEntries(watchCountsThisWeek.map(item => [item.articleId, item._count.articleId]))
+        console.log(watchCountsThisWeek)
+
+
+        const likeMap = Object.fromEntries(likeCountsThisWeek.map(item => [item.articleId, item._count]))
+        const watchMap = Object.fromEntries(watchCountsThisWeek.map(item => [item.articleId, item._count]))
 
         const articleIds = Array.from(new Set([
             ...Object.keys(likeMap),
@@ -57,6 +60,8 @@ export async function GET(){
         const rankedArticles = trendingArticlesData.map(data =>
             articles.find(article => article.id === data.id)
         ).filter(Boolean)
+
+        console.log(rankedArticles)
 
         return NextResponse.json({articles: rankedArticles}, {status: 200})
 

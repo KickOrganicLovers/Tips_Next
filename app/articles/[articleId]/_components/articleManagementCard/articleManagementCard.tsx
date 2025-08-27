@@ -17,10 +17,8 @@ export default function ArticleManagementCard(props: props) {
 
     const clickEventHandler_deleteArticle = () => {
         deleteArticle()
-            .then((json) => {
-                if(!!json){
-                    router.push('/')
-                }
+            .then(() => {
+                router.push('/')
             }).catch((error) => {
                 appendError(error)
 
@@ -33,7 +31,7 @@ export default function ArticleManagementCard(props: props) {
     }
 
     const deleteArticle = async () => {
-        return await postDataToServerWithJson<{isDeleted: boolean}>('/api/deleteArticle', props.article)
+        return await postDataToServerWithJson('/api/deleteArticle', props.article)
     }
 
     return (

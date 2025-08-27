@@ -32,7 +32,7 @@ export function extractImageUrls(html: string) {
 
     return images
         .map((img) => img.getAttribute('src'))
-        .filter((src): src is string => !!src && src.startsWith('http://'))
+        .filter((src): src is string => !!src && src.startsWith('https://'))
 }
 
 
@@ -75,7 +75,7 @@ export function replaceImageSrc(html: string, replacements: { base64: string; s3
 export async function deleteImage(key: string) {
     try {
         const deleteParams = {
-            Bucket: process.env.MINIO_BUCKET_NAME,
+            Bucket: process.env.AWS_BUCKET_NAME,
             Key: key,
         };
 
@@ -117,7 +117,7 @@ export async function replaceHtml(html: string, articleId: string) {
         const upload = new Upload({
             client: s3,
             params: {
-                Bucket: 'tipsimagebucket',
+                Bucket: process.env.AWS_BUCKET_NAME,
                 Key: key,
                 Body: Buffer.from(imageAsBase64WithPrefix.replace(/^data:image\/\w+;base64,/, ""), 'base64'),
                 ContentType: 'image/jpeg',
@@ -130,7 +130,7 @@ export async function replaceHtml(html: string, articleId: string) {
             await upload.done();
             return {
                 base64: imageAsBase64WithPrefix, // 元の Base64
-                s3Url: `${process.env.MINIO_BUCKET_LINK}/${key}?${new Date().toISOString()}`
+                s3Url: `${process.env.AWS_ENDPOINT}/${process.env.AWS_BUCKET_NAME}/${key}?${new Date().toISOString()}`
             };
         } catch (error) {
             console.error("Error uploading file:", error);
@@ -153,7 +153,7 @@ export async function uploadThumbnail(articleId: string, thumbnailImageAsBase64:
     const upload = new Upload({
         client: s3,
         params: {
-            Bucket: 'tipsimagebucket',
+            Bucket: process.env.AWS_BUCKET_NAME,
             Key: key,
             Body: Buffer.from(thumbnailImageAsBase64.replace(/^data:image\/\w+;base64,/, ""), 'base64'),
             ContentType: 'image/jpeg',
@@ -162,7 +162,7 @@ export async function uploadThumbnail(articleId: string, thumbnailImageAsBase64:
         console.log(`Progress: ${progress.loaded}/${progress.total}`);
     })
     await upload.done()
-    return`${process.env.MINIO_BUCKET_LINK}/${key}?${new Date().toISOString()}`
+    return`${process.env.AWS_ENDPOINT}/${process.env.AWS_BUCKET_NAME}/${key}?${new Date().toISOString()}`
 }
 
 export async function deleteUnusedImageTags(newHTML: string, previousHTML: string) {

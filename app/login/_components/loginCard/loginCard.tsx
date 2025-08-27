@@ -72,9 +72,9 @@ export default function LoginCard() {
                         <FaGoogle className={styles.FaGoogle}
                                   onClick={() => {signIn('google', {callbackUrl: '/'});}}/>
                     </div>
-                    <div className={styles.div_3}>
-                        <FaApple className={styles.FaApple}/>
-                    </div>
+                    {/*<div className={styles.div_3}>*/}
+                    {/*    <FaApple className={styles.FaApple}/>*/}
+                    {/*</div>*/}
                 </div>
             </div>
             <div>

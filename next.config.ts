@@ -23,7 +23,6 @@ const nextConfig: NextConfig = {
                         "script-src 'self' 'unsafe-inline' 'unsafe-eval' localhost:3000",
                         "style-src 'self' 'unsafe-inline'",
                         "img-src * data: blob:",
-                        // "img-src 'self' data: localhost:9000",
                         "connect-src 'self' localhost:3000", // Next.js APIや開発サーバーのみ
                         "font-src 'self'",
                         "object-src 'none'"

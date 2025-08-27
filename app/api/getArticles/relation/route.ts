@@ -4,10 +4,12 @@ import {getServerSession} from "next-auth/next";
 import {authOptions} from "@/lib/lib-server/auth";
 import {handleServerError, shuffle} from "@/lib/lib-server/processing";
 
-export async function GET(req: NextRequest){
-    const { searchParams } = new URL(req.url);
-    const articleId = searchParams.get("articleId") || '';
+export async function POST(req: NextRequest){
+    const body: {articleId: string, viewingArticleIds: string[]} = await req.json()
+    const articleId = body.articleId || ''
+    const viewingArticleIds = body.viewingArticleIds || []
     const session = await getServerSession(authOptions)
+    console.log(body)
 
     try {
         if(!articleId) return NextResponse.json(
@@ -32,7 +34,7 @@ export async function GET(req: NextRequest){
         const relatedArticles = await prisma.article.findMany({
             where: {
                 NOT:[
-                    { id: articleId },
+                    { id: {in: [articleId, ...viewingArticleIds]}},
                     ...(session?.user?.id
                         ? [{ watchHistories: { some: { userId: session.user.id } } }]
                         : [])
@@ -60,7 +62,7 @@ export async function GET(req: NextRequest){
             if(!!session && !!session.user.id){
                 const additionalRelatedArticles = await prisma.article.findMany({
                     where: {
-                        NOT: { id: {in:[...articleId, ...relatedArticles.map(relatedArticle => relatedArticle.id)]}},
+                        NOT: { id: {in:[...articleId, ...viewingArticleIds, ...relatedArticles.map(relatedArticle => relatedArticle.id)]}},
                         OR: [
                             {tags: {some: {id : {in: articleOnReading.tags.map(tag => tag.id)}}}},
                             {categoryId: articleOnReading.categoryId}
@@ -83,7 +85,7 @@ export async function GET(req: NextRequest){
                 if([...relatedArticles, ...additionalRelatedArticles].length < 12){
                     const trendingArticles = await prisma.article.findMany({
                         where: {
-                            NOT: { id: {in:[...articleId, ...relatedArticles.map(relatedArticle => relatedArticle.id), ...additionalRelatedArticles.map(additionalRelatedArticle => additionalRelatedArticle.id)]}},
+                            NOT: { id: {in:[...articleId, ...viewingArticleIds, ...relatedArticles.map(relatedArticle => relatedArticle.id), ...additionalRelatedArticles.map(additionalRelatedArticle => additionalRelatedArticle.id)]}},
                         },
                         orderBy: [
                             {likes: {_count: 'desc'}},
@@ -105,7 +107,7 @@ export async function GET(req: NextRequest){
             }else {
                 const trendingArticles = await prisma.article.findMany({
                     where: {
-                        NOT: { id: {in:[...articleId, ...relatedArticles.map(relatedArticle => relatedArticle.id)]}},
+                        NOT: { id: {in:[...articleId, ...viewingArticleIds, ...relatedArticles.map(relatedArticle => relatedArticle.id)]}},
                     },
                     orderBy: [
                         {likes: {_count: 'desc'}},
@@ -126,6 +128,7 @@ export async function GET(req: NextRequest){
             return NextResponse.json({articles: shuffle(relatedArticles)}, {status: 200})
         }
     }catch (error){
+        console.log(error)
         return handleServerError(error)
     }
 }
