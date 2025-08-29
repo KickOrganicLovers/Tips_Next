@@ -3,7 +3,6 @@ import {ArticleScheme, LikeForArticleScheme} from "@/types";
 import {LuEye} from "react-icons/lu";
 import styles from './totalLikesAndViews.module.css'
 import {Dispatch, SetStateAction} from "react";
-import {useDispatch} from "react-redux";
 import {useUserStore} from "@/lib/lib-client/stores/userStore";
 import {useSession} from "next-auth/react";
 

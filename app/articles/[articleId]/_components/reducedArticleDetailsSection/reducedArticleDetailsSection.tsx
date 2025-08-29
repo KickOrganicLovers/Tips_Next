@@ -3,7 +3,6 @@ import styles from './reducedArticleDetailsSection.module.css'
 import {MdCategory} from "react-icons/md";
 import classNames from "classnames";
 import {Dispatch, SetStateAction} from "react";
-import {useDispatch} from "react-redux";
 import {useRouter} from "next/navigation";
 import {useSession} from "next-auth/react";
 import {useUserStore} from "@/lib/lib-client/stores/userStore";
