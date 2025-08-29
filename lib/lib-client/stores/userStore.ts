@@ -27,7 +27,7 @@ interface StoreConfig {
 const initialStatus: UserScheme = {
     id: '',
     name: '',
-    image: 'https://tipsimgcontainer.s3.ap-northeast-1.amazonaws.com/notLoggedIn-profile.jpeg',
+    image: 'https://tips-image.s3.ap-northeast-1.amazonaws.com/tips-image/initial-profile.jpeg',
     introduction: '',
     articleCreatedBy: [],
     likesForArticle: [],

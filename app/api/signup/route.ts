@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
                 email: email,
                 password: bcrypt.hashSync(password, Number(process.env["BCRYPT_SALT_ROUNDS"])),
                 name: username,
-                image: 'https://tipsimgcontainer.s3.ap-northeast-1.amazonaws.com/initial-profile.jpeg',
+                image: 'https://tips-image.s3.ap-northeast-1.amazonaws.com/tips-image/initial-profile.jpeg',
                 introduction: '',
                 accounts: {
                     create: {

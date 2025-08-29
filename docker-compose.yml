@@ -4,7 +4,7 @@ services:
     container_name: next
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: docker/node/dev/Dockerfile
     depends_on:
       - postgres
       - meilisearch
