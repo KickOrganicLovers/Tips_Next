@@ -1,10 +1,11 @@
 version: '1.0'
 services:
   app:
+    image: feetup/tips_next:latest
     container_name: next
-    build:
-      context: .
-      dockerfile: docker/node/prod/Dockerfile
+#    build:
+#      context: .
+#      dockerfile: docker/node/prod/Dockerfile
     depends_on:
       - postgres
       - meilisearch
