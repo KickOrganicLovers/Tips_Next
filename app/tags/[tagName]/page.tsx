@@ -1,4 +1,5 @@
 'use client'
+export const dynamic = "force-dynamic";
 
 import styles from './tags.module.css'
 import React, {useEffect, useState} from "react";

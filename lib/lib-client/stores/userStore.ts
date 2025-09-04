@@ -314,6 +314,7 @@ export const useUserStore = create<StoreConfig>((set, get) => ({
                     }
                 }
             }).catch(error => {
+                console.log(error)
                 appendError(error)
             })
         }

@@ -110,74 +110,76 @@ export default function ImageEditingCard(props: props) {
         }
     }
 
-
-    const getCroppedImage = async (imageSrc: string, pixelCrop: Area, rotation = 0, flip = {
-        horizontal: false,
-        verticalL: false
-    }): Promise<string | undefined> => {
-        const image = await createImage(imageSrc)
-        const canvas = document.createElement('canvas')
-        const ctx = canvas.getContext('2d')
-        //canvasおよびcanvasContextの挙動がわからない。
-
-        if (!ctx) {
-            return undefined
+    const getCroppedImage = async (
+        imageSrc: string,
+        pixelCrop: Area,
+        rotation = 0,
+        flip = {
+            horizontal: false,
+            verticalL: false
         }
+    ): Promise<string | undefined> => {
+        const image = await createImage(imageSrc);
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
 
-        const rotRad = getRadianAngle(rotation)
-        //getRadianAngleの挙動
+        if (!ctx) return undefined;
 
-        const {width: bBoxWidth, height: bBoxHeight} = rotateSize(image.width, image.height, rotation)
-        //width,heightに代入する値であるbBoxWidth,Heightを以降の文でそのまま各パラメータに代入している理由がわからない。
+        const rotRad = getRadianAngle(rotation);
+        const { width: bBoxWidth, height: bBoxHeight } = rotateSize(
+            image.width,
+            image.height,
+            rotation
+        );
 
-        canvas.width = bBoxWidth
-        canvas.height = bBoxHeight
+        canvas.width = bBoxWidth;
+        canvas.height = bBoxHeight;
 
-        ctx.translate(bBoxWidth / 2, bBoxHeight / 2)
-        ctx.rotate(rotRad)
-        ctx.scale(flip.horizontal ? -1 : 1, flip.verticalL ? -1 : 1)
-        ctx.translate(-image.width / 2, -image.height / 2)
+        ctx.translate(bBoxWidth / 2, bBoxHeight / 2);
+        ctx.rotate(rotRad);
+        ctx.scale(flip.horizontal ? -1 : 1, flip.verticalL ? -1 : 1);
+        ctx.translate(-image.width / 2, -image.height / 2);
 
-        // draw rotated image
-        ctx.drawImage(image, 0, 0)
+        // 回転・反転した画像を描画
+        ctx.drawImage(image, 0, 0);
 
-        const croppedCanvas = document.createElement('canvas')
+        // 切り抜き用キャンバス
+        const croppedCanvas = document.createElement("canvas");
+        const croppedCtx = croppedCanvas.getContext("2d");
+        if (!croppedCtx) return undefined;
 
-        const croppedCtx = croppedCanvas.getContext('2d')
+        const cropWidth = pixelCrop.width;
+        const cropHeight = pixelCrop.height;
 
-        if (!croppedCtx) {
-            return undefined
-        }
+        // 最大値
+        const MAX_WIDTH = 600;
+        const MAX_HEIGHT = 400;
 
-        // Set the size of the cropped canvas
-        croppedCanvas.width = pixelCrop.width
-        croppedCanvas.height = pixelCrop.height
+        // 比率を維持して縮小
+        const scale = Math.min(1, MAX_WIDTH / cropWidth, MAX_HEIGHT / cropHeight);
+        const outputWidth = Math.floor(cropWidth * scale);
+        const outputHeight = Math.floor(cropHeight * scale);
 
-        // Draw the cropped image onto the new canvas
+        croppedCanvas.width = outputWidth;
+        croppedCanvas.height = outputHeight;
+
+        // 切り抜き → 縮小
         croppedCtx.drawImage(
             canvas,
             pixelCrop.x,
             pixelCrop.y,
-            pixelCrop.width,
-            pixelCrop.height,
+            cropWidth,
+            cropHeight,
             0,
             0,
-            pixelCrop.width,
-            pixelCrop.height
-        )
+            outputWidth,
+            outputHeight
+        );
 
-        // As Base64 string
-        return croppedCanvas.toDataURL('image/jpeg');
+        return croppedCanvas.toDataURL("image/jpeg");
+    };
 
-        // As a blob
-        // return new Promise((resolve, reject) => {
-        //     croppedCanvas.toBlob((file) => {
-        //         if(file){
-        //             resolve(URL.createObjectURL(file))
-        //         }
-        //     }, 'image/jpeg')
-        // })
-    }
+
     const onCropComplete = useCallback((croppedArea: Area, croppedAreaPixels: Area) => {
         setCroppedAreaPixels(croppedAreaPixels)
     }, [])

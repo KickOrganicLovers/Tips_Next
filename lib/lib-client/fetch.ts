@@ -8,11 +8,14 @@ export async function postDataToServerWithJson<T>(url: string, obj: object): Pro
     }
     try {
         const res = await fetch(url, params)
+        console.log(res)
         let json
         try{
             json = await res.json()
-        }catch{
-            throw {message: '無効なJSONデータです。', code: 'INVALID_JSON'}
+        }catch(error){
+            console.error(error)
+            if(error instanceof Error) throw {message: error.message, code: error.name}
+            else throw {message: '不明なエラー', code: 'UNKNOWN_ERROR'}
         }
         if(!res.ok){
             throw {message: json.error?.message || '不明なエラー', code: json.error?.code || 'UNKNOWN_ERROR' }
@@ -44,8 +47,9 @@ export async function getDataFromServerWithJson<T>(url: string): Promise<T | nul
         let json
         try{
             json = await res.json()
-        }catch{
-            throw {message: '無効なJSONデータです。', code: 'INVALID_JSON'}
+        }catch(error){
+            if(error instanceof Error) throw {message: error.message, code: error.name}
+            else throw {message: '不明なエラー', code: 'UNKNOWN_ERROR'}
         }
         if(!res.ok){
             throw {message: json.error?.message || '不明なエラー', code: json.error?.code || 'UNKNOWN_ERROR' }

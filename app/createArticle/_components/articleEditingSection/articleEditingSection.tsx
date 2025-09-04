@@ -310,8 +310,8 @@ export default function ArticleEditingSection(props: props) {
                             uploadArticle(session, articleOnEdit)
                             router.push('/')
                             resetToolButtonStatus()
-                            setArticleOnEdit(initialArticleOnEdit)
                             emit('editorEvent', {upload: true})
+                            setArticleOnEdit(initialArticleOnEdit)
                         } else {
                             setErrors(checkErrors())
                         }

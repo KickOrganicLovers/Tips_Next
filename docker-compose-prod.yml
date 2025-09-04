@@ -3,9 +3,11 @@ services:
   app:
     image: feetup/tips_next:latest
     container_name: next
-#    build:
-#      context: .
-#      dockerfile: docker/node/prod/Dockerfile
+#    ports:
+#      - "5555:5555"
+    build:
+      context: .
+      dockerfile: docker/node/prod/Dockerfile
     depends_on:
       - postgres
       - meilisearch

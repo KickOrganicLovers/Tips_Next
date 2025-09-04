@@ -1,5 +1,5 @@
 'use client'
-
+export const dynamic = "force-dynamic";
 import styles from './category.module.css'
 import React, {useEffect, useState} from "react";
 import {ArticleScheme, CategoryScheme} from "@/types";

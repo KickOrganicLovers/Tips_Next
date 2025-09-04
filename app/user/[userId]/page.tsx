@@ -1,4 +1,5 @@
 'use client'
+export const dynamic = "force-dynamic";
 
 import styles from './user.module.css'
 import React, {Dispatch, SetStateAction, useEffect, useState} from "react";

@@ -62,7 +62,7 @@ export async function POST(req: NextRequest){
             if(!!session && !!session.user.id){
                 const additionalRelatedArticles = await prisma.article.findMany({
                     where: {
-                        NOT: { id: {in:[...articleId, ...viewingArticleIds, ...relatedArticles.map(relatedArticle => relatedArticle.id)]}},
+                        NOT: { id: {in:[articleId, ...viewingArticleIds, ...relatedArticles.map(relatedArticle => relatedArticle.id)]}},
                         OR: [
                             {tags: {some: {id : {in: articleOnReading.tags.map(tag => tag.id)}}}},
                             {categoryId: articleOnReading.categoryId}
@@ -85,7 +85,7 @@ export async function POST(req: NextRequest){
                 if([...relatedArticles, ...additionalRelatedArticles].length < 12){
                     const trendingArticles = await prisma.article.findMany({
                         where: {
-                            NOT: { id: {in:[...articleId, ...viewingArticleIds, ...relatedArticles.map(relatedArticle => relatedArticle.id), ...additionalRelatedArticles.map(additionalRelatedArticle => additionalRelatedArticle.id)]}},
+                            NOT: { id: {in:[articleId, ...viewingArticleIds, ...relatedArticles.map(relatedArticle => relatedArticle.id), ...additionalRelatedArticles.map(additionalRelatedArticle => additionalRelatedArticle.id)]}},
                         },
                         orderBy: [
                             {likes: {_count: 'desc'}},
@@ -107,7 +107,7 @@ export async function POST(req: NextRequest){
             }else {
                 const trendingArticles = await prisma.article.findMany({
                     where: {
-                        NOT: { id: {in:[...articleId, ...viewingArticleIds, ...relatedArticles.map(relatedArticle => relatedArticle.id)]}},
+                        NOT: { id: {in:[articleId, ...viewingArticleIds, ...relatedArticles.map(relatedArticle => relatedArticle.id)]}},
                     },
                     orderBy: [
                         {likes: {_count: 'desc'}},

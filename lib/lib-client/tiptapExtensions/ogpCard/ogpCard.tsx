@@ -56,7 +56,7 @@ export const OgpCard = Node.create<OgpCardCommands>({
                     {
                         style: 'width: 30%;aspect-ratio: 1.91/1;'
                     },
-                    ['img', { src: thumbnailImageUrl, alt: 'thumbnail', style: 'width: 100%;height: 100%;object-fit: cover;' }]
+                    ['img', { src: thumbnailImageUrl, alt: 'thumbnail', style: 'width: 100%; height:100%; object-fit: cover; padding:0 !important; margin:0 !important;', }]
                 ],
                 [
                     'div',

@@ -78,7 +78,7 @@ export async function POST(req: NextRequest) {
 
 
                 const replacedContents = await replaceHtml(articleWithPrefix.contents, articleWithPrefix.id)
-                const thumbnailImageUrl = await uploadThumbnail(articleWithPrefix.id, articleWithPrefix.thumbnailImageAsBase64 as string)
+                const thumbnailImageUrl = !!articleWithPrefix.thumbnailImageUrl && !articleWithPrefix.thumbnailImageAsBase64 ? articleWithPrefix.thumbnailImageUrl : await uploadThumbnail(articleWithPrefix.id, articleWithPrefix.thumbnailImageAsBase64 as string)
                 await deleteUnusedImageTags(replacedContents, articleWithPrefix.previousContents)
 
                 const article = await tx.article.update({
@@ -135,10 +135,10 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({article: result.article, isNew: result.isNew}, {status: 200})
     } catch (error) {
         if(error instanceof Error){
-            return NextResponse.json({error: {message: error.message, code: 'fuck'}},{status: 400})
+            return handleServerError(error)
         }
         else {
-            return NextResponse.json({error: {message: 'fuck', code: 'UNKNOWN'}},{status: 400})
+            return NextResponse.json({error: {message: 'Unknown error has occurred.', code: 'UNKNOWN'}},{status: 400})
         }
     }
 }

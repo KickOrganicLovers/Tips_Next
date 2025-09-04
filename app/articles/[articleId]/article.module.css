@@ -70,6 +70,29 @@
     border-radius: 10px;
 }
 
+.div_2 blockquote {
+    position: relative;
+    box-sizing: border-box;
+    color: var(--text-color-1);
+    background-color: var(--bg-color-2);
+    margin: 0;
+    padding: 1px 20px;
+    border-left: solid 3px var(--border-color-1);
+}
+.div_2 blockquote:before{
+    display: inline-block;
+    position: absolute;
+    top: 4px;
+    margin: auto;
+    right: 8px;
+    content: "’’";
+    color: #cfcfcf;
+    font-size: 28px;
+    line-height: 1;
+    font-weight: 900;
+}
+
+
 .h1_0 {
     font-size: 4vh;
     padding: 0;

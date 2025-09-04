@@ -11,6 +11,6 @@ export default function Page() {
     if (session.status ==='authenticated' && user.id) {
         redirect(`/user/${user.id}`);
     }else {
-        redirect('/login');
+        // redirect('/login');
     }
 }
