@@ -56,16 +56,16 @@ export default function Page () {
                 {!isMax && Array.from({length: 30}).map((_, index) => (
                     <ArticleContainer isDummy={true} key ={index} isFirstDummy={index === 0} firstDummy_onVisible={getArticlesWithTag}/>
                 ))}
-                {viewingArticles.length === 0 && isMax?
-                    <div className={styles.div_4}>
-                        <BoyWithCompass className={styles.BoyWithCompass}/>
-                        <h2 className={styles.h2_0}>記事が見つかりませんでした</h2>
-                        <h3 className={styles.h3_0}>No articles found</h3>
-                    </div>
-                    :
-                    undefined
-                }
             </div>
+            {viewingArticles.length === 0 && isMax?
+                <div className={styles.div_4}>
+                    <BoyWithCompass className={styles.BoyWithCompass}/>
+                    <h2 className={styles.h2_0}>記事が見つかりませんでした</h2>
+                    <h3 className={styles.h3_0}>No articles found</h3>
+                </div>
+                :
+                undefined
+            }
         </div>
     )
 }

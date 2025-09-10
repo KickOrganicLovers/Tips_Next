@@ -20,7 +20,8 @@ services:
         sleep 1;
       done &&
       npx prisma migrate deploy &&
-      npx prisma db push &&
+      npx prisma db push --force-reset --accept-data-loss &&
+      npx prisma db seed &&
       npm run start
       "
     networks:

@@ -7,6 +7,7 @@ import {useRouter} from "next/navigation";
 import classNames from "classnames";
 import {Dispatch, SetStateAction} from "react";
 import {useWhereIamStore} from "@/lib/lib-client/stores/whereIamStore";
+import {RiArticleFill} from "react-icons/ri";
 
 interface props {
     setSideBarStatus: Dispatch<SetStateAction<{ isActive: boolean }>>;

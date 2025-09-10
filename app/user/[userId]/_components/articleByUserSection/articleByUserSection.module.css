@@ -21,7 +21,7 @@
     width: 100%;
     height: fit-content;
     padding: 20px;
-    display: grid;
+    display: none;
     grid-template-columns: repeat(auto-fit, 300px);
     justify-content: center;
     gap: 2vh;
@@ -33,11 +33,13 @@
         grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
     }
 
-
     @media screen and (max-width: 512px) {
         grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
     }
+}
 
+.div_1:has(*){
+    display: grid;
 }
 
 .div_2 {
@@ -47,7 +49,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 2vh;
+    gap: 4vh;
     @media screen  and (max-width: 768px){
         height: auto;
     }
@@ -70,9 +72,9 @@
 
 
 .GirlWithBook {
-    width: 25%;
+    width: 22%;
+    min-width: 200px;
     aspect-ratio: 1;
-    min-width: 300px;
     color: var(--bg-color-3);
 }
 

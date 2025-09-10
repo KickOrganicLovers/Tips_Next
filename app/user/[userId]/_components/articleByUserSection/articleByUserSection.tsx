@@ -55,14 +55,14 @@ export default function ArticleByUserSection(props: props) {
                 {!isMax && Array.from({length: 30}).map((_, index) => (
                     <ArticleContainer isDummy={true} key ={index} isFirstDummy={index === 0} firstDummy_onVisible={getArticlesCreatedByUser}/>
                 ))}
-                {(viewingArticles.length === 0 && isMax) &&
-                    <div className={styles.div_2}>
-                        <GirlWithBook className={styles.GirlWithBook}/>
-                        <h2 className={styles.h2_1}>作成した記事がここに表示されます</h2>
-                        <h3 className={styles.h3_0}><Link className={styles.Link} href={'/createArticle'}>＋ 記事を作成する</Link></h3>
-                    </div>
-                }
             </div>
+            {(viewingArticles.length === 0 && isMax) &&
+                <div className={styles.div_2}>
+                    <GirlWithBook className={styles.GirlWithBook}/>
+                    <h2 className={styles.h2_1}>作成した記事がここに表示されます</h2>
+                    {session.data?.user.id === props.user.id && <h3 className={styles.h3_0}><Link className={styles.Link} href={'/createArticle'}>＋ 記事を作成する</Link></h3>}
+                </div>
+            }
         </div>
     )
 }

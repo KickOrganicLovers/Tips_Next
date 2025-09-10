@@ -111,7 +111,7 @@ model Article {
 
 model Category {
   id           String     @id @default(cuid())
-  categoryName String
+  categoryName String     @unique
   parentId     String?
   parent       Category?  @relation("CategoryParent", fields: [parentId], references: [id])
   children     Category[] @relation("CategoryParent")
