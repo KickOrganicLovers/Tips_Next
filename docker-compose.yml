@@ -22,6 +22,7 @@ services:
         sleep 1;
       done &&
       npx prisma generate &&
+      npx prisma migrate dev &&
       npx prisma db push --force-reset --accept-data-loss &&
       npx prisma db seed &&
       npm run dev
