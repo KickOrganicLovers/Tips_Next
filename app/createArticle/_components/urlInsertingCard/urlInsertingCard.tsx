@@ -27,7 +27,7 @@ export const UrlInsertingCard = (props: props) => {
     }
 
     const clickEventHandler_insert = () => {
-        getDataFromServerWithJson<{metadata: {url: string, title: string, description: string, thumbnailImageUrl: string}}>(`/api/getMetaData?targetUrl=${targetUrl}}`).then((json) => {
+        getDataFromServerWithJson<{metadata: {url: string, title: string, description: string, thumbnailImageUrl: string}}>(`/api/getMetaData?targetUrl=${encodeURIComponent(targetUrl)}`).then((json) => {
             if(!!json){
                 props.editor?.commands.insertOgpCard(json.metadata)
                 props.setToolButtonStatus((prevState) => ({
