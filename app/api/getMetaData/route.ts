@@ -25,6 +25,7 @@ export async function GET(req: NextRequest) {
 
         const html = await res.text()
 
+
         if(!html) return NextResponse.json(
             {error: {message: 'URLが存在しないか、指定したサイトに問題があります。'}, code: 'URL_NOT_FOUND'},
             {status: 400}
@@ -34,6 +35,15 @@ export async function GET(req: NextRequest) {
         const getMeta = (name: string) =>
             $(`meta[property="${name}"]`).attr('content') ||
             $(`meta[name="${name}"]`).attr('content') || ''
+
+        const metadata = {
+            url: targetUrl,
+            title: getMeta('og:title') || $('title').text(),
+            description: getMeta('og:description'),
+            thumbnailImageUrl: getMeta('og:image'),
+        }
+
+        console.log(metadata)
 
         return Response.json({
             metadata: {
@@ -47,6 +57,7 @@ export async function GET(req: NextRequest) {
 
 
     }catch(error){
+        console.log(error)
         return handleServerError(error)
     }
 }
