@@ -53,11 +53,6 @@ export default function CategoryCard(props: props) {
                             }
                         })()
                         }
-                        {/*<div className={styles.div_7}>*/}
-                        {/*    <MdArrowBackIos className={styles.MdArrowBackIos} onClick={() => {*/}
-                        {/*        setParentCategoryIdOnFocus('')*/}
-                        {/*    }}/>*/}
-                        {/*</div>*/}
                     </div>
                 </div>
             </div>

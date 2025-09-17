@@ -43,7 +43,7 @@ export const OgpCard = Node.create<OgpCardCommands>({
         const { url, title, description, thumbnailImageUrl } = node.attrs
         return [
             'div',
-            mergeAttributes(HTMLAttributes, { style: 'width: 100%;height: fit-content;box-sizing: border-box;border-radius: 20px;overflow: hidden;border: 2px solid var(--border-color-1);'}),
+            mergeAttributes(HTMLAttributes, { style: 'width: 100%;height: fit-content;box-sizing: border-box;border-radius: 20px;overflow: hidden;border: 1px solid var(--border-color-1);'}),
             [
                 'a',
                 {

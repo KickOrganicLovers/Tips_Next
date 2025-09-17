@@ -5,8 +5,7 @@
     flex-direction: row;
     box-shadow: 4px 4px 10px var(--shadow-color);
     container-type: inline-size;
-    max-width: 900px;
-    max-height: 450px;
+    max-width: 750px;
     box-sizing: border-box;
     flex-shrink: 0;
 }

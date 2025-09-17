@@ -1,5 +1,5 @@
 .div_0 {
-    width: 20vw;
+    width: 15vw;
     min-width: 300px;
     max-width: 400px;
     height: 100%;
@@ -22,7 +22,7 @@
 
 .div_0.active {
     @media screen and (max-width: 1024px) {
-        width: 350px;
+        width: 300px;
     }
 
     @media screen and (max-width: 768px) {
@@ -32,7 +32,7 @@
 
 
 .div_1 {
-    width: 60vw;
+    width: 45vw;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -45,8 +45,8 @@
     transition: right 0.5s;
     @media screen and (max-width: 1024px) {
         min-width: 0;
-        width: 1050px;
-        right: -350px;
+        width: 900px;
+        right: -300px;
     }
     @media screen and (max-width: 768px) {
         min-width: 0;
@@ -62,7 +62,7 @@
 .div_1.settings {
     right: -200%;
     @media screen and (max-width: 1024px) {
-        right: -700px;
+        right: -600px;
     }
     @media screen and (max-width: 768px) {
         right: -500px;

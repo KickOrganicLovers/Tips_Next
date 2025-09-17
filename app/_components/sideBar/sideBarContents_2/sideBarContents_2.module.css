@@ -64,7 +64,7 @@
     justify-content: flex-start;
     align-items: center;
     gap: 8px;
-    border-bottom: 2px solid var(--border-color-1);
+    border-bottom: 1px solid var(--border-color-1);
     box-sizing: border-box;
     margin-bottom: 10px;
 }
