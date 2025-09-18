@@ -334,6 +334,7 @@ export default function ArticleEditingSection(props: props) {
     useEffect(() => {
         if (editor && editor.getHTML() !== articleOnEdit.contents) {
             editor.commands.setContent(articleOnEdit.contents);
+            console.log(JSON.stringify(editor.getJSON(), null, 2))
         }
     }, [articleOnEdit.contents, editor]);
 

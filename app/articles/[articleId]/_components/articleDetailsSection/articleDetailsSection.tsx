@@ -64,7 +64,7 @@ export default function ArticleDetailsSection(props: props) {
             </div>
             <div className={styles.div_2}>
                 <p className={styles.p_0}>この記事の作成者</p>
-                <img src={props.article.author.image} className={styles.img_0} alt={'author'}/>
+                <img src={props.article.author.image} className={styles.img_0} alt={'author'} onClick={clickEventHandler_pushToAuthorPage}/>
                 <h2 className={styles.h2_0} onClick={clickEventHandler_pushToAuthorPage}>{props.article.author.name}</h2>
                 <TotalFollowCard user={props.article.author}/>
                 <p className={styles.p_2}>{props.article.author.introduction}</p>

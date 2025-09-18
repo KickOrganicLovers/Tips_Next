@@ -56,15 +56,13 @@ export default function AccountBanner(props: props) {
             </div>
             <div className={styles.div_2}>
                 {(() => session.status === 'authenticated' ? (
-                    <div className={styles.div_3}>
-                        <AiOutlinePlusCircle className={styles.AiOutlinePlusCircle}
-                                             onClick={clickEventHandler_navigateToCreateArticle}/>
+                    <div className={styles.div_3} onClick={clickEventHandler_navigateToCreateArticle}>
+                        <AiOutlinePlusCircle className={styles.AiOutlinePlusCircle}/>
                         <p className={styles.p_0}>記事を作成</p>
                     </div>
                 ) : (
-                    <div className={styles.div_3}>
-                        <AiOutlinePlusCircle className={styles.AiOutlinePlusCircle}
-                                             onClick={clickEventHandler_navigateToSignup}/>
+                    <div className={styles.div_3} onClick={clickEventHandler_navigateToSignup}>
+                        <AiOutlinePlusCircle className={styles.AiOutlinePlusCircle}/>
                         <p className={styles.p_0}>アカウントを作成</p>
                     </div>
                 ))()}

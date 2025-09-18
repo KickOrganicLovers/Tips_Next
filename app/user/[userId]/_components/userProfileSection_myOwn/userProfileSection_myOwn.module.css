@@ -1,6 +1,5 @@
 .div_0 {
     width: 20%;
-    min-width: fit-content;
     height: 100%;
     background-color: var(--bg-color-1);
     display: flex;
@@ -29,7 +28,8 @@
     text-align: left;
     font-size: 1rem;
     box-sizing: border-box;
-    padding: 0 2vw 0 2vw;
+    text-wrap: wrap;
+    overflow: hidden;
 }
 
 

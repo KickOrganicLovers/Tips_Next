@@ -46,9 +46,9 @@ export async function GET () {
         })
 
         await resend.emails.send({
-            from: 'onboarding@resend.dev',
+            from: 'TipsMailer@givemetips.net',
             to: session.user.email,
-            subject: 'Verifying Before Delete Your Account',
+            subject: 'Verifying Before Deletion Your Account',
             react: VerificationEmailTemplate({email: session.user.email, token})
         })
 

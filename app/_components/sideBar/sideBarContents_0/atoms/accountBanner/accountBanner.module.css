@@ -38,6 +38,9 @@
     flex-wrap: nowrap;
     align-items: center;
     gap: 5px;
+    &:hover {
+        color: deepskyblue;
+    }
 }
 
 .img_0 {
@@ -56,6 +59,7 @@
     margin: 0;
     padding: 0;
     white-space: nowrap;
+    transition: color 0.2s ease-in-out;
 }
 
 .p_1 {
@@ -81,8 +85,4 @@
     font-size: 1.4rem;
     padding-top: 2px;
     transition: color 0.2s ease-in-out;
-
-    &:hover {
-        color: deepskyblue;
-    }
 }

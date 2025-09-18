@@ -15,9 +15,8 @@ export default function PostFollowCard(props: props) {
     const postFollowing = useUserStore(state => state.postFollowing)
     const session = useSession()
 
-    const clickEventHandler = () => {
-        console.log('呼び出されました')
-        console.log(!!props.setUser)
+    const clickEventHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation();
         postFollowing(session, props.user.id, props.follow, props.setUser)
     }
 
@@ -25,7 +24,7 @@ export default function PostFollowCard(props: props) {
         <div>
             {(() => session.status === 'authenticated' ? <button
                 className={(() => !!props.follow ? classNames(styles.button_0, styles.active) : classNames(styles.button_0))()}
-                onClick={clickEventHandler}>{(() => !!props.follow ? 'フォロー済み' : 'フォロー')()}</button> : null)()}
+                onClick={(e) => {clickEventHandler(e)}}>{(() => !!props.follow ? 'フォロー済み' : 'フォロー')()}</button> : null)()}
         </div>
     )
 }

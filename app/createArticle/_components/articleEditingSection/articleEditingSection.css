@@ -36,6 +36,8 @@
     display: block;
     margin: auto;
     width: 100%;
+    padding: 2vh 4vw;
+    box-sizing: border-box;
 }
 
 .tiptap pre {

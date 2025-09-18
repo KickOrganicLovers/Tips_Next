@@ -50,9 +50,9 @@ export async function POST(req: NextRequest) {
 
 
         await resend.emails.send({
-            from: 'onboarding@resend.dev',
+            from: 'TipsMailer@givemetips.net',
             to: email,
-            subject: 'Hello World',
+            subject: 'Verifying your email before registration',
             react: VerificationEmailTemplate({email: email, token: token})
         })
 
