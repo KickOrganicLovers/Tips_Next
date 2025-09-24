@@ -7,7 +7,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4vh;
+    gap: 4svh;
     position: relative;
     @media screen and (max-width: 768px) {
         width: 100%;
@@ -21,7 +21,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 3vh;
+    gap: 3svh;
 }
 
 .div_1 {
@@ -48,43 +48,33 @@
     box-sizing: border-box;
     padding: 0;
     margin: 0;
-    /*padding-left: 2vw;*/
+    /*padding-left: 2svw;*/
     /*width: 100%;*/
     /*border-bottom: 2px solid var(--border-color-1);*/
     /*box-sizing: border-box;*/
 }
 
 .p_1 {
-    padding: 0 0 0 1vw;
-    font-size: 1.75vh;
-}
-
-.p_2 {
-    width: fit-content;
-    max-width: 60%;
-    height: fit-content;
-    text-align: left;
-    margin: 0;
-    padding: 0;
-    color: var(--text-color-1);
+    padding: 0 0 0 1svw;
+    font-size: 1.75svh;
 }
 
 
 .div_3 {
     width: 75%;
     height: fit-content;
-    margin-top: 1.5vh;
+    margin-top: 1.5svh;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 1vw;
+    gap: 1svw;
     overflow-y: scroll;
     flex-wrap: wrap;
 }
 
 .div_4 {
-    height: 3vh;
+    height: 3svh;
     width: fit-content;
     position: relative;
     display: flex;
@@ -92,23 +82,32 @@
     justify-content: flex-start;
     align-items: center;
     background-color: var(--bg-color-2);
-    gap: 0.1vw;
-    padding: 0 1vw 0 1vw;
+    gap: 0.1svw;
+    padding: 0 1svw 0 1svw;
     border-radius: 100px;
+}
+
+.div_5 {
+    display: flex;
+    justify-content: center;
+    width: fit-content;
+    max-width: 75%;
+    height: fit-content;
+    color: var(--text-color-1);
 }
 
 
 .p_3 {
     padding: 0;
     margin: 0;
-    font-size: 1.5vh;
+    font-size: 1.5svh;
     color: var(--text-color-2);
 }
 
 .p_4 {
     padding: 0;
     margin: 0;
-    font-size: 1.5vh;
+    font-size: 1.5svh;
 }
 
 .h2_0 {
@@ -138,10 +137,10 @@
 
 .button_0 {
     border: none;
-    font-size: 1.5vh;
+    font-size: 1.5svh;
     outline: 2px solid deepskyblue;
     color: deepskyblue;
-    padding: 0.8vh 0.8vw 0.8vh 0.8vw;
+    padding: 0.8svh 0.8svw 0.8svh 0.8svw;
     border-radius: 100px;
     background-color: var(--bg-color-1);
     cursor: pointer;
@@ -163,4 +162,12 @@
         color: white;
         transition: 0.25s;
     }
+}
+
+.div_6{
+    width: fit-content;
+    max-width: 100%;
+    height: fit-content;
+    text-wrap: wrap;
+    text-align: left;
 }

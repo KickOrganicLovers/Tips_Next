@@ -20,7 +20,7 @@
     height: fit-content;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
-    gap: 2vh;
+    gap: 2svh;
     box-sizing: border-box;
     background-color: var(--bg-color-2);
 }

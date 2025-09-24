@@ -1,65 +1,37 @@
-'use client'
-
-import {ReactNode, useEffect, useState} from "react";
-import Header from "@/app/_components/header/header";
+import {ReactNode} from "react";
 import styles from './app.module.css'
-import Main from "@/app/_components/main/main";
 import './globals.css'
-import {Noto_Sans_JP} from "next/font/google"
-import {useRouter} from "next/navigation";
-import SideBar from "@/app/_components/sideBar/sideBar";
+import {Noto_Sans_JP, Zen_Kaku_Gothic_Antique} from "next/font/google"
 import 'dotenv/config'
-
-import {getSession, SessionProvider} from "next-auth/react"
-import {getServerSession} from "next-auth/next"
-import {authOptions} from "@/lib/lib-server/auth";
-import {Session} from "next-auth";
-import {ThemeProvider} from "@/app/_components/themeProvider";
-import ViewportHeightSetter from "@/app/_components/viewportHeightSetter";
-import RouteProgress from "@/app/_components/header/atoms/routeProgress/routeProgress";
+import SessionWrapper from "@/app/sessionWrapper";
+import classNames from "classnames";
 
 
 const noto_sans_jp = Noto_Sans_JP({
     subsets: ['latin'],
     weight: ['400', '600'],
+    variable: '--font-noto'
+})
+
+const zen_kaku_gothic_antique = Zen_Kaku_Gothic_Antique({
+    subsets: ['latin'],
+    weight: ['300','400','500','700'],
+    variable: '--font-zen'
 })
 
 
-
 export default  function RootLayout({children}: { children: ReactNode }) {
-    const [session, setSession] = useState<Session>();
-    const router = useRouter();
 
-    useEffect(() => {
-        getSession().then((session) => {
-            if (session) {
-                router.push('/')
-            }else{
-
-            }
-        })
-
-        
-    }, [])
 
     return (
-        <html lang='ja' className={noto_sans_jp.className}>
+        <html lang='ja' className={classNames(noto_sans_jp.className, zen_kaku_gothic_antique.className)}>
         <head>
-            <title>Tips</title>
+            <title>Cluee</title>
         </head>
-        
-
         <body className={styles.body}>
-        <ViewportHeightSetter/>
-        <SessionProvider session={session}>
-            <ThemeProvider>
-                <Header/>
-                <div className={styles.wrapper}>
-                    <Main children={children}/>
-                    <SideBar/>
-                </div>
-            </ThemeProvider>
-        </SessionProvider>
+        <SessionWrapper>
+            {children}
+        </SessionWrapper>
         </body>
         </html>
     )

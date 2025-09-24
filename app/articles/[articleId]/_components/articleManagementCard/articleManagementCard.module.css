@@ -1,20 +1,10 @@
 .div_0 {
-    position: absolute;
-    top: 0;
-    left: 2vw;
-    height: 8vh;
+    height: 8svh;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5vw;
+    gap: 8px;
     margin: 0;
-
-    @media screen and (max-width: 768px) {
-        top: auto;
-        bottom: 0;
-        left: 6vw;
-        gap: 2vw;
-    }
 }
 
 .div_1 {
@@ -38,7 +28,7 @@
 
 .AiOutlineEdit {
     aspect-ratio: 1;
-    font-size: 2vh;
+    font-size: 2svh;
     padding: 11px;
     color: deepskyblue;
     border-radius: 0 100px 100px 0;
@@ -46,7 +36,7 @@
 
 .FaRegTrashCan {
     aspect-ratio: 1;
-    font-size: 2vh;
+    font-size: 2svh;
     padding: 11px;
     color: hotpink;
     border-radius: 0 100px 100px 0;
@@ -55,8 +45,8 @@
 .p_0 {
     margin: 0;
     padding: 0;
-    height: 2vh;
-    font-size: 1.5vh;
+    height: 2svh;
+    font-size: 1.5svh;
     width: 0;
     text-wrap: nowrap;
     overflow: hidden;
@@ -71,8 +61,8 @@
 }
 
 .div_1:hover .p_0 {
-    width: 8.5vh;
-    margin-left: 1vh;
+    width: 8.5svh;
+    margin-left: 1svh;
     transition: width 0.4s ease;
 }
 

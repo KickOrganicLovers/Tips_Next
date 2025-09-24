@@ -64,8 +64,8 @@
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    gap: 0.2vw;
-    margin-top: 0.2vw;
+    gap: 0.2svw;
+    margin-top: 0.2svw;
     padding-left: 0.5cqw;
 }
 
@@ -87,7 +87,7 @@
     flex-direction: row;
     justify-content: flex-start;
     gap: 10px;
-    margin: 1vh 0 1vh 0;
+    margin: 1svh 0 1svh 0;
     color: var(--text-color-2);
     font-size: 2.2cqw;
     padding-left: 0.5cqw;
@@ -98,7 +98,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    gap: 0.2vw;
+    gap: 0.2svw;
 }
 
 .div_6 {
@@ -109,7 +109,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     box-sizing: border-box;
-    margin: 1vw 0 1vw 0;
+    margin: 1svw 0 1svw 0;
     color: var(--text-color-2);
     font-size: 2.5cqw;
     line-height: 3.5cqw;

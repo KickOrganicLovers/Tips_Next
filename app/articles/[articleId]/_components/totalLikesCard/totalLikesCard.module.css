@@ -1,17 +1,17 @@
 .div_0 {
-    height: 8vh;
+    height: 8svh;
     width: fit-content;
     position: absolute;
     top: 0;
     right: 0;
-    margin: 0 2vw 0 2vw;
+    margin: 0 2svw 0 2svw;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .div_1 {
-    height: 4vh;
+    height: 4svh;
     width: fit-content;
     display: flex;
     flex-direction: row;
@@ -19,8 +19,8 @@
     justify-content: center;
     background-color: var(--bg-color-1);
     border-radius: 100px;
-    padding: 0 0.75vw 0 0.75vw;
-    gap: 0.2vw;
+    padding: 0 0.75svw 0 0.75svw;
+    gap: 0.2svw;
     border: 2px solid var(--border-color-1);
     color: gray;
 }
@@ -28,21 +28,21 @@
 .IoHeart{
     background-color: var(--bg-color-1);
     border-radius: 100px;
-    padding-top: 0.2vh;
-    font-size: 2vh;
+    padding-top: 0.2svh;
+    font-size: 2svh;
 }
 
 .LuEye{
     background-color: var(--bg-color-1);
     border-radius: 100px;
-    padding-top: 0.2vh;
-    font-size: 2vh;
+    padding-top: 0.2svh;
+    font-size: 2svh;
 }
 
 .p_0 {
     padding: 0;
     margin: 0;
-    font-size: 2vh;
+    font-size: 2svh;
 }
 
 .div_1.active {

@@ -37,7 +37,7 @@ export default function AccountBanner(props: props) {
 
     const clickEventHandler_navigateToUser = () => {
         if(whereIam !== `user-${session.data?.user.id}`) {
-            router.push('/user/me')
+            router.push('/users/me')
             setSideBarStatus({isActive: false})
         }
     }

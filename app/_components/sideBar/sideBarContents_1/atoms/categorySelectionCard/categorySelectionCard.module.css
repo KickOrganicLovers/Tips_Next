@@ -41,7 +41,7 @@
 
 
 .p_0 {
-    padding: 0 0.5vw 1vh 0.5vw;
+    padding: 0 0.5svw 1svh 0.5svw;
     margin: 0;
     color: var(--text-color-2);
     font-size: clamp(0.6rem, 6cqw, 1.2rem);
@@ -51,7 +51,7 @@
 .mark_0 {
     background: none;
     color: var(--text-color-1);
-    padding-left: 1vw;
+    padding-left: 1svw;
     font-weight: bold;
 }
 

@@ -9,8 +9,7 @@ export default function Page() {
     const session = useSession();
 
     if (session.status ==='authenticated' && user.id) {
-        redirect(`/user/${user.id}`);
+        redirect(`/users/${user.id}`);
     }else {
-        // redirect('/login');
     }
 }

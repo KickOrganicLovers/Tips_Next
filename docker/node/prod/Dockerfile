@@ -1,7 +1,7 @@
 # ======================
 # ビルドステージ
 # ======================
-FROM node:18-slim AS builder
+FROM node:24-bookworm AS builder
 RUN apt-get update -y && apt-get install -y openssl
 
 WORKDIR /usr/src/app
@@ -18,7 +18,7 @@ RUN npm run build
 # ======================
 # 本番ステージ
 # ======================
-FROM node:18-slim AS runner
+FROM node:24-bookworm AS runner
 
 RUN apt-get update -y && apt-get install -y openssl && apt-get install -y netcat-openbsd && rm -rf /var/lib/apt/lists/*
 

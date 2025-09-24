@@ -61,8 +61,8 @@ export const OgpCard = Node.create<OgpCardCommands>({
                 [
                     'div',
                     { style: 'width: 70%;flex: 1;box-sizing: border-box;padding: 20px;display: flex;flex-direction: column;justify-content: space-around;gap: 20px;' },
-                    ['div', { style: 'color: var(--text-color-1);font-size: clamp(1rem, 1vw, 1.4rem);display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden;text-overflow: ellipsis;' }, title],
-                    ['div', { style: '    color: var(--text-color-2);font-size: clamp(0.8rem, 0.8vw, 1.2rem);display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;text-overflow: ellipsis;' }, description]
+                    ['div', { style: 'color: var(--text-color-1);font-size: clamp(1rem, 1svw, 1.4rem);display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden;text-overflow: ellipsis;' }, title],
+                    ['div', { style: '    color: var(--text-color-2);font-size: clamp(0.8rem, 0.8svw, 1.2rem);display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;text-overflow: ellipsis;' }, description]
                 ]
             ]
         ]

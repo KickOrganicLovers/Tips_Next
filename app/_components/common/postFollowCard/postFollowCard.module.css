@@ -1,7 +1,7 @@
 .button_0 {
     cursor: pointer;
     border: none;
-    font-size: 1.5vh;
+    font-size: 1.5svh;
     outline: 2px solid deepskyblue;
     color: deepskyblue;
     padding: 10px;

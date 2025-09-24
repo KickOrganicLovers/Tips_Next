@@ -80,8 +80,6 @@ export async function GET(req: NextRequest) {
             };
         }
 
-        console.log(metadata);
-
         return NextResponse.json({
             metadata,
             error: null,

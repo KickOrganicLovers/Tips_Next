@@ -67,7 +67,7 @@ export default function ArticleDetailsSection(props: props) {
                 <img src={props.article.author.image} className={styles.img_0} alt={'author'} onClick={clickEventHandler_pushToAuthorPage}/>
                 <h2 className={styles.h2_0} onClick={clickEventHandler_pushToAuthorPage}>{props.article.author.name}</h2>
                 <TotalFollowCard user={props.article.author}/>
-                <p className={styles.p_2}>{props.article.author.introduction}</p>
+                <div className={styles.div_5}><div className={styles.div_6}>{props.article.author.introduction}</div></div>
                 {(() => session.status === 'authenticated'? <button
                     className={(() => !!props.follow ? classNames(styles.button_0, styles.active) : classNames(styles.button_0))()}
                     onClick={clickEventHandler_postFollowing}>{(() => !!props.follow ? 'フォロー済み' : 'フォロー')()}</button> : null)()}

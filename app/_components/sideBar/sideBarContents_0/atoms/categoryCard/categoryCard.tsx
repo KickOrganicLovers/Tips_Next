@@ -4,14 +4,15 @@ import {useRouter} from "next/navigation";
 import {MdArrowBackIos, MdArrowForwardIos} from "react-icons/md";
 import {AiOutlinePlus} from "react-icons/ai";
 import {useCategoriesStore} from "@/lib/lib-client/stores/categoriesStore";
+import {CategoryScheme} from "@/types";
 
 interface props {
     setSideBarStatus: Dispatch<SetStateAction<{ isActive: boolean }>>
 }
 
 export default function CategoryCard(props: props) {
-    const [parentCategoryIdOnFocus, setParentCategoryIdOnFocus] = useState<string>('');
-    const className = !!parentCategoryIdOnFocus ? `${styles['div_3']} ${styles['shifted']}` : styles['div_3']
+    const [parentCategoryOnFocus, setParentCategoryOnFocus] = useState<CategoryScheme>();
+    const className = !!parentCategoryOnFocus ? `${styles['div_3']} ${styles['shifted']}` : styles['div_3']
     const categories = useCategoriesStore(state => state.categories)
     const router = useRouter()
 
@@ -25,7 +26,7 @@ export default function CategoryCard(props: props) {
                     <div className={styles.div_4}>
                         {categories.map((category, index) => (
                             <div className={styles.div_5} key={index} onClick={() => {
-                                setParentCategoryIdOnFocus(category.id)
+                                setParentCategoryOnFocus(category)
                             }}>
                                 <div className={styles.div_6}>
                                     {category.categoryName}
@@ -35,14 +36,14 @@ export default function CategoryCard(props: props) {
                         ))}
                     </div>
                     <div className={styles.div_4}>
+                        <div className={styles.div_8}><MdArrowBackIos className={styles.MdArrowBackIos} onClick={() => {setParentCategoryOnFocus(undefined)}}/>{parentCategoryOnFocus?.categoryName}<MdArrowBackIos className={styles.MdArrowBackIos} style={{visibility: 'hidden'}}/></div>
                         {(() => {
-                            const parent = categories.filter((category, index) => category.id === parentCategoryIdOnFocus)[0]
-                            if (!!parent && !!parent.children) {
-                                return parent.children.map((child, index) => (
+                            if (!!parentCategoryOnFocus && !!parentCategoryOnFocus.children) {
+                                return parentCategoryOnFocus.children.map((child, index) => (
                                     <div className={styles.div_5} key={index} onClick={() => {
                                         router.push(`/categories/${child.id}`);
                                         props.setSideBarStatus({isActive: false});
-                                        setParentCategoryIdOnFocus('')
+                                        setParentCategoryOnFocus(undefined)
                                     }}>
                                         <div className={styles.div_6}>
                                             {child.categoryName}
@@ -57,23 +58,5 @@ export default function CategoryCard(props: props) {
                 </div>
             </div>
         </div>
-        // <div className={styles.div_0}>
-        //     <div className={styles.div_1}>カテゴリーで探す</div>
-        //     {categories.map((category, index) => (
-        //         <div className={styles.div_2} key={index}>
-        //             <div className={className} onClick={() => {setIsActive(!isActive)}}>
-        //                 {category.categoryName}
-        //             </div>
-        //             <ul className={styles.ul_0} style={{height: isActive && category.children ? `${category.children.length * 36}px` : '0'}}>
-        //                 {category.children?.map((children, i) => (
-        //                     <li className={styles.li_0} key={i} onClick={() => {
-        //                         router.push(`/categories/${children.id}`);
-        //                         props.setSideBarStatus({isActive: false})
-        //                     }}>{children.categoryName}</li>
-        //                 ))}
-        //             </ul>
-        //         </div>
-        //     ))}
-        // </div>
     )
 }

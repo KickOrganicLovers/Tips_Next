@@ -22,7 +22,9 @@ export default function UserProfileSection(props: props) {
                 </div>
                 <div className={styles.div_4}>
                     <TotalFollowCard user={props.user as UserScheme}/>
-                    <div className={styles.div_1}>{props.user?.introduction}</div>
+                    <div className={styles.div_1}>
+                        <div className={styles.div_5}>{props.user?.introduction}</div>
+                    </div>
                 </div>
             </div>
             {(() => session.status === 'authenticated' ? <PostFollowCard follow={props.follow} user={props.user} setUser={props.setUser}/>: null )()}

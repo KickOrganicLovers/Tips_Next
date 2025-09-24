@@ -25,7 +25,7 @@
     display: none;
     grid-template-columns: repeat(auto-fit, 300px);
     justify-content: center;
-    gap: 2vh;
+    gap: 2svh;
     box-sizing: border-box;
     overflow-y: visible;
     background-color: var(--bg-color-2);
@@ -50,7 +50,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 4vh;
+    gap: 4svh;
     @media screen  and (max-width: 768px){
         height: auto;
     }
@@ -59,14 +59,14 @@
 .h2_1 {
     text-wrap: nowrap;
     text-align: center;
-    font-size: clamp(1.5rem, 2vw, 2.2rem);
+    font-size: clamp(1.5rem, 2svw, 2.2rem);
     margin: 0;
     color: var(--bg-color-3);
 }
 
 .h3_0 {
     text-align: center;
-    font-size: clamp(1.2rem, 1.5vw, 2rem);
+    font-size: clamp(1.2rem, 1.5svw, 2rem);
     margin: 0;
     color: var(--text-color-2);
 }
@@ -80,7 +80,7 @@
 }
 
 .p_0 {
-    font-size: clamp(0.9rem, 1vw, 1.2rem);
+    font-size: clamp(0.9rem, 1svw, 1.2rem);
 }
 
 .Link {

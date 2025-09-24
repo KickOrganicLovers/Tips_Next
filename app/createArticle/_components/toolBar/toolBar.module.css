@@ -19,7 +19,7 @@
     box-sizing: border-box;
 
     @media screen and (max-width: 1024px) {
-        padding: 20px 1.25vw;
+        padding: 20px 1.25svw;
     }
 
     @media screen and (max-width: 768px) {
@@ -112,7 +112,7 @@
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;
-        width: 80vw;
+        width: 80svw;
         height: fit-content;
     }
 }

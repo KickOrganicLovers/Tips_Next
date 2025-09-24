@@ -27,7 +27,7 @@ export default function Header() {
         <header className={classname}>
             <div className={styles.div_0} onClick={clickEventHandler_pushToRoot}>
                 <img src='/images/logoTitle.png' className={styles.img_0} alt='PageIcon'/>
-                <h1 className={styles.h1_0}>Tips</h1>
+                <h1 className={styles.h1_0}>Cluee</h1>
             </div>
             <MdArrowBackIos className={styles.MdArrowBackIos} onClick={clickEventHandler_setSearchModeFalse}/>
             <SearchBar isSearchMode={isSearchMode}/>

@@ -12,7 +12,7 @@
 }
 
 .img_0 {
-    width: 5vh;
+    width: clamp(35px, 7.5%, 45px);;
     aspect-ratio: 1;
     border-radius: 100px;
     box-sizing: border-box;
@@ -23,7 +23,7 @@
     height: auto;
     box-sizing: border-box;
     outline: none;
-    padding: 1vh 1vw 1vh 1vw;
+    padding: 1svh 1svw 1svh 1svw;
     border: none;
     border-bottom: 2px solid var(--border-color-1);
     resize: none;
@@ -43,14 +43,14 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 1vh;
+    gap: 1svh;
 }
 
 .AiOutlineCheck {
     box-sizing: border-box;
-    height: 3vh;
-    width: 3vh;
-    padding: 0.5vh;
+    height:  clamp(25px, 1.5vw, 30px);
+    width: clamp(25px, 1.5vw, 30px);
+    padding: 0.5svh;
     color: gray;
     border: 2px solid var(--border-color-1);
     border-radius: 100px;
@@ -58,9 +58,9 @@
 
 .AiOutlineClose {
     box-sizing: border-box;
-    height: 3vh;
-    width: 3vh;
-    padding: 0.5vh;
+    height:  clamp(25px, 1.5vw, 30px);
+    width: clamp(25px, 1.5vw, 30px);
+    padding: 0.5svh;
     color: gray;
     border: 2px solid var(--border-color-1);
     border-radius: 100px;

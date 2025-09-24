@@ -47,5 +47,4 @@ export async function GET (req: NextRequest){
         return handleServerError(error)
     }
 
-
 }

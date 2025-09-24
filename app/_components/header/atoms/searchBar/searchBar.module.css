@@ -77,7 +77,7 @@
     height: fit-content;
     background-color: var(--bg-color-1);
     box-sizing: border-box;
-    border-radius: 1vh;
+    border-radius: 1svh;
 }
 
 .div_2:has(.div_3){

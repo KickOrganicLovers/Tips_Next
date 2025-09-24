@@ -1,145 +1,85 @@
-'use client'
-export const dynamic = "force-dynamic";
-
-import DOMPurify from "dompurify";
-import {useParams} from "next/navigation";
-import {Dispatch, SetStateAction, useEffect, useRef, useState} from "react";
 import {getDataFromServerWithJson} from "@/lib/lib-client/fetch";
-import styles from './article.module.css'
-import {ArticleScheme, FollowScheme, LikeForArticleScheme} from "@/types";
-import ArticleDetailsSection from "@/app/articles/[articleId]/_components/articleDetailsSection/articleDetailsSection";
-import ArticleManagementCard from "@/app/articles/[articleId]/_components/articleManagementCard/articleManagementCard";
-import LikeButton from "@/app/articles/[articleId]/_components/likeButton/likeButton";
-import CommentsSection from "@/app/articles/[articleId]/_components/commentsSection/commentsSection";
-import ReducedArticleDetailsSection
-    from "@/app/articles/[articleId]/_components/reducedArticleDetailsSection/reducedArticleDetailsSection";
-import TotalLikesAndViewsCard
-    from "@/app/articles/[articleId]/_components/totalLikesAndViewsCard/totalLikesAndViewsCard";
-import RelatedArticlesSection
-    from "@/app/articles/[articleId]/_components/relatedArticlesSection/relatedArticlesSection";
-import {useWhereIamStore} from "@/lib/lib-client/stores/whereIamStore";
-import {useUserStore} from "@/lib/lib-client/stores/userStore";
-import {useSession} from "next-auth/react";
-
-export default function Page() {
-    const applyWhereIam = useWhereIamStore(state => state.applyWhereIam)
-    const appendWatchHistories = useUserStore((state) => state.appendWatchHistories)
-    const [article, setArticle] = useState<ArticleScheme | undefined>();
-    const [like, setLike] = useState<LikeForArticleScheme | undefined>(undefined);
-    const [follow, setFollow] = useState<FollowScheme | undefined>(undefined);
-    const [hasError, setHasError] = useState(false);
-    const [isMobile, setIsMobile] = useState(false);
-    const session = useSession();
-
-    const {articleId} = useParams<{articleId: string}>()
-    const contentRef = useRef<HTMLDivElement>(null);
+import {ArticleScheme} from "@/types";
+import ArticleClient from "@/app/articles/[articleId]/articleClient";
+import {prisma} from "@/lib/lib-server/prisma";
+import {Metadata} from "next";
+import {stripTags} from "@/lib/lib-client/processing";
+import {replaceAllDatesToIsoString} from "@/lib/lib-server/processing";
 
 
-    const checkIsLiked = (likes: LikeForArticleScheme[]) => {
-        const like = likes.filter((like: LikeForArticleScheme) => like.userId === session.data?.user.id)
-        if(like.length > 0){
-            setLike(like[0]);
-        }else {
-            setLike(undefined)
-        }
-    }
+export async function generateMetadata({ params }: { params: Promise<{ articleId: string }> }): Promise<Metadata> {
+    const {articleId} = await params
 
-    const checkIsFollowed = (follows: FollowScheme[]) => {
-        const follow =  follows.filter((follow: FollowScheme) => follow.followerId === session.data?.user.id)
-        if(follow.length > 0){
-            setFollow(follow[0])
-        }else {
-            setFollow(undefined)
-        }
-    }
-
-
-    const getArticle = async (articleId: string) => {
-        return await getDataFromServerWithJson<{articles: ArticleScheme[]}>(`/api/getArticles?articleId=${articleId}`);
-    };
-
-
-    useEffect(() => {
-        getArticle(articleId).then((json) => {
-            if(!!json){
-                setArticle(json.articles[0]); // 非同期で取得した記事を状態にセット
-            }else {
-                setHasError(true);
-            }
-        })
-        applyWhereIam(`article-${articleId}`)
-    }, [articleId]);
-
-
-    useEffect(() => {
-        if (article && contentRef.current) {
-            const parser = new DOMParser();
-            const safeHtml = DOMPurify.sanitize(article.contents);
-            const doc = parser.parseFromString(safeHtml, "text/html");
-
-            // 既存の内容をクリアしてから、新しい DOM を追加
-            contentRef.current.innerHTML = "";
-            const frag = document.createDocumentFragment();
-            Array.from(doc.body.childNodes).forEach(node => {
-                // クローンしてフラグメントに追加（deep=true で全階層コピー）
-                frag.appendChild(node.cloneNode(true));
-            });
-
-
-            contentRef.current.appendChild(frag);
-            appendWatchHistories(session, articleId)
-        }
-    }, [article?.id]); // `article` が変更されるたびに再実行
-
-    useEffect(() => {
-        if(article){
-            checkIsLiked(article.likes)
-            checkIsFollowed(article.author.followers)
-        }
-    }, [article]);
-
-
-    useEffect(() => {
-        window.scrollTo(0, 0);
-        // クライアント側でのみ実行される
-        const mediaQuery = window.matchMedia('(max-width: 768px)');
-        setIsMobile(mediaQuery.matches);
-
-        const handleResize = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-        mediaQuery.addEventListener('change', handleResize);
-
-        return () => mediaQuery.removeEventListener('change', handleResize);
-    }, []);
-
+    const article = await prisma.article.findUnique({
+        where: { id: articleId },
+        include: { author: true, category: true, tags: true },
+    })
 
     if (!article) {
-        if(hasError) {
-            return <p>記事が存在しません。</p>
+        return {
+            title: "記事が見つかりません",
+            description: "指定された記事は存在しません。",
         }
-        return <p>now loading...</p>;
     }
+
+    return {
+        title: 'Cluee - ' + article.title,
+        description: article.contents.replace(/<[^>]+>/g, "").slice(0, 150),
+        openGraph: {
+            title: 'Cluee - ' + article.title,
+            description: article.contents.replace(/<[^>]+>/g, "").slice(0, 150),
+            url: `https://givemetips.net/articles/${article.id}`,
+            siteName: "Cluee",
+            images: [
+                {
+                    url: article.thumbnailImageUrl || "https://tips-image.s3.ap-northeast-1.amazonaws.com/tips-image/initial-thumbnail.jpeg",
+                    width: 600,
+                    height: 400,
+                    alt: article.title,
+                },
+            ],
+            type: "article",
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: 'Cluee - ' + article.title,
+            description: article.contents.replace(/<[^>]+>/g, "").slice(0, 150),
+            images: [article.thumbnailImageUrl || "https://tips-image.s3.ap-northeast-1.amazonaws.com/tips-image/initial-thumbnail.jpeg"],
+        },
+    }
+}
+
+
+export default async function Page({ params }: { params: Promise<{ articleId: string }>}) {
+    const { articleId } = await params
+
+    const article = await prisma.article.findUnique({
+        where: { id: articleId },
+        include: {
+            author: {
+                include: {
+                    followers: true,
+                    followings: true
+                }
+            },
+            likes: true,
+            comments: {
+                include: {
+                    user: true,
+                    likes: true,
+                },
+            },
+            watchHistories: true,
+            category: true,
+            tags: true,
+        }
+    })
+
+    if (!article) {
+        return <p>記事が存在しません。</p>
+    }
+
     return (
-        //マジで改善の余地あり、これだとisMedia切り替え時に再レンダリング走る
-        <div className={styles.div_0}>
-            {(() => !isMobile ? <ArticleDetailsSection article={article} follow={follow}
-                                                       setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>}/> : null)()}
-            {(() => session.status ==='authenticated' && !isMobile ?
-                <LikeButton isLoggedIn={session.status === 'authenticated'} articleId={article.id} like={like}
-                            setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>}/> : null)()}
-            <div className={styles.div_1}>
-                {(() => article.author.id === session.data?.user.id ?
-                    <ArticleManagementCard article={article}/> : undefined)()}
-                <TotalLikesAndViewsCard article={article} like={like}
-                                        setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>}/>
-                <h1 className={styles.h1_0}>{article.title}</h1>
-                <div ref={contentRef} className={styles.div_2}/>
-                {(() => !isMobile ? <CommentsSection article={article} setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>}/> : null)()}
-                {(() => !isMobile ? <RelatedArticlesSection isMobile={isMobile} articleId={articleId}/> : null)()}
-            </div>
-            {(() => isMobile ? <ReducedArticleDetailsSection article={article} follow={follow}
-                                                             setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>}/> : null)()}
-            {(() => isMobile ? <CommentsSection article={article} setArticle={setArticle as Dispatch<SetStateAction<ArticleScheme>>}/> : null)()}
-            {(() => isMobile ? <RelatedArticlesSection isMobile={isMobile} articleId={articleId}/> : null)()}
-        </div>
+        <ArticleClient article={replaceAllDatesToIsoString(article as unknown as ArticleScheme)} />
     )
 }

@@ -1,14 +1,11 @@
 import styles from './articleByUserSection.module.css'
 import {ArticleScheme, ErrorScheme, UserScheme} from "@/types";
 import ArticleContainer from "@/app/_components/common/articleContainer/articleContainer";
-import {SessionContextValue, useSession} from "next-auth/react";
-import GirlWithBalloon from "@/public/images/girlWithBalloon.svg";
+import {useSession} from "next-auth/react";
 import Link from "next/link";
 import React, {useEffect, useState} from "react";
 import GirlWithBook from "@/app/_components/common/girlWithBook/girlWithBook";
-import {useUserStore} from "@/lib/lib-client/stores/userStore";
-import {getDataFromServerWithJson, postDataToServerWithJson} from "@/lib/lib-client/fetch";
-import {findCategoryById} from "@/lib/lib-client/processing";
+import {postDataToServerWithJson} from "@/lib/lib-client/fetch";
 import {useErrorStore} from "@/lib/lib-client/stores/errorsStore";
 
 
@@ -23,7 +20,6 @@ export default function ArticleByUserSection(props: props) {
     const appendError = useErrorStore(state => state.appendError)
 
     const getArticlesCreatedByUser = async () => {
-        if(session.status === 'authenticated' && session.data.user.id === props.user.id) return
         try {
             const json = await postDataToServerWithJson<{articles: ArticleScheme[]}>(`/api/getArticles/byUser`, {authorId: props.user.id, viewingArticleIds: viewingArticles.map(viewingArticle => viewingArticle.id)})
             if(!!json) {
@@ -36,14 +32,6 @@ export default function ArticleByUserSection(props: props) {
         }
     }
 
-    useEffect(() => {
-        // setIsMax(false)
-        // setViewingArticles([])
-        if(session.status === 'authenticated' && session.data.user.id === props.user.id){
-            setViewingArticles(props.user.articleCreatedBy)
-            setIsMax(true)
-        }
-    }, [props.user])
 
     return (
         <div className={styles.div_0}>
