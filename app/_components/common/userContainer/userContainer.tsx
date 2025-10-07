@@ -60,7 +60,7 @@ export default function UserContainer(props: props) {
 
     const clickEventHandler = () => {
         if(!props.user || !props.setUsers) return
-        router.push(`/user/${props.user.id}`)
+        router.push(`/users/${props.user.id}`)
     }
 
     useEffect(() => {
@@ -89,7 +89,7 @@ export default function UserContainer(props: props) {
     }, [props.isFirstDummy, props.firstDummy_onVisible]);
 
     return (
-        <div className={className}>
+        <div className={className} onClick={clickEventHandler}>
             {!props.isDummy && !!props.user? (
                 <img className={styles.img_0} src={props.user.image} alt='profileImage'/>
             ): (
@@ -97,9 +97,9 @@ export default function UserContainer(props: props) {
             ) }
             {!props.isDummy && !!props.user ?(
                 <div className={styles.div_4}>
-                    <h2 className={styles.h2_0} onClick={clickEventHandler}>{props.user.name}</h2>
+                    <h2 className={styles.h2_0}>{props.user.name}</h2>
                     <TotalFollowCard user={props.user}/>
-                    <div className={styles.div_1}>{props.user.introduction}</div>
+                    <div className={styles.div_1}><div className={styles.div_6}>{props.user.introduction}</div></div>
                     <div className={styles.div_2}>
                         <PostFollowCard follow={follow as FollowScheme} user={props.user} setUser={setUser}/>
                     </div>

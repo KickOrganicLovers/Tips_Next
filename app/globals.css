@@ -23,13 +23,18 @@ body {
     color: var(--text-color-1);
     display: flex;
     flex-direction: column;
-    width: 100vw;
-    height: calc(var(--vh, 1vh) * 100);
+    width: 100svw;
+    height: 100svh;
     container-type: inline-size;
 
     ::placeholder {
         color: lightgray;
     }
+}
+
+input,
+textarea {
+    border-radius: 0; /* デフォルトの角丸を無効化 */
 }
 
 input {

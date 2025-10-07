@@ -37,16 +37,18 @@ export default function CommentCard(props: props) {
     return (
         <div className={styles.div_0}>
             <div className={styles.div_1}>
-                <img src={props.comment.user?.image} alt={'user'} className={styles.img_0}/>
-                <p className={styles.p_0}>{props.comment.user?.name}</p>
+                <div className={styles.div_3}>
+                    <img src={props.comment.user?.image} alt={'user'} className={styles.img_0}/>
+                    <p className={styles.p_0}>{props.comment.user?.name}</p>
+                </div>
+                <div className={className} onClick={clickEventHandler}>
+                    <IoHeart className={styles.IoHeart}/>
+                    <p className={styles.p_1}>{props.comment.likes.length}</p>
+                </div>
             </div>
             <p>
                 {props.comment.contents}
             </p>
-            <div className={className} onClick={clickEventHandler}>
-                <IoHeart className={styles.IoHeart}/>
-                <p className={styles.p_1}>{props.comment.likes.length}</p>
-            </div>
         </div>
     )
 

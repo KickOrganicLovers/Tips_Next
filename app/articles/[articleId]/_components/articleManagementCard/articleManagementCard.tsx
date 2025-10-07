@@ -6,6 +6,7 @@ import {ArticleScheme} from "@/types";
 import {postDataToServerWithJson} from "@/lib/lib-client/fetch";
 import {useRouter} from "next/navigation";
 import {useErrorStore} from "@/lib/lib-client/stores/errorsStore";
+import {useSession} from "next-auth/react";
 
 interface props {
     article: ArticleScheme
@@ -14,6 +15,7 @@ interface props {
 export default function ArticleManagementCard(props: props) {
     const appendError = useErrorStore(state => state.appendError)
     const router = useRouter()
+    const session = useSession()
 
     const clickEventHandler_deleteArticle = () => {
         deleteArticle()
@@ -35,7 +37,7 @@ export default function ArticleManagementCard(props: props) {
     }
 
     return (
-        <div className={styles.div_0}>
+        <div className={styles.div_0} style={{visibility: session.status !== "authenticated" || session.data?.user.id !== props.article.authorId ? "hidden" : "visible"}}>
             <div className={classNames(styles.div_1, styles.edit)} onClick={clickEventHandler_editArticle}>
                 <AiOutlineEdit className={styles.AiOutlineEdit}/>
                 <p className={classNames(styles.p_0, styles.edit)}>記事を編集</p>

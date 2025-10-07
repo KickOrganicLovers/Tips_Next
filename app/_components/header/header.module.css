@@ -1,5 +1,5 @@
 .header {
-    width: 100vw;
+    width: 100svw;
     height: 7.5%;
     min-height: 60px;
     background-color: var(--bg-color-1);
@@ -12,11 +12,10 @@
     flex-direction: row;
     justify-content: left;
     align-items: center;
-    gap: 10px;
     height: 100%;
     width: auto;
     position: absolute;
-    left: 2vw;
+    left: 2svw;
     top: 0;
     bottom: 0;
     margin: auto;
@@ -45,6 +44,8 @@
     aspect-ratio: 1;
     border-radius: 20%;
     width: auto;
+    padding: 5px 5px 5px 5px;
+    box-sizing: border-box;
 }
 
 .img_1 {
@@ -55,16 +56,16 @@
 .ul {
     position: absolute;
     top: 0;
-    right: 2vw;
+    right: 2svw;
     bottom: 0;
     margin: auto;
     display: flex;
     justify-content: flex-end;
-    gap: 3vw;
+    gap: 3svw;
     align-items: center;
     width: fit-content;
     height: 100%;
-    padding: 4px 0px 0px 0px;
+    padding: 4px 0 0 0;
 }
 
 .header.searchMode .ul {
@@ -85,10 +86,11 @@
 }
 
 .h1_0 {
-    font-size: clamp(1.5rem, 3vh, 2rem);
-    font-weight: bold;
+    font-size: clamp(1.5rem, 3svh, 2rem);
+    font-weight: 500;
     margin: 0;
-    padding: 0;
+    padding: 0 0 3px 0;
+    font-family: 'Zen Kaku Gothic Antique', sans-serif;
 }
 
 .MdArrowBackIos {
@@ -102,7 +104,7 @@
         font-size: 1.8rem;
         top: 0;
         bottom: 0;
-        left: 6vw;
+        left: 6svw;
         margin: auto;
         color: var(--text-color-2);
 

@@ -13,6 +13,7 @@
     padding: 2cqw;
     box-sizing: border-box;
     gap: 2cqw;
+    cursor: pointer;
 }
 
 @keyframes fadeIn {
@@ -28,7 +29,7 @@
 
 
 .img_0 {
-    margin-top: 12cqw;
+    margin-top: 8cqw;
     width: 50%;
     aspect-ratio: 1;
     border-radius: 100%;
@@ -36,24 +37,15 @@
 
 .h2_0 {
     margin: 1cqw;
-    cursor: pointer;
-    &:hover{
-        color: deepskyblue;
-        transition: 0.25s;
-    }
 }
 
 .div_1 {
     color: var(--text-color-2);
-    width: 100%;
-    text-align: center;
-    box-sizing: border-box;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    overflow-x: hidden;
-    text-overflow: ellipsis;
-    padding: 0 8cqw;
+    max-width: 75%;
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
 }
 
 .div_2 {
@@ -67,7 +59,7 @@
 }
 
 .div_3 {
-    margin-top: 12cqw;
+    margin-top: 8cqw;
     width: 50%;
     aspect-ratio: 1;
     border-radius: 100%;
@@ -90,6 +82,18 @@
     justify-content: space-around;
     align-items: center;
     gap: 14cqw;
+}
+
+.div_6 {
+    max-width: 100%;
+    width: fit-content;
+    height: fit-content;
+    text-align: left;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
 }
 
 .shimmerBar {

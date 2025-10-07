@@ -30,12 +30,6 @@
     border-radius: 100px;
 }
 
-.div_2 {
-    width: 100%;
-    height: fit-content;
-    background-color: var(--bg-color-1);
-    box-shadow: 5px 5px 5px var(--shadow-color);
-}
 
 .input_0 {
     position: absolute;
@@ -83,11 +77,11 @@
     height: fit-content;
     background-color: var(--bg-color-1);
     box-sizing: border-box;
-    border-radius: 1vh;
+    border-radius: 1svh;
 }
 
 .div_2:has(.div_3){
-    padding: 1vh 1vw 1vh 1vw;
+    padding: 10px 20px;
 }
 
 .div_3{

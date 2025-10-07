@@ -5,8 +5,8 @@ import {authOptions} from "@/lib/lib-server/auth";
 import {NextResponse} from "next/server";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
-import VerificationEmailTemplate from "@/app/api/signup/verifyEmail/step1/verificationEmailTemplate";
 import {handleServerError} from "@/lib/lib-server/processing";
+import VerificationEmailTemplate from "@/app/api/deleteUser/verifyEmail/step1/verificationEmailTemplate";
 
 export async function GET () {
 
@@ -46,9 +46,9 @@ export async function GET () {
         })
 
         await resend.emails.send({
-            from: 'onboarding@resend.dev',
+            from: 'TipsMailer@givemetips.net',
             to: session.user.email,
-            subject: 'Verifying Before Delete Your Account',
+            subject: 'Tipsアカウントの削除に際してのメールアドレスの確認',
             react: VerificationEmailTemplate({email: session.user.email, token})
         })
 

@@ -1,6 +1,6 @@
 import {ErrorScheme} from "@/types";
 import {create} from "zustand/react";
-import {current} from "immer";
+
 
 interface StoreConfig {
     errors: ErrorScheme[]

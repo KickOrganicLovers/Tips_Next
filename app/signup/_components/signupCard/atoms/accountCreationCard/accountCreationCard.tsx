@@ -1,8 +1,9 @@
 import styles from './accountCreationCard.module.css'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
 import {postDataToServerWithJson} from "@/lib/lib-client/fetch";
 import {FiAlertCircle} from "react-icons/fi";
+import {signIn, useSession} from "next-auth/react";
 
 interface props {
     email: string
@@ -14,18 +15,40 @@ export default function AccountCreationCard(props: props) {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
-    const router = useRouter()
 
     const createAccount = async () => {
-        return await postDataToServerWithJson('/api/signup', {username: username, password: password, email: props.email})
+        return await postDataToServerWithJson<{email?:string, password?:string}>('/api/signup', {username: username, password: password, email: props.email})
     }
 
+    const handleLogin = async (email: string, password: string) => {
+        try{
+            const result = await signIn("credentials", {
+                redirect: false,
+                email,
+                password,
+            });
 
-    //改善の余地あり
+            if(!result){
+                setError('ログイン時にサーバーとの通信に失敗しました');
+            }else if(!!result.error) {
+                setError(result.error)
+            }
+        }catch (error){
+            if(error instanceof Error){
+                setError(error.message)
+            }else {
+                setError('ログイン時に内部エラーが発生しました。しばらく待ってからもう一度お試しください。');
+            }
+        }
+    };
+
+
     const clickEventHandler = () => {
-        createAccount().then(() => {
+        createAccount().then((json) => {
             setError('')
-            router.push('/login')
+            if(!!json && !!json.email && !!json.password){
+                handleLogin(json.email, password)
+            }
         }).catch(error => {
             setError(error.message)
         })

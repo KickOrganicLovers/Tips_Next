@@ -68,7 +68,8 @@ export default function ImageEditingCard(props: props) {
             mediaProps: {},
             objectFit: 'cover',
             showGrid: false,
-            keyboardStep: 1
+            keyboardStep: 1,
+            cropperProps: {}
         }
 
 
@@ -212,7 +213,7 @@ export default function ImageEditingCard(props: props) {
             setImage(props.thumbnailImageUrl)
             resetCropSettings()
         } else {
-            setImage('/images/noImage.png')
+            setImage('https://tips-image.s3.ap-northeast-1.amazonaws.com/tips-image/initial-thumbnail.jpeg')
             resetCropSettings()
         }
 
@@ -224,13 +225,13 @@ export default function ImageEditingCard(props: props) {
             setImage(props.thumbnailImageUrl)
             resetCropSettings()
         } else {
-            setImage('/images/noImage.png')
+            setImage('https://tips-image.s3.ap-northeast-1.amazonaws.com/tips-image/initial-thumbnail.jpeg')
             resetCropSettings()
         }
     }, [props.thumbnailImageUrl]);
 
     useEffect(() => {
-        setImage('/images/noImage.png')
+        setImage('https://tips-image.s3.ap-northeast-1.amazonaws.com/tips-image/initial-thumbnail.jpeg')
     }, [editorEvent?.payload.upload]);
 
     return (

@@ -8,7 +8,7 @@ import TotalFollowCard from "@/app/_components/common/totalFollowCard/totalFollo
 import {postDataToServerWithJson} from "@/lib/lib-client/fetch";
 import {useUserStore} from "@/lib/lib-client/stores/userStore";
 import {useSession} from "next-auth/react";
-import ImageEditingCard from "@/app/user/[userId]/_components/userProfileSection_myOwn/atoms/imageEditingCard";
+import ImageEditingCard from "@/app/users/[userId]/_components/userProfileSection_myOwn/atoms/imageEditingCard";
 import {useErrorStore} from "@/lib/lib-client/stores/errorsStore";
 
 interface props {
@@ -94,7 +94,7 @@ export default function UserProfileSection_MyOwn(props: props) {
                     {(() => isEditingMode ?
                         <input type={"text"} className={styles.input_0} value={username} onChange={(e) => {
                             setUsername(e.target.value)
-                        }}/> : <h1 className={styles.h1_0}>{props.user.name}</h1>)()}
+                        }}/> : <h1 className={styles.h1_0}>{props.user?.name}</h1>)()}
                 </div>
 
                 <div className={styles.div_6}>
@@ -104,7 +104,7 @@ export default function UserProfileSection_MyOwn(props: props) {
                     {(() => isEditingMode ?
                         <textarea className={styles.textarea_0} value={introduction} onChange={(e) => {
                             setIntroduction(e.target.value)
-                        }}/> : <div className={styles.div_2}>{props.user.introduction}</div>)()}
+                        }}/> : <div className={styles.div_2}><div className={styles.div_8}>{props.user?.introduction}</div> </div>)()}
                 </div>
             </div>
             {(() => isEditingMode ?

@@ -21,9 +21,9 @@ export default function ImageEditingCard(props: props) {
             rotation: 0,
             aspect: 1,
             minZoom: 0.1,
-            maxZoom: 3,
+            maxZoom: 2,
             cropShape: "round",
-            zoomSpeed: 1,
+            zoomSpeed: 0.1,
             onCropChange: (location: Point) => {
                 setCropperProps(state => {
                     return {...state, crop: location}
@@ -47,10 +47,10 @@ export default function ImageEditingCard(props: props) {
             classes: {},
             restrictPosition: false,
             mediaProps: {},
-            cropSize: {width: 400, height: 400},
             objectFit: 'cover',
             showGrid: false,
-            keyboardStep: 1
+            keyboardStep: 1,
+            cropperProps: {}
         }
     )
 
@@ -79,73 +79,74 @@ export default function ImageEditingCard(props: props) {
     }
 
 
-    const getCroppedImage = async (imageSrc: string, pixelCrop: Area, rotation = 0, flip = {
-        horizontal: false,
-        verticalL: false
-    }): Promise<string | undefined> => {
-        const image = await createImage(imageSrc)
-        const canvas = document.createElement('canvas')
-        const ctx = canvas.getContext('2d')
-        //canvasおよびcanvascontextの挙動がわからない。
-
-        if (!ctx) {
-            return undefined
+    const getCroppedImage = async (
+        imageSrc: string,
+        pixelCrop: Area,
+        rotation = 0,
+        flip = {
+            horizontal: false,
+            verticalL: false
         }
+    ): Promise<string | undefined> => {
+        const image = await createImage(imageSrc);
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
 
-        const rotRad = getRadianAngle(rotation)
-        //getRadianAngleの挙動
+        if (!ctx) return undefined;
 
-        const {width: bBoxWidth, height: bBoxHeight} = rotateSize(image.width, image.height, rotation)
-        //width,heightに代入する値であるbBoxWidth,Heightを以降の文でそのまま各パラメータに代入している理由がわからない。
+        const rotRad = getRadianAngle(rotation);
+        const { width: bBoxWidth, height: bBoxHeight } = rotateSize(
+            image.width,
+            image.height,
+            rotation
+        );
 
-        canvas.width = bBoxWidth
-        canvas.height = bBoxHeight
+        canvas.width = bBoxWidth;
+        canvas.height = bBoxHeight;
 
-        ctx.translate(bBoxWidth / 2, bBoxHeight / 2)
-        ctx.rotate(rotRad)
-        ctx.scale(flip.horizontal ? -1 : 1, flip.verticalL ? -1 : 1)
-        ctx.translate(-image.width / 2, -image.height / 2)
+        ctx.translate(bBoxWidth / 2, bBoxHeight / 2);
+        ctx.rotate(rotRad);
+        ctx.scale(flip.horizontal ? -1 : 1, flip.verticalL ? -1 : 1);
+        ctx.translate(-image.width / 2, -image.height / 2);
 
-        // draw rotated image
-        ctx.drawImage(image, 0, 0)
+        // 回転・反転した画像を描画
+        ctx.drawImage(image, 0, 0);
 
-        const croppedCanvas = document.createElement('canvas')
+        // 切り抜き用キャンバス
+        const croppedCanvas = document.createElement("canvas");
+        const croppedCtx = croppedCanvas.getContext("2d");
+        if (!croppedCtx) return undefined;
 
-        const croppedCtx = croppedCanvas.getContext('2d')
+        const cropWidth = pixelCrop.width;
+        const cropHeight = pixelCrop.height;
 
-        if (!croppedCtx) {
-            return undefined
-        }
+        // 最大値
+        const MAX_WIDTH = 400;
+        const MAX_HEIGHT = 400;
 
-        // Set the size of the cropped canvas
-        croppedCanvas.width = pixelCrop.width
-        croppedCanvas.height = pixelCrop.height
+        // 比率を維持して縮小
+        const scale = Math.min(1, MAX_WIDTH / cropWidth, MAX_HEIGHT / cropHeight);
+        const outputWidth = Math.floor(cropWidth * scale);
+        const outputHeight = Math.floor(cropHeight * scale);
 
-        // Draw the cropped image onto the new canvas
+        croppedCanvas.width = outputWidth;
+        croppedCanvas.height = outputHeight;
+
+        // 切り抜き → 縮小
         croppedCtx.drawImage(
             canvas,
             pixelCrop.x,
             pixelCrop.y,
-            pixelCrop.width,
-            pixelCrop.height,
+            cropWidth,
+            cropHeight,
             0,
             0,
-            pixelCrop.width,
-            pixelCrop.height
-        )
+            outputWidth,
+            outputHeight
+        );
 
-        // As Base64 string
-        return croppedCanvas.toDataURL('image/jpeg');
-
-        // As a blob
-        // return new Promise((resolve, reject) => {
-        //     croppedCanvas.toBlob((file) => {
-        //         if(file){
-        //             resolve(URL.createObjectURL(file))
-        //         }
-        //     }, 'image/jpeg')
-        // })
-    }
+        return croppedCanvas.toDataURL("image/jpeg");
+    };
 
     const onCropComplete = useCallback((croppedArea: Area, croppedAreaPixels: Area) => {
         setCroppedAreaPixels(croppedAreaPixels)
@@ -159,21 +160,6 @@ export default function ImageEditingCard(props: props) {
                     console.log(imgAsBase64)
                     props.setProfileImageAsBase64(imgAsBase64)
                     props.setIsCropperOpen(false)
-                    // postImgToServer(imgAsBase64, '').then((res) => {
-                    //     res.json().then((json) => {
-                    //         if(!json.error){
-                    //             console.log(json.profileImageUrl)
-                    //             props.setProfileImageUrl(json.profileImageUrl)
-                    //             props.setIsCropperOpen(false)
-                    //         }else{
-                    //             console.log(json.error)
-                    //         }
-                    //     }).catch((e) => {
-                    //         throw e
-                    //     })
-                    // }).catch((e) => {
-                    //     throw e
-                    // })
                 } else {
                     console.log('Failed')
                 }
@@ -203,8 +189,8 @@ export default function ImageEditingCard(props: props) {
                     className={styles.input_0}
                     type='range'
                     value={cropperProps.zoom}
-                    min={1}
-                    max={3}
+                    min={0.1}
+                    max={2}
                     step={0.01}
                     aria-labelledby="Zoom"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {

@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
         }
         await index.addDocuments([document])
 
-        return NextResponse.json(null, {status: 200})
+        return NextResponse.json({email, password}, {status: 200})
 
     } catch (error) {
         return handleServerError(error)

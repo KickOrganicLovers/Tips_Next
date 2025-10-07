@@ -1,13 +1,12 @@
 .div_0 {
     width: 100%;
     height: fit-content;
-    padding: 0 10px 2vh 10px;
+    padding: 0 10px 2svh 10px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    gap: 10px;
     text-wrap: nowrap;
 }
 
@@ -25,23 +24,18 @@
 
 .div_2 {
     width: 100%;
-
-    height: 200px;
-    position: relative;
+    height: fit-content;
     text-wrap: nowrap;
     white-space: nowrap;
-    overflow: visible;
+    overflow: hidden;
 }
 
 .div_3 {
     width: 200%;
     height: fit-content;
-    position: absolute;
-    top: 0;
-    left: 0;
     display: flex;
     flex-direction: row;
-    transition: left 0.25s;
+    transition: transform 0.25s;
     text-wrap: nowrap;
 }
 .p_test {
@@ -49,7 +43,7 @@
 }
 
 .shifted {
-    left: -100%;
+    transform: translateX(-50%)
 }
 
 
@@ -58,8 +52,6 @@
     height: fit-content;
     display: flex;
     flex-direction: column;
-    /*box-sizing: border-box;*/
-    /*border: 2px solid var(--border-color-1);*/
 }
 
 .div_5 {
@@ -69,7 +61,7 @@
     align-items: center;
     justify-content: space-between;
     box-sizing: border-box;
-    padding: 10px;
+    padding: 10px 5px;
     border-left: 2px solid var(--bg-color-1);
     transition: border-color 0.2s ease;
     &:hover{
@@ -80,7 +72,7 @@
 .div_6 {
     width: fit-content;
     height: fit-content;
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: var(--text-color-1);
 }
 
@@ -109,11 +101,23 @@
 .MdArrowBackIos {
     width: fit-content;
     height: fit-content;
-    font-size: 2rem;
+    font-size: 1.5rem;
+    color: var(--text-color-2);
+    &:hover {
+        color: var(--text-color-1);
+    }
 }
 
 
-
+.div_8 {
+    color: var(--text-color-2);
+    font-size: 1rem;
+    padding: 10px ;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
 
 
 
@@ -126,7 +130,7 @@
 /*.div_0 {*/
 /*    overflow: hidden;*/
 /*    height: fit-content;*/
-/*    margin: 0 10px 2vh 10px;*/
+/*    margin: 0 10px 2svh 10px;*/
 /*    text-wrap: nowrap;*/
 /*}*/
 

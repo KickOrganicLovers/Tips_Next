@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
         const imgAsBase64 = imgAsBase64WithPrefix.replace(/^data:image\/\w+;base64,/, "");
         const imgAsBuffer = Buffer.from(imgAsBase64, "base64");
 
-
+        console.log(process.env.AWS_BUCKET_NAME)
         const upload = new Upload({
             client: s3,
             params: {

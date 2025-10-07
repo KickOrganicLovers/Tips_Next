@@ -50,7 +50,7 @@ export default function LoginCard() {
     return (
         <div className={className}>
             <img src='/images/logoTitle.png' alt='PageIcon' className={styles.img}/>
-            <h1 className={styles.h1}>Tipsにログイン</h1>
+            <h1 className={styles.h1}><mark className={styles.mark_0}>Cluee</mark>にログイン</h1>
             <div className={styles.div_1}>
                 <input className={styles.input_0} type={`email`} name={'email'} value={email}
                        placeholder={'メールアドレス'}

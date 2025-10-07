@@ -16,7 +16,7 @@ export default function FollowingAccountCard(props: props) {
             <div className={styles.div_1}>フォロー済みアカウント</div>
             {props.user.followings?.map((following, index) => (
                 <div key={index} className={styles.div_2} onClick={() => {
-                    router.push(`/user/${following.followingId}`);
+                    router.push(`/users/${following.followingId}`);
                     props.setSideBarStatus({isActive: false})
                 }}>
                     <img alt={'profile'} src={following.following?.image} className={styles.img_0}/>

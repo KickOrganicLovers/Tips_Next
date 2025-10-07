@@ -10,7 +10,7 @@
     overflow-x: hidden;
     top: 0;
     left: 0;
-    padding-top: 4vh;
+    padding-top: 4svh;
     transition: width 0.2s, height 0.2s;
     position: relative;
 
@@ -52,7 +52,7 @@
 }
 
 .FadeLayer {
-    height: 100vh;
+    height: 100svh;
     position: fixed;
     inset: 0;
     pointer-events: none;

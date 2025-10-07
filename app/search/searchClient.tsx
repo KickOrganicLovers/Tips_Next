@@ -1,3 +1,5 @@
+'use client'
+
 import styles from "@/app/search/search.module.css";
 import ArticlesSection from "@/app/search/articlesSection/articlesSection";
 import UsersSection from "@/app/search/usersSection/usersSection";

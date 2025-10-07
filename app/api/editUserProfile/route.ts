@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
                 id: session.user.id
             },
             data: {
-                name: body.username,
+                name: body.name,
                 image: body.image,
                 introduction: body.introduction,
             },

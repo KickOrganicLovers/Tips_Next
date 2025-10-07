@@ -19,7 +19,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1vh;
+    gap: 1svh;
 
     @media screen  and (max-width: 768px){
         flex-direction: row;
@@ -33,7 +33,7 @@
 .div_2 {
     display: flex;
     flex-direction: column;
-    gap: 1vh;
+    gap: 1svh;
     align-items: center;
     min-width: 200px;
 }
@@ -45,7 +45,7 @@
     max-height: 100%;
     padding: 20px;
     overflow-y: scroll;
-    gap: 2vh;
+    gap: 2svh;
     display: none;
     grid-template-columns: repeat(auto-fill, 300px);
     justify-content: center;
@@ -75,8 +75,8 @@
     min-width: 150px;
     min-height: 150px;
     @media screen  and (max-width: 768px){
-        height: 20vw;
-        width: 20vw;
+        height: 20svw;
+        width: 20svw;
         min-width: 100px;
         min-height: 100px;
         aspect-ratio: 1;
@@ -86,6 +86,7 @@
 
 .h1_0 {
     margin: 0;
+    font-size: clamp(1.2rem, 1.5svw, 2rem);
     @media screen  and (max-width: 768px){
         font-size: 1.2rem;
     }
@@ -96,7 +97,7 @@
     color: var(--text-color-2);
     width: 75%;
     text-align: center;
-    font-size: clamp(0.8rem, 2vw, 1.2rem);
+    font-size: clamp(0.8rem, 1.2svw, 1.2rem);
     @media screen  and (max-width: 768px){
         width: auto;
         font-size: 0.8rem;
@@ -108,7 +109,7 @@
     width: 100%;
     height: 100%;
     overflow-y: scroll;
-    gap: 2vh;
+    gap: 2svh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -126,14 +127,14 @@
 
 .h2_0 {
     text-align: center;
-    font-size: clamp(1.5rem, 2vw, 2.5rem);
+    font-size: clamp(1.5rem, 2svw, 2.5rem);
     margin: 0;
     color: var(--bg-color-3);
 }
 
 .h3_0 {
     text-align: center;
-    font-size: clamp(1rem, 1.5vw, 2rem);
+    font-size: clamp(1rem, 1.5svw, 2rem);
     margin: 0;
     color: var(--text-color-2);
 }

@@ -19,7 +19,7 @@
     box-sizing: border-box;
 
     @media screen and (max-width: 1024px) {
-        padding: 20px 1.25vw;
+        padding: 20px 1.25svw;
     }
 
     @media screen and (max-width: 768px) {
@@ -112,7 +112,7 @@
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;
-        width: 80vw;
+        width: 80svw;
         height: fit-content;
     }
 }
@@ -210,7 +210,7 @@
 .h2_0 {
     width: 100%;
     font-size: 1rem;
-    border-bottom: 2px solid var(--border-color-1);
+    border-bottom: 1px solid var(--border-color-1);
     padding: 10px 5px;
     box-sizing: border-box;
     @media screen and (max-width: 1024px) {

@@ -24,7 +24,7 @@
     @media screen and (max-width: 768px) {
         overflow-y: visible;
         width: 100%;
-        padding: 0 20px 8vh 20px;
+        padding: 0 20px 0 20px;
         box-sizing: border-box;
         height: fit-content;
     }
@@ -34,14 +34,14 @@
 .div_2 {
     width: 75%;
     height: fit-content;
-    margin-bottom: 2vh;
-    padding: 2vw;
+    margin-bottom: 2svh;
+    padding: 2svw;
     box-sizing: border-box;
     background-color: var(--bg-color-1);
     box-shadow: 4px 4px 10px var(--shadow-color);
     @media screen and (max-width: 768px) {
         width: 100%;
-        padding: 0 20px;
+        padding: 20px;
         overflow: hidden;
         box-sizing: border-box;
     }
@@ -49,14 +49,14 @@
 .div_2 img {
     width: 100%;
     display: block;
-    padding: 2vh 4vw;
+    padding: 2svh 4svw;
     box-sizing: border-box;
 }
 
 .div_2 h2 {
     width: 100%;
     padding-bottom: 1rem;
-    border-bottom: solid 2px darkgray;
+    border-bottom: solid 1px darkgray;
 }
 
 .div_2 mark {
@@ -92,12 +92,42 @@
     font-weight: 900;
 }
 
-
-.h1_0 {
-    font-size: 4vh;
-    padding: 0;
+.div_3 {
+    font-size: clamp(1.4rem, 1.5svw, 2rem);
+    padding: 20px;
     margin: 0;
-    line-height: 8vh;
-    height: 8vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    gap: 4vw;
 }
 
+.div_4 {
+    font-size: clamp(1.4rem, 1.5svw, 2rem);
+    padding: 0 20px;
+    margin: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    gap: 20px;
+    @media screen and (max-width: 768px) {
+        width: 100%;
+    }
+}
+
+
+
+.h1_0 {
+    font-size: clamp(1.6rem, 1.5svw, 2.2rem);
+    padding: 0;
+    margin: 0;
+}
+
+.h1_1{
+    font-size: clamp(1.4rem, 1.5svw, 2rem);
+    max-width: 100%;
+    text-wrap: wrap;
+}

@@ -14,7 +14,7 @@
     @media screen and (max-width: 512px) {
         padding: 20px;
         gap: 5px;
-        width: 90vw;
+        width: 90svw;
         height: auto;
         aspect-ratio: 5/7;
     }
@@ -94,7 +94,7 @@
     border-radius: 100px;
     background-color: var(--bg-color-2);
     color: var(--text-color-2);
-    font-size: 1.5vh;
+    font-size: 1.5svh;
 
     &:hover {
         animation: changeColor 0.2s ease-in-out forwards;
@@ -111,7 +111,7 @@
 
 .div_3 {
     aspect-ratio: 1;
-    width: clamp(45px, 5vw, 55px);
+    width: clamp(45px, 5svw, 55px);
     border-radius: 100px;
     background-color: var(--bg-color-1);
     box-shadow: 2px 2px 8px var(--shadow-color);
@@ -149,4 +149,11 @@
 
 .FiAlertCircle {
     font-size: 1.5rem;
+}
+
+.mark_0 {
+    color: var(--text-color-1);
+    background-color: transparent;
+    font-weight: 500;
+    font-family: 'Zen Kaku Gothic Antique', sans-serif;
 }

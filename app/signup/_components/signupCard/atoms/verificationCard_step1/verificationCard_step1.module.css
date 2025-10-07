@@ -9,9 +9,9 @@
     justify-content: flex-start;
     align-items: center;
     gap: 40px;
-    padding-top: 10px;
+    padding-top: 30px;
     @media screen and (max-width: 512px) {
-        width: 90vw;
+        width: 90svw;
     }
 }
 
@@ -91,12 +91,12 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: clamp(10px, 2vw, 20px);
+    gap: clamp(10px, 2svw, 20px);
 }
 
 .div_4 {
     aspect-ratio: 1;
-    width: clamp(45px, 5vw, 55px);
+    width: clamp(45px, 5svw, 55px);
     border-radius: 100px;
     background-color: var(--bg-color-1);
     box-shadow: 2px 2px 8px var(--shadow-color);

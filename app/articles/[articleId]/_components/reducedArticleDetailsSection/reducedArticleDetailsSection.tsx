@@ -55,7 +55,7 @@ export default function ReducedArticleDetailsSection(props: props) {
             <div className={styles.div_8}>
                 <div className={styles.div_1}>
                     <img src={props.article.author.image} alt={'author'}
-                         className={styles.img_0}/>
+                         className={styles.img_0} onClick={clickEventHandler_pushToauthorPage}/>
                     <div className={styles.div_2}>
                         <div className={styles.div_3}
                              onClick={clickEventHandler_pushToauthorPage}>{props.article.author.name}</div>

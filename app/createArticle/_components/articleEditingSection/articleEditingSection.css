@@ -6,7 +6,7 @@
     overflow: visible;
     position: relative;
     width: 100%;
-    min-height: 72vh;
+    min-height: 72svh;
     padding: 2rem;
     box-sizing: border-box;
     white-space: pre-wrap;
@@ -29,13 +29,15 @@
 
 .tiptap h2 {
     padding-bottom: 1rem;
-    border-bottom: solid 2px darkgray;
+    border-bottom: solid 1px darkgray;
 }
 
 .tiptap img {
     display: block;
     margin: auto;
     width: 100%;
+    padding: 2svh 4svw;
+    box-sizing: border-box;
 }
 
 .tiptap pre {
@@ -104,7 +106,7 @@
 
 /*.ogp-card-title{*/
 /*    color: var(--text-color-1);*/
-/*    font-size: clamp(1rem, 1vw, 1.4rem);*/
+/*    font-size: clamp(1rem, 1svw, 1.4rem);*/
 /*    display: -webkit-box;*/
 /*    -webkit-box-orient: vertical;*/
 /*    -webkit-line-clamp: 1;*/
@@ -114,7 +116,7 @@
 
 /*.ogp-card-description{*/
 /*    color: var(--text-color-2);*/
-/*    font-size: clamp(0.8rem, 0.8vw, 1.2rem);*/
+/*    font-size: clamp(0.8rem, 0.8svw, 1.2rem);*/
 /*    display: -webkit-box;*/
 /*    -webkit-box-orient: vertical;*/
 /*    -webkit-line-clamp: 3;*/

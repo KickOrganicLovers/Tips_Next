@@ -50,9 +50,9 @@ export async function POST(req: NextRequest) {
 
 
         await resend.emails.send({
-            from: 'onboarding@resend.dev',
+            from: 'TipsMailer@givemetips.net',
             to: email,
-            subject: 'Hello World',
+            subject: 'Tipsへの登録に際するメールアドレスの確認',
             react: VerificationEmailTemplate({email: email, token: token})
         })
 
