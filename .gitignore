@@ -1,4 +1,4 @@
-node_modules
+./webapp/node_modules
 .env
-/.next/
-tsconfig.tsbuildinfo
+./webapp/.next/
+.webapp/tsconfig.tsbuildinfo
